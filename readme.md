@@ -27,7 +27,7 @@
 - Preparing to upload files soon.
 
 ## Example For Handling Visual Selections Almost Properly
-### VimScript
+### General Visual Selection Handling
 ```
 function VisualSelection(ci) range
   let ci = a:ci
@@ -68,7 +68,10 @@ function CommandInfo(flag='')
   let g:CI = [mode, modee, visualmode, commandmode, terminalinsertmode]
   return g:CI
 endfunction
+```
 
+### Example Function WordPerLine
+```
 function WordPerLine(n) range
   let ci=CommandInfo()
   let text=VisualSelection(ci)
@@ -96,8 +99,8 @@ function WordPerLine(n) range
 endfunction
 command -range -nargs=1 WordPerLine <line1>,<line2>call WordPerLine(<args>)
 ```
-
-### Usage
+#### Usage
+Formats a visual selection or the current line to contain a specified number of words per line.
 ```
 :'<,'>WordPerLine 5
 ```
