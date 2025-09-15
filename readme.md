@@ -8,6 +8,8 @@ develop everything.
 call plug#begin()
   Plug 'vi0lin/vim-advantages'
 call plug#end()
+
+:PlugInstall
 ```
 
 ## Why I Prefer Custom Vim Functions
