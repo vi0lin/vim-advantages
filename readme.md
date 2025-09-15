@@ -1,4 +1,9 @@
 # My Approach to Using Vim
+This project is considered a library or plugin
+that can be installed with all features if
+needed. It provides predefined keyboard mappings and quickly
+introduces you to using Vim so you can
+develop everything.
 
 ## Why I Prefer Custom Vim Functions
 - I usually avoid Vim plugins.
