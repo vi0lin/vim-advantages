@@ -34,8 +34,7 @@ develop everything.
 ## Example For Handling Visual Selections Almost Properly
 ### General Visual Selection Handling
 ```
-function VisualSelection(ci) range
-  let ci = a:ci
+function VisualSelection() range
   let [l:start_line, l:start_col]=getpos("'<")[1:2]
   let [l:end_line, l:end_col]=getpos("'>")[1:2]
   let lines=getline(l:start_line, l:end_line)
@@ -50,15 +49,15 @@ function VisualSelection(ci) range
     let lines[-1]=lines[-1][:l:end_col-1]
     return lines
   endf
-  if IsNormal(ci) 
+  if IsNormal(g:CI) 
     let result=[getline('.')]
-  elseif IsVisual(ci)
+  elseif IsVisual(g:CI)
     let result=_prep_visual() 
-  elseif IsVisualLine(ci)
+  elseif IsVisualLine(g:CI)
     let result=lines
-  elseif IsVisualBlock(ci)
+  elseif IsVisualBlock(g:CI)
     let result=_prep_visualblock() 
-  elseif IsInsert(ci)
+  elseif IsInsert(g:CI)
     let result=[getline('.')]
   endif
   return result
@@ -73,15 +72,60 @@ function CommandInfo(flag='')
   let g:CI = [mode, modee, visualmode, commandmode, terminalinsertmode]
   return g:CI
 endfunction
+
+function IsTerminalInsert()
+  let [mode, modee, visual, command, terminalinsert] = g:CI 
+  return terminalinsert && modee=="nt"
+endfunction
+function IsTerminalNormal()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return !IsAnyVisual(g:CI) && !terminalinsert && modee=="nt"
+endfunction
+function IsTerminalVisual()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return !terminalinsert && modee=="nt"
+endfunction
+function IsNormal()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return !IsAnyVisual(g:CI) && modee=="n" || IsTerminalNormal()
+endfunction
+function IsAnyVisual()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return visual!="" && visual=~#"[vV]"
+endfunction
+function IsVisual()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return visual!="" && visual==#"v"
+endfunction
+function IsVisualLine()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return visual!="" && visual==#"V"
+endfunction
+function IsVisualBlock()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return visual!="" && visual==""
+endfunction
+function IsInsert()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return modee=~?".*i.*"||IsTerminalInsert()
+endfunction
+function IsCommand()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return command
+endfunction
+function IsTerminal()
+  let [mode, modee, visual, command, terminalinsert] = g:CI
+  return modee =~?".*t"
+endfunction
 ```
 
 ### Example Function WordPerLine
 ```
 function WordPerLine(n) range
-  let ci=CommandInfo()
-  let text=VisualSelection(ci)
+  call CommandInfo()
+  let text=VisualSelection()
   let words=split(join(text, ' '), '\s\+')
-  if IsAnyVisual(ci)
+  if IsAnyVisual()
     execute "'<,'>d"
   else
     execute 'normal! dd'
