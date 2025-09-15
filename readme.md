@@ -91,7 +91,7 @@ function IsNormal()
 endfunction
 function IsAnyVisual()
   let [mode, modee, visual, command, terminalinsert] = g:CI
-  return visual!="" && visual=~#"[vV\]"
+  return visual!="" && visual=~#"[vV\^V]"
 endfunction
 function IsVisual()
   let [mode, modee, visual, command, terminalinsert] = g:CI
@@ -103,7 +103,7 @@ function IsVisualLine()
 endfunction
 function IsVisualBlock()
   let [mode, modee, visual, command, terminalinsert] = g:CI
-  return visual!="" && visual=="\"
+  return visual!="" && visual=="\^V"
 endfunction
 function IsInsert()
   let [mode, modee, visual, command, terminalinsert] = g:CI
