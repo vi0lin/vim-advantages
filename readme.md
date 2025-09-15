@@ -57,17 +57,16 @@ function VisualSelection() range
     return lines
   endf
   if IsNormal(g:CI) 
-    let result=[getline('.')]
+    return [getline('.')]
   elseif IsVisual(g:CI)
-    let result=_prep_visual() 
+    return _prep_visual() 
   elseif IsVisualLine(g:CI)
-    let result=lines
+    return lines
   elseif IsVisualBlock(g:CI)
-    let result=_prep_visualblock() 
+    return _prep_visualblock() 
   elseif IsInsert(g:CI)
-    let result=[getline('.')]
+    return [getline('.')]
   endif
-  return result
 endfunction
 
 function CommandInfo(flag='')
