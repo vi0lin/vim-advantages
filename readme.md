@@ -56,15 +56,15 @@ function VisualSelection() range
     let lines[-1]=lines[-1][:l:end_col-1]
     return lines
   endf
-  if IsNormal(g:CI) 
+  if IsNormal() 
     return [getline('.')]
-  elseif IsVisual(g:CI)
+  elseif IsVisual()
     return _prep_visual() 
-  elseif IsVisualLine(g:CI)
+  elseif IsVisualLine()
     return lines
-  elseif IsVisualBlock(g:CI)
+  elseif IsVisualBlock()
     return _prep_visualblock() 
-  elseif IsInsert(g:CI)
+  elseif IsInsert()
     return [getline('.')]
   endif
 endfunction
@@ -85,7 +85,7 @@ function IsTerminalInsert()
 endfunction
 function IsTerminalNormal()
   let [mode, modee, visual, command, terminalinsert] = g:CI
-  return !IsAnyVisual(g:CI) && !terminalinsert && modee=="nt"
+  return !IsAnyVisual() && !terminalinsert && modee=="nt"
 endfunction
 function IsTerminalVisual()
   let [mode, modee, visual, command, terminalinsert] = g:CI
@@ -93,7 +93,7 @@ function IsTerminalVisual()
 endfunction
 function IsNormal()
   let [mode, modee, visual, command, terminalinsert] = g:CI
-  return !IsAnyVisual(g:CI) && modee=="n" || IsTerminalNormal()
+  return !IsAnyVisual() && modee=="n" || IsTerminalNormal()
 endfunction
 function IsAnyVisual()
   let [mode, modee, visual, command, terminalinsert] = g:CI
