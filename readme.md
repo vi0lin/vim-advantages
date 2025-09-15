@@ -4,6 +4,11 @@ that can be installed with all features if
 needed. It provides predefined keyboard mappings and quickly
 introduces you to using Vim so you can
 develop everything.
+```
+call plug#begin()
+  Plug 'vi0lin/vim-advantages'
+call plug#end()
+```
 
 ## Why I Prefer Custom Vim Functions
 - I usually avoid Vim plugins.
