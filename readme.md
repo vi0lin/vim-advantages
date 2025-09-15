@@ -125,9 +125,9 @@ function IsTerminal()
 endfunction
 ```
 
-### Example Function WordPerLine
+### Example Function WordsPerLine
 ```
-function WordPerLine(n) range
+function WordsPerLine(n) range
   call CommandInfo()
   let text=VisualSelection()
   let words=split(join(text, ' '), '\s\+')
@@ -152,10 +152,10 @@ function WordPerLine(n) range
   call append(line('.')-1, formatted)
   normal! k
 endfunction
-command -range -nargs=1 WordPerLine <line1>,<line2>call WordPerLine(<args>)
+command -range -nargs=1 WordsPerLine <line1>,<line2>call WordsPerLine(<args>)
 ```
 #### Usage
 Formats a visual selection or the current line to contain a specified number of words per line.
 ```
-:'<,'>WordPerLine 5
+:'<,'>WordsPerLine 5
 ```
