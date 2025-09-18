@@ -6,14 +6,15 @@ introduces you to using Vim so you can
 develop everything.
 
 ```
-   299 ./src/Map.vim
-   188 ./src/Statusline.vim
-    46 ./src/Autocommands.vim
-   472 ./src/TextActions.vim
-  2397 ./src/Functions.vim
-   137 ./src/Commands.vim
-   367 ./src/Keymaps.vim
-    50 ./install.sh
+  lines link
+    299 [./src/Map.vim](./src/Map.vim)
+    188 [./src/Statusline.vim](./src/Statusline.vim)
+     46 [./src/Autocommands.vim](./src/Autocommands.vim)
+    472 [./src/TextActions.vim](./src/TextActions.vim)
+   2397 [./src/Functions.vim](./src/Functions.vim)
+    137 [./src/Commands.vim](./src/Commands.vim)
+    367 [./src/Keymaps.vim](./src/Keymaps.vim)
+     50 [./install.sh](./install.sh)
 ```
 
 # Install
