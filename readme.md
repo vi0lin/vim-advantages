@@ -5,7 +5,6 @@ needed. It provides predefined keyboard mappings and quickly
 introduces you to using Vim so you can
 develop everything.
 
-```
   lines link
     299 [./src/Map.vim](./src/Map.vim)
     188 [./src/Statusline.vim](./src/Statusline.vim)
@@ -15,7 +14,6 @@ develop everything.
     137 [./src/Commands.vim](./src/Commands.vim)
     367 [./src/Keymaps.vim](./src/Keymaps.vim)
      50 [./install.sh](./install.sh)
-```
 
 # Install
 The Project Is In An Unstable State.
