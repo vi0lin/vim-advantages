@@ -50,5 +50,5 @@ if [[ -n "$_bashrc" ]]; then
   bashrc=$_bashrc
 fi
 
-sed -i '/^call EnsureEnvironment()/ { N; s/^call EnsureEnvironment()\n/&call SetEnvironment("~", "$main_repo", "$source_dir", "$bashrc")\n/ }' ~/.vim/plugged/vim-advantages/src/Functions.vim | head -n 20
+sed -i '/^call EnsureEnvironment()/ { N; s/^call EnsureEnvironment()\n/&call SetEnvironment("~", "'$main_repo'", "'$source_dir'", "'$bashrc'")\n/ }' ~/.vim/plugged/vim-advantages/src/Functions.vim | head -n 20
 
