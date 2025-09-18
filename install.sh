@@ -1,8 +1,6 @@
 #!/bin/bash
 echo "Go To Your Main Repository And Execute This Script"
 
-sed '/^call EnsureEnvironment()/ { N; s/^call EnsureEnvironment()\n/&call SetEnvironment("~", "$main_repo", "$source_dir", "$bashrc")\n/ }' ~/.vim/plugged/vim-advantages/src/Functions.vim | head -n 20
-
 if ! [ -f "./plug.vim" ]; then
   wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim
   plug_loaded=true
@@ -47,4 +45,6 @@ if [[ "$isbashrc" =~ [nN] ]]; then
   echo -n "Define Your .bashrc: "
   read -r bashrc
 fi
+
+sed '/^call EnsureEnvironment()/ { N; s/^call EnsureEnvironment()\n/&call SetEnvironment("~", "$main_repo", "$source_dir", "$bashrc")\n/ }' ~/.vim/plugged/vim-advantages/src/Functions.vim | head -n 20
 
