@@ -28,7 +28,8 @@ sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.
 ```
 ### Windows
 ```
-curl -o install.sh github.com/vi0lin/vim-advantages/blob/main/install.sh
+curl -o install.sh https://github.com/vi0lin/vim-advantages/refs/heads/main/install.sh
+wsl --install
 wsl bash install.sh
 del install.sh
 ```
