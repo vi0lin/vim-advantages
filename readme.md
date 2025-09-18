@@ -9,11 +9,13 @@ develop everything.
 The Project Is In An Unstable State.
 Consider Not Using It.
 
-Step #1. Install This Project, Executing This Shellscript, Anywhere In Your Terminal.
-It will automatically install Plug.vim in your vim installation and automatically execute step #2
+You Can Choose Installing Vim-advantages Using Step #1. Or Step #2.
+## Step #1. Install This Project
+Executing This Shellscript, Anywhere In Your Terminal. It will automatically install Plug.vim in your vim installation and automatically execute step #2
 ```sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh```
 
-Step #2. Either Installing Vim-advantages Into Your Local Vim Installation
+## Step #2. Manually Installing Vim-advantages
+This Needs To Be Integrated In Some Vime Source File Of Your Local Vim Installation
 ```
 call plug#begin()
   Plug 'vi0lin/vim-advantages'
