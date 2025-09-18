@@ -22,8 +22,15 @@ Consider Not Using It.
 You Can Choose Installing vim-advantages Using 1. or 2.
 ## 1. Install This Project
 Executing This Shellscript, Anywhere In Your Terminal. It will automatically install Plug.vim in your vim installation and automatically execute step #2
+### Unix
 ```
 sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
+```
+### Windows
+```
+curl -o install.sh github.com/vi0lin/vim-advantages/blob/main/install.sh
+wsl bash install.sh
+del install.sh
 ```
 
 ## 2. Manually Installing vim-advantages
