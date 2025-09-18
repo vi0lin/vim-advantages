@@ -5,16 +5,27 @@ needed. It provides predefined keyboard mappings and quickly
 introduces you to using Vim so you can
 develop everything.
 
+   299 ./src/Map.vim
+   188 ./src/Statusline.vim
+    46 ./src/Autocommands.vim
+   472 ./src/TextActions.vim
+  2397 ./src/Functions.vim
+   137 ./src/Commands.vim
+   367 ./src/Keymaps.vim
+    50 ./install.sh
+
 # Install
 The Project Is In An Unstable State.
 Consider Not Using It.
 
-You Can Choose Installing Vim-advantages Using Step #1. Or Step #2.
-## Step #1. Install This Project
+You Can Choose Installing Vim-advantages Using 1. or 2.
+## 1. Install This Project
 Executing This Shellscript, Anywhere In Your Terminal. It will automatically install Plug.vim in your vim installation and automatically execute step #2
-```sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh```
+```
+sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
+```
 
-## Step #2. Manually Installing Vim-advantages
+## 2. Manually Installing Vim-advantages
 This Needs To Be Integrated In Some Vime Source File Of Your Local Vim Installation
 ```
 call plug#begin()
