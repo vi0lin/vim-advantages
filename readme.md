@@ -6,14 +6,14 @@ introduces you to using Vim so you can
 develop everything.
 
 ## Inhaltsangabe
-- 299  [./src/Map.vim](./src/Map.vim)
-- 188  [./src/Statusline.vim](./src/Statusline.vim)
-- 46   [./src/Autocommands.vim](./src/Autocommands.vim)
-- 472  [./src/TextActions.vim](./src/TextActions.vim)
-- 2397 [./src/Functions.vim](./src/Functions.vim)
-- 137  [./src/Commands.vim](./src/Commands.vim)
-- 367  [./src/Keymaps.vim](./src/Keymaps.vim)
-- 50   [./install.sh](./install.sh)
+- [./src/Map.vim](./src/Map.vim)
+- [./src/Statusline.vim](./src/Statusline.vim)
+- [./src/Autocommands.vim](./src/Autocommands.vim)
+- [./src/TextActions.vim](./src/TextActions.vim)
+- [./src/Functions.vim](./src/Functions.vim)
+- [./src/Commands.vim](./src/Commands.vim)
+- [./src/Keymaps.vim](./src/Keymaps.vim)
+- [./install.sh](./install.sh)
 
 # Install
 The Project Is In An Unstable State.
