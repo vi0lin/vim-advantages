@@ -35,6 +35,7 @@ call plug#end()
 
 :PlugInstall
 ```
+# General Project Information
 ## Why I Prefer Custom Vim Functions
 - I usually avoid Vim plugins.
 - Vim's scripting language can be risky.
