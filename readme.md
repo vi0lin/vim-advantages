@@ -27,6 +27,12 @@ Executing This Shellscript, Anywhere In Your Terminal. It will automatically ins
 sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
 ```
 ### Windows
+#### bash
+```
+curl -o install.sh https://github.com/vi0lin/vim-advantages/refs/heads/main/install.sh
+"C:\Program Files\Git\bin\bash.exe" .\install.sh
+```
+#### wsl
 ```
 curl -o install.sh https://github.com/vi0lin/vim-advantages/refs/heads/main/install.sh
 wsl --install
