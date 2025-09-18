@@ -32,18 +32,20 @@ main_repo="`pwd`"
 source_dir="`pwd`/src"
 bashrc="~/.bashrc"
 
-read -r _main_repo -p "Where Is Your Main Repository? [default=$main_repo]: " 
+echo -n "Where Is Your Main Repository? [default=$main_repo]: "
+read -r _main_repo
 if [[ -n "$main_repo" ]]; then
   main_repo=$_main_repo
 fi
 
-read -r _source_dir -p "Where Is Your SourceFolder? [default=$source_dir]: " 
+echo -n "Where Is Your SourceFolder? [default=$source_dir]: "
+read -r _source_dir
 if [[ -n "$source_dir" ]]; then
   source_dir=$_source_dir
 fi
 
-echo ""
-read -r _bashrc -p "Where Is Your .bashrc? [default=$bashrc]: " 
+echo -n "Where Is Your .bashrc? [default=$bashrc]: " 
+read -r _bashrc
 if [[ -n "$_bashrc" ]]; then
   bashrc=$_bashrc
 fi
