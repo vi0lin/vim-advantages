@@ -5,14 +5,14 @@ needed. It provides predefined keyboard mappings and quickly
 introduces you to using Vim so you can
 develop everything.
 
-   299 ./src/Map.vim
-   188 ./src/Statusline.vim
-    46 ./src/Autocommands.vim
-   472 ./src/TextActions.vim
-  2397 ./src/Functions.vim
-   137 ./src/Commands.vim
-   367 ./src/Keymaps.vim
-    50 ./install.sh
+>   299 ./src/Map.vim
+>   188 ./src/Statusline.vim
+>    46 ./src/Autocommands.vim
+>   472 ./src/TextActions.vim
+>  2397 ./src/Functions.vim
+>   137 ./src/Commands.vim
+>   367 ./src/Keymaps.vim
+>    50 ./install.sh
 
 # Install
 The Project Is In An Unstable State.
