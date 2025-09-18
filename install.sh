@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Go To Your Main Repository And Execute This Script"
+echo "Install Vim-Advantages"
 
 if ! [ -f "./plug.vim" ]; then
   wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim
