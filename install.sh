@@ -1,8 +1,21 @@
 #!/bin/bash
 echo "Install Vim-Advantages"
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  echo "Linux detected"
+  cc="wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  echo "macOS detected"
+  cc="wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim"
+elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+  echo "Windows detected"
+  cc="curl -o plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
+else
+  echo "Unknown operating system: $OSTYPE"
+fi
+
+eval $cc
 if ! [ -f "./plug.vim" ]; then
-  wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim
   plug_loaded=true
 fi
 echo "installing"
