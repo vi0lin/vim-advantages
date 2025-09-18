@@ -13,7 +13,6 @@ elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]];
 else
   echo "Unknown operating system: $OSTYPE"
 fi
-
 eval $cc
 if ! [ -f "./plug.vim" ]; then
   plug_loaded=true
@@ -28,36 +27,26 @@ echo "Done Installing vi0lin/vim-advantages"
 echo ""
 echo "#####################################"
 echo "Configuration"
-main_repo="~"
-source_dir="~"
+
+main_repo="`pwd`"
+source_dir="`pwd`/src"
 bashrc="~/.bashrc"
 
-echo -n "$main_repo Is This Your Main Repository? [yN]: "
-read -n 1 ismainrepo
-echo ""
-if [[ "$ismainrepo" =~ [nN] ]]; then
-  echo -n "Define Your Main Repo: "
-  read -r main_repo
+read -r _main_repo -p "Where Is Your Main Repository? [default=$main_repo]: " 
+if [[ -n "$main_repo" ]]; then
+  main_repo=$_main_repo
 fi
 
-echo -n "$source_dir Is This Your Sources Folder? [yN]: "
-read -n 1 issourcedir
-echo ""
-if [[ "$issourcedir " =~ [nN] ]]; then
-  echo -n "Define Your Sources Folder: "
-  read -r source_dir
+read -r _source_dir -p "Where Is Your SourceFolder? [default=$source_dir]: " 
+if [[ -n "$source_dir" ]]; then
+  source_dir=$_source_dir
 fi
 
-brc=`find $main_repo -type f -name ".bashrc"`
-echo $brc
-
-echo -n "$bashrc Is This Your .bashrc? [yN]: "
-read -n 1 isbashrc
 echo ""
-if [[ "$isbashrc" =~ [nN] ]]; then
-  echo -n "Define Your .bashrc: "
-  read -r bashrc
+read -r _bashrc -p "Where Is Your .bashrc? [default=$bashrc]: " 
+if [[ -n "$_bashrc" ]]; then
+  bashrc=$_bashrc
 fi
 
-sed '/^call EnsureEnvironment()/ { N; s/^call EnsureEnvironment()\n/&call SetEnvironment("~", "$main_repo", "$source_dir", "$bashrc")\n/ }' ~/.vim/plugged/vim-advantages/src/Functions.vim | head -n 20
+sed -i '/^call EnsureEnvironment()/ { N; s/^call EnsureEnvironment()\n/&call SetEnvironment("~", "$main_repo", "$source_dir", "$bashrc")\n/ }' ~/.vim/plugged/vim-advantages/src/Functions.vim | head -n 20
 
