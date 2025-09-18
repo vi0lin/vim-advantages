@@ -5,7 +5,7 @@ needed. It provides predefined keyboard mappings and quickly
 introduces you to using Vim so you can
 develop everything.
 
-lines link
+## Inhaltsangabe
 -  299 [./src/Map.vim](./src/Map.vim)
 -  188 [./src/Statusline.vim](./src/Statusline.vim)
 -   46 [./src/Autocommands.vim](./src/Autocommands.vim)
