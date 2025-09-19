@@ -5,6 +5,9 @@ needed. It provides predefined keyboard mappings and quickly
 introduces you to using Vim so you can
 develop everything.
 
+> [!WARNING]
+> Dont Use This Repo Right Now, Due It`s Under Construction
+
 # Inhaltsangabe
 - [./src/Map.vim](./src/Map.vim)
 - [./src/Statusline.vim](./src/Statusline.vim)
@@ -16,8 +19,9 @@ develop everything.
 - [./install.sh](./install.sh)
 
 # Install
-The Project Is In An Unstable State.
-Consider Not Using It.
+> [!WARNING]
+> The Project Is In An Unstable State.
+> Consider Not Using It As It May Appear Buggy.
 
 You Can Choose Installing vim-advantages Using 1. or 2.
 ## 1. Install This Project
