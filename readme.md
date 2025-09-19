@@ -6,7 +6,7 @@ introduces you to using Vim so you can
 develop everything.
 
 > [!WARNING]
-> Dont Use This Repo Right Now, Due It`s Under Construction
+> Do not use this repository at this time, as it is under construction.
 
 # Inhaltsangabe
 - [./src/Map.vim](./src/Map.vim)
@@ -20,8 +20,7 @@ develop everything.
 
 # Install
 > [!WARNING]
-> The Project Is In An Unstable State.
-> Consider Not Using It As It May Appear Buggy.
+> The project is in an unstable state. Do not use it, as it may contain errors.
 
 You Can Choose Installing vim-advantages Using 1. or 2.
 ## 1. Install This Project
