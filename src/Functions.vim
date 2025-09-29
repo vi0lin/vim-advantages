@@ -20,7 +20,7 @@ endfunction
 function GitStashCWD()
 endfunction
 
-function GitApplySTASH()
+function GitApplyStash()
 endfunction
 
 command -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
