@@ -70,11 +70,11 @@ inoremap <F11> <C-o>:call Move('h')<cr>
 cnoremap <F11> :call Move('h''c')<cr>
 tnoremap <F11> <C-\><C-n>:call Move('h''t')<cr>
 
-vnoremap <F12> :<C-u>call Move('l')<cr>
-nnoremap <F12> :call Move('l')<cr>
-inoremap <F12> <C-o>:call Move('l')<cr>
-cnoremap <F12> :call Move('l', 'c')<cr>
-tnoremap <F12> <C-\><C-n>:call Move('l', 't')<cr>
+vnoremap <S-F11> :<C-u>call Move('l')<cr>
+nnoremap <S-F11> :call Move('l')<cr>
+inoremap <S-F11> <C-o>:call Move('l')<cr>
+cnoremap <S-F11> :call Move('l', 'c')<cr>
+tnoremap <S-F11> <C-\><C-n>:call Move('l', 't')<cr>
 
 " noremap <F12> :call BulkMove("cword")<cr>
 " vnoremap <F12> :call BulkMove("visual")<cr>
@@ -150,7 +150,7 @@ tnoremap <C-S-l> <c-\><c-n>:call SwapWin("l")<cr>
 map <m-;> :call ToggleOverviewRight()<cr>
 map <leader><leader><F4> :redraw \\| let c=input("Test: ")<cr>!source ".$workdir."/.bashrc; git_selector "TEST"
 map <C-S-F9> :call PreviewBuffer()<CR>
-map <M-F12> :call Info()<CR>
+" map <M-F12> :call Info()<CR>
 map <C-F2> :call ToggleWrap()<CR>
 map <leader>in :call Intend()<cr>
 map <leader><leader><leader><space> :IntelligentSelecting<cr>
@@ -163,7 +163,7 @@ vmap <C-k> <C-w>k
 vmap <C-j> <C-w>j
 vmap <BS> :call backspace()<CR>
 vmap & :&<CR>
-vmap <leader>F :echo VisualSelection()<cr>
+vmap <leader>F :echo VS()<cr>
 vmap <leader><leader>g :call AppendToEndRange()<CR>
 vmap <leader>G :AppendAll<CR>
 vmap <leader>u :!uniq<CR>
@@ -261,10 +261,10 @@ map <S-F1> :EXECINPUT<cr>
 map <leader><F1> :EXECTOGGLE<cr>
 map <leader><leader><F1> :INTERPRETERTOGGLE<cr>
 
-map <leader>v :call VIM(VisualSelection())<cr>
-map <leader>b :call BASH(VisualSelection())<cr>
-map <leader>p :call PYTHON(VisualSelection())<cr>
-map <leader>r :call RUST(VisualSelection())<cr>
+map <leader>v :call VIM(VS())<cr>
+map <leader>b :call BASH(VS())<cr>
+map <leader>p :call PYTHON(VS())<cr>
+map <leader>r :call RUST(VS())<cr>
 
 map <localleader>iv :call VIM(input("vimscript: "), 'exec_input_vs')<cr>
 map <localleader>ib :call BASH(input("bash: "), 'exec_input_vs')<cr>
@@ -302,11 +302,11 @@ nnoremap <C-Up>                       :JumpProjectDump<cr>
 nnoremap <leader><Tab>      :JumpProjectIn<cr>
 nnoremap <localleader><Tab> :JumpProjectIn<cr>
 
-vnoremap <F14> :<C-u>call VisualSelection()<cr>
-nnoremap <F13> :call VisualSelection()<cr>
-inoremap <F13> <C-o>:call VisualSelection()<cr>
-cnoremap <F13> :call VisualSelection('c')<cr>
-tnoremap <F13> <C-\><C-n>:call VisualSelection('t')<cr>
+vnoremap <F14> :<C-u>call VS()<cr>
+nnoremap <F13> :call VS()<cr>
+inoremap <F13> <C-o>:call VS()<cr>
+cnoremap <F13> :call VS('c')<cr>
+tnoremap <F13> <C-\><C-n>:call VS('t')<cr>
 
 nmap <M-v> :call FuncPaste("Normal")<CR>
 nmap <M-c> :call FuncCopy("Normal")<CR>
@@ -337,7 +337,7 @@ cmap <A-:> Ö
 cmap <A-[> ü
 cmap <A-{> Ü
 cmap <A--> ß
-nmap <leader>F :echo VisualSelection()<cr>
+nmap <leader>F :echo VS()<cr>
 nmap <leader>g :call AppendToEndNormal()<CR>
 nmap <leader>G :AppendAll<CR>
 nnoremap YY :call AppendToClipboard()<CR>
@@ -385,4 +385,6 @@ function Ut(...)
 endfunction
 command -range -nargs=+ Ut call Ut(<f-args>)
 
-Ut <S-F12> :call YA()<cr>
+Ut <F12> :call QuickYank()<cr>
+Ut <S-F12> :call QuickYank('paste')<cr>
+Ut <C-F12> :call QuickYank('init')<cr>

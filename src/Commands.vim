@@ -1,4 +1,5 @@
 " Keymaps.vim
+nnoremap <F12> :call QuickYank()<cr>
 command -range -nargs=* BulkMove :call _BulkMove()
 command! -range -nargs=+ Move <line1>,<line2>call Move(<f-args>)
 command -range -nargs=* SaveRoot :call SaveRoot()
@@ -21,6 +22,11 @@ command -nargs=+ -complete=command TIN call TIN(<q-args>)
 command -nargs=+ -complete=command Sys call Sys(<q-args>)
 command -nargs=+ -complete=command Vim call Vim(<q-args>)
 command! -range CountRegex '<,'>call CountRegex()<cr>
+vnoremap <S-F11> :<C-u>call Move('l')<cr>
+nnoremap <S-F11> :call Move('l')<cr>
+inoremap <S-F11> <C-o>:call Move('l')<cr>
+cnoremap <S-F11> :call Move('l', 'c')<cr>
+tnoremap <S-F11> <C-\><C-n>:call Move('l', 't')<cr>
 command! -range ToggleCommentFlip <line1>,<line2>call ToggleCommentFlip()
 command -range -nargs=0 Cword <line1>,<line2>call Cword(<f-args>)
 command -range -nargs=0 Cfile <line1>,<line2>call Cfile(<f-args>)
@@ -97,7 +103,7 @@ command! -range -nargs=* CreateMarker <line1>,<line2>call CreateMarker(<f-args>)
 command! -range -nargs=* ASK <line1>,<line2>call ASK(<f-args>)
 command! -range -nargs=* CUTG <line1>,<line2>call CUTG(<f-args>)
 
-command -nargs=0 -range VisualSelection <line1>,<line2>call VisualSelection()
+command -range -nargs=0 -range VS <line1>,<line2>call VS()
 
 command -nargs=* -complete=command SETCOLOR call SETCOLOR(<f-args>)
 command -nargs=* -complete=command COLOR call COLOR(<f-args>)
