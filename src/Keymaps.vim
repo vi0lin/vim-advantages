@@ -365,3 +365,24 @@ inoremap <C-Space> <C-x><C-f>
 noremap <leader>ga :!git add .<cr>
 noremap <leader>gs :!git status %<cr>
 
+function Ut(...)
+  " strpart({src}, {start} [, {len} [, {chars}]])
+  " strcharpart({src}, {start} [, {len} [, {skipcc}]])		*strcharpart()*
+  " byteidx({expr}, {nr} [, {utf16}])			*byteidx()*
+  " stridx(haystack, needle)
+  let a=stridx(a:3, '(')
+  let b=stridx(a:3, ')')
+  let function_name=strpart(a:3, 0, a)
+  " echo function_name
+  let args=strpart(a:3, a+1, b-a-1)
+  " echo args
+  exec "vnoremap"a:1":<C-u>call"function_name."(".args.")<cr>"
+  exec "nnoremap"a:1":call"function_name."(".args.")<cr>"
+  exec "inoremap"a:1"<C-o>:call"function_name."(".args.")<cr>"
+  let seperator=len(args)>0?', ':''
+  exec "cnoremap"a:1":call"function_name."(".args.seperator."'c')<cr>"
+  exec "tnoremap"a:1"<C-\><C-n>:call"function_name."(".args.seperator."'t')<cr>"
+endfunction
+command -range -nargs=+ Ut call Ut(<f-args>)
+
+Ut <S-F12> :call YA()<cr>
