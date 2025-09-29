@@ -45,11 +45,13 @@ endfunction
 
 command -range -nargs=0 GitCommit <line1>,<line2>:call GitCommit()
 function GitCommit(message='Commited')
-  !git commit -m a:message
+  exec '!git commit -m "'..a:message..'"'
 endfunction
 
 command -range -nargs=0 GitPush <line1>,<line2>:call GitPush()
 function GitPush()
+  echo "test!!!"
+  return
   !git push origin master
 endfunction
 
@@ -58,16 +60,10 @@ function GitStatus()
   !git status
 endfunction
 
-command -range -nargs=0 GithubPush <line1>,<line2>:call GitHubpush()
-function Githubpush()
-  !git push origin master
-endfunction
-
-command -range -nargs=0 FunctionToCommands <line1>,<line2>:call FunctionToCommands()
-function FunctionToCommands() range
-  " exec a:firstline..","..a:lastline.."global/^function/norm 0wyeOp0icommand -range -nargs=0 pa <line1>,<line2>:call A()"
-  '<,'>global/^function/norm 0wyeOp0icommand -range -nargs=0 pa <line1>,<line2>:call A()
-endfunction
+command -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
+" function! GithubPush()
+"   !git push origin master
+" endfunction
 
 function QuickYank(args='', flags='') range
   let vs=VS()  
