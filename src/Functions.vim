@@ -2,19 +2,19 @@
 function FZFTests()
 endfunction
 
-function GitCheckoutPrevbackFile()
+function GitCheckoutPrevback()
 endfunction
 
 function GitCheckoutPrevbackCWD()
 endfunction
 
-function GitCheckoutPrevnextFile()
+function GitCheckoutPrevnext()
 endfunction
 
 function GitCheckoutPrevnextCWD()
 endfunction
 
-function GitstashFile()
+function GitStash()
 endfunction
 
 function GitStashCWD()
@@ -23,8 +23,8 @@ endfunction
 function GitApplySTASH()
 endfunction
 
-command -range -nargs=0 GitDiffFile <line1>,<line2>:call GitDiffFile()
-function GitDiffFile()
+command -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
+function GitDiff()
   !git diff %
 endfunction
 
@@ -33,8 +33,8 @@ function GitDiffCWD()
   !git diff
 endfunction
 
-command -range -nargs=0 GitAddFile <line1>,<line2>:call GitAddFile()
-function GitAddFile()
+command -range -nargs=0 GitAdd <line1>,<line2>:call GitAdd()
+function GitAdd()
   !git add %
 endfunction
 
@@ -50,8 +50,6 @@ endfunction
 
 command -range -nargs=0 GitPush <line1>,<line2>:call GitPush()
 function GitPush()
-  echo "test!!!"
-  return
   !git push origin master
 endfunction
 
