@@ -73,11 +73,10 @@ function! GithubPush()
   let $github_user=g:github_user
   let $github_email=g:github_email
   let $github_pat=g:github_pat
-  " :!echo "TEST";
-  "   \ echo $user;
-  "   \ echo $email;
-  "   \ echo $pat
-  
+
+  " :!echo $user;
+  " \ echo $email;
+  " \ echo $pat
   " \ echo <c-r>=g:github_user;
   " \ echo <c-r>=g:github_email;
   " \ echo <c-r>=g:github_pat
