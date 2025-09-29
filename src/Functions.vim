@@ -65,10 +65,9 @@ if !exists('g:github_email') | let g:github_email='your_email' | endif
 if !exists('g:github_pat') | let g:github_pat='{pat_TOKEN}' | endif
 command -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
 function! GithubPush()
-  let $user=g:github_user
-  let $email=g:github_email
-  let $pat=g:github_pat
-
+  let $github_user=g:github_user
+  let $github_email=g:github_email
+  let $github_pat=g:github_pat
   " :!echo "TEST";
   "   \ echo $user;
   "   \ echo $email;
@@ -78,15 +77,11 @@ function! GithubPush()
   " \ echo <c-r>=g:github_email;
   " \ echo <c-r>=g:github_pat
 
-  !git push origin master;
-  \ github_feed() {
-  \ # Credentials 
+  !github_feed() {
   \ username=$1;
   \ email=$2;
   \ pat=$3;
-  \ # Configure Git to use a credential helper for this script
   \ git config --global credential.helper cache;
-  \ # Feed credentials to Git
   \ echo "protocol=https" > /tmp/git-credentials;
   \ echo "host=github.com" >> /tmp/git-credentials;
   \ echo "username=$username" >> /tmp/git-credentials;
@@ -99,7 +94,7 @@ function! GithubPush()
   \ };
   \ git config '--global' core.autocrlf false;
   \ github_feed $github_user $github_email $github_pat;
-  \ git push;
+  \ # git push;
   \ github_unfeed;
   \ git config '--global' '--unset-all' core.autocrlf;
 endfunction
