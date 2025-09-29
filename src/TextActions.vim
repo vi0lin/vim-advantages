@@ -476,3 +476,8 @@ function FunctionToCommands() range
   " exec a:firstline..","..a:lastline.."global/^function/norm 0wyeOp0icommand -range -nargs=0 pa <line1>,<line2>:call A()"
   '<,'>global/^function/norm 0wyeOp0icommand -range -nargs=0 pa <line1>,<line2>:call A()
 endfunction
+
+command -range -nargs=0 LetOnlyIfNotExists <line1>,<line2>:call LetOnlyIfNotExists()
+function LetOnlyIfNotExists() range
+  '<,'>norm 0wyt=0iif !exists('pa') | A | endif
+endfunction
