@@ -60,10 +60,49 @@ function GitStatus()
   !git status
 endfunction
 
+let g:github_user='your_username'
+let g:github_email='your_email'
+let g:github_pat='{pat_TOKEN}'
 command -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
-" function! GithubPush()
-"   !git push origin master
-" endfunction
+function! GithubPush()
+  let $user=g:github_user
+  let $email=g:github_email
+  let $pat=g:github_pat
+
+  " :!echo "TEST";
+  "   \ echo $user;
+  "   \ echo $email;
+  "   \ echo $pat
+  
+  " \ echo <c-r>=g:github_user;
+  " \ echo <c-r>=g:github_email;
+  " \ echo <c-r>=g:github_pat
+
+  !git push origin master;
+  \ github_feed() {
+  \ # Credentials 
+  \ username=$1
+  \ email=$2
+  \ pat=$3
+  \ # Configure Git to use a credential helper for this script
+  \ git config --global credential.helper cache
+  \ # Feed credentials to Git
+  \ echo "protocol=https" > /tmp/git-credentials
+  \ echo "host=github.com" >> /tmp/git-credentials
+  \ echo "username=$username" >> /tmp/git-credentials
+  \ echo "email=$email" >> /tmp/git-credentials
+  \ echo "password=$pat" >> /tmp/git-credentials
+  \ git credential approve < /tmp/git-credentials
+  \ }
+  \ github_unfeed() {
+  \   rm /tmp/git-credentials
+  \ }
+  \ git config '--global' core.autocrlf false;
+  \ github_feed $github_user $github_email $github_pat;
+  \ git push;
+  \ github_unfeed;
+  \ git config '--global' '--unset-all' core.autocrlf;
+endfunction
 
 function QuickYank(args='', flags='') range
   let vs=VS()  
