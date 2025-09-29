@@ -23,6 +23,13 @@ endfunction
 function GitApplyStash()
 endfunction
 
+command -range -nargs=0 Push <line1>,<line2>:call Push()
+function Push()
+  GitAdd
+  GitCommit
+  GithubPush
+endfunction
+
 command -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
 function GitDiff()
   !git diff %
