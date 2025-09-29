@@ -1,6 +1,6 @@
 function WordsPerLine(n) range
   call CommandInfo()
-  let text=VisualSelection()
+  let text=VS()
   let words=split(join(text, ' '), '\s\+')
   if IsAnyVisual()
     execute "'<,'>d"
@@ -116,7 +116,7 @@ function CUT(...) range
     let marker=a:2
   endif
   if IsVisual()
-    let x=VisualSelection(ci)
+    let x=VS(ci)
     norm gvx
   elseif IsNormal()
     let x=getline('.')
@@ -129,7 +129,7 @@ function CUT(...) range
 endfunction
 function COP(marker) range
   call CommandInfo()
-  let Out=VisualSelection(ci)
+  let Out=VS(ci)
   let [n, y, x, n]=getpos(".")
   let [n, y, x, n, n]=getcurpos()
   slient call GotoMarker(a:marker)
@@ -293,7 +293,7 @@ endfunction
 function VPaste(mode) range
   call CommandInfo()
   if GetMode()=="Visual"
-    let b:Out=VisualSelection(ci)
+    let b:Out=VS(ci)
     norm gvp
   else
     norm p
@@ -313,7 +313,7 @@ function VCut(mode) range
   call CommandInfo()
   if GetMode()=="Visual"
     norm gv
-    call VisualSelection(ci) | silent '<,'>w !xclip -selection clipboard
+    call VS(ci) | silent '<,'>w !xclip -selection clipboard
     norm x
   else
     norm x
@@ -393,7 +393,7 @@ function GlobalMove(mode='normal', marker='A') range
   if mode=="cword"
     let input=expand('<cword>')
   elseif IsAnyVisual()
-    let input=VisualSelection()[0]
+    let input=VS()[0]
     " let [l:start_line, l:start_col]=getpos("'<")[1:2]
     " let [l:end_line, l:end_col]=getpos("'>")[1:2]
     " if l:start_line == l:end_line
@@ -430,7 +430,7 @@ endfunction
 function Move(direction='l', flag='') range
   let g:CI=[ mode(0), mode(1), visualmode(1) , a:flag=='c'?1:0, a:flag=='t'?1:0 ]
   let [mode, modee, visual, command, terminalinsert] = g:CI
-  let lines=VisualSelection()
+  let lines=VS()
   if IsAnyVisual()
     execute "'<,'>d"
   else
@@ -469,4 +469,10 @@ function MoveLinesToMarkerReverse(marker="")
   exec "norm `"..marker
   put=line
   norm `B
+endfunction
+
+command -range -nargs=0 FunctionToCommands <line1>,<line2>:call FunctionToCommands()
+function FunctionToCommands() range
+  " exec a:firstline..","..a:lastline.."global/^function/norm 0wyeOp0icommand -range -nargs=0 pa <line1>,<line2>:call A()"
+  '<,'>global/^function/norm 0wyeOp0icommand -range -nargs=0 pa <line1>,<line2>:call A()
 endfunction
