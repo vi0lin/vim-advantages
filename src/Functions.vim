@@ -60,9 +60,9 @@ function GitStatus()
   !git status
 endfunction
 
-let g:github_user='your_username'
-let g:github_email='your_email'
-let g:github_pat='{pat_TOKEN}'
+if !exists('g:github_user') | let g:github_user='your_username' | endif
+if !exists('g:github_email') | let g:github_email='your_email' | endif
+if !exists('g:github_pat') | let g:github_pat='{pat_TOKEN}' | endif
 command -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
 function! GithubPush()
   let $user=g:github_user
@@ -81,22 +81,22 @@ function! GithubPush()
   !git push origin master;
   \ github_feed() {
   \ # Credentials 
-  \ username=$1
-  \ email=$2
-  \ pat=$3
+  \ username=$1;
+  \ email=$2;
+  \ pat=$3;
   \ # Configure Git to use a credential helper for this script
-  \ git config --global credential.helper cache
+  \ git config --global credential.helper cache;
   \ # Feed credentials to Git
-  \ echo "protocol=https" > /tmp/git-credentials
-  \ echo "host=github.com" >> /tmp/git-credentials
-  \ echo "username=$username" >> /tmp/git-credentials
-  \ echo "email=$email" >> /tmp/git-credentials
-  \ echo "password=$pat" >> /tmp/git-credentials
-  \ git credential approve < /tmp/git-credentials
-  \ }
+  \ echo "protocol=https" > /tmp/git-credentials;
+  \ echo "host=github.com" >> /tmp/git-credentials;
+  \ echo "username=$username" >> /tmp/git-credentials;
+  \ echo "email=$email" >> /tmp/git-credentials;
+  \ echo "password=$pat" >> /tmp/git-credentials;
+  \ git credential approve < /tmp/git-credentials;
+  \ };
   \ github_unfeed() {
-  \   rm /tmp/git-credentials
-  \ }
+  \   rm /tmp/git-credentials;
+  \ };
   \ git config '--global' core.autocrlf false;
   \ github_feed $github_user $github_email $github_pat;
   \ git push;
