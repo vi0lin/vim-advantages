@@ -65,9 +65,9 @@ function GitStatus()
   !git status
 endfunction
 
-if !exists('g:github_user') | let g:github_user='your_username' | endif
-if !exists('g:github_email') | let g:github_email='your_email' | endif
-if !exists('g:github_pat') | let g:github_pat='{pat_TOKEN}' | endif
+let g:github_user='your_username'
+let g:github_email='your_email'
+let g:github_pat='{pat_TOKEN}'
 command -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
 function! GithubPush()
   let $github_user=g:github_user
