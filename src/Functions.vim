@@ -94,7 +94,7 @@ function! GithubPush()
   \ };
   \ git config '--global' core.autocrlf false;
   \ github_feed $github_user $github_email $github_pat;
-  \ # git push;
+  \ git push;
   \ github_unfeed;
   \ git config '--global' '--unset-all' core.autocrlf;
 endfunction
