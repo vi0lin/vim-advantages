@@ -481,3 +481,17 @@ command -range -nargs=0 LetOnlyIfNotExists <line1>,<line2>:call LetOnlyIfNotExis
 function LetOnlyIfNotExists() range
   '<,'>norm 0wyt=0iif !exists('pa') | A | endif
 endfunction
+
+command -range -nargs=1 ChangeIpTo <line1>,<line2>:call ChangeIpTo(<q-args>)
+function ChangeIpTo(string) range
+  let str=a:string
+  exec "'<,'>"..'s/\d\{1,3\}\.\d\{1,3\}\.\d\{1,3\}\.\d\{1,3\}/'..str..'/g'
+endfunction
+
+command -range -nargs=0 SearchIps <line1>,<line2>:call SearchIps()
+function SearchIps() range
+  /\d\{1,3\}\.\d\{1,3\}\.\d\{1,3\}\.\d\{1,3\}
+  " last search pattern (n and N)
+endfunction
+
+
