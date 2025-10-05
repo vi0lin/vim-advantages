@@ -1,6 +1,102 @@
 " Environment
-function FZFTests()
+hi QuickFixLine ctermbg=Yellow guibg=Yellow
+function COTests()
+  " lopen copen cclose lclose cwindow height lwindow height cbottom lbottom
+  " botright cwindow
+  " botleft 
+	" au BufReadPost quickfix  setlocal modifiable
+	" 	\ | silent exe 'g/^/s//\=line(".") .. " "/'
+	" 	\ | setlocal nomodifiable
+	" echo getqflist({'winid' : 1}).winid
+	" echo getloclist(2, {'winid' : 1}).winid
+
+  "  " get the title of the current quickfix list
+  "  :echo getqflist({'title' : 0}).title
+  "  " get the identifier of the current quickfix list
+  "  :let qfid = getqflist({'id' : 0}).id
+  "  " get the identifier of the fourth quickfix list in the stack
+  "  :let qfid = getqflist({'nr' : 4, 'id' : 0}).id
+  "  " check whether a quickfix list with a specific identifier exists
+  "  :if getqflist({'id' : qfid}).id == qfid
+  "  " get the index of the current quickfix list in the stack
+  "  :let qfnum = getqflist({'nr' : 0}).nr
+  "  " get the items of a quickfix list specified by an identifier
+  "  :echo getqflist({'id' : qfid, 'items' : 0}).items
+  "  " get the number of entries in a quickfix list specified by an id
+  "  :echo getqflist({'id' : qfid, 'size' : 0}).size
+  "  " get the context of the third quickfix list in the stack
+  "  :echo getqflist({'nr' : 3, 'context' : 0}).context
+  "  " get the number of quickfix lists in the stack
+  "  :echo getqflist({'nr' : '$'}).nr
+  "  " get the number of times the current quickfix list is changed
+  "  :echo getqflist({'changedtick' : 0}).changedtick
+  "  " get the current entry in a quickfix list specified by an identifier
+  "  :echo getqflist({'id' : qfid, 'idx' : 0}).idx
+  "  " get all the quickfix list attributes using an identifier
+  "  :echo getqflist({'id' : qfid, 'all' : 0})
+  "  " parse text from a List of lines and return a quickfix list
+  "  :let myList = ["a.java:10:L10", "b.java:20:L20"]
+  "  :echo getqflist({'lines' : myList}).items
+  "  " parse text using a custom 'efm' and return a quickfix list
+  "  :echo getqflist({'lines' : ['a.c#10#Line 10'], 'efm':'%f#%l#%m'}).items
+  "  " get the quickfix list window id
+  "  :echo getqflist({'winid' : 0}).winid
+  "  " get the quickfix list window buffer number
+  "  :echo getqflist({'qfbufnr' : 0}).qfbufnr
+  "  " get the context of the current location list
+  "  :echo getloclist(0, {'context' : 0}).context
+  "  " get the location list window id of the third window
+  "  :echo getloclist(3, {'winid' : 0}).winid
+  "  " get the location list window buffer number of the third window
+  "  :echo getloclist(3, {'qfbufnr' : 0}).qfbufnr
+  "  " get the file window id of a location list window (winnr: 4)
+  "  :echo getloclist(4, {'filewinid' : 0}).filewinid
+<
+	"						*setqflist-examples*
+Th"e |setqflist()| and |setloclist()| functions can be used to set the various
+at"tributes of a quickfix and location list respectively. Some examples for
+us"ing these functions are below:
+>
+  "  " create an empty quickfix list with a title and a context
+  "  :let t = 'Search results'
+  "  :let c = {'cmd' : 'grep'}
+  "  :call setqflist([], ' ', {'title' : t, 'context' : c})
+  "  " set the title of the current quickfix list
+  "  :call setqflist([], 'a', {'title' : 'Mytitle'})
+  "  " change the current entry in the list specified by an identifier
+  "  :call setqflist([], 'a', {'id' : qfid, 'idx' : 10})
+  "  " set the context of a quickfix list specified by an identifier
+  "  :call setqflist([], 'a', {'id' : qfid, 'context' : {'val' : 100}})
+  "  " create a new quickfix list from a command output
+  "  :call setqflist([], ' ', {'lines' : systemlist('grep -Hn main *.c')})
+  "  " parse text using a custom efm and add to a particular quickfix list
+  "  :call setqflist([], 'a', {'id' : qfid,
+	"	\ 'lines' : ["a.c#10#L10", "b.c#20#L20"], 'efm':'%f#%l#%m'})
+  "  " add items to the quickfix list specified by an identifier
+  "  :let newItems = [{'filename' : 'a.txt', 'lnum' : 10, 'text' : "Apple"},
+	"	    \ {'filename' : 'b.txt', 'lnum' : 20, 'text' : "Orange"}]
+  "  :call setqflist([], 'a', {'id' : qfid, 'items' : newItems})
+  "  " empty a quickfix list specified by an identifier
+  "  :call setqflist([], 'r', {'id' : qfid, 'items' : []})
+  "  " free all the quickfix lists in the stack
+  "  :call setqflist([], 'f')
+  "  " set the title of the fourth quickfix list
+  "  :call setqflist([], 'a', {'nr' : 4, 'title' : 'SomeTitle'})
+  "  " create a new quickfix list at the end of the stack
+  "  :call setqflist([], ' ', {'nr' : '$',
+	"		\ 'lines' : systemlist('grep -Hn class *.java')})
+  "  " create a new location list from a command output
+  "  :call setloclist(0, [], ' ', {'lines' : systemlist('grep -Hn main *.c')})
+  "  " replace the location list entries for the third window
+  "  :call setloclist(3, [], 'r', {'items' : newItems})
+
+  let l:cmd = 'source /home/user/MRTN/.bashrc; wakeup 0 0 2'
+  call job_start(l:cmd, {
+    \ 'out_cb': {channel, msg -> execute('cgetexpr msg')},
+    \ 'close_cb': {channel -> execute('lopen')},
+    \ })
 endfunction
+map <C-F8> :call COTests()<cr>
 
 function GitCheckoutPrevback()
 endfunction
@@ -47,7 +143,8 @@ endfunction
 
 command -range -nargs=0 GitAddCWD <line1>,<line2>:call GitAddCWD()
 function GitAddCWD()
-  !git add . || git add -A
+  !git add .
+  " || git add -A
 endfunction
 
 command -range -nargs=0 GitCommit <line1>,<line2>:call GitCommit()
@@ -65,9 +162,9 @@ function GitStatus()
   !git status
 endfunction
 
-let g:github_user='your_username'
-let g:github_email='your_email'
-let g:github_pat='{pat_TOKEN}'
+if !exists('g:github_user') | let g:github_user='your_username' | endif
+if !exists('g:github_email') | let g:github_email='your_email' | endif
+if !exists('g:github_pat') | let g:github_pat='{pat_TOKEN}' | endif
 command -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
 function! GithubPush()
   let $github_user=g:github_user

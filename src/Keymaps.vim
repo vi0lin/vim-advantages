@@ -3,6 +3,8 @@ nnoremap <C-s> <Nop>
 inoremap <C-s> <Nop>
 vnoremap <C-s> <Nop>
 
+
+
 if !exists("g:currentMapping")
   let currentMapping=0
 endif
@@ -232,8 +234,8 @@ set timeoutlen=300
 
 " colorscheme delek
 
-nnoremap <leader>eb :LayoutBash<cr>
-nnoremap <leader>ev :LayoutVim<cr>
+nnoremap <leader><leader>eb :LayoutBash<cr>
+nnoremap <leader><leader>ev :LayoutVim<cr>
 
 nmap <F1> :RepeatLastCommand<cr>
 
@@ -388,3 +390,19 @@ command -range -nargs=+ Ut call Ut(<f-args>)
 Ut <F12> :call QuickYank()<cr>
 Ut <S-F12> :call QuickYank('paste')<cr>
 Ut <C-F12> :call QuickYank('init')<cr>
+
+" vnoremap <C-S-v> :<C-u><cr>
+nnoremap <C-S-v> :norm "+p
+inoremap <C-S-v> <c-r>+
+" nnoremap <C-v> :norm "+p
+" inoremap <C-v> <c-r>+
+" nnoremap <C-v>
+" inoremap <C-v>
+map <leader>v :visualblock<cr>
+" inoremap <C-S-v> <C-o>:<cr>
+" cnoremap <C-S-v> :<cr>
+" tnoremap <C-S-v> <C-\><C-n>:<cr>
+" let seperator=len(args)>0?', ':''
+
+map <F12> :call setreg('*', expand('%')..':'..line('.'))<cr>
+map <S-F12> i<c-r>*
