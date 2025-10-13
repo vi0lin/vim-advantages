@@ -105,7 +105,7 @@ git_remove ./src/Functions.vim
 
 # Donations
 Donate to support my work. Every gesture helps me finalize my projects.
-[https://paypal.me/aVvNokLn0A1M](PayPal)
+[PayPal](https://paypal.me/aVvNokLn0A1M)
 
 # General Project Information
 ## Why I Prefer Custom Vim Functions
