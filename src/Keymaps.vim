@@ -300,6 +300,10 @@ nnoremap <leader>cd :call MakeDirCurrentCWD()<cr>
 " nnoremap <leader>.. :call CD('..')<cr>
 nnoremap <leader><leader> :call CD('..')<cr>
 nnoremap .. :call CD(split(w:file,'/')[0])<cr>
+
+nnoremap <C-Left> :call CD('..')<cr>
+nnoremap <C-Right> :call CD(split(w:file,'/')[0])<cr>
+
 " nnoremap <leader><leader>         :JumpProjectUp<cr>
 " nnoremap <>>  :JumpProjectStepwise<cr>
 " nnoremap <localleader><localleader>   :JumpProjectUp<cr>
