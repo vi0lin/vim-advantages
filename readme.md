@@ -79,8 +79,8 @@ git reset --hard origin/main
 ### Prototype Function
 > [!WARNING]
 > Overwriting the repo history only works with a new clone. I am working on cleaning up the repo in Bash, but I need to make sure that no data is lost in the process (e.g., .gitignored files).
-> Please work with a new clone if you want this Bash process to run smoothly.
-> The snippet is still a work in progress and will be commented on shortly.
+> Please work with a new clone if you want to use this Bash script.
+> The snippet is still a work in progress and will be commented very soon.
 ```
 git_remove() {
   paths=""
