@@ -53,7 +53,7 @@ call plug#end()
 :PlugInstall
 ```
 
-# Remove Accidentally Published Content
+# Remove Accidentally Published Git Content
 
 > [!TIP]
 > Did you know hhow to delete traces of accidentially published content in the git history? 
@@ -64,6 +64,7 @@ call plug#end()
 > [!WARNING]
 > Will be commented, soon.
 
+### Example
 ```
 # remove ./src/Functions.vim from history
 git filter-repo --path ./src/Functions.vim --invert-paths
@@ -78,8 +79,8 @@ git fetch origin
 git reset --hard origin/main
 ```
 
-```
 ### Prototype Function
+```
 git_remove() {
   paths=""
   echo "# remove $@ from history"
@@ -96,7 +97,7 @@ git_remove() {
   echo "git reset --hard origin/main"
 }
 ```
-### Usage
+### Using Generator
 ```
 git_remove ./src/Functions.vim
 ```
