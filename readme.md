@@ -52,6 +52,53 @@ call plug#end()
 
 :PlugInstall
 ```
+
+# Remove Accidentally Published Content
+
+> [!TIP]
+> Did you know hhow to delete traces of accidentially published content in the git history? 
+
+> [!WARNING]
+> Please use the following codes with extreme caution. It is not recommended to do this for shared projects, as the entire git tree will be changed.
+
+> [!WARNING]
+> Will be commented, soon.
+
+```
+# remove ./src/Functions.vim from history
+git filter-repo --path ./src/Functions.vim --invert-paths
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+git remote add origin https://github.com/vi0lin/app-development
+github push origin --force --all
+
+# rebase or re-clone
+git fetch origin
+git reset --hard origin/main
+```
+
+```
+### Prototype Function
+git_remove() {
+  paths=""
+  echo "# remove $@ from history"
+  for p in "$@"; do paths+=" --path "$p; done
+  echo "git filter-repo$paths --invert-paths"
+  echo "git reflog expire --expire=now --all"
+  echo "git gc --prune=now --aggressive"
+  echo "git remote add origin https://github.com/vi0lin/app-development"
+  echo "github push origin --force --all"
+  echo ""
+  echo "# rebase or re-clone"
+  echo "git fetch origin"
+  echo "git reset --hard origin/main"
+}
+```
+### Usage
+```
+git_remove ./src/Functions.vim
+```
+
 # General Project Information
 ## Why I Prefer Custom Vim Functions
 - I usually avoid Vim plugins.
