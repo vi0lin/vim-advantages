@@ -23,10 +23,11 @@ function! Statusline()
       set statusline=
 
 
-      set statusline+=%#User0#\ %{GitName()} "Spellanguage & Highlight on?
+      set statusline+=%#User0#%{GitName()}
+      "Spellanguage & Highlight on?
       " && b:NERDTree.isTabTree()
       " COLOR 0
-      set statusline+=%#User2#\ %{(mode())}
+      set statusline+=%#User2#%{(mode())}
       " WorkdirRegister
       " set statusline+=%#User2#\ %{(CurrentWorkdirRegister()[0])}
       " Git Status
