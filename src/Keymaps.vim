@@ -1,5 +1,4 @@
 " Keymaps.vim
-
 nnoremap <C-s> <Nop>
 inoremap <C-s> <Nop>
 vnoremap <C-s> <Nop>

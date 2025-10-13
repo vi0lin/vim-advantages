@@ -42,7 +42,7 @@ function! Statusline()
       " CWD
       " set statusline+=%#User0#\ %{GetCWD_Statusline()} "Spellanguage & Highlight on?
       "
-      set statusline+=%#User2#\ %{PathCharwise_All(CWD_Statusline())} "Spellanguage & Highlight on?
+      set statusline+=%#User2#\ %{PathCharwise_All(CWD_Statusline(),0,v:true,v:true)} "Spellanguage & Highlight on?
 
       " set statusline+=%#User0#\ %{w:git} "Spellanguage & Highlight on?
       " COLOR 1
@@ -52,7 +52,7 @@ function! Statusline()
       " set statusline+=%#User0#\ \ \ %{GetPath_Statusline()}\ \ \  "Spellanguage & Highlight on?
 
       " %:p:h
-      set statusline+=%#User0#%{w:file}\ \ \  "Spellanguage & Highlight on?
+      set statusline+=%#User0#%{PathCharwise_All(w:file,1)}\ \ \  "Spellanguage & Highlight on?
       "
       " Buffer Number
       set statusline+=%#User2#%{(exists('b:state')&&b:state.type=='buffer'?''.bufnr().'\ ':'')}
