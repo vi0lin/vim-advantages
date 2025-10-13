@@ -23,7 +23,7 @@ function! Statusline()
       set statusline=
 
 
-      set statusline+=%#User0#%{GitName()}
+      set statusline+=%#User0#%{GitName_Statusline()}
       "Spellanguage & Highlight on?
       " && b:NERDTree.isTabTree()
       " COLOR 0
@@ -42,7 +42,7 @@ function! Statusline()
       " CWD
       " set statusline+=%#User0#\ %{GetCWD_Statusline()} "Spellanguage & Highlight on?
       "
-      set statusline+=%#User2#\ %{PathCharwise_All(w:cwd)}/ "Spellanguage & Highlight on?
+      set statusline+=%#User2#\ %{PathCharwise_All(CWD_Statusline())} "Spellanguage & Highlight on?
 
       " set statusline+=%#User0#\ %{w:git} "Spellanguage & Highlight on?
       " COLOR 1
