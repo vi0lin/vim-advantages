@@ -945,17 +945,17 @@ function _openfile_andCD(path)
   let path=a:path
   if exists("path") && filereadable(path)
     call _openfile(path)
-    call CD(GetParentDir(path))
+    " call CD(GetParentDir(path))
   elseif exists("path") && isdirectory(path)
     call MkDir(path)
-    call CD(path)
+    " call CD(path)
   elseif exists("path") && IsPossibileDirectory(path)
     call MkDir(path)
-    call CD(path)
+    " call CD(path)
     exec "e "..path
   else
     call MkDir(GetParentDir(path))
-    call CD(GetParentDir(path))
+    " call CD(GetParentDir(path))
     exec "e "..path
   endif
 endfunction
