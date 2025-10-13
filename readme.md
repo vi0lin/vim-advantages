@@ -56,7 +56,7 @@ call plug#end()
 # Remove Accidentally Published Git Content
 
 > [!TIP]
-> Did you know hhow to delete traces of accidentially published content in the git history? 
+> Did you know how to delete traces of accidentially published content in the git history? 
 
 > [!WARNING]
 > Please use the following codes with extreme caution. It is not recommended to do this for shared projects, as the entire git tree will be changed.
