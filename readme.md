@@ -69,6 +69,7 @@ call plug#end()
 git filter-repo --path ./src/Functions.vim --invert-paths
 git reflog expire --expire=now --all
 git gc --prune=now --aggressive
+git remote -v
 git remote add origin https://github.com/vi0lin/app-development
 github push origin --force --all
 
@@ -86,6 +87,7 @@ git_remove() {
   echo "git filter-repo$paths --invert-paths"
   echo "git reflog expire --expire=now --all"
   echo "git gc --prune=now --aggressive"
+  echo "git remote -v"
   echo "git remote add origin https://github.com/vi0lin/app-development"
   echo "github push origin --force --all"
   echo ""
