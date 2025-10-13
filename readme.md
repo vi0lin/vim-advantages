@@ -61,9 +61,6 @@ call plug#end()
 > [!WARNING]
 > Please use the following codes with extreme caution. It is not recommended to do this for shared projects, as the entire git tree will be changed.
 
-> [!WARNING]
-> Will be commented, soon.
-
 ### Example
 ```
 # remove ./src/Functions.vim from history
@@ -80,6 +77,8 @@ git reset --hard origin/main
 ```
 
 ### Prototype Function
+> [!WARNING]
+> The snippet is under construction and will be commented, very soon.
 ```
 git_remove() {
   paths=""
