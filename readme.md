@@ -70,7 +70,8 @@ git filter-repo --path ./src/Functions.vim --invert-paths
 git reflog expire --expire=now --all
 git gc --prune=now --aggressive
 git remote -v
-git remote add origin https://github.com/vi0lin/app-development
+# todo / dynamically gather repository url
+git remote add origin {REPO}
 github push origin --force --all
 
 # rebase or re-clone
@@ -90,7 +91,8 @@ git_remove() {
   echo "git reflog expire --expire=now --all"
   echo "git gc --prune=now --aggressive"
   echo "git remote -v"
-  echo "git remote add origin https://github.com/vi0lin/app-development"
+  echo "# todo / dynamically gather repository url"
+  echo "git remote add origin {REPO}"
   echo "github push origin --force --all"
   echo ""
   echo "# rebase or re-clone"
