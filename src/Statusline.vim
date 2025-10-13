@@ -21,23 +21,37 @@ function! Statusline()
     hi User0 guifg=#000000 guibg=#d3d3d3 ctermfg=152 ctermbg=233
     " if !exists("b:NERDTree")
       set statusline=
+
+
+      set statusline+=%#User0#\ %{GitName()} "Spellanguage & Highlight on?
       " && b:NERDTree.isTabTree()
       " COLOR 0
       set statusline+=%#User2#\ %{(mode())}
       " WorkdirRegister
       " set statusline+=%#User2#\ %{(CurrentWorkdirRegister()[0])}
       " Git Status
-      set statusline+=\ %#User2#%{GetBranch()}\ "Spellanguage & Highlight on?
+      "
+      " Branch??
+      " set statusline+=\ %#User2#%{GetBranch()}\ "Spellanguage & Highlight on?
+      "
       " set statusline+=\ %{GetLastsaved()}\ 
       " set statusline+=\ %{GetProject()}\ 
-      " Path
-      set statusline+=%#User0#\ \ \ %{GetPath_Statusline()}\ \ \  "Spellanguage & Highlight on?
       " COLOR 1
       " set statusline+=%#User7#*\ %{(1?'%1*':'%4*')}\ [%n]                                 "buffernr
       " CWD
-      set statusline+=%#User0#\ %{GetProject_Statusline()} "Spellanguage & Highlight on?
+      " set statusline+=%#User0#\ %{GetCWD_Statusline()} "Spellanguage & Highlight on?
+      "
+      set statusline+=%#User2#\ %{PathCharwise_All(w:cwd)}/ "Spellanguage & Highlight on?
+
+      " set statusline+=%#User0#\ %{w:git} "Spellanguage & Highlight on?
       " COLOR 1
       " set statusline+=%#User7#*\ %{(1?'%1*':'%4*')}\ [%n]                                 "buffernr
+      "
+      " Path
+      " set statusline+=%#User0#\ \ \ %{GetPath_Statusline()}\ \ \  "Spellanguage & Highlight on?
+
+      " %:p:h
+      set statusline+=%#User0#%{w:file}\ \ \  "Spellanguage & Highlight on?
       "
       " Buffer Number
       set statusline+=%#User2#%{(exists('b:state')&&b:state.type=='buffer'?''.bufnr().'\ ':'')}

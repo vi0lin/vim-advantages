@@ -1,9 +1,8 @@
 " Keymaps.vim
+
 nnoremap <C-s> <Nop>
 inoremap <C-s> <Nop>
 vnoremap <C-s> <Nop>
-
-
 
 if !exists("g:currentMapping")
   let currentMapping=0
@@ -117,12 +116,12 @@ Amap <leader><leader>r :redraw!<cr>
 Amap <leader>ser  :call ServiceMenu()<cr>
 Amap <S-F2> :let x=input("Find In Files: ") \| :echo system("grep ".expand('%')." -nrw -e \"".x."\"")<cr>
 Amap <leader>c call CountRegex()<cr>
-Amap <leader>c :call COP('P')<cr>
-Amap <leader>x :call CUT('P')<cr>
+" Amap <leader>c :call COP('P')<cr>
+" Amap <leader>x :call CUT('P')<cr>
 Amap <leader>z :call CreateMarker('P')<cr>
-Amap <leader>m :call LeaderDot("'<,'>")<cr>
-Amap <leader><leader>m :call LeaderDot("%")<cr>
-Nmap <leader>m :call LeaderDot("")<cr>
+" Amap <leader>m :call LeaderDot("'<,'>")<cr>
+" Amap <leader><leader>m :call LeaderDot("%")<cr>
+" Nmap <leader>m :call LeaderDot("")<cr>
 Nmap <C-S-A> :call IncRange()<cr>
 Nmap <C-S-X> :call DecRange()<cr>
 Vmap af :call Vaf()<cr>
@@ -180,7 +179,8 @@ tnoremap <C-k> <C-\><C-n>:wincmd k<cr>
 tnoremap <C-j> <C-\><C-n>:wincmd j<cr>
 imap <C-l> <C-w>li
 imap <C-h> <C-w>hi
-imap <C-k> <C-w>ki
+" bring back in? umlaute auf c-k
+" imap <C-k> <C-w>ki
 imap <C-j> <C-w>ji
 tmap <C-l> <C-w>l
 tmap <C-h> <C-w>h
@@ -254,7 +254,9 @@ nnoremap <localleader>f :InsertFunction<CR>
 nnoremap <space>f :InsertFilename<CR>
 
 map <leader>c :call CTags()<cr>
-map <F2> :call ToggleZoom()<cr>
+
+" map <F2> :call ToggleZoom()<cr>
+map <C-Space> :call ToggleZoom()<cr>
 
 map <silent> <S-F1> :SearchCword<cr>
 
@@ -293,13 +295,17 @@ nnoremap <Tab>                  :OpenFileCommandLineSameDir<CR>
 nnoremap <C-S-Tab> :call PreviousFile()<cr>
 nnoremap <C-Tab> :call NextFile()<cr>
 
-nnoremap <leader>cd         :MakeDirCurrentProject<cr>
-nnoremap <leader><leader>         :JumpProjectUp<cr>
-nnoremap <>>  :JumpProjectStepwise<cr>
-nnoremap <localleader><localleader>   :JumpProjectUp<cr>
-nnoremap <localleader><leader>        :JumpProjectR<cr>
-nnoremap <leader><localleader>        :JumpProjectR<cr>
-nnoremap <C-Up>                       :JumpProjectDump<cr>
+nnoremap <leader>cd :call MakeDirCurrentCWD()<cr>
+" :MakeDirCurrentProject<cr>
+" nnoremap <leader>.. :call CD('..')<cr>
+nnoremap <leader><leader> :call CD('..')<cr>
+nnoremap .. :call CD(split(w:file,'/')[0])<cr>
+" nnoremap <leader><leader>         :JumpProjectUp<cr>
+" nnoremap <>>  :JumpProjectStepwise<cr>
+" nnoremap <localleader><localleader>   :JumpProjectUp<cr>
+" nnoremap <localleader><leader>        :JumpProjectR<cr>
+" nnoremap <leader><localleader>        :JumpProjectR<cr>
+" nnoremap <C-Up>                       :JumpProjectDump<cr>
 
 nnoremap <leader><Tab>      :JumpProjectIn<cr>
 nnoremap <localleader><Tab> :JumpProjectIn<cr>
@@ -404,5 +410,23 @@ map <leader>v :visualblock<cr>
 " tnoremap <C-S-v> <C-\><C-n>:<cr>
 " let seperator=len(args)>0?', ':''
 
-map <F12> :call setreg('*', expand('%')..':'..line('.'))<cr>
+map <F12> :call setreg('*', CWD()[0]..'/'..expand('%')..':'..line('.'))<cr>
 map <S-F12> i<c-r>*
+
+" map <leader><F5> :call RegisterTerminal()<cr>
+" map <leader><F6> :call RegisterTerminal()<cr>
+" map <leader><F7> :call RegisterTerminal()<cr>
+" map <leader><F8> :call RegisterTerminal()<cr>
+map <leader><F5> :call FixTargetTerm('F5')<cr>
+map <leader><F6> :call FixTargetTerm('F6')<cr>
+map <leader><F7> :call FixTargetTerm('F7')<cr>
+map <leader><F8> :call FixTargetTerm('F8')<cr>
+
+map <F5> :call ExecuteN('n', 'F5')<cr>
+map <F6> :call ExecuteN('n', 'F6')<cr>
+map <F7> :call ExecuteN('n', 'F7')<cr>
+map <F8> :call ExecuteN('n', 'F8')<cr>
+map <S-F5> :call ExecuteN('s', 'F5')<cr>
+map <S-F6> :call ExecuteN('s', 'F6')<cr>
+map <S-F7> :call ExecuteN('s', 'F7')<cr>
+map <S-F8> :call ExecuteN('s', 'F8')<cr>
