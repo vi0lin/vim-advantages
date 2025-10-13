@@ -17,7 +17,7 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   autocmd! BufEnter * :call BufEnter()
   augroup CursorLine
       au!
-      autocmd! VimEnter,BufWinEnter * setlocal cursorline
+      autocmd! WinEnter,VimEnter,BufWinEnter * setlocal cursorline
       autocmd! WinLeave * setlocal nocursorline
   augroup END
   augroup quickfix_mapping
