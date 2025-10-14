@@ -1272,7 +1272,36 @@ function PathLast(path)
   return x
 endfunction
 
+if !exists("g:shortenpath")
+  let shortenpath=0
+endif
+
+if !exists("g:shortenpath_file")
+  let shortenpath_file=1
+endif
+
+function ToggleShortenPath()
+  if g:shortenpath==0
+    let g:shortenpath=-1
+  else
+    let g:shortenpath=0
+  endif
+  if g:shortenpath_file==1
+    let g:shortenpath_file=-1
+  else
+    let g:shortenpath_file=1
+  endif
+  call Statusline()
+endfunction
+
 function PathCharwise_All(path, except=0, prependSlash=v:false, appendSlash=v:false)
+  if a:except==-1
+    if a:appendSlash
+      return a:path..'/'
+    else
+      return a:path
+    endif
+  endif
   let parts=split(a:path,'/')
   let out=''
   if a:path=='/'||a:prependSlash

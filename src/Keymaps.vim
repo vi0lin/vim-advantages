@@ -303,6 +303,9 @@ nnoremap .. :call CD(split(w:file,'/')[0])<cr>
 nnoremap <C-Left> :call CD('..')<cr>
 nnoremap <C-Right> :call CD(split(w:file,'/')[0])<cr>
 
+nnoremap <C-,> :call CD('..')<cr>
+nnoremap <C-.> :call CD(split(w:file,'/')[0])<cr>
+
 " nnoremap <leader><leader>         :JumpProjectUp<cr>
 " nnoremap <>>  :JumpProjectStepwise<cr>
 " nnoremap <localleader><localleader>   :JumpProjectUp<cr>
@@ -433,3 +436,6 @@ map <S-F5> :call ExecuteN('s', 'F5')<cr>
 map <S-F6> :call ExecuteN('s', 'F6')<cr>
 map <S-F7> :call ExecuteN('s', 'F7')<cr>
 map <S-F8> :call ExecuteN('s', 'F8')<cr>
+
+Ut <F2> :call ToggleShortenPath()<cr>
+
