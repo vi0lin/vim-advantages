@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Install Vim-Advantages"
-
+apt-get install -y fzf silversearcher-ag ripgrep
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   echo "Linux detected"
   cc="wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim"
