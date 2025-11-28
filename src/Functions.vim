@@ -456,9 +456,9 @@ function GitAddCWD()
   " || git add -A
 endfunction
 
-command -range -nargs=0 GitAddAllRepo <line1>,<line2>:call GitAddAllRepo()
-function GitAddAllRepo()
-  echo '!git add'w:git
+command -range -nargs=0 GitAddRepo <line1>,<line2>:call GitAddRepo()
+function GitAddRepo()
+  " echo '!git add'w:git
   exec '!git add'w:git
   " || git add -A
 endfunction
