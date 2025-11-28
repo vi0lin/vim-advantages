@@ -66,7 +66,6 @@ function J(x)
   return json_encode(a:x)
 endfunction
 
-
 function CountWindowsInDirection(direction)
   let i = 0
   let last_win=winnr()
@@ -231,6 +230,14 @@ function ConfigureExecute(keymap, shift=0, control=0, alt=0)
   call SelectCommand(a:keymap)
 endfunction
 
+function GetVimJsonLocation()
+  if w:git!=-1
+    return w:git.."/vim.json"
+  else
+    return (getcwd()=='/' ? getcwd() : getcwd()..'/').."vim.json"
+  endif
+endfunction
+
 function Execute(keymap, shift=0, control=0, alt=0)
   " Example Execution Manager Data Structure
   let pocket={
@@ -264,6 +271,7 @@ function Execute(keymap, shift=0, control=0, alt=0)
   call extend(holder,[json])
   call extend(holder,[new])
   echo Format(holder)
+  echo GetVimJsonLocation()
   " echo cmd build run json
   " let vs=VS()
   "let cmd3=BuildString_Find_All_CWDS(cwds, 'run', '**')
