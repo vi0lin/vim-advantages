@@ -288,6 +288,9 @@ nnoremap <space>P :CopyWholePathToClipboard<CR>
 nnoremap <space>r :InsertReceiver<CR>
 nnoremap <leader>dd :call Rewindworkdir()<cr>
 
+nnoremap <A-p>              :OpenFileFZFRepo<CR>
+nnoremap <A-S-p>            :call OpenFileFZFRepo(1)<CR>
+nnoremap <A-S-C-p>            :call OpenFileFZFRepo(2)<CR>
 nnoremap <C-p>              :OpenFileFZFProject<CR>
 nnoremap <C-S-p>            :OpenFileFZFRepo<CR>
 nnoremap <C-A-p>            :OpenFileFZFSystem<CR>
