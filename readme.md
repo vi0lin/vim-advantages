@@ -137,4 +137,4 @@ Donate to support my work. Every gesture helps me finalize my projects.
 - Preparing to upload files soon.
 
 # Author
-![Author](img/author.jpg)
+![The Author](img/author.jpg)
