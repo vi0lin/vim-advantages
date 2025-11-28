@@ -3275,17 +3275,21 @@ endfunction
 
 " Plugins
 if g:checkplug
+  function InstallExternalPlugins()
+    call plug#begin()
+      Plug 'dense-analysis/ale'
+      Plug 'junegunn/fzf'
+      Plug 'junegunn/fzf.vim'
+      " Plug 'skywind3000/asyncrun.vim'
+      Plug 'tpope/vim-dispatch'
+      Plug 'prabirshrestha/vim-lsp'
+      Plug 'mattn/vim-lsp-settings'
+      Plug 'prabirshrestha/asyncomplete.vim'
+      Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    call plug#end()
+  endfunction
   call plug#begin()
-    Plug 'dense-analysis/ale'
-    Plug 'junegunn/fzf'
-    Plug 'junegunn/fzf.vim'
-    " Plug 'skywind3000/asyncrun.vim'
     Plug 'vi0lin/vim-advantages'
-    Plug 'tpope/vim-dispatch'
-    Plug 'prabirshrestha/vim-lsp'
-    Plug 'mattn/vim-lsp-settings'
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-lsp.vim'
   call plug#end()
 endif
 
