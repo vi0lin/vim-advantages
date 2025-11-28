@@ -23,12 +23,20 @@ function NewFile()
 endfunction
 
 " Environment
-  function __dump(obj)
-    return l:
-  endfunction
-  function __load(json)
-    let l:=a:json
-  endfunction
+function __dump(obj)
+  return l:
+endfunction
+function __load(json)
+  let l:=a:json
+endfunction
+
+function SaveDict(file, dict)
+  call writefile([json_encode(a:dict)], a:file)
+endfunction
+
+function LoadDict(file)
+  return json_decode(join(readfile(a:file), "\n"))
+endfunction
 
 function FindProjects()
   let list=systemlist("find . -name .git -type d")
@@ -271,7 +279,10 @@ function Execute(keymap, shift=0, control=0, alt=0)
   call extend(holder,[json])
   call extend(holder,[new])
   echo Format(holder)
-  echo GetVimJsonLocation()
+  let file=GetVimJsonLocation()
+  call SaveDict(file, pocket)
+  let loaded=LoadDict(file)
+  echo loaded
   " echo cmd build run json
   " let vs=VS()
   "let cmd3=BuildString_Find_All_CWDS(cwds, 'run', '**')
