@@ -57,9 +57,14 @@ function P(x)
   return PrettyDictNested(a:x)
 endfunction
 
+function Format(x)
+  return PrettyDictNested(a:x, 2)
+endfunction
+
 function J(x)
   return json_encode(a:x)
 endfunction
+
 
 function CountWindowsInDirection(direction)
   let i = 0
@@ -226,28 +231,39 @@ function ConfigureExecute(keymap, shift=0, control=0, alt=0)
 endfunction
 
 function Execute(keymap, shift=0, control=0, alt=0)
+  " Example Execution Manager Data Structure
   let pocket={
-    \ 'mappings': {
-      \ { 'key': 'F1', 'command': 'ls -al', 'cc': 1, 'cr': 1 },
-      \ { 'key': 'F2', 'command': 'ls -al', 'cc': 1, 'cr': 0 },
-      \ { 'key': 'F3', 'command': 'ls -al', 'cc': 1, 'cr': 0 },
-      \ { 'key': 'F4', 'command': 'ls -al', 'cc': 1, 'cr': 0 }
-    \ },
-    \ 'commands': {
-    \ { 'name': 'Build Uploader', 'source /home/user/ },
-    \ {},
-    \ {},
-    \ {},
-    \}
+    \ "mappings": [
+      \ { "key": "F1", "command": "ls -al", "cc": 1, "cr": 1 },
+      \ { "key": "F2", "command": "ls -al", "cc": 1, "cr": 0 },
+      \ { "key": "F3", "command": "ls -al", "cc": 1, "cr": 0 },
+      \ { "key": "F4", "command": "ls -al", "cc": 1, "cr": 0 },
+    \ ],
+    \ "commands": [
+    \ { "name": "Build Uploader", "cmd": "source file.sh" },
+    \ { "name": "Run Uploader", "cmd": "source file.sh" },
+    \ { "name": "Test Uploader", "cmd": "source file.sh" },
+    \ { "name": "Push Uploader", "cmd": "source file.sh" },
+    \]
   \ }
+  echo Format(pocket)
   " call DebugPaths()
   " echo RELATIVE_DIR()
+  let holder=[]
   let cwds=uniq(List_CWD_OpenedWindows())
   let cmd=BuildString_Find_All_CWDS(cwds, '*.sh')
   let build=BuildString_Find_All_CWDS(cwds, 'build')
   let run=BuildString_Find_All_CWDS(cwds, 'run')
   let json=BuildString_Find_All_CWDS(cwds, 'vim.json')
-  echo cmd build run json
+  let new='new'
+  call extend(holder,[cwds])
+  call extend(holder,[cmd])
+  call extend(holder,[build])
+  call extend(holder,[run])
+  call extend(holder,[json])
+  call extend(holder,[new])
+  echo Format(holder)
+  " echo cmd build run json
   " let vs=VS()
   "let cmd3=BuildString_Find_All_CWDS(cwds, 'run', '**')
   " let sh_files=systemlist(cmd)
