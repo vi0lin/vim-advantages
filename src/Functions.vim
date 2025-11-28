@@ -420,6 +420,13 @@ function Push()
   GithubPush
 endfunction
 
+command -range -nargs=0 PushAll <line1>,<line2>:call PushAll()
+function PushAll()
+  GitAddAll
+  GitCommit
+  GithubPush
+endfunction
+
 command -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
 command -range -nargs=0 Diff <line1>,<line2>:call GitDiff()
 function GitDiff()
@@ -436,8 +443,8 @@ function GitAdd()
   !git add %
 endfunction
 
-command -range -nargs=0 GitAddCWD <line1>,<line2>:call GitAddCWD()
-function GitAddCWD()
+command -range -nargs=0 GitAddAll <line1>,<line2>:call GitAddAll()
+function GitAddAll()
   !git add .
   " || git add -A
 endfunction
