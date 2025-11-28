@@ -3495,7 +3495,7 @@ function KeyHandler(key)
   endif
 endfunction
 nnoremap <expr> <leader>F KeyHandler(getchar())
-source $vim/src/Functions.vim9
+" source $vim/src/Functions.vim9
 
 " ---- grep settings -------------------------------------------------
 " set grepprg=grep\ -nH\ --\ -r\ -w\ $*
