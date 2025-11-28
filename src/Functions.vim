@@ -416,6 +416,7 @@ endfunction
 command -range -nargs=0 Push <line1>,<line2>:call Push()
 function Push()
   GitAdd
+  GitStatus
   GitCommit
   GithubPush
 endfunction
@@ -423,6 +424,7 @@ endfunction
 command -range -nargs=0 PushRepo <line1>,<line2>:call PushRepo()
 function PushRepo()
   GitAddRepo
+  GitStatus
   GitCommit
   GithubPush
 endfunction
@@ -430,6 +432,7 @@ endfunction
 command -range -nargs=0 PushCWD <line1>,<line2>:call PushCWD()
 function PushCWD()
   GitAddCWD
+  GitStatus
   GitCommit
   GithubPush
 endfunction
