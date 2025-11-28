@@ -238,6 +238,14 @@ function ConfigureExecute(keymap, shift=0, control=0, alt=0)
   call SelectCommand(a:keymap)
 endfunction
 
+function GetRepoLocation()
+  if w:git!=-1
+    return w:git
+  else
+    return getcwd()
+  endif
+endfunction
+
 function GetVimJsonLocation()
   if w:git!=-1
     return w:git.."/vim.json"
@@ -417,6 +425,7 @@ command -range -nargs=0 Push <line1>,<line2>:call Push()
 function Push()
   GitAdd
   GitStatus
+  input("Procceed? [<any key> Yes] [<C-c> Cancel]")
   GitCommit
   GithubPush
 endfunction
@@ -1724,9 +1733,23 @@ function OpenFileCommandLineSystem()
   call JumpFile('/')
 endfunction
 
-function OpenFileFZFRepo()
+function OpenFileFZFRepo(hierarchy=0)
   let Callback=function('OpenFile_callback', ["window"])
-  call FZFPopup("Open file: ", "file", $main_repo, Callback)
+  if a:hierarchy==0
+    let file=w:git
+  elseif a:hierarchy==1
+    let file=FindGit(GetParentDir(w:git))
+  elseif a:hierarchy==2
+    let file=FindGit(GetParentDir(FindGit(GetParentDir(w:git))))
+  endif
+  if file == -1
+    " getcwd is not userfriendly
+    " consider throwing a message
+    let file=getcwd()
+    echo "No higher Repo"
+    return
+  endif
+  call FZFPopup("Open file: ", "file", file, Callback)
 endfunction
 
 function OpenFileFZFProject()
