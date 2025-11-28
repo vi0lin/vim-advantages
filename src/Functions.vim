@@ -425,7 +425,8 @@ command -range -nargs=0 Push <line1>,<line2>:call Push()
 function Push()
   GitAdd
   GitStatus
-  input("Procceed? [<any key> Yes] [<C-c> Cancel]")
+  call system("read")
+  " call input("Procceed? [<CR> Yes] [<C-c> Cancel]")
   GitCommit
   GithubPush
 endfunction
