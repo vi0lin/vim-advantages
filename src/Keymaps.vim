@@ -147,6 +147,11 @@ tnoremap <C-S-j> <c-\><c-n>:call SwapWin("j")<cr>
 tnoremap <C-S-k> <c-\><c-n>:call SwapWin("k")<cr> 
 tnoremap <C-S-l> <c-\><c-n>:call SwapWin("l")<cr> 
 
+
+nnoremap <leader>e :call OpenFileUnderCursor()<cr>
+nnoremap <leader><leader>fb :LayoutBash<cr>
+nnoremap <leader><leader>fv :LayoutVim<cr>
+
 map <m-;> :call ToggleOverviewRight()<cr>
 map <leader><leader><F4> :redraw \\| let c=input("Test: ")<cr>!source ".$workdir."/.bashrc; git_selector "TEST"
 map <C-S-F9> :call PreviewBuffer()<CR>
@@ -155,8 +160,8 @@ map <C-F2> :call ToggleWrap()<CR>
 map <leader>in :call Intend()<cr>
 map <leader><leader><leader><space> :IntelligentSelecting<cr>
 map <leader>. @q
-map <leader>s :call NvimStudioSubstitution("selection")<cr>
-map <leader>S :call NvimStudioSubstitution("file")<cr>
+" map <leader>s :call NvimStudioSubstitution("selection")<cr>
+" map <leader>S :call NvimStudioSubstitution("file")<cr>
 vmap <C-l> <C-w>l
 vmap <C-h> <C-w>h
 vmap <C-k> <C-w>k
@@ -215,28 +220,31 @@ map <leader><Space> :call GetCCWD()<cr>
 " map <F11> :MakeProject<cr>
 " map <F12> :CTagsProject<cr> 
 
-map <leader><F9>   :ToggleVertical<cr>
-map <F9>   :Build<cr>
-map <S-F9> :ToggleC<cr>
-map <C-F9> :AsyncStop<cr>
-map <F10> :Run<cr>
-map <S-F10> :cclose<cr>
-map <C-F10> :AsyncStop<cr>
+""" map <leader><F9>   :ToggleVertical<cr>
+""" map <F9>   :Build<cr>
+""" map <S-F9> :ToggleC<cr>
+""" map <C-F9> :AsyncStop<cr>
+""" map <F10> :Run<cr>
+""" map <S-F10> :cclose<cr>
+""" map <C-F10> :AsyncStop<cr>
+
+" map <F1> :echo DBG()<cr>
+map <F9>  :silent Make<cr>
+" \\| wincmd w \| redraw! \\| copen'<cr>
+map <S-F9>  :AbortDispatch<cr>
+map <F10> :!./%<<cr>
+map <F11> :!./%<<cr>
 
 " map <F11> :Implement<cr>
 " map <F12> :Implement<cr>
 
-
 " nnoremap <silent> <localleader> :<c-u>WhichKey '.'<cr>
 
-set timeoutlen=300
+" set timeoutlen=300
 
 " colorscheme delek
 
-nnoremap <leader><leader>eb :LayoutBash<cr>
-nnoremap <leader><leader>ev :LayoutVim<cr>
-
-nmap <F1> :RepeatLastCommand<cr>
+" nmap <F1> :RepeatLastCommand<cr>
 
 nmap <leader>a :AddFunctionUserInput<cr>
 vmap <leader>a :AddFunctionVisualSplit<cr>
@@ -259,15 +267,15 @@ map <C-Space> :call ToggleZoom()<cr>
 
 map <silent> <S-F1> :SearchCword<cr>
 
-map <F1> :call EXEC()<cr>
-map <S-F1> :EXECINPUT<cr>
+" map <F1> :call EXEC()<cr>
+" map <S-F1> :EXECINPUT<cr>
 map <leader><F1> :EXECTOGGLE<cr>
 map <leader><leader><F1> :INTERPRETERTOGGLE<cr>
 
-map <leader>v :call VIM(VS())<cr>
-map <leader>b :call BASH(VS())<cr>
-map <leader>p :call PYTHON(VS())<cr>
-map <leader>r :call RUST(VS())<cr>
+" map <leader>v :call VIM(VS())<cr>
+" map <leader>b :call BASH(VS())<cr>
+" map <leader>p :call PYTHON(VS())<cr>
+" map <leader>r :call RUST(VS())<cr>
 
 map <localleader>iv :call VIM(input("vimscript: "), 'exec_input_vs')<cr>
 map <localleader>ib :call BASH(input("bash: "), 'exec_input_vs')<cr>
@@ -288,9 +296,10 @@ nnoremap <C-g>              :OpenFileCommandLineProject<CR>
 nnoremap <C-S-g>            :OpenFileCommandLineRepo<CR>
 nnoremap <C-A-g>            :OpenFileCommandLineSystem<CR>
 
-nnoremap <leader>f              :OpenFileCommandLineSameDir<CR>
+nnoremap <leader>o              :OpenFileCommandLineSameDir<CR>
+nnoremap <leader>.              :OpenFileCommandLineSameDir<CR>
+" nnoremap <Tab>              :OpenFileCommandLineSameDir<CR>
 nnoremap <C-i> <C-i>
-nnoremap <Tab>                  :OpenFileCommandLineSameDir<CR>
 nnoremap <C-S-Tab> :call PreviousFile()<cr>
 nnoremap <C-Tab> :call NextFile()<cr>
 
@@ -298,13 +307,14 @@ nnoremap <leader>cd :call MakeDirCurrentCWD()<cr>
 " :MakeDirCurrentProject<cr>
 " nnoremap <leader>.. :call CD('..')<cr>
 nnoremap <leader><leader> :call CD('..')<cr>
-nnoremap .. :call CD(split(w:file,'/')[0])<cr>
+"" nnoremap .. :call CD(split(w:relative_path,'/')[0])<cr>
+" unmap ..
 
-nnoremap <C-Left> :call CD('..')<cr>
-nnoremap <C-Right> :call CD(split(w:file,'/')[0])<cr>
+nnoremap <C-Left> :call CD(WFilePrev())<cr>
+nnoremap <C-Right> :call CD(WFileNext())<cr>
 
-nnoremap <C-,> :call CD('..')<cr>
-nnoremap <C-.> :call CD(split(w:file,'/')[0])<cr>
+nnoremap <C-,> :call CD(WFilePrev())<cr>
+nnoremap <C-.> :call CD(WFileNext())<cr>
 
 " nnoremap <leader><leader>         :JumpProjectUp<cr>
 " nnoremap <>>  :JumpProjectStepwise<cr>
@@ -335,7 +345,7 @@ nmap <silent> <c-h> :wincmd h<cr>
 nmap <silent> <c-j> :wincmd j<cr>
 nmap <silent> <c-k> :wincmd k<cr>
 nmap <silent> <c-l> :wincmd l<cr>
-menu Actions.SED :call NvimStudioSubstitution()<cr>
+" menu Actions.SED :call NvimStudioSubstitution()<cr>
 " noremap <leader>v :normal viW"ay<cr>:echo <c-r>a<cr>
 vnoremap <silent> p "_dP
 vnoremap <silent> y y:call ClipboardYank()<CR>
@@ -366,7 +376,6 @@ vnoremap <silent> <A-j> :m '>+1<CR>gv=gv
 
 noremap < <<
 noremap > >>
-
 vnoremap < <gv
 vnoremap > >gv
 
@@ -428,14 +437,178 @@ map <leader><F6> :call FixTargetTerm('F6')<cr>
 map <leader><F7> :call FixTargetTerm('F7')<cr>
 map <leader><F8> :call FixTargetTerm('F8')<cr>
 
-map <F5> :call ExecuteN('n', 'F5')<cr>
-map <F6> :call ExecuteN('n', 'F6')<cr>
-map <F7> :call ExecuteN('n', 'F7')<cr>
-map <F8> :call ExecuteN('n', 'F8')<cr>
-map <S-F5> :call ExecuteN('s', 'F5')<cr>
-map <S-F6> :call ExecuteN('s', 'F6')<cr>
-map <S-F7> :call ExecuteN('s', 'F7')<cr>
-map <S-F8> :call ExecuteN('s', 'F8')<cr>
+" Ut <F2> :call ToggleShortenPath()<cr>
+" command :call ToggleShortenPath()<cr>
+command! -nargs=0 ShortenPath call ToggleShortenPath()
 
-Ut <F2> :call ToggleShortenPath()<cr>
+function DBG()
+  echo CWD()
+  echo RELATIVE()
+  echo ABSOLUTE()
+endfunction
 
+map <leader>a :y \| :let a=split(@", "\n")<cr>
+map <leader>A =remove(a,0)<cr>
+" qq
+" f,f,a "
+" <C-r>=remove(a,0)
+" "
+" <Esc>/<C-c>
+" j0
+" q
+"
+map <F1> :call Execute("F1")<cr>
+map <F2> :call Execute("F2")<cr>
+map <F3> :call Execute("F3")<cr>
+map <F4> :call Execute("F4")<cr>
+map <F5> :call Execute("F5")<cr>
+map <F6> :call Execute("F6")<cr>
+map <F7> :call Execute("F7")<cr>
+map <F8> :call Execute("F8")<cr>
+map <leader><F1> :call ConfigureExecute("F1")<cr>
+map <leader><F2> :call ConfigureExecute("F2")<cr>
+map <leader><F3> :call ConfigureExecute("F3")<cr>
+map <leader><F4> :call ConfigureExecute("F4")<cr>
+map <leader><F5> :call ConfigureExecute("F5")<cr>
+map <leader><F6> :call ConfigureExecute("F6")<cr>
+map <leader><F7> :call ConfigureExecute("F7")<cr>
+map <leader><F8> :call ConfigureExecute("F8")<cr>
+
+map <S-F1> :call Execute("F1", 1)<cr>
+map <S-F2> :call Execute("F2", 1)<cr>
+map <S-F3> :call Execute("F3", 1)<cr>
+map <S-F4> :call Execute("F4", 1)<cr>
+map <S-F5> :call Execute("F5", 1)<cr>
+map <S-F6> :call Execute("F6", 1)<cr>
+map <S-F7> :call Execute("F7", 1)<cr>
+map <S-F8> :call Execute("F8", 1)<cr>
+map <leader><S-F1> :call ConfigureExecute("F1", 1)<cr>
+map <leader><S-F2> :call ConfigureExecute("F2", 1)<cr>
+map <leader><S-F3> :call ConfigureExecute("F3", 1)<cr>
+map <leader><S-F4> :call ConfigureExecute("F4", 1)<cr>
+map <leader><S-F5> :call ConfigureExecute("F5", 1)<cr>
+map <leader><S-F6> :call ConfigureExecute("F6", 1)<cr>
+map <leader><S-F7> :call ConfigureExecute("F7", 1)<cr>
+map <leader><S-F8> :call ConfigureExecute("F8", 1)<cr>
+
+map <C-F1> :call Execute("F1", 0, 1)<cr>
+map <C-F2> :call Execute("F2", 0, 1)<cr>
+map <C-F3> :call Execute("F3", 0, 1)<cr>
+map <C-F4> :call Execute("F4", 0, 1)<cr>
+map <C-F5> :call Execute("F5", 0, 1)<cr>
+map <C-F6> :call Execute("F6", 0, 1)<cr>
+map <C-F7> :call Execute("F7", 0, 1)<cr>
+map <C-F8> :call Execute("F8", 0, 1)<cr>
+map <leader><C-F1> :call ConfigureExecute("F1", 0, 1)<cr>
+map <leader><C-F2> :call ConfigureExecute("F2", 0, 1)<cr>
+map <leader><C-F3> :call ConfigureExecute("F3", 0, 1)<cr>
+map <leader><C-F4> :call ConfigureExecute("F4", 0, 1)<cr>
+map <leader><C-F5> :call ConfigureExecute("F5", 0, 1)<cr>
+map <leader><C-F6> :call ConfigureExecute("F6", 0, 1)<cr>
+map <leader><C-F7> :call ConfigureExecute("F7", 0, 1)<cr>
+map <leader><C-F8> :call ConfigureExecute("F8", 0, 1)<cr>
+
+map <S-C-F1> :call Execute("F1", 1, 1)<cr>
+map <S-C-F2> :call Execute("F2", 1, 1)<cr>
+map <S-C-F3> :call Execute("F3", 1, 1)<cr>
+map <S-C-F4> :call Execute("F4", 1, 1)<cr>
+map <S-C-F5> :call Execute("F5", 1, 1)<cr>
+map <S-C-F6> :call Execute("F6", 1, 1)<cr>
+map <S-C-F7> :call Execute("F7", 1, 1)<cr>
+map <S-C-F8> :call Execute("F8", 1, 1)<cr>
+map <leader><C-S-F1> :call ConfigureExecute("F1", 1, 1)<cr>
+map <leader><C-S-F2> :call ConfigureExecute("F2", 1, 1)<cr>
+map <leader><C-S-F3> :call ConfigureExecute("F3", 1, 1)<cr>
+map <leader><C-S-F4> :call ConfigureExecute("F4", 1, 1)<cr>
+map <leader><C-S-F5> :call ConfigureExecute("F5", 1, 1)<cr>
+map <leader><C-S-F6> :call ConfigureExecute("F6", 1, 1)<cr>
+map <leader><C-S-F7> :call ConfigureExecute("F7", 1, 1)<cr>
+map <leader><C-S-F8> :call ConfigureExecute("F8", 1, 1)<cr>
+
+" map <A-F1> :call Execute("F1", 0, 0, 1)<cr>
+" map <A-F2> :call Execute("F2", 0, 0, 1)<cr>
+" map <A-F3> :call Execute("F3", 0, 0, 1)<cr>
+" map <A-F4> :call Execute("F4", 0, 0, 1)<cr>
+" map <A-F5> :call Execute("F5", 0, 0, 1)<cr>
+" map <A-F6> :call Execute("F6", 0, 0, 1)<cr>
+" map <A-F7> :call Execute("F7", 0, 0, 1)<cr>
+" map <A-F8> :call Execute("F8", 0, 0, 1)<cr>
+" map <leader><A-F1> :call ConfigureExecute("F1", 0, 0, 1)<cr>
+" map <leader><A-F2> :call ConfigureExecute("F2", 0, 0, 1)<cr>
+" map <leader><A-F3> :call ConfigureExecute("F3", 0, 0, 1)<cr>
+" map <leader><A-F4> :call ConfigureExecute("F4", 0, 0, 1)<cr>
+" map <leader><A-F5> :call ConfigureExecute("F5", 0, 0, 1)<cr>
+" map <leader><A-F6> :call ConfigureExecute("F6", 0, 0, 1)<cr>
+" map <leader><A-F7> :call ConfigureExecute("F7", 0, 0, 1)<cr>
+" map <leader><A-F8> :call ConfigureExecute("F8", 0, 0, 1)<cr>
+" 
+" map <C-A-F1> :call Execute("F1", 0, 1, 1)<cr>
+" map <C-A-F2> :call Execute("F2", 0, 1, 1)<cr>
+" map <C-A-F3> :call Execute("F3", 0, 1, 1)<cr>
+" map <C-A-F4> :call Execute("F4", 0, 1, 1)<cr>
+" map <C-A-F5> :call Execute("F5", 0, 1, 1)<cr>
+" map <C-A-F6> :call Execute("F6", 0, 1, 1)<cr>
+" map <C-A-F7> :call Execute("F7", 0, 1, 1)<cr>
+" map <C-A-F8> :call Execute("F8", 0, 1, 1)<cr>
+" map <leader><C-A-F1> :call ConfigureExecute("F1", 0, 1, 1)<cr>
+" map <leader><C-A-F2> :call ConfigureExecute("F2", 0, 1, 1)<cr>
+" map <leader><C-A-F3> :call ConfigureExecute("F3", 0, 1, 1)<cr>
+" map <leader><C-A-F4> :call ConfigureExecute("F4", 0, 1, 1)<cr>
+" map <leader><C-A-F5> :call ConfigureExecute("F5", 0, 1, 1)<cr>
+" map <leader><C-A-F6> :call ConfigureExecute("F6", 0, 1, 1)<cr>
+" map <leader><C-A-F7> :call ConfigureExecute("F7", 0, 1, 1)<cr>
+" map <leader><C-A-F8> :call ConfigureExecute("F8", 0, 1, 1)<cr>
+" 
+" map <S-A-F1> :call Execute("F1", 1, 0, 1)<cr>
+" map <S-A-F2> :call Execute("F2", 1, 0, 1)<cr>
+" map <S-A-F3> :call Execute("F3", 1, 0, 1)<cr>
+" map <S-A-F4> :call Execute("F4", 1, 0, 1)<cr>
+" map <S-A-F5> :call Execute("F5", 1, 0, 1)<cr>
+" map <S-A-F6> :call Execute("F6", 1, 0, 1)<cr>
+" map <S-A-F7> :call Execute("F7", 1, 0, 1)<cr>
+" map <S-A-F8> :call Execute("F8", 1, 0, 1)<cr>
+" map <leader><C-A-F1> :call ConfigureExecute("F1", 1, 0, 1)<cr>
+" map <leader><C-A-F2> :call ConfigureExecute("F2", 1, 0, 1)<cr>
+" map <leader><C-A-F3> :call ConfigureExecute("F3", 1, 0, 1)<cr>
+" map <leader><C-A-F4> :call ConfigureExecute("F4", 1, 0, 1)<cr>
+" map <leader><C-A-F5> :call ConfigureExecute("F5", 1, 0, 1)<cr>
+" map <leader><C-A-F6> :call ConfigureExecute("F6", 1, 0, 1)<cr>
+" map <leader><C-A-F7> :call ConfigureExecute("F7", 1, 0, 1)<cr>
+" map <leader><C-A-F8> :call ConfigureExecute("F8", 1, 0, 1)<cr>
+" 
+" map <S-C-A-F1> :call Execute("F1", 1, 1, 1)<cr>
+" map <S-C-A-F2> :call Execute("F2", 1, 1, 1)<cr>
+" map <S-C-A-F3> :call Execute("F3", 1, 1, 1)<cr>
+" map <S-C-A-F4> :call Execute("F4", 1, 1, 1)<cr>
+" map <S-C-A-F5> :call Execute("F5", 1, 1, 1)<cr>
+" map <S-C-A-F6> :call Execute("F6", 1, 1, 1)<cr>
+" map <S-C-A-F7> :call Execute("F7", 1, 1, 1)<cr>
+" map <S-C-A-F8> :call Execute("F8", 1, 1, 1)<cr>
+" map <leader><C-S-A-F1> :call ConfigureExecute("F1", 1, 1, 1)<cr>
+" map <leader><C-S-A-F2> :call ConfigureExecute("F2", 1, 1, 1)<cr>
+" map <leader><C-S-A-F3> :call ConfigureExecute("F3", 1, 1, 1)<cr>
+" map <leader><C-S-A-F4> :call ConfigureExecute("F4", 1, 1, 1)<cr>
+" map <leader><C-S-A-F5> :call ConfigureExecute("F5", 1, 1, 1)<cr>
+" map <leader><C-S-A-F6> :call ConfigureExecute("F6", 1, 1, 1)<cr>
+" map <leader><C-S-A-F7> :call ConfigureExecute("F7", 1, 1, 1)<cr>
+" map <leader><C-S-A-F8> :call ConfigureExecute("F8", 1, 1, 1)<cr>
+" 
+" map <S-C-A-F1> :call Execute("F1", 1, 1, 1)<cr>
+" map <S-C-A-F2> :call Execute("F2", 1, 1, 1)<cr>
+" map <S-C-A-F3> :call Execute("F3", 1, 1, 1)<cr>
+" map <S-C-A-F4> :call Execute("F4", 1, 1, 1)<cr>
+" map <S-C-A-F5> :call Execute("F5", 1, 1, 1)<cr>
+" map <S-C-A-F6> :call Execute("F6", 1, 1, 1)<cr>
+" map <S-C-A-F7> :call Execute("F7", 1, 1, 1)<cr>
+" map <S-C-A-F8> :call Execute("F8", 1, 1, 1)<cr>
+" map <leader><C-S-A-F1> :call ConfigureExecute("F1", 1, 1, 1)<cr>
+" map <leader><C-S-A-F2> :call ConfigureExecute("F2", 1, 1, 1)<cr>
+" map <leader><C-S-A-F3> :call ConfigureExecute("F3", 1, 1, 1)<cr>
+" map <leader><C-S-A-F4> :call ConfigureExecute("F4", 1, 1, 1)<cr>
+" map <leader><C-S-A-F5> :call ConfigureExecute("F5", 1, 1, 1)<cr>
+" map <leader><C-S-A-F6> :call ConfigureExecute("F6", 1, 1, 1)<cr>
+" map <leader><C-S-A-F7> :call ConfigureExecute("F7", 1, 1, 1)<cr>
+" map <leader><C-S-A-F8> :call ConfigureExecute("F8", 1, 1, 1)<cr>
+
+map <leader>rm :call DeleteFile()<cr>
+map <leader>n :call NewFile()<cr>

@@ -52,7 +52,7 @@ function! Statusline()
       " set statusline+=%#User0#\ \ \ %{GetPath_Statusline()}\ \ \  "Spellanguage & Highlight on?
 
       " %:p:h
-      set statusline+=%#User0#%{PathCharwise_All(w:file,g:shortenpath_file)}\ \ \  "Spellanguage & Highlight on?
+      set statusline+=%#User0#%{PathCharwise_All(RELATIVE(),g:shortenpath_file)}\ \ \  "Spellanguage & Highlight on?
       "
       " Buffer Number
       set statusline+=%#User2#%{(exists('b:state')&&b:state.type=='buffer'?''.bufnr().'\ ':'')}

@@ -1,4 +1,35 @@
+" Development is progressing slowly due to an important decision-making stage.
+" 0.03% Chance This Will Even Work
+
+function DeleteFile()
+  call delete(expand('%'))
+  bd
+endfunction
+
+function DebugPaths()
+  echo "CWD          "CWD()
+  echo "POINTER     "POINTER()
+  echo "POINTER_DIR "POINTER_DIR()
+  echo "RELATIVE     "RELATIVE()
+  echo "RELATIVE_DIR "RELATIVE_DIR()
+  echo "ABSOLUTE     "ABSOLUTE()
+  echo "ABSOLUTE_DIR "ABSOLUTE_DIR()
+endfunction
+
+function NewFile()
+  let path=POINTER_DIR().'/'
+  let node = input('New File:  ['..path..']  ', path, 'file')
+  call _newfile_andCD(node)
+endfunction
+
 " Environment
+  function __dump(obj)
+    return l:
+  endfunction
+  function __load(json)
+    let l:=a:json
+  endfunction
+
 function FindProjects()
   let list=systemlist("find . -name .git -type d")
   echo list
@@ -17,12 +48,15 @@ function PrettyDictNested(dict, indent=2)
   let output.=repeat(' ', a:indent).'}'
   return output
 endfunction
+
 function Pretty(x)
   return PrettyDictNested(a:x)
 endfunction
+
 function P(x)
   return PrettyDictNested(a:x)
 endfunction
+
 function J(x)
   return json_encode(a:x)
 endfunction
@@ -62,25 +96,29 @@ function BufIsTerminal(nr)
   return 0
 endfunction
 
-function GetTargetTerm(key)
-  if exists("b:target_term_fixed")
-    return b:target_term_fixed
-  endif
-  if exists("b:target_term")
-    return b:target_term
-  endif
-  return SearchTargetTerm(a:key)
+function GetTargetTerm(direction)
+  " if exists("b:target_term_fixed")
+  "   return b:target_term_fixed
+  " endif
+  " if exists("b:target_term")
+  "   return b:target_term
+  " endif
+  return SearchTargetTerm(a:direction)
 endfunction
 
-function! SearchTargetTerm(key)
+function GetDirection(key)
   let directions={
     \  'F5': 'h',
     \  'F6': 'j',
     \  'F7': 'k',
     \  'F8': 'l'
     \}
-  let direction=directions[a:key]
-  let b:target_term=GetWinDirectionIfTerm(direction)
+  return directions[a:key]
+endfunction
+
+function! SearchTargetTerm(direction)
+  let b:target_term=GetWinDirectionIfTerm(a:direction)
+  return b:target_term
 endfunction
 
 function! FixTargetTerm(key)
@@ -109,30 +147,113 @@ function! FixTargetTerm(key)
   " endif
 endfunction
 
+function ToArrayIfIsnt(data)
+  if type(a:data)!=3
+    return [a:data]
+  endif
+  return a:data
+endfunction
+
 map <leader>x :if exists("b:target_term") \| unlet b:target_term \| endif<cr>
-function ExecuteN(modifier, key)
-  let vs = VS()
-  let win=GetTargetTerm(a:key)
-  " let target_term=getbufvar(bufnr('%'), target_term)
-  " let target_term=b:target_term
-  if !exists("b:commands")
-    let b:commands=[]
-  endif
-  if b:target_term != -1
-    if a:modifier == 's'
-      let b:commands[a:key]=vs
-      call TERM(b:target_term, vs)
-      let b:commands[a:key]=vs
-      echo vs
-      call TERM(win, vs)
-      " call setbufvar(bufnr('$'), , bufnr('%'))
-    else
-      " let x=b:commands[a:key]
-      " let x = "implement"
-      " call TERM(win, vs)
-      call RedoCommandToTermWithSigTerm_win(win)
+function List_CWD_OpenedWindows()
+  let list = []
+  for nr in range(1,winnr('$'))
+    call extend(list, [getwinvar(nr, 'cwd')])
+  endfor
+  return list
+endfunction
+
+function BuildString_Find_All_CWDS_slow(cwds)
+  let out=""
+  let len=len(a:cwds)
+  let range=range(1,len)
+  let i = 1
+  while i < len
+    let out=out.a:cwds[i]
+    if i<len-1
+      let out=out.' '
     endif
+    let i+=1
+	endwhile
+  " echo out
+  return 'find '.out.' -type f -name ="*.sh"'
+endfunction
+
+function BuildString_Find_All_CWDS(cwds, pattern, postfix='')
+  let cwds=uniq(uniq(a:cwds))
+  let out=""
+  let len=len(cwds)
+  let range=range(1,len)
+  let i = 1
+  while i < len
+    " if len>1 && i==1
+    "   let out=out..'.,'
+    " endif
+    let out=out.cwds[i]..'/'..a:postfix
+    " ..'/**'
+    if i<len-1
+      let out=out.','
+    endif
+    let i+=1
+	endwhile
+  " exec 'set path='..out
+  " set path?
+  " find *.sh
+  return globpath(out, a:pattern)
+endfunction
+
+function SelectTerm(keymap)
+  if a:keymap=~#"F[1234]"
+    echo "tab"
+  elseif a:keymap=~#"F[5678]"
+    echo "win"
   endif
+endfunction
+
+function SelectCommand(keymap)
+  if a:keymap=~#"F[1234]"
+    echo "tab"
+  elseif a:keymap=~#"F[5678]"
+    echo "win"
+  endif
+endfunction
+
+function ConfigureExecute(keymap, shift=0, control=0, alt=0)
+  let vs=VS()
+  echo a:shift a:control
+  " a:alt
+  call SelectCommand(a:keymap)
+endfunction
+
+function Execute(keymap, shift=0, control=0, alt=0)
+  let pocket={
+    \ 'mappings': {
+      \ { 'key': 'F1', 'command': 'ls -al', 'cc': 1, 'cr': 1 },
+      \ { 'key': 'F2', 'command': 'ls -al', 'cc': 1, 'cr': 0 },
+      \ { 'key': 'F3', 'command': 'ls -al', 'cc': 1, 'cr': 0 },
+      \ { 'key': 'F4', 'command': 'ls -al', 'cc': 1, 'cr': 0 }
+    \ },
+    \ 'commands': {
+    \ { 'name': 'Build Uploader', 'source /home/user/ },
+    \ {},
+    \ {},
+    \ {},
+    \}
+  \ }
+  " call DebugPaths()
+  " echo RELATIVE_DIR()
+  let cwds=uniq(List_CWD_OpenedWindows())
+  let cmd=BuildString_Find_All_CWDS(cwds, '*.sh')
+  let build=BuildString_Find_All_CWDS(cwds, 'build')
+  let run=BuildString_Find_All_CWDS(cwds, 'run')
+  let json=BuildString_Find_All_CWDS(cwds, 'vim.json')
+  echo cmd build run json
+  " let vs=VS()
+  "let cmd3=BuildString_Find_All_CWDS(cwds, 'run', '**')
+  " let sh_files=systemlist(cmd)
+  " echo sh_files
+  " let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
+  " echo a:keymap
 endfunction
 
 hi QuickFixLine ctermbg=Yellow guibg=Yellow
@@ -488,17 +609,60 @@ set tabpagemax=50
 " "Shift + Tab does inverse tab
 " inoremap <S-Tab> <C-d>
 " set whichwrap+=<,>,[,]
+
+" Avoid These In A Function Call?
+" ---> Compact WILDMENU --: set wildmode=longest:list,full
+" ---> Compact WILDMENU --: set wildmode=longest:full,full
+" ---> Compact WILDMENU --: set wildignore=*.o,*.pyc,*/.git/*,*/node_modules/*
+" ---> Compact WILDMENU --: set completeopt=menuone,preview
 set wildmenu
-set wildmode=longest:list,full
-set wildmode=longest:full,full
-set wildignore=*.o,*.pyc,*/.git/*,*/node_modules/*
-set completeopt=menuone,preview
+set wildoptions=pum
+set wildmode=longest,full
+set wildignorecase
+" set wildmode=
+" set wildignore=
+" set suffixes=
+" set suffixes-=@
+inoremap <silent> <expr> / pumvisible() ? "\<C-r>=<SID>avoid_double_slash()<CR>" : "/\<C-x>\<C-f>"
+inoremap <silent> <expr> <Space> pumvisible() ? "\<C-x>\<C-f>" : " "
+function! s:avoid_double_slash() abort
+  if getline('.')[col('.')-2] ==# '/'
+    return ''
+  endif
+  return "/\<C-x>\<C-f>"
+endfunction
+" lacks integrity
+function LastPath()
+  let last_path=""
+  let line=getline('.')
+  let last_slash=stridx(line,'/')
+  if last_slash==-1
+    let last_path=line
+  else
+    let last_path=line[last_slash :]
+  endif
+  return last_path
+endfunction
+function IsLastPath()
+  return 1
+endfunction
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : IsLastPath() ? "\<C-x>\<C-f>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<C-r>=<SID>my_path_complete()<CR>" : "\<CR>\<C-r>=<SID>my_path_complete()<CR>"
+inoremap <expr> <C-e>   pumvisible() ? "\<C-e>" : "\<C-e>"
+function! s:my_path_complete() abort
+  if getline('.')[col('.')-2] ==# '/'
+    return "\<C-x>\<C-f>"
+  endif
+  return "\<C-c>"
+endfunction
+
 set noswapfile
 set verbose=0 " 0-9?
 set encoding=utf-8
 set fileencoding=utf-8
 set termencoding=
-set ttimeoutlen=100
 set ttyfast
 filetype on
 filetype indent on
@@ -530,6 +694,7 @@ set virtualedit=all
 set virtualedit=block
 set tags=./tags;,tags
 set timeout timeoutlen=700 ttimeoutlen=0
+set ttimeoutlen=700
 set laststatus=2
 set guioptions+=m  "menu bar
 set guioptions+=T  "toolbar
@@ -648,12 +813,6 @@ function BuildPath(a, b)
   else
     return a:a.'/'.a:b
   endif
-endfunction
-
-function Make()
-  exec "!cd "
-        \ CWD()..";"
-        \ "make"
 endfunction
 
 function RunThis()
@@ -859,6 +1018,79 @@ function Basename(path)
   return ""
 endfunction
 
+function POINTER()
+  return w:pointer
+endfunction
+
+" Eating Lobster 🦞
+function ABSOLUTE()
+  let r=expand('%:p')
+  if r!=""
+    return r
+  else
+    return getcwd()
+  endif
+endfunction
+
+function ABSOLUTE_DIR()
+  if filereadable(ABSOLUTE())
+    return GetParentDir(ABSOLUTE())
+  elseif isdirectory(ABSOLUTE())
+    return ABSOLUTE()
+  endif
+endfunction
+
+function RELATIVE_DIR()
+  " KEEP IT POINTER, OTHERWISE FILE IS NOT READABLE ANYWAYS
+  if filereadable(POINTER())
+    return GetParentDir(RELATIVE())
+  else
+    return RELATIVE()
+  endif
+endfunction
+
+function RELATIVE()
+  let $cwd=CWD()
+  let $y=len(split(CWD(),'/'))
+  let x=join(split(POINTER(),'/')[$y:-1],'/')
+  return x
+endfunction
+
+" echo POINTER()
+" echo $cwd $y x POINTER()
+" return substitute(POINTER(), $cwd, "", "")
+
+" function RELATIVE()
+"     " if isdirectory(a:path)
+"     "   let w:relative=expand('%')
+"     " elseif filereadable(a:path)
+"     "   let w:relative=expand('%')
+"     " else
+"     "   let w:relative=RELATIVE()
+"     " endif
+"   " echo CWD()
+"   " echo RELATIVE()
+"
+"   " let path=w:relative
+"
+"   if isdirectory(path)
+"     " let path=expand('%')
+"     return join(split(path,'/'),'/')
+"   elseif filereadable(path)
+"     " let path=expand('%')
+"     return join(split(path,'/')[0:-1],'/')
+"   else
+"     " let path=w:relative
+"     let aa=split(CWD(),'/')
+"     let $a=len(aa)
+"     let bb=split(w:relative,'/')
+"     let $b=len(bb)
+"     return join(split(CWD(),'/')[$a:-1],'/')
+"     " join(split(CWD(),'/')[-1],'/')..
+"     " return w:relative
+"   endif
+" endfunction
+
 function GetBasename()
   return expand('%:t')
 endfunction
@@ -875,6 +1107,10 @@ function GetPath_Statusline()
   elseif g:wholepath==2
     return expand('%:t')
   endif
+endfunction
+
+function GetPath()
+  return expand('%:p:h')
 endfunction
 
 function GetDirname()
@@ -941,6 +1177,10 @@ function MkDir(path)
     call mkdir(a:path, 'p')
 endfunction
 
+function _newfile_andCD(path)
+  call _openfile_andCD(a:path)
+endfunction
+
 function _openfile_andCD(path)
   let path=a:path
   if exists("path") && filereadable(path)
@@ -948,15 +1188,15 @@ function _openfile_andCD(path)
     " call CD(GetParentDir(path))
   elseif exists("path") && isdirectory(path)
     call MkDir(path)
-    " call CD(path)
+    call CD(path)
   elseif exists("path") && IsPossibileDirectory(path)
     call MkDir(path)
-    " call CD(path)
-    exec "e "..path
+    call CD(path)
+    " exec "e "..path
   else
     call MkDir(GetParentDir(path))
     " call CD(GetParentDir(path))
-    exec "e "..path
+    exec "hide e "..path
   endif
 endfunction
 
@@ -1011,7 +1251,13 @@ endfunction
 function OpenFile_callback(id, code, register)
   let path=GetTempfileLine()
   unlet b:popup_tempfile
-  if path != '0'
+  if path=='0' || path==0
+    " echo path"exit"
+    if filereadable(path)
+      call _openfile_andCD(path)
+    endif
+    return
+  else
     call _openfile_andCD(path)
   endif
 endfunction
@@ -1019,7 +1265,9 @@ endfunction
 function MakeDirCurrentCWD()
   let [n, y, x, n, n]=getcurpos()
   " let w:cwd=expand("%:p:h")
+  " let w:pointer=expand('%')
   call CD(expand("%:p:h"))
+  call SetPointer(expand('%:p'))
   " call SetProject(expand("%:p:h"))
   call cursor(y, x)
 endfunction
@@ -1169,8 +1417,8 @@ function SearchOpenFile(...)
   echo expand(file)
   " let $v=get(a:,1,0)
   " e $v
+  exec "hide e! ".file
   call CD(GetDirname())
-  exec "e ".file
 endfunction
 
 func FindFiles(path, pattern, maxdepth)
@@ -1236,7 +1484,7 @@ function CWD_Statusline()
   if w:cwd=='/'
     return '/'
   else
-    return w:cwd..''
+    return w:cwd
   endif
 endfunction
 
@@ -1247,20 +1495,47 @@ function CWD()
   return w:cwd
 endfunction
 
+function WFilePrev()
+  return '..'
+endfunction
+
+function WFileNext()
+  let split=split(RELATIVE(),'/')
+  let len=len(split)
+  if len>0
+    let next=split(RELATIVE(),'/')[0]
+    return next
+  else
+    return ''
+  endif
+endfunction
+
 function CD(path)
   if isdirectory(a:path)
     silent exec "cd ".a:path
-    let w:cwd=getcwd()
-    let w:git=FindGit(w:cwd)
-    let w:file=expand('%')
   else
-    echo "Not A Directory"
+    silent exec "cd ".GetParentDir(a:path)
+  endif
+  let w:cwd=getcwd()
+  let w:git=FindGit(w:cwd)
+  " echo "Not A Directory"
+endfunction
+
+function SetPointer(path='')
+  if a:path==''
+    let p=expand("%:p")
+  else
+    let p = a:path
+  endif
+  if p==""
+    let w:pointer=CWD()
+  else
+    let w:pointer=p
   endif
 endfunction
 
 function REFRESH_CWD()
   silent exec "cd ".CWD()
-  let w:file=expand('%')
 endfunction
 
 function PathLast(path)
@@ -1295,7 +1570,14 @@ function ToggleShortenPath()
 endfunction
 
 function PathCharwise_All(path, except=0, prependSlash=v:false, appendSlash=v:false)
-  if a:except==-1
+  let except=a:except
+  if filereadable(a:path)
+    let except=a:except
+  elseif isdirectory(a:path)
+    let except=a:except
+    let except=0
+  endif
+  if except==-1
     if a:appendSlash
       return a:path..'/'
     else
@@ -1310,7 +1592,7 @@ function PathCharwise_All(path, except=0, prependSlash=v:false, appendSlash=v:fa
     let out=''
   endif
   for i in range(0, len(parts)-1)
-    if i>=len(parts)-a:except
+    if i>=len(parts)-except
       let out.=parts[i]
     else
       let out.=parts[i][0]
@@ -1373,7 +1655,9 @@ function OpenFileCommandLineProject()
 endfunction
 
 function OpenFileCommandLineSameDir()
-  call JumpFile(CWD())
+  " call JumpFile(CWD())
+  call JumpFile(ABSOLUTE_DIR()..'/')
+  call MakeDirCurrentCWD()
 endfunction
 
 function OpenFileCommandLineSystem()
@@ -2437,10 +2721,15 @@ endfunction
 if !exists('*SaveFile') 
   function SaveFile() 
     call Cursor_Prep() 
-    :w! 
+    try
+      w!
+    catch
+      silent call SaveRoot()
+    endtry
     call Cursor_Back() 
   endfunction 
 endif
+
 if !exists('*SourceVim') 
   function SourceVim()  
     exec "so "..expand('%:p')  
@@ -2493,7 +2782,14 @@ function SetLineState(n)
 endfunction
 
 function SaveRoot()
-  :w !sudo tee %
+  try
+    :silent w !clear; sudo tee %
+    :e! %
+    :o
+    :u
+  catch
+    echo "File was not saved."
+  endtry
 endfunction
 
 function SaveVars(file, prefix)
@@ -2592,16 +2888,14 @@ function BufReadPost()
 endfunction
 
 function BufWinEnter()
-  call REFRESH_CWD() 
+  " call REFRESH_CWD()
+  call MakeDirCurrentCWD()
   " call CD(expand('%:p:h'))
   " call InitLineState()
   " echo "BufReadPost"
 endfunction
 
 function BufNew()
-  if !exists("w:file")
-    let w:file=expand('%')
-  endif
   " if exists("g:lastmain_repo")
   "   call CD(g:lastmain_repo)
   " endif
@@ -2642,6 +2936,8 @@ function VimEnter()
 endfunction
 
 function BufEnter()
+  call CD(expand('%:p'))
+  " call DebugPaths()
   " call Statusline()
 endfunction
 
@@ -2896,12 +3192,27 @@ endfunction
 " Plugins
 if g:checkplug
   call plug#begin()
+    Plug 'dense-analysis/ale'
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
-    Plug 'skywind3000/asyncrun.vim'
+    " Plug 'skywind3000/asyncrun.vim'
     Plug 'vi0lin/vim-advantages'
+    Plug 'tpope/vim-dispatch'
+    Plug 'prabirshrestha/vim-lsp'
+    Plug 'mattn/vim-lsp-settings'
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-lsp.vim'
   call plug#end()
 endif
+
+if executable('clangd')
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'clangd',
+    \ 'cmd': {server_info->['clangd']},
+    \ 'whitelist': ['c', 'cpp'],
+    \ })
+endif
+
 set rtp+=/usr/bin/fzf
 
 " Extend Visual Selection 
@@ -3184,3 +3495,63 @@ function KeyHandler(key)
   endif
 endfunction
 nnoremap <expr> <leader>F KeyHandler(getchar())
+source $vim/src/Functions.vim9
+
+" ---- grep settings -------------------------------------------------
+" set grepprg=grep\ -nH\ --\ -r\ -w\ $*
+" set grepprg=grep -nrw -- $*
+
+" ---- commands ------------------------------------------------------
+" command! -nargs=1 Grep exec 'silent grep -nrw -- "<args>" .'
+" command! -nargs=1 Grep exec 'silent echo! "<args>"' | copen
+" | copen | redraw!
+" command! -nargs=1 LGrep exec 'silent lgrep -nrw -- "<args>" .' | lopen | redraw!
+" command! -nargs=1 Grep  exec 'ls! -al' | copen | redraw!
+command! -nargs=1 Grep exec 'silent grep! -nR -- "<args>" .' | copen | redraw!
+command! -nargs=0 PyCopen exec 'silent make' | copen | redraw!
+command! -nargs=0 Run exec w:runprg.' \| copen \| redraw!'
+
+" ---- quickfix navigation -------------------------------------------
+nnoremap <silent> <leader>q  :copen<CR>
+nnoremap <silent> <C-Down>   :cnext<CR>zz
+nnoremap <silent> <C-Up>     :cprev<CR>zz
+nnoremap <silent> <leader>N  :cfirst<CR>zz
+nnoremap <silent> <leader>P  :clast<CR>zz
+nnoremap <silent> <leader>c  :cclose<CR>
+
+" ---- location list navigation --------------------------------------
+nnoremap <silent> <leader>lq :lopen<CR>
+" nnoremap <silent> <C-Down>   :lnext<CR>zz
+" nnoremap <silent> <C-Up>     :lprev<CR>zz
+nnoremap <silent> <leader>lN :lfirst<CR>zz
+nnoremap <silent> <leader>lP :llast<CR>zz
+
+" echo /home/user/MRTN/m/vim/src/Keymaps.vim
+" 
+" set wildmenu
+
+function OpenFileUnderCursor()
+  hide e <cfile>
+  " exec 'e '..expand("<cfile>")
+  " exec ':call SearchOpenFile(expand("<cfile>"))'
+  " let w:cwd=getcwd()
+  " call CD(expand('%:p'))
+  " call SetPointer(expand('%:p'))
+  call MakeDirCurrentCWD()
+endfunction
+
+function DebugReplacements()
+  echo expand("<cWORD>")
+  echo expand("<cword>")
+  echo expand("<cexpr>")
+  echo expand("<cfile>")
+  echo expand("<afile>")
+  echo expand("<abuf>")
+  echo expand("<amatch>")
+  echo expand("<sfile>")
+  echo expand("<stack>")
+  echo expand("<script>")
+  echo expand("<slnum>")
+  echo expand("<sflnum>")
+  echo expand("<client>")
+endfunction

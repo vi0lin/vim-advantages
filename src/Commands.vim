@@ -136,7 +136,7 @@ command! -nargs=0 SearchCword exec "vimgrep /<cword>/j "..GetProject().."/**" | 
 
 command -nargs=0 -range Build <line1>,<line2>call Build()
 command -nargs=0 -range BuildStop <line1>,<line2>call BuildStop()
-command -nargs=0 -range Run <line1>,<line2>call Run()
+" command -nargs=0 -range Run <line1>,<line2>call Run()
 command -nargs=0 -range EXEC <line1>,<line2>call EXEC()
 command -nargs=0 -range EXECTOGGLE <line1>,<line2>call EXECTOGGLE()
 command -nargs=0 -range INTERPRETERTOGGLE <line1>,<line2>call INTERPRETERTOGGLE()
