@@ -420,9 +420,16 @@ function Push()
   GithubPush
 endfunction
 
-command -range -nargs=0 PushAll <line1>,<line2>:call PushAll()
-function PushAll()
-  GitAddAll
+command -range -nargs=0 PushRepo <line1>,<line2>:call PushRepo()
+function PushRepo()
+  GitAddRepo
+  GitCommit
+  GithubPush
+endfunction
+
+command -range -nargs=0 PushCWD <line1>,<line2>:call PushCWD()
+function PushCWD()
+  GitAddCWD
   GitCommit
   GithubPush
 endfunction
@@ -443,9 +450,16 @@ function GitAdd()
   !git add %
 endfunction
 
-command -range -nargs=0 GitAddAll <line1>,<line2>:call GitAddAll()
-function GitAddAll()
+command -range -nargs=0 GitAddCWD <line1>,<line2>:call GitAddCWD()
+function GitAddCWD()
   !git add .
+  " || git add -A
+endfunction
+
+command -range -nargs=0 GitAddAllRepo <line1>,<line2>:call GitAddAllRepo()
+function GitAddAllRepo()
+  echo '!git add'w:git
+  exec '!git add'w:git
   " || git add -A
 endfunction
 
