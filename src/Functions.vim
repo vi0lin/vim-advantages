@@ -35,6 +35,7 @@ function FindProjects()
   echo list
 endfunction
 
+" Does Not Dissolve Arrays
 function PrettyDictNested(dict, indent=2)
   let output="{\n"
   for [key, value] in items(a:dict)
