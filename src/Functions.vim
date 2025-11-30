@@ -450,7 +450,13 @@ endfunction
 command -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
 command -range -nargs=0 Diff <line1>,<line2>:call GitDiff()
 function GitDiff()
-  !git diff %
+  !git --no-pager diff --text %
+endfunction
+
+command -range -nargs=0 GitDiffAll <line1>,<line2>:call GitDiffAll()
+command -range -nargs=0 DiffAll <line1>,<line2>:call GitDiffAll()
+function GitDiffAll()
+  !git --no-pager diff --text
 endfunction
 
 command -range -nargs=0 GitDiffCWD <line1>,<line2>:call GitDiffCWD()

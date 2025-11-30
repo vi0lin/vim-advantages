@@ -105,6 +105,29 @@ git_remove() {
 git_remove ./src/Functions.vim
 ```
 
+# Build And Install GCC 15
+Most linux distros deliver older GCC versions like GCC 12.
+Here is, how to compile and install GCC 15.2.0 on your own.
+Call the following bash function `build_gcc_15` in a suitable place.
+This action takes some time.
+
+```
+build_gcc_15() {
+  wget https://gcc.gnu.org/pub/gcc/releases/gcc-15.2.0/gcc-15.2.0.tar.xz
+  tar -xf gcc-15.2.0.tar.xz
+  cd gcc-15.2.0
+  ./contrib/download_prerequisites
+  mkdir build && cd build
+  ./configure --prefix=/usr/local/gcc-15 --enable-languages=c,c++ --disable-multilib
+  make -j$(nproc)
+  sudo make install
+  # Add to your path
+  echo 'export PATH=/usr/local/gcc-15/bin:$PATH' >> ~/.bashrc
+  source ~/.bashrc
+  gcc --version
+}
+```
+
 # Donations
 Donate to support my work. Every gesture helps me finalize my projects.
 [PayPal](https://paypal.me/aVvNokLn0A1M)
