@@ -8,15 +8,11 @@ develop everything.
 > [!WARNING]
 > Do not use this repository at this time, as it is under construction.
 
-# Inhaltsangabe
-- [./src/Map.vim](./src/Map.vim)
-- [./src/Statusline.vim](./src/Statusline.vim)
-- [./src/Autocommands.vim](./src/Autocommands.vim)
-- [./src/TextActions.vim](./src/TextActions.vim)
-- [./src/Functions.vim](./src/Functions.vim)
-- [./src/Commands.vim](./src/Commands.vim)
-- [./src/Keymaps.vim](./src/Keymaps.vim)
-- [./install.sh](./install.sh)
+# Features
+- Execution Manager
+- Window Manager
+- File Completion
+- Text Actions
 
 # Installation
 > [!WARNING]
