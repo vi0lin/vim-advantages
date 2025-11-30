@@ -43,7 +43,7 @@ wsl bash install.sh
 del install.sh
 ```
 
-## 2. Manually Installing vim-advantages
+## 2. Install Manually
 This Needs To Be Integrated In Some Vim Source File Of Your Local Vim Installation
 ```
 call plug#begin()
