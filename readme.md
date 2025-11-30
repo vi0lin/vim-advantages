@@ -18,7 +18,7 @@ develop everything.
 - [./src/Keymaps.vim](./src/Keymaps.vim)
 - [./install.sh](./install.sh)
 
-# Install
+# Installation
 > [!WARNING]
 > The project is in an unstable state. Do not use it, as it may contain errors.
 
