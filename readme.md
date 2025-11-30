@@ -1,4 +1,4 @@
-# My Approach to Using Vim
+# Vim-Advantages
 This project is considered a library or plugin
 that can be installed with all features if
 needed. It provides predefined keyboard mappings and quickly
