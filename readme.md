@@ -21,7 +21,7 @@ call plug#end()
 You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>
 The first part, gets highlighted accordingly to your cwd.<br>
 Step up with <code>C ,</code> and step in with <code>C .</code>
-Then, <code>\<Tab\></code> or <code>\<C-p\></code> uses this pointer for effectively moving around the operating systems directory tree.
+Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively moving around the operating systems directory tree.
 </td></tr>
   </tbody>
 </table>
