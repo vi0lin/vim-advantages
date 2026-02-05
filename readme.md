@@ -94,17 +94,19 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </tbody>
 </table>
 
-<!--
 ## Execution & Debug
 <table>
   <thead>
-    <tr><td>Key</td><td>Feature</td></tr>
+    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
   </thead>
   <tbody>
-    <tr><td>F5 F6 F7 F8</td><td>Will be used, to execute commands</td></tr>
+    <tr><td>F5 F6 F7 F8</td><td>Will be used, to execute commands</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td>S-[F5 F6 F7 F8]</td><td>Send Visual Selection To Terminal</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td>C-[F5 F6 F7 F8]</td><td>Sig Term</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td>C-S-[F5 F6 F7 F8]</td><td>Redo Last Command</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td colspan=3>Somehow remote machines must integrate well. I will be able, to perform execution in any file and any language. I focus on bash, python, c++, c, rust and vimscript.</td></tr>
   </tbody>
 </table>
--->
 
 ## Git
 <table>
@@ -146,6 +148,18 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </thead>
   <tbody>
     <tr><td colspan=3>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
+  </tbody>
+</table>
+
+## General Vim
+<table>
+  <thead>
+    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
+  </thead>
+  <tbody>
+    <tr><td>C-F2</td>Toggle Word Wrap<td></td><td></td></tr>
+    <tr><td>,,,-l</td>Toggle Word Wrap<td></td><td></td></tr>
+    <tr><td>,,,-L</td>Toggle Word Wrap<td></td><td></td></tr>
   </tbody>
 </table>
 
