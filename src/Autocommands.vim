@@ -17,5 +17,12 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
       autocmd! WinEnter,VimEnter,BufWinEnter * setlocal cursorline
       autocmd! WinLeave * setlocal nocursorline
   augroup END
+  set nowrap
+  set textwidth=0
+  set wrapmargin=0
+  augroup TerminalNoWrap
+    autocmd!
+    autocmd TerminalOpen * if &buftype == 'terminal' | setlocal termwinsize=0x9999 | endif
+  augroup END
   finish
 endif

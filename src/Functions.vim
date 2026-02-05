@@ -1288,18 +1288,43 @@ function! s:close_often(winid, key) abort
         \ '<S-Tab>': [ 128, 107, 66 ],
         \ '<Tab>': [ 9 ],
         \ '<Up>': [ 128, 107, 117 ],
-        \ '<Down>': [ 128, 107, 100 ]
+        \ '<Down>': [ 128, 107, 100 ],
+        \ '<Enter>': [ 13 ],
+        \ '<C-,>': [ 128, 252, 4, 44 ],
+        \ '<C-.>': [ 128, 252, 4, 46 ],
+        \ 'j': [ 106 ],
+        \ 'k': [ 107 ],
         \ }
   " if a:key ==# "<C-Tab>" || a:key ==# "<80><fc>"
   " if a:key ==# "<C-Tab>" || a:key ==# "\<80>\<fc>\<04>"
-  if k == ct['<C-Tab>'] || k == ct['<Tab>'] || k == ct['<Down>']
-    call popup_close(a:winid)
-    call NextFile_popup(1)
+  if k == ct['<C-Tab>'] || k == ct['<Tab>']
+    call s:stepFile_index(1)
+    " call popup_close(a:winid)
+    " call NextFile_popup(1)
+    call s:stepFile_open()
+    call win_execute(a:winid, printf('call cursor(%d,1)', g:temp_files_index+1))
     return 1
   " elseif a:key ==# "<C-S-Tab>" || a:key ==# "\<80>\<fc>\\<80>kB"
-  elseif k == ct['<C-S-Tab>'] || k == ct['<S-Tab>'] || k == ct['<Up>']
-      call popup_close(a:winid)
-      call PreviousFile_popup(1)
+  elseif k == ct['<Down>'] || k == ct['j']
+    call s:stepFile_index(1)
+    " call popup_close(a:winid)
+    " call NextFile_popup(0)
+    " call popup_setoptions(a:winid, #{line: 'cursor-1'})
+    call win_execute(a:winid, printf('call cursor(%d,1)', g:temp_files_index+1))
+    return 1
+  elseif k == ct['<C-S-Tab>'] || k == ct['<S-Tab>']
+      call s:stepFile_index(-1)
+      " call popup_close(a:winid)
+      " call PreviousFile_popup(1)
+      call s:stepFile_open()
+      call win_execute(a:winid, printf('call cursor(%d,1)', g:temp_files_index+1))
+    return 1
+  elseif k == ct['<Up>'] || k == ct['k']
+    call s:stepFile_index(-1)
+    " call popup_close(a:winid)
+    " call PreviousFile_popup(0)
+    " call popup_setoptions(a:winid, #{firstline: 'cursor+2'})
+    call win_execute(a:winid, printf('call cursor(%d,1)', g:temp_files_index+1))
     return 1
   " else
   "   call popup_close(a:winid)
@@ -1313,12 +1338,39 @@ function! s:close_often(winid, key) abort
   "   call PreviousFile_popup()
   "   return 0
   " "   return 0
+  elseif k == ct['<C-,>']
+    " call CD('..')
+    " exec bufnr('$') bufdo CD(WFilePrev())
+    call CD(WFilePrev())
+    echo CWD()
+    " return 1
+    " call CD(WFilePrev())
+    call s:stepFile_repopup(a:winid)
+  elseif k == ct['<C-.>']
+    call CD(WFileNext())
+    " let entry=g:temp_files_list[g:temp_files_index]
+    " if isdirectory(entry)
+      " call CD(entry)
+      call s:stepFile_repopup(a:winid)
+uid   " endif
   elseif k == ct['<C-p>']
     call popup_close(a:winid)
     call OpenFileFZFProject()
+  elseif k == ct['<Enter>']
+    let entry=g:temp_files_list[g:temp_files_index]
+    if isdirectory(entry)
+      call CD(entry)
+      call s:stepFile_repopup(a:winid)
+    elseif filereadable(entry)
+      exec "e! "..entry
+      unlet g:temp_files_list
+    endif
+    " let entry=g:temp_files_list[g:temp_files_index]
+    " exec "e! "..entry
   else
     echom a:key
     echom k
+    return 0
   endif
 
   call popup_close(a:winid)
@@ -1328,32 +1380,58 @@ function! s:close_often(winid, key) abort
 endfunction
 " endif
 
-function s:stepFile_popup(step, performFileOpening)
-  let path=expand('%:h')
-  let l=systemlist('find '.path.' -maxdepth 1 -type f')
-  let file=expand('%:t')
+function s:stepFile_index(step)
+  let length=len(g:temp_files_list)
+  let length=Length(g:temp_files_list)
+  " let index=indexof(l, { i,v-> v:val =~ file })
+  let g:temp_files_index=g:temp_files_index+(a:step)
+  let g:temp_files_index=Mod(g:temp_files_index, length)
+endfunction
 
+function s:stepFile_init_index()
+  let file=expand('%:t')
+  let g:temp_files_index=index(g:temp_files_list, "./".file)
+endfunction
+
+function s:stepFile_repopup(winid)
+  call popup_close(a:winid)
+  call InitFile_popup()
+  " call NextFile_popup(0)
+  call s:stepFile_popup(0, 0)
+endfunction
+
+
+function s:stepFile_open(winid=-1)
+  let entry=g:temp_files_list[g:temp_files_index]
+  if isdirectory(entry)
+    " echo "is dir"
+    " call CD(entry)
+    " call s:stepFile_popup_repopup(a:winid)
+  elseif filereadable(entry)
+    exec "e! "..entry
+  endif
+endfunction
+
+function s:stepFile_popup(step, performFileOpening)
   " let x=0
   " for i in l
   "   let l[x]=path.."/"..i
   "   let x=x+1
   " endfor
-  let length=len(l)
-  let length=Length(l)
-  " let index=indexof(l, { i,v-> v:val =~ file })
-  let index=index(l, "./".file)
-  if a:performFileOpening
-    let index=index+(a:step)
-  endif
-  let index=Mod(index, length)
+  " if !exists(g:temp_files_index)
+  "   let g:temp_files_index=0
+  " endif
+
+  call s:stepFile_init_index()
+  call s:stepFile_index(a:step)
 
   if a:performFileOpening
-    exec "e "..l[index]
+    call s:stepFile_open()
   endif
 
-  let winid=popup_create(l, #{
+  let winid=popup_create(g:temp_files_list, #{
         \ pos: 'center',
-        \ title: '  '.w:cwd.' ',
+        \ title: '  '.CWD().' ',
         \ zindex: 200,
         \ maxheight: 20,
         \ minwidth: 40,
@@ -1367,7 +1445,7 @@ function s:stepFile_popup(step, performFileOpening)
         \ })
         " \ filtermode: 'n',
   " if index>=0 && index<=len(l)
-  call win_execute(winid, printf('call cursor(%d,1)', index+1))
+  call win_execute(winid, printf('call cursor(%d,1)', g:temp_files_index+1))
   " endif
   " optional
   " call win_execute(winid, 'setlocal cursorlineopt=line')
@@ -1434,7 +1512,7 @@ function s:stepFile(step)
   let index=index(l, "./".file)
   let index=index+(a:step)
   let index=Mod(index, length)
-  exec "e "..l[index]
+  exec "e! "..l[index]
   " echo file
   " echo path
   " echo newindex length
@@ -1451,6 +1529,28 @@ function PreviousFile_completefunc()
   setlocal completefunc=MyCustomComplete
   call s:stepFile_completefunc(-1)
   call ShowMyCustomComplete()
+endfunction
+
+function InitFile_popup()
+  " Todo
+  " Carefully
+  " Critical
+  " let path=expand('%:h')
+  let path=CWD()
+  " let g:temp_files_list=systemlist('find '.path.' -maxdepth 1 -type f')
+  " if !exists('g:temp_files_list')
+  "   " let g:temp_files_list=systemlist('find '.path.' -maxdepth 1')
+  "   " let files=readdir('.', 'v:val !~# "^\."')
+  "   let items=readdir('.', {v->{
+  "         \ 'name': v,
+  "         \ 'dir': isdirecotry(v),
+  "         \ 'link': gettype(v) == 'link'
+  "         \ }})
+  "   let items=readdir('.')
+  "   " let g:temp_files_list=sort(items, {a,b -> a.dir ? -1 : b.dir ? 1 : a.name > # b.name})
+  "   let g:temp_files_list=items
+  " endif
+  let g:temp_files_list=readdir('.')
 endfunction
 
 function NextFile_popup(performFileOpening)
@@ -3054,6 +3154,15 @@ function ToggleRelativeNumber()
   endif
 endfunction
 
+set nowrap
+set textwidth=0
+set wrapmargin=0
+
+  augroup TerminalNoWrap
+    autocmd!
+    autocmd TerminalOpen * if &buftype == 'terminal' | setlocal termwinsize=0x9999 | endif
+  augroup END
+
 function ToggleWrap()
   if s:wrapenabled
     set nowrap nolist nolinebreak
@@ -3464,7 +3573,8 @@ function Find_Popup(title, paths, callback, type="file", maxdepth=10, register="
     \ title: title,
     \ pos: 'center',
     \ minwidth: 80,
-    \ maxheight: 20,
+    \ minheight: 20,
+    \ maxheight: 80,
     \ border: [1, 1, 1, 1],
     \ borderchars: ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
     \ highlight: 'Pmenu',
