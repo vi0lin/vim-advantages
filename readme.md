@@ -124,14 +124,15 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
   </thead>
   <tbody>
-    <tr><td>F5-F8</td><td>Will be used, to execute commands</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>S-[F5-F8]</td><td>Send Visual Selection To Terminal</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>C-[F5-F8]</td><td>Sig Term</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>C-S-[F5-F8]</td><td>Redo Last Command</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>,[S][C][A][F5-F8]</td><td>Programm Combination</td><td>Unimplemented</td></tr>
-    <tr><td>,,[S][C][A][F5-F8]</td><td>Select Window For Operation</td><td>Unimplemented</td></tr>
-    <tr><td>,,,[S][C][A][F5-F8]</td><td>Select Target For Operation</td><td>Unimplemented</td></tr>
+    <tr><td>F1-F12</td><td>Will be used, to execute commands</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td>S-[F1-F12]</td><td>Send Visual Selection To Terminal</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td>C-[F1-F12]</td><td>Sig Term</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td>C-S-[F1-F12]</td><td>Redo Last Command</td><td>Its All unconsidered and unfinished.</td></tr>
+    <tr><td>,[S][C][A][F1-F12]</td><td>Programm Command</td><td>Unimplemented</td></tr>
+    <tr><td>,,[S][C][A][F1-F12]</td><td>Select Window For Operation</td><td>Unimplemented</td></tr>
+    <tr><td>,,,[S][C][A][F1-F12]</td><td>Select Target For Operation</td><td>Unimplemented</td></tr>
     <tr><td colspan=3>Somehow remote machines must integrate well.</td></tr>
+    <tr><td colspan=3>Commands will get elected by filetype and programming environment</td></tr>
     <tr><td colspan=3>I used to realize solutions for bash, python, c++, vulkan, flutter, c, rust and vimscript. I will also share my results there with you.</td></tr>
     <tr><td colspan=3>LSP and clang<br>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
     <tr><td colspan=3>The Execution Keymappings will be stored in a .vim-advantages file in the vim-advantages installation dir. So every file buffer preserves its own exeuction scripts. Wherether installing on a remote machine, run local, build, debug, setting up, installing and running services, remote or locally - it all will be effortless and comfortable quickly accessible on keypress, well documented easy adaptable.</td></tr>
