@@ -151,20 +151,22 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td colspan=3>My vim configuration has a hidden file where my account details for vi0lin on github.com are stored.</td></tr>
     <tr><td>:Push</td><td></td><td>Pushes The File to Github</td></tr>
     <tr><td>:PushRepo</td><td></td><td>Pushes The Repo to Github</td></tr>
+    <tr><td>:PushCWD</td><td></td><td>Pushes The Files of the CWD to Github</td></tr>
+    <tr><td>:GitDiff</td><td></td><td>Git Diff</td></tr>
+    <tr><td>:GitAll</td><td></td><td>Git All</td></tr>
+    <tr><td>:GitCWD</td><td></td><td>Git Current Workdir</td></tr>
+    <tr><td colspan=3>Git Diff needs a solution for the no-pager option. Also the clearing with the !clear && ... bash-call is not valid.</td></tr>
+    <tr><td>:GitCommit</td><td></td><td>Git Commit (Todo: Standard Message or Last Message If Set)</td></tr>
+    <tr><td>:GitCommitNewMessage</td><td>Unimplemented</td><td>Git Commit (Will Yield A Popup, To Add A Commit Message)</td></tr>
+    <tr><td>:GitCommitLastMessage</td><td>Unimplemented</td><td>Git Commit With Last Message</td></tr>
+    <tr><td>:GitAdd</td><td></td><td>Git Add This File</td></tr>
+    <tr><td>:GitAddCWD</td><td></td><td>Git Add Files In CWD</td></tr>
+    <tr><td>:GitAddRepo</td><td></td><td>Git Add Files In The Repository</td></tr>
+    <tr><td colspan=2>There are multiple unquoted Git commands</td><td></td></tr>
+    <tr><td colspan=2>Lazy Git</td>Not yet integrated.<td></td></tr>
   </tbody>
 </table>
 
-<!--
-## Lazy Git Integration
-<table>
-  <thead>
-    <tr><td>Key</td><td>Feature</td></tr>
-  </thead>
-  <tbody>
-    <tr><td colspan=2>Lazy Git</td></tr>
-  </tbody>
-</table>
--->
 
 ## Path Completion
 <table>
