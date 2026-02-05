@@ -17,7 +17,12 @@ call plug#end()
     <tr><td colspan=2><b>Quick Filesystem Traversal</b></td></tr>
   </thead>
   <tbody>
-    <tr><td colspan=2>You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>The first part, gets highlighted accordingly to your cwd.<br>Step up with <code>C ,</code> and step in with <code>C .</code></td></tr>
+    <tr><td colspan=2>
+You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>
+The first part, gets highlighted accordingly to your cwd.<br>
+Step up with <code>C ,</code> and step in with <code>C .</code>
+Then, `<Tab>` or `<C-p>` uses this pointer for effectively moving around the operating systems directory tree.
+</td></tr>
   </tbody>
 </table>
 
@@ -84,9 +89,20 @@ call plug#end()
     <tr><td>C q</td><td>Close Window</td></tr>
     <tr><td>C S q</td><td>Close Tab</td></tr>
     <tr><td>A [hl]</td><td>Create a Tab, when there is none, or Move to the next or previous Tab</td></tr>
+  </tbody>
+</table>
+
+<!--
+## Execution
+<table>
+  <thead>
+    <tr><td>Key</td><td>Feature</td></tr>
+  </thead>
+  <tbody>
     <tr><td colspan=2>Execution</td></tr>
   </tbody>
 </table>
+-->
 
 <!--
 You Can Choose Installing vim-advantages Using 1. or 2.
