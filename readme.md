@@ -197,7 +197,7 @@ Moving towards and away from the cached target is possibile. This simply changes
 This source needs maintainance.
 It will be modular capable of loading in models for integrating with various machines interacting with each other.
 
-It is about tool-, compiler-chains and server management.
+It is about toolchains, compilerchains and server management.
  
 
 <!--
