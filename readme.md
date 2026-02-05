@@ -148,9 +148,9 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
   </thead>
   <tbody>
-    <tr><td>C-F2</td>Toggle Word Wrap<td></td><td></td></tr>
-    <tr><td>,,,-l</td>Toggle Word Wrap<td></td><td></td></tr>
-    <tr><td>,,,-L</td>Toggle Word Wrap<td></td><td></td></tr>
+    <tr><td>C-F2</td><td>Toggle Word Wrap</td><td></td></tr>
+    <tr><td>,,,-l</td><td>Toggle Word Wrap</td><td></td></tr>
+    <tr><td>,,,-L</td><td>Toggle Word Wrap</td><td></td></tr>
   </tbody>
 </table>
 
