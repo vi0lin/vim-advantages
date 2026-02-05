@@ -157,7 +157,10 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
 ```
 VIM is buggy
 EMACS SEEMS TO BE ERROR PRONE
+
+YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES
 ```
+
 
 <!--
 You Can Choose Installing vim-advantages Using 1. or 2.
