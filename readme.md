@@ -6,23 +6,24 @@
     <tr>
       <th>Key</th>
       <th>Feature</th>
+      <th>Future Integration</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>C p</td>
-      <td>Fuzzy Finder Integration (FZF) </td>
+      <td colspan=2>Fuzzy Finder Integration (FZF) </td>
     </tr>
     <tr>
       <td>C S p</td>
-      <td>Fuzzy Finder Integration (FZF) </td>
+      <td colspan=2>Fuzzy Finder Integration (FZF) </td>
     </tr>
-    <tr><td>C A p</td><td>Fuzzy Finder Integration (FZF)</td></tr>
-    <tr><td>Tab</td><td>Tab Trough Files in CWD</td></tr>
-    <tr><td>C ,</td><td>Set CWD ..</td></tr>
-    <tr><td>C .</td><td>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
-    <tr><td>:Push</td><td>Pushes The File to Github</td></tr>
-    <tr><td>:PushRepo</td><td>Pushes The Repo to Github</td></tr>
+    <tr><td>C A p</td><td colspan=2>Fuzzy Finder Integration (FZF)</td></tr>
+    <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Searching</td></tr>
+    <tr><td>C ,</td><td colspan=2>Set CWD ..</td></tr>
+    <tr><td>C .</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
+    <tr><td>:Push</td><td colspan=2>Pushes The File to Github</td></tr>
+    <tr><td>:PushRepo</td><td colspan=2>Pushes The Repo to Github</td></tr>
   </tbody>
 </table>
 <table>
