@@ -132,10 +132,20 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
 ## Path Completion
 <table>
   <thead>
-    <tr><td>Key</td><td>Feature</td></tr>
+    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
   </thead>
   <tbody>
-    <tr><td>Path Completion is Buggy, its commented out</td><td></td></tr>
+    <tr><td>/</td><td>Opens a wildmenu for a quick, simple, efficient and practicable path autocompletion</td><td>Path Completion is Buggy, its commented out</td></tr>
+  </tbody>
+</table>
+
+## LSP and clang
+<table>
+  <thead>
+    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
+  </thead>
+  <tbody>
+    <tr><td colspan=3>I am gonna switch to coc.nvim and use the LSP and clang for learning c++.</td></tr>
   </tbody>
 </table>
 
