@@ -21,7 +21,7 @@
       <td>Git Repository Path</td>
     </tr>
     <tr><td>C A p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td><td></td></tr>
-    <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Searching</td></tr>
+    <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature</td></tr>
     <tr><td>C ,</td><td colspan=2>Set CWD ..</td></tr>
     <tr><td>C .</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
     <tr><td>:Push</td><td colspan=2>Pushes The File to Github</td></tr>
