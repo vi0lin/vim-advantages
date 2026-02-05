@@ -153,8 +153,8 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td>:PushRepo</td><td></td><td>Pushes The Repo to Github</td></tr>
     <tr><td>:PushCWD</td><td></td><td>Pushes The Files of the CWD to Github</td></tr>
     <tr><td>:GitDiff</td><td></td><td>Show The Git Differences Of This File</td></tr>
-    <tr><td>:GitDiffAll</td><td></td><td>Show The Git Differences Of All Files</td></tr>
-    <tr><td>:GitDiffCWD</td><td></td><td>Show The Git Differences From The Affected Files In The Current Workdir</td></tr>
+    <tr><td>:GitDiffAll</td><td></td><td>Show The Git Differences Of All Changed Files Of This Repository</td></tr>
+    <tr><td>:GitDiffCWD</td><td></td><td>Show The Git Differences From The Changed Files In The Current Workdir</td></tr>
     <tr><td colspan=3>Git Diff needs a solution for the no-pager option. Also the clearing with the !clear && ... bash-call is not valid.</td></tr>
     <tr><td>:GitCommit</td><td></td><td>Git Commit (Todo: Standard Message or Last Message If Set)</td></tr>
     <tr><td>:GitCommitNewMessage</td><td>Unimplemented</td><td>Git Commit (Will Yield A Popup, To Add A Commit Message)</td></tr>
