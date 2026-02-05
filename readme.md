@@ -1,7 +1,5 @@
 # Vim-Advantages
 
-`build_gcc_15`
-
 # Features
 <table>
   <thead>
@@ -32,7 +30,7 @@
     <tr><td colspan=2><b>Quick Filesystem Traversal</b></td></tr>
   </thead>
   <tbody>
-    <tr><td colspan=2>You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>The first part, gets highlighted accordingly to your cwd.<br>Step up with <pre>C ,</pre> and step in with <pre>C .</pre></td></tr>
+    <tr><td colspan=2>You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>The first part, gets highlighted accordingly to your cwd.<br>Step up with <code>C ,</code> and step in with <code>C .</code></td></tr>
   </tbody>
 </table>
 
