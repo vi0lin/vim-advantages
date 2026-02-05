@@ -58,19 +58,22 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </thead>
   <tbody>
     <tr>
-      <td>C p</td>
+      <td>C-p</td>
       <td>Fuzzy Finder Integration (FZF) </td>
       <td>Current File Workdir / Quick Filesystem Traversal workdir</td>
     </tr>
     <tr>
-      <td>C S p</td>
+      <td>C-S-p</td>
       <td>Fuzzy Finder Integration (FZF) </td>
       <td>Git Repository Path</td>
     </tr>
-    <tr><td>C A p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td><td></td></tr>
+    <tr><td>C-A-p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td><td></td></tr>
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature</td></tr>
-    <tr><td>C ,</td><td colspan=2>Set CWD ..</td></tr>
-    <tr><td>C .</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
+    <tr><td>C-,</td><td colspan=2>Set CWD ..</td></tr>
+    <tr><td>C-.</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
+    <tr><td>Up/Down/h/j</td><td colspan=2>Select a file or folder</td></tr>
+    <tr><td>Enter</td><td colspan=2>Open the file, or go into the selected directory</td></tr>
+    <tr><td>Tab / S-Tab</td><td colspan=2>Opening the next or previous file anyways</td></tr>
   </tbody>
 </table>
 
@@ -80,14 +83,14 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td>Key</td><td>Feature</td></tr>
   </thead>
   <tbody>
-    <tr><td>, [hjkl]</td><td>Adds a buffer (left,below,above,right)</td></tr>
-    <tr><td>,, [hjkl]</td><td>Adds a terminal (left,below,above,right)</td></tr>
-    <tr><td>C S [hjkl]</td><td>Move Window</td></tr>
-    <tr><td>C S [hjkl]</td><td>Move Window To The Foremost</td></tr>
-    <tr><td>C q</td><td>Close Window</td></tr>
-    <tr><td>C S q</td><td>Close Tab</td></tr>
-    <tr><td>A [hl]</td><td>Create a Tab, when there is none, or Move to the next or previous Tab</td></tr>
-    <tr><td>C Space</td><td>Maximizes window / restores previous size</td></tr>
+    <tr><td>,-[hjkl]</td><td>Adds a buffer (left,below,above,right)</td></tr>
+    <tr><td>,,-[hjkl]</td><td>Adds a terminal (left,below,above,right)</td></tr>
+    <tr><td>C-S-[hjkl]</td><td>Move Window</td></tr>
+    <tr><td>C-S-[hjkl]</td><td>Move Window To The Foremost</td></tr>
+    <tr><td>C-q</td><td>Close Window</td></tr>
+    <tr><td>C-S-q</td><td>Close Tab</td></tr>
+    <tr><td>A-[hl]</td><td>Create a Tab, when there is none, or Move to the next or previous Tab</td></tr>
+    <tr><td>C-Space</td><td>Maximizes window / restores previous size</td></tr>
   </tbody>
 </table>
 
