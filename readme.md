@@ -13,7 +13,7 @@
     <tr>
       <td>C p</td>
       <td>Fuzzy Finder Integration (FZF) </td>
-      <td>Workdir of the current File / or Quick Filesystem Traversal workdir</td>
+      <td>Workdir of the current File / Quick Filesystem Traversal workdir</td>
     </tr>
     <tr>
       <td>C S p</td>
