@@ -87,6 +87,7 @@ Then, `<Tab>` or `<C-p>` uses this pointer for effectively moving around the ope
     <tr><td>C q</td><td>Close Window</td></tr>
     <tr><td>C S q</td><td>Close Tab</td></tr>
     <tr><td>A [hl]</td><td>Create a Tab, when there is none, or Move to the next or previous Tab</td></tr>
+    <tr><td>C Space</td><td>Maximizes window / restores previous size</td></tr>
   </tbody>
 </table>
 
@@ -121,6 +122,18 @@ Then, `<Tab>` or `<C-p>` uses this pointer for effectively moving around the ope
   </thead>
   <tbody>
     <tr><td colspan=2>Lazy Git</td></tr>
+  </tbody>
+</table>
+-->
+
+<!--
+## Path Completion
+<table>
+  <thead>
+    <tr><td>Key</td><td>Feature</td></tr>
+  </thead>
+  <tbody>
+    <tr><td></td><td></td></tr>
   </tbody>
 </table>
 -->
