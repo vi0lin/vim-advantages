@@ -46,8 +46,8 @@
   <tbody>
     <tr><td>, [hjkl]</td><td>Adds a buffer (left,below,above,right)</td></tr>
     <tr><td>,, [hjkl]</td><td>Adds a terminal (left,below,above,right)</td></tr>
-    <tr><td>CS [hjkl]</td><td>Move Window</td></tr>
-    <tr><td>CS [hjkl]</td><td>Move Window To The Foremost</td></tr>
+    <tr><td>C S [hjkl]</td><td>Move Window</td></tr>
+    <tr><td>C S [hjkl]</td><td>Move Window To The Foremost</td></tr>
     <tr><td>C q</td><td>Close Window</td></tr>
     <tr><td>C S q</td><td>Close Tab</td></tr>
     <tr><td>A [hl]</td><td>Create a Tab, when there is none, or Move to the next or previous Tab</td></tr>
