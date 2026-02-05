@@ -91,6 +91,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </tbody>
 </table>
 
+<!--
 ## Execution & Debug
 <table>
   <thead>
@@ -100,6 +101,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td>F5 F6 F7 F8</td><td>Will be used, to execute commands</td></tr>
   </tbody>
 </table>
+-->
 
 ## Git
 <table>
