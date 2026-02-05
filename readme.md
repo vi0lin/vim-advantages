@@ -92,6 +92,7 @@ Therefore I implement the directory traversing myself.<br>
 Moving towards and away from the cached target is possibile. This simply changes the CWD of the current buffer. And filechecking within the current directory is simply made.</p>
 </td></tr>
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature, that filters the list to contain the given keystrokes</td></tr>
+    <tr><td>any [a-zA-Z0-9]</td><td >Search</td><td>Unimplemented</td></tr>
     <tr><td>C-,</td><td colspan=2>Set CWD ..</td></tr>
     <tr><td>C-.</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
     <tr><td>Up/Down/h/j</td><td colspan=2>Select a file or folder</td></tr>
