@@ -119,7 +119,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td>Command</td><td>Key</td><td>Feature</td></tr>
   </thead>
   <tbody>
-    <tr><td colspan=2>My vim configuration has a hidden file where my account details for vi0lin on github.com are stored.</td></tr>
+    <tr><td colspan=3>My vim configuration has a hidden file where my account details for vi0lin on github.com are stored.</td></tr>
     <tr><td>:Push</td><td></td><td>Pushes The File to Github</td></tr>
     <tr><td>:PushRepo</td><td></td><td>Pushes The Repo to Github</td></tr>
   </tbody>
