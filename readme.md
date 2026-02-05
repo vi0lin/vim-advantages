@@ -13,9 +13,17 @@
 | :PushRepo        | Pushes The Repo to Github |
 
 # Installation
-> [!WARNING]
-> The project is in an unstable state. Do not use it, as it may contain errors.
+```
+sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
+```
 
+```
+call plug#begin()
+  Plug 'vi0lin/vim-advantages'
+call plug#end()
+:PlugInstall
+```
+<!--
 You Can Choose Installing vim-advantages Using 1. or 2.
 ## 1. Install This Project
 Executing This Shellscript, Anywhere In Your Terminal. It will automatically install Plug.vim in your vim installation and automatically execute step #2
@@ -46,7 +54,7 @@ call plug#end()
 
 :PlugInstall
 ```
-
+-->
 
 <!--
 # Vim-Advantages
