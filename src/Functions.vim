@@ -1341,29 +1341,42 @@ function! s:close_often(winid, key) abort
   elseif k == ct['<C-,>']
     " call CD('..')
     " exec bufnr('$') bufdo CD(WFilePrev())
-    call CD(WFilePrev())
-    echo CWD()
+    " call CD(g:stepFile_cwd)
+    " call CD(WFilePrev())
+    " let g:stepFile_cwd=CWD()
+    " exec 'cd '..getcwd()
+    " echo getcwd()
+    " call chdir('..')
+    " echo CWD() bufnr()
     " return 1
     " call CD(WFilePrev())
-    call s:stepFile_repopup(a:winid)
+
+    " call CD(GetParentDir(g:path))
+    " exec 'cd '..g:path
+    " call CD(WFilePrev())
+    " call chdir(s:path..'/..')
+    call s:stepFile_repopup(a:winid, WFilePrev())
+    return 1
   elseif k == ct['<C-.>']
-    call CD(WFileNext())
+    " call CD(WFileNext())
     " let entry=g:temp_files_list[g:temp_files_index]
     " if isdirectory(entry)
-      " call CD(entry)
-      call s:stepFile_repopup(a:winid)
-uid   " endif
+    " call CD(entry)
+    call s:stepFile_repopup(a:winid, WFileNext())
+    return 1
+    " endif
   elseif k == ct['<C-p>']
     call popup_close(a:winid)
     call OpenFileFZFProject()
   elseif k == ct['<Enter>']
     let entry=g:temp_files_list[g:temp_files_index]
     if isdirectory(entry)
-      call CD(entry)
-      call s:stepFile_repopup(a:winid)
+      call s:stepFile_repopup(a:winid, entry)
+      return 1
     elseif filereadable(entry)
       exec "e! "..entry
       unlet g:temp_files_list
+      return 1
     endif
     " let entry=g:temp_files_list[g:temp_files_index]
     " exec "e! "..entry
@@ -1393,11 +1406,15 @@ function s:stepFile_init_index()
   let g:temp_files_index=index(g:temp_files_list, "./".file)
 endfunction
 
-function s:stepFile_repopup(winid)
+function s:stepFile_repopup(winid, path='')
   call popup_close(a:winid)
-  call InitFile_popup()
-  " call NextFile_popup(0)
-  call s:stepFile_popup(0, 0)
+  if a:path=='..'
+    call CD(WFilePrev())
+  elseif a:path==''
+  else
+    call CD(a:path)
+  endif
+  call StepFile_popup(0, 0)
 endfunction
 
 
@@ -1412,7 +1429,7 @@ function s:stepFile_open(winid=-1)
   endif
 endfunction
 
-function s:stepFile_popup(step, performFileOpening)
+function s:stepFile_popup(step=0, performFileOpening=0)
   " let x=0
   " for i in l
   "   let l[x]=path.."/"..i
@@ -1421,9 +1438,12 @@ function s:stepFile_popup(step, performFileOpening)
   " if !exists(g:temp_files_index)
   "   let g:temp_files_index=0
   " endif
+  let g:temp_files_list=readdir('.')
 
   call s:stepFile_init_index()
   call s:stepFile_index(a:step)
+
+  " let g:stepFile_cwd=CWD()
 
   if a:performFileOpening
     call s:stepFile_open()
@@ -1531,34 +1551,29 @@ function PreviousFile_completefunc()
   call ShowMyCustomComplete()
 endfunction
 
-function InitFile_popup()
-  " Todo
-  " Carefully
-  " Critical
-  " let path=expand('%:h')
-  let path=CWD()
-  " let g:temp_files_list=systemlist('find '.path.' -maxdepth 1 -type f')
-  " if !exists('g:temp_files_list')
-  "   " let g:temp_files_list=systemlist('find '.path.' -maxdepth 1')
-  "   " let files=readdir('.', 'v:val !~# "^\."')
-  "   let items=readdir('.', {v->{
-  "         \ 'name': v,
-  "         \ 'dir': isdirecotry(v),
-  "         \ 'link': gettype(v) == 'link'
-  "         \ }})
-  "   let items=readdir('.')
-  "   " let g:temp_files_list=sort(items, {a,b -> a.dir ? -1 : b.dir ? 1 : a.name > # b.name})
-  "   let g:temp_files_list=items
-  " endif
-  let g:temp_files_list=readdir('.')
-endfunction
+" function InitFile_popup()
+"   " Todo
+"   " Carefully
+"   " Critical
+"   " let path=expand('%:h')
+"   let g:path=CWD()
+"   " let g:temp_files_list=systemlist('find '.path.' -maxdepth 1 -type f')
+"   " if !exists('g:temp_files_list')
+"   "   " let g:temp_files_list=systemlist('find '.path.' -maxdepth 1')
+"   "   " let files=readdir('.', 'v:val !~# "^\."')
+"   "   let items=readdir('.', {v->{
+"   "         \ 'name': v,
+"   "         \ 'dir': isdirecotry(v),
+"   "         \ 'link': gettype(v) == 'link'
+"   "         \ }})
+"   "   let items=readdir('.')
+"   "   " let g:temp_files_list=sort(items, {a,b -> a.dir ? -1 : b.dir ? 1 : a.name > # b.name})
+"   "   let g:temp_files_list=items
+"   " endif
+" endfunction
 
-function NextFile_popup(performFileOpening)
-  call s:stepFile_popup(1, a:performFileOpening)
-endfunction
-
-function PreviousFile_popup(performFileOpening)
-  call s:stepFile_popup(-1, a:performFileOpening)
+function StepFile_popup(step, performFileOpening)
+  call s:stepFile_popup(a:step, a:performFileOpening)
 endfunction
 
 function NextFile()
