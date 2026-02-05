@@ -3,32 +3,28 @@
 # Features
 | Key | Function |
 | :--- | :--- |
-| C p              | Fuzzy Finder Integration (FZF) |
-| C S p            | Fuzzy Finder Integration (FZF) |
-| C A p            | Fuzzy Finder Integration (FZF) |
-| Tab              | Tab Trough Files in CWD        |
-| C ,              | Set CWD ..                     | 
-| C .              | Restore Previous CWD (traverse one folder up towards the last saved state) |
-| :Push            | Pushes The File to Github |
-| :PushRepo        | Pushes The Repo to Github |
 <table>
   <thead>
     <tr>
-      <th>Test</th>
-      <th>Test</th>
-      <th>Test</th>
-   </tr>
+      <th>Key</th>
+      <th>Feature</th>
+    </tr>
   </thead>
   <tbody>
     <tr>
-      <td rowspan=2>Test</td>
-      <td>Test</td>
-      <td>Test</td>
-   </tr>
+      <td>C p</td>
+      <td>Fuzzy Finder Integration (FZF) </td>
+    </tr>
     <tr>
-      <td colspan=2>Test</td>
-      <td>Test</td>
-   </tr>
+      <td>C S p</td>
+      <td>Fuzzy Finder Integration (FZF) </td>
+    </tr>
+    <tr><td>C A p</td><td>Fuzzy Finder Integration (FZF)</td></tr>
+    <tr><td>Tab</td><td>Tab Trough Files in CWD</td></tr>
+    <tr><td>C ,</td><td>Set CWD ..</td></tr>
+    <tr><td>C .</td><td>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
+    <tr><td>:Push</td><td>Pushes The File to Github</td></tr>
+    <tr><td>:PushRepo</td><td>Pushes The Repo to Github</td></tr>
   </tbody>
 </table>
 
