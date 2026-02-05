@@ -145,7 +145,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
   </thead>
   <tbody>
-    <tr><td colspan=3>I am gonna switch to coc.nvim and use the LSP and clang for learning c++.</td></tr>
+    <tr><td colspan=3>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
   </tbody>
 </table>
 
