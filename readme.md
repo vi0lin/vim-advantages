@@ -139,6 +139,7 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td colspan=3>The Execution Keymappings will be stored in a .vim-advantages file in the vim-advantages installation dir. So every file buffer preserves its own exeuction scripts. Wherether installing on a remote machine, run local, build, debug, setting up, installing and running services, remote or locally - it all will be effortless and comfortable quickly accessible on keypress, well documented easy adaptable.</td></tr>
     <tr><td>F5 F6 F7 F8</td><td>Make Makefile CMake Clangd integration</td><td>Its All unconsidered and unfinished.</td></tr>
     <tr><td>:Help</td><td>Prints the current commands accordingly to the file in a popup</td><td>Unimplemented</td></tr>
+    <tr><td>Models</td><td>Loading Servers / Command / Tool / Compiler Chains</td><td>Unimplemented</td></tr>
   </tbody>
 </table>
 
@@ -163,7 +164,7 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td>:GitAddCWD</td><td></td><td>Git Add Files In CWD</td></tr>
     <tr><td>:GitAddRepo</td><td></td><td>Git Add Files In The Repository</td></tr>
     <tr><td colspan=2>There are multiple unquoted Git commands</td><td></td></tr>
-    <tr><td colspan=2>Lazy Git</td>Not yet integrated.<td></td></tr>
+    <tr><td colspan=2>Lazy Git</td><td>Not yet integrated.</td></tr>
   </tbody>
 </table>
 
