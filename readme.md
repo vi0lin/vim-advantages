@@ -154,6 +154,11 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </tbody>
 </table>
 
+```
+VIM is buggy
+EMACS SEEMS TO BE ERROR PRONE
+```
+
 <!--
 You Can Choose Installing vim-advantages Using 1. or 2.
 ## 1. Install This Project
