@@ -9,6 +9,7 @@
     <tr><td colspan=2>You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>The first part, gets highlighted accordingly to your cwd.<br>Step up with <code>C ,</code> and step in with <code>C .</code></td></tr>
   </tbody>
 </table>
+
 <table>
   <thead>
     <tr>
@@ -37,6 +38,22 @@
   </tbody>
 </table>
 
+<table>
+  <thead>
+    <tr><td colspan=2><b>Window Manager</b></td></tr>
+    <tr><td>Key</td><td>Feature</td></tr>
+  </thead>
+  <tbody>
+    <tr><td>, [hjkl]</td><td>Adds a buffer (left,below,above,right)</td></tr>
+    <tr><td>,, [hjkl]</td><td>Adds a terminal (left,below,above,right)</td></tr>
+    <tr><td>CS [hjkl]</td><td>Move Window</td></tr>
+    <tr><td>CS [hjkl]</td><td>Move Window To The Foremost</td></tr>
+    <tr><td>C q</td><td>Close Window</td></tr>
+    <tr><td>C S q</td><td>Close Tab</td></tr>
+    <tr><td>A [hl]</td><td>Create a Tab, when there is none, or Move to the next or previous Tab</td></tr>
+    <tr><td colspan=2>Execution</td></tr>
+  </tbody>
+</table>
 # Installation
 ```
 sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
