@@ -129,17 +129,15 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
 </table>
 -->
 
-<!--
 ## Path Completion
 <table>
   <thead>
     <tr><td>Key</td><td>Feature</td></tr>
   </thead>
   <tbody>
-    <tr><td></td><td></td></tr>
+    <tr><td>Path Completion is Buggy, its commented out</td><td></td></tr>
   </tbody>
 </table>
--->
 
 <!--
 You Can Choose Installing vim-advantages Using 1. or 2.
