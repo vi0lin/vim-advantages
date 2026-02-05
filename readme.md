@@ -54,6 +54,7 @@
     <tr><td colspan=2>Execution</td></tr>
   </tbody>
 </table>
+
 # Installation
 ```
 sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
