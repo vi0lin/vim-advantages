@@ -88,9 +88,10 @@ That means there is no good solution for archieving further functionality, but r
 Handling keystrokes, like vims popup_create function, are less programmable with FZF.<br>
 Therefore I implement the directory traversing myself.<br>
 <code>Enter</code> opens a file, or goes into a Folder.<br>
-Moving towards and away from the cached target is possibile.<br>
-Simply changes to the CWD of the current buffer
-And filechecking within the current directory is simply made.</td></tr>
+<p>
+Moving towards and away from the cached target is possibile.
+Simply changes to the CWD of the current buffer. And filechecking within the current directory is simply made.</p>
+</td></tr>
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature</td></tr>
     <tr><td>C-,</td><td colspan=2>Set CWD ..</td></tr>
     <tr><td>C-.</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
