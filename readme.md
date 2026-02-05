@@ -82,7 +82,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
       <td>Fuzzy Finder Integration (FZF) </td>
       <td>Git Repository Path</td>
     </tr>
-    <tr><td>C-A-p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td><td></td></tr>
+    <tr><td>C-A-p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td></tr>
     <tr><td colspan=3>The FZF binary-call bottlenecks with a bad interface.<br>On <code>Enter</code> Key, it only delivers the file path, that then can possibily be saved in a temporary file.<br>
 That means there is no good solution for archieving further functionality, but retrieving the FZF found file or files in a list.<br>
 Handling keystrokes, like vims popup_create function, are less programmable with FZF.<br>
