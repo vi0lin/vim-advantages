@@ -11,6 +11,26 @@
 | C .              | Restore Previous CWD (traverse one folder up towards the last saved state) |
 | :Push            | Pushes The File to Github |
 | :PushRepo        | Pushes The Repo to Github |
+<table>
+  <thead>
+    <tr>
+      <th>Test</th>
+      <th>Test</th>
+      <th>Test</th>
+   </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan=2>Test</td>
+      <td>Test</td>
+      <td>Test</td>
+   </tr>
+    <tr>
+      <td colspan=2>Test</td>
+      <td>Test</td>
+   </tr>
+  </tbody>
+</table>
 
 # Installation
 ```
