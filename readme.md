@@ -3,6 +3,14 @@
 # Features
 <table>
   <thead>
+    <tr><td colspan=2><b>Quick Filesystem Traversal</b></td></tr>
+  </thead>
+  <tbody>
+    <tr><td colspan=2>You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>The first part, gets highlighted accordingly to your cwd.<br>Step up with <code>C ,</code> and step in with <code>C .</code></td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
     <tr>
       <th>Key</th>
       <th>Feature</th>
@@ -26,14 +34,6 @@
     <tr><td>C .</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
     <tr><td>:Push</td><td colspan=2>Pushes The File to Github</td></tr>
     <tr><td>:PushRepo</td><td colspan=2>Pushes The Repo to Github</td></tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr><td colspan=2><b>Quick Filesystem Traversal</b></td></tr>
-  </thead>
-  <tbody>
-    <tr><td colspan=2>You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>The first part, gets highlighted accordingly to your cwd.<br>Step up with <code>C ,</code> and step in with <code>C .</code></td></tr>
   </tbody>
 </table>
 
