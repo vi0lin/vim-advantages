@@ -7,28 +7,25 @@
       <th>Key</th>
       <th>Feature</th>
       <th>Info</th>
-      <th>Todo</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>C p</td>
       <td>Fuzzy Finder Integration (FZF) </td>
-      <td>CWD</td>
-      <td></td>
+      <td>Workdir of the current File / or Quick Filesystem Traversal workdir</td>
     </tr>
     <tr>
       <td>C S p</td>
       <td>Fuzzy Finder Integration (FZF) </td>
       <td>Git Repository Path</td>
-      <td></td>
     </tr>
     <tr><td>C A p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td><td></td></tr>
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Searching</td></tr>
-    <tr><td>C ,</td><td colspan=3>Set CWD ..</td></tr>
-    <tr><td>C .</td><td colspan=3>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
-    <tr><td>:Push</td><td colspan=3>Pushes The File to Github</td></tr>
-    <tr><td>:PushRepo</td><td colspan=3>Pushes The Repo to Github</td></tr>
+    <tr><td>C ,</td><td colspan=2>Set CWD ..</td></tr>
+    <tr><td>C .</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
+    <tr><td>:Push</td><td colspan=2>Pushes The File to Github</td></tr>
+    <tr><td>:PushRepo</td><td colspan=2>Pushes The Repo to Github</td></tr>
   </tbody>
 </table>
 <table>
