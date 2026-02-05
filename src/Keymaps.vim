@@ -313,6 +313,9 @@ nnoremap <C-Tab> :call NextFile_completefunc()<cr>
 nnoremap <C-S-Tab> :call PreviousFile_popup(0)<cr>
 nnoremap <C-Tab> :call NextFile_popup(0)<cr>
 
+nnoremap <S-Tab> :call PreviousFile_popup(0)<cr>
+nnoremap <Tab> :call NextFile_popup(0)<cr>
+
 nnoremap <leader>cd :call MakeDirCurrentCWD()<cr>
 " :MakeDirCurrentProject<cr>
 " nnoremap <leader>.. :call CD('..')<cr>

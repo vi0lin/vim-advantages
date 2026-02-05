@@ -1282,17 +1282,24 @@ endfunction
 function! s:close_often(winid, key) abort
   let k = KeyToArray(a:key)
 
-  let ct = { '<C-Tab>': [ 128, 252, 4, 9 ], '<C-S-Tab>': [ 128, 252, 4, 128, 107, 66 ] }
+  let ct = { '<C-Tab>': [ 128, 252, 4, 9 ],
+        \ '<C-S-Tab>': [ 128, 252, 4, 128, 107, 66 ],
+        \ '<C-p>': [ 16 ],
+        \ '<S-Tab>': [ 128, 107, 66 ],
+        \ '<Tab>': [ 9 ],
+        \ '<Up>': [ 128, 107, 117 ],
+        \ '<Down>': [ 128, 107, 100 ]
+        \ }
   " if a:key ==# "<C-Tab>" || a:key ==# "<80><fc>"
   " if a:key ==# "<C-Tab>" || a:key ==# "\<80>\<fc>\<04>"
-  if k == ct['<C-Tab>']
+  if k == ct['<C-Tab>'] || k == ct['<Tab>'] || k == ct['<Down>']
     call popup_close(a:winid)
     call NextFile_popup(1)
     return 1
   " elseif a:key ==# "<C-S-Tab>" || a:key ==# "\<80>\<fc>\\<80>kB"
-  elseif k == ct['<C-S-Tab>']
-    call popup_close(a:winid)
-    call PreviousFile_popup(1)
+  elseif k == ct['<C-S-Tab>'] || k == ct['<S-Tab>'] || k == ct['<Up>']
+      call popup_close(a:winid)
+      call PreviousFile_popup(1)
     return 1
   " else
   "   call popup_close(a:winid)
@@ -1306,6 +1313,12 @@ function! s:close_often(winid, key) abort
   "   call PreviousFile_popup()
   "   return 0
   " "   return 0
+  elseif k == ct['<C-p>']
+    call popup_close(a:winid)
+    call OpenFileFZFProject()
+  else
+    echom a:key
+    echom k
   endif
 
   call popup_close(a:winid)
@@ -1340,6 +1353,7 @@ function s:stepFile_popup(step, performFileOpening)
 
   let winid=popup_create(l, #{
         \ pos: 'center',
+        \ title: '  '.w:cwd.' ',
         \ zindex: 200,
         \ maxheight: 20,
         \ minwidth: 40,
