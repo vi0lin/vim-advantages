@@ -156,6 +156,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td>C-F2</td><td>Toggle Word Wrap</td><td></td></tr>
     <tr><td>,,,-l</td><td>Toggle Linenumbers</td><td></td></tr>
     <tr><td>,,,-L</td><td>Toggle Linenumbers Global</td><td></td></tr>
+    <tr><td>C-s</td><td>Saves the file - Reloads it, when it is a vim file</td><td></td></tr>
   </tbody>
 </table>
 
