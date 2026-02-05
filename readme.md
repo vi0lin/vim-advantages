@@ -109,7 +109,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td colspan=3>LSP and clang<br>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
     <tr><td colspan=3>The Execution Keymappings will be stored in a .vim-advantages file in the vim-advantages installation dir. So every file buffer preserves its own exeuction scripts. Wherether installing on a remote machine, run local, build, debug, setting up, installing and running services, remote or locally - it all will be effortless and comfortable quickly accessible on keypress, well documented easy adaptable.</td></tr>
     <tr><td>F5 F6 F7 F8</td><td>Make Makefile CMake Clangd integration</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>:Help</td><td colspan=2>Prints The Current Commands accordingly to the file in a popup</td></tr>
+    <tr><td>:Help</td><td colspan=2>Will print the current commands accordingly to the file in a popup</td></tr>
   </tbody>
 </table>
 
