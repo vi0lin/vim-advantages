@@ -10,6 +10,18 @@
   </tbody>
 </table>
 
+<!--
+<table>
+  <thead>
+    <tr><td colspan=2><b>Remote Machines</b></td></tr>
+  </thead>
+  <tbody>
+    <tr><td colspan=2></td></tr>
+  </tbody>
+</table>
+-->
+
+## File Traversal
 <table>
   <thead>
     <tr>
@@ -38,9 +50,9 @@
   </tbody>
 </table>
 
+## Window Manager
 <table>
   <thead>
-    <tr><td colspan=2><b>Window Manager</b></td></tr>
     <tr><td>Key</td><td>Feature</td></tr>
   </thead>
   <tbody>
