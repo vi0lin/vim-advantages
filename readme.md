@@ -48,7 +48,7 @@ call plug#end()
 ```
 
 
-```
+<!--
 # Vim-Advantages
 This project is considered a library or plugin
 that can be installed with all features if
@@ -170,4 +170,4 @@ Donate to support my work. Every gesture helps me finalize my projects.
 - Keeping the code tidy and organized.
 - Removing unnecessary code.
 - Preparing to upload files soon.
-```
+-->
