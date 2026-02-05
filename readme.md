@@ -83,7 +83,10 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
       <td>Git Repository Path</td>
     </tr>
     <tr><td>C-A-p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td><td></td></tr>
-    <tr><td colspan=3>Fuzzy finders c++ binary call bottlenecks with a bad interface - it only delivers the file path enter and has no possibile solution for handling keystrokes, like vims popup_create function does. Thats, why I implement the directory traversing myself, with letting <Enter> affect my current work directory and moving in and out to the cached target.</td></tr>
+    <tr><td colspan=3>The FZF binary-call bottlenecks with a bad interface - it only delivers the file path on enter that can possibile be saved in a temporary file. That means there is no good solution for archieving functionality but retrieving the FZF found file or files in a list.
+Hhandling keystrokes, like vims popup_create function, are less programmable.
+Thats, why I implement the directory traversing myself,
+with letting <Enter> affect my current work directory and moving towards and away from the cached target, simply change the whole CWD of the current buffer and look up, whats going on next to the file, I am currently working on.</td></tr>
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature</td></tr>
     <tr><td>C-,</td><td colspan=2>Set CWD ..</td></tr>
     <tr><td>C-.</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
