@@ -71,8 +71,6 @@ Then, `<Tab>` or `<C-p>` uses this pointer for effectively moving around the ope
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature</td></tr>
     <tr><td>C ,</td><td colspan=2>Set CWD ..</td></tr>
     <tr><td>C .</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
-    <tr><td>:Push</td><td colspan=2>Pushes The File to Github</td></tr>
-    <tr><td>:PushRepo</td><td colspan=2>Pushes The Repo to Github</td></tr>
   </tbody>
 </table>
 
@@ -100,6 +98,29 @@ Then, `<Tab>` or `<C-p>` uses this pointer for effectively moving around the ope
   </thead>
   <tbody>
     <tr><td colspan=2>Execution</td></tr>
+  </tbody>
+</table>
+-->
+
+## Git
+<table>
+  <thead>
+    <tr><td>Command</td><td>Key</td><td>Feature</td></tr>
+  </thead>
+  <tbody>
+    <tr><td>:Push</td><td></td><td>Pushes The File to Github</td></tr>
+    <tr><td>:PushRepo</td><td></td><td>Pushes The Repo to Github</td></tr>
+  </tbody>
+</table>
+
+<!--
+## Lazy Git Integration
+<table>
+  <thead>
+    <tr><td>Key</td><td>Feature</td></tr>
+  </thead>
+  <tbody>
+    <tr><td colspan=2>Lazy Git</td></tr>
   </tbody>
 </table>
 -->
