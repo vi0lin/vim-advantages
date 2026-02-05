@@ -83,12 +83,12 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
       <td>Git Repository Path</td>
     </tr>
     <tr><td>C-A-p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td><td></td></tr>
-    <tr><td colspan=3>The FZF binary-call bottlenecks with a bad interface - on <code>Enter</code> Key, it only delivers the file path, that then can possibily be saved in a temporary file.
-That means there is no good solution for archieving further functionality, but retrieving the FZF found file or files in a list.
-Handling keystrokes, like vims popup_create function, are less programmable with FZF.
-Therefore I implement the directory traversing myself.
-<code>Enter</code> opens a file, or goes into a Folder.
-Moving towards and away from the cached target is possibile.
+    <tr><td colspan=3>The FZF binary-call bottlenecks with a bad interface.<br>On <code>Enter</code> Key, it only delivers the file path, that then can possibily be saved in a temporary file.<br>
+That means there is no good solution for archieving further functionality, but retrieving the FZF found file or files in a list.<br>
+Handling keystrokes, like vims popup_create function, are less programmable with FZF.<br>
+Therefore I implement the directory traversing myself.<br>
+<code>Enter</code> opens a file, or goes into a Folder.<br>
+Moving towards and away from the cached target is possibile.<br>
 Simply changes to the CWD of the current buffer
 And filechecking the withing the current directory is simply made.</td></tr>
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature</td></tr>
