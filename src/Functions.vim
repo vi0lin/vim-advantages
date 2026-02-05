@@ -1,9 +1,39 @@
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
 
+function Help()
+  " if getbufvar(bufnr(), '&buftype') == 'terminal'
+  "   echo "Terminal"
+  " elseif getbufvar(bufnr(), '&buftype') == 'buffer'
+  "   echo "Buffer"
+  " endif
+  echo "F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12"
+endfunction
+
 function DeleteFile()
   call delete(expand('%'))
   bd
+endfunction
+
+function JoinSplits(dir)
+  " call win_gotoid(win_getid(winnr('l')))
+  " call win_gotoid(win_getid(winnr('1l')))
+  let total=winnr('$')
+  let winid=win_getid()
+  let target=winnr(a:dir)
+  let buf=bufnr()
+  " echo "total:" total
+    \.", win:"win
+    \.", target:"target
+    \.", a:dir:"a:dir
+  " exec "wincmd"a:dir
+  " exec target'windo echo winnr()'
+  exec "wincmd"a:dir
+  split
+  exec "b"buf
+  let new_winid=win_getid()
+  call win_gotoid(winid) | close
+  call win_gotoid(new_winid)
 endfunction
 
 function DebugPaths()
@@ -100,6 +130,17 @@ function GetWinDirectionIfTerm(direction)
     endif
   endfor
   return -1
+endfunction
+
+function BufType(nr)
+  echo getbufvar(a:nr, 'buftype')
+endfunction
+
+function BufIsBuffer(nr)
+  if getbufvar(a:nr, '&buftype') == 'buffer'
+    return 1
+  endif
+  return 0
 endfunction
 
 function BufIsTerminal(nr)
@@ -450,51 +491,53 @@ endfunction
 command -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
 command -range -nargs=0 Diff <line1>,<line2>:call GitDiff()
 function GitDiff()
-  !git --no-pager diff --text %
+  " !clear && git --no-pager diff --text %
+  !clear && git diff --text %
 endfunction
 
 command -range -nargs=0 GitDiffAll <line1>,<line2>:call GitDiffAll()
 command -range -nargs=0 DiffAll <line1>,<line2>:call GitDiffAll()
 function GitDiffAll()
-  !git --no-pager diff --text
+  " !clear && git --no-pager diff --text
+  !clear && git diff --text
 endfunction
 
 command -range -nargs=0 GitDiffCWD <line1>,<line2>:call GitDiffCWD()
 function GitDiffCWD()
-  !git diff
+  !clear && git diff
 endfunction
 
 command -range -nargs=0 GitAdd <line1>,<line2>:call GitAdd()
 function GitAdd()
-  !git add %
+  !clear && git add %
 endfunction
 
 command -range -nargs=0 GitAddCWD <line1>,<line2>:call GitAddCWD()
 function GitAddCWD()
-  !git add .
+  !clear && git add .
   " || git add -A
 endfunction
 
 command -range -nargs=0 GitAddRepo <line1>,<line2>:call GitAddRepo()
 function GitAddRepo()
-  " echo '!git add'w:git
-  exec '!git add'w:git
+  " echo '!clear && git add'w:git
+  exec '!clear && git add'w:git
   " || git add -A
 endfunction
 
 command -range -nargs=0 GitCommit <line1>,<line2>:call GitCommit()
 function GitCommit(message='Commited')
-  exec '!git commit -m "'..a:message..'"'
+  exec '!clear && git commit -m "'..a:message..'"'
 endfunction
 
 command -range -nargs=0 GitPush <line1>,<line2>:call GitPush()
 function GitPush()
-  !git push origin master
+  !clear && git push origin master
 endfunction
 
 command -range -nargs=0 GitStatus <line1>,<line2>:call GitStatus()
 function GitStatus()
-  !git status
+  !clear && git status
 endfunction
 
 if !exists('g:github_user') | let g:github_user='your_username' | endif
@@ -686,52 +729,54 @@ set tabpagemax=50
 " inoremap <S-Tab> <C-d>
 " set whichwrap+=<,>,[,]
 
-" Avoid These In A Function Call?
-" ---> Compact WILDMENU --: set wildmode=longest:list,full
-" ---> Compact WILDMENU --: set wildmode=longest:full,full
-" ---> Compact WILDMENU --: set wildignore=*.o,*.pyc,*/.git/*,*/node_modules/*
-" ---> Compact WILDMENU --: set completeopt=menuone,preview
-set wildmenu
-set wildoptions=pum
-set wildmode=longest,full
-set wildignorecase
-" set wildmode=
-" set wildignore=
-" set suffixes=
-" set suffixes-=@
-inoremap <silent> <expr> / pumvisible() ? "\<C-r>=<SID>avoid_double_slash()<CR>" : "/\<C-x>\<C-f>"
-inoremap <silent> <expr> <Space> pumvisible() ? "\<C-x>\<C-f>" : " "
-function! s:avoid_double_slash() abort
-  if getline('.')[col('.')-2] ==# '/'
-    return ''
-  endif
-  return "/\<C-x>\<C-f>"
-endfunction
-" lacks integrity
-function LastPath()
-  let last_path=""
-  let line=getline('.')
-  let last_slash=stridx(line,'/')
-  if last_slash==-1
-    let last_path=line
-  else
-    let last_path=line[last_slash :]
-  endif
-  return last_path
-endfunction
-function IsLastPath()
-  return 1
-endfunction
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : IsLastPath() ? "\<C-x>\<C-f>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<C-r>=<SID>my_path_complete()<CR>" : "\<CR>\<C-r>=<SID>my_path_complete()<CR>"
-inoremap <expr> <C-e>   pumvisible() ? "\<C-e>" : "\<C-e>"
-function! s:my_path_complete() abort
-  if getline('.')[col('.')-2] ==# '/'
-    return "\<C-x>\<C-f>"
-  endif
-  return "\<C-c>"
+function PathCompletion()
+  " Avoid These In A Function Call?
+  " ---> Compact WILDMENU --: set wildmode=longest:list,full
+  " ---> Compact WILDMENU --: set wildmode=longest:full,full
+  " ---> Compact WILDMENU --: set wildignore=*.o,*.pyc,*/.git/*,*/node_modules/*
+  " ---> Compact WILDMENU --: set completeopt=menuone,preview
+  set wildmenu
+  set wildoptions=pum
+  set wildmode=longest,full
+  set wildignorecase
+  " set wildmode=
+  " set wildignore=
+  " set suffixes=
+  " set suffixes-=@
+  inoremap <silent> <expr> / pumvisible() ? "\<C-r>=<SID>avoid_double_slash()<CR>" : "/\<C-x>\<C-f>"
+  inoremap <silent> <expr> <Space> pumvisible() ? "\<C-x>\<C-f>" : " "
+  function! s:avoid_double_slash() abort
+    if getline('.')[col('.')-2] ==# '/'
+      return ''
+    endif
+    return "/\<C-x>\<C-f>"
+  endfunction
+  " lacks integrity
+  function LastPath()
+    let last_path=""
+    let line=getline('.')
+    let last_slash=stridx(line,'/')
+    if last_slash==-1
+      let last_path=line
+    else
+      let last_path=line[last_slash :]
+    endif
+    return last_path
+  endfunction
+  function IsLastPath()
+    return 1
+  endfunction
+  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : IsLastPath() ? "\<C-x>\<C-f>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  inoremap <expr> <CR>    pumvisible() ? "\<C-y>" : "\<CR>"
+  inoremap <expr> <CR>    pumvisible() ? "\<C-y>\<C-r>=<SID>my_path_complete()<CR>" : "\<CR>\<C-r>=<SID>my_path_complete()<CR>"
+  inoremap <expr> <C-e>   pumvisible() ? "\<C-e>" : "\<C-e>"
+  function! s:my_path_complete() abort
+    if getline('.')[col('.')-2] ==# '/'
+      return "\<C-x>\<C-f>"
+    endif
+    return "\<C-c>"
+  endfunction
 endfunction
 
 set noswapfile
@@ -1217,6 +1262,148 @@ function IsPossibileDirectory(path)
   return 0
 endfunction
 
+function s:stepFile_completefunc(step)
+  let path=expand('%:h')
+  let l=systemlist('find '.path.' -maxdepth 1 -type f')
+  let file=expand('%:t')
+  let g:matches=l
+endfunction
+
+function KeyToArray(key)
+  " echo len(a:key)
+  let out=[]
+  for a in a:key
+    call extend(out,[char2nr(a)])
+  endfor
+  return out
+endfunction
+
+" if !exists('*s:close_often')
+function! s:close_often(winid, key) abort
+  let k = KeyToArray(a:key)
+
+  let ct = { '<C-Tab>': [ 128, 252, 4, 9 ], '<C-S-Tab>': [ 128, 252, 4, 128, 107, 66 ] }
+  " if a:key ==# "<C-Tab>" || a:key ==# "<80><fc>"
+  " if a:key ==# "<C-Tab>" || a:key ==# "\<80>\<fc>\<04>"
+  if k == ct['<C-Tab>']
+    call popup_close(a:winid)
+    call NextFile_popup(1)
+    return 1
+  " elseif a:key ==# "<C-S-Tab>" || a:key ==# "\<80>\<fc>\\<80>kB"
+  elseif k == ct['<C-S-Tab>']
+    call popup_close(a:winid)
+    call PreviousFile_popup(1)
+    return 1
+  " else
+  "   call popup_close(a:winid)
+  "   return 1
+  " elseif index(['j','<Down>'], a:key)>=0
+  "   call popup_close(a:winid)
+  "   call NextFile_popup()
+  "   return 0
+  " elseif index(['k','<Up>'], a:key)>=0
+  "   call popup_close(a:winid)
+  "   call PreviousFile_popup()
+  "   return 0
+  " "   return 0
+  endif
+
+  call popup_close(a:winid)
+  return 0
+  return 1 " Eat All
+
+endfunction
+" endif
+
+function s:stepFile_popup(step, performFileOpening)
+  let path=expand('%:h')
+  let l=systemlist('find '.path.' -maxdepth 1 -type f')
+  let file=expand('%:t')
+
+  " let x=0
+  " for i in l
+  "   let l[x]=path.."/"..i
+  "   let x=x+1
+  " endfor
+  let length=len(l)
+  let length=Length(l)
+  " let index=indexof(l, { i,v-> v:val =~ file })
+  let index=index(l, "./".file)
+  if a:performFileOpening
+    let index=index+(a:step)
+  endif
+  let index=Mod(index, length)
+
+  if a:performFileOpening
+    exec "e "..l[index]
+  endif
+
+  let winid=popup_create(l, #{
+        \ pos: 'center',
+        \ zindex: 200,
+        \ maxheight: 20,
+        \ minwidth: 40,
+        \ maxwidth: 80,
+        \ border: [1,1,1,1],
+        \ borderchars: ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
+        \ padding: [0,1,0,1],
+        \ cursorline: 1,
+        \ filter: function('s:close_often'),
+        \ mapping: 0
+        \ })
+        " \ filtermode: 'n',
+  " if index>=0 && index<=len(l)
+  call win_execute(winid, printf('call cursor(%d,1)', index+1))
+  " endif
+  " optional
+  " call win_execute(winid, 'setlocal cursorlineopt=line')
+endfunction
+
+" function ListDirFiles(findstart, base) abort
+"   if a:findstart
+"     let line=getline('.')
+"     let start=col('.')-1
+"     while start > 0 && line[start -1 ] =~ '\f'
+"       let start -= 1
+"     endwhile
+"     return start
+"   else
+"     let matches = []
+"     for fname in s:files
+"       if fname =~? '^' .. escape(a:base, '\')
+"         call add(matches, fname)
+"       endif
+"     endfor
+"     let cur=expand('%:t')
+"     call sort(matches, {a,b -> a == cur ? -1 : b == cur ? 1 : a > b})
+"     return matches
+"   endif
+" endfunction
+
+function MyCustomComplete(findstart, base)
+  if a:findstart
+  else
+    return filter(copy(g:matches), 'v:val =~ "^'. a:base .'"')
+  endif
+endfunction
+
+function ShowMyCustomComplete()
+  " let col=col('.') -1
+  " call complete(col, g:matches)
+  call feedkeys("i\<C-x>\<C-u>\<Esc>", 'in')
+  " function ShowListNow()
+  "   let col=col('.') -1
+  "   call complete(col, g:matches)
+  " endfunction
+  " call feedkeys('i", 'n')
+  " call feedkeys('\<C-r>=ShowListNow()\<CR>", 'n')
+endfunction
+
+" command! -nargs=* -complete=customlist,MyCmdComplete MyCmd echo "done"
+" function MyCmdComplete(ArgLead, CmdLine, CursorPos)
+"   return ['A', 'B', 'C']
+" endfunction
+
 function s:stepFile(step)
   let path=expand('%:h')
   let l=systemlist('find '.path.' -maxdepth 1 -type f')
@@ -1238,6 +1425,26 @@ function s:stepFile(step)
   " echo path
   " echo newindex length
   " echo l
+endfunction
+
+function NextFile_completefunc()
+  setlocal completefunc=MyCustomComplete
+  call s:stepFile_completefunc(1)
+  call ShowMyCustomComplete()
+endfunction
+
+function PreviousFile_completefunc()
+  setlocal completefunc=MyCustomComplete
+  call s:stepFile_completefunc(-1)
+  call ShowMyCustomComplete()
+endfunction
+
+function NextFile_popup(performFileOpening)
+  call s:stepFile_popup(1, a:performFileOpening)
+endfunction
+
+function PreviousFile_popup(performFileOpening)
+  call s:stepFile_popup(-1, a:performFileOpening)
 endfunction
 
 function NextFile()
@@ -2592,7 +2799,7 @@ function ToggleLineState()
 endfunction
 
 function StashAndFree(file)
-  !git stash save "my saved stash"
+  !clear && git stash save "my saved stash"
   exec "!git checkout ".a:file
   !git stash list
   !git stash pop

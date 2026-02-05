@@ -303,8 +303,15 @@ nnoremap <leader>o              :OpenFileCommandLineSameDir<CR>
 nnoremap <leader>.              :OpenFileCommandLineSameDir<CR>
 " nnoremap <Tab>              :OpenFileCommandLineSameDir<CR>
 nnoremap <C-i> <C-i>
+
 nnoremap <C-S-Tab> :call PreviousFile()<cr>
 nnoremap <C-Tab> :call NextFile()<cr>
+
+nnoremap <C-S-Tab> :call PreviousFile_completefunc()<cr>
+nnoremap <C-Tab> :call NextFile_completefunc()<cr>
+
+nnoremap <C-S-Tab> :call PreviousFile_popup(0)<cr>
+nnoremap <C-Tab> :call NextFile_popup(0)<cr>
 
 nnoremap <leader>cd :call MakeDirCurrentCWD()<cr>
 " :MakeDirCurrentProject<cr>
@@ -615,3 +622,36 @@ map <leader><C-S-F8> :call ConfigureExecute("F8", 1, 1)<cr>
 
 map <leader>rm :call DeleteFile()<cr>
 map <leader>n :call NewFile()<cr>
+
+
+" map <leader>< :norm d\<C-w>lGopG\<C-w>h
+" map <leader>< :execute 'normal! \<C-w>l'<cr>
+" map <leader>< :execute 'normal! \<C-w>l'<cr>
+" map <leader>< :execute 'normal! \<C-w>l'<cr>
+nmap <leader>< :norm yy<cr>
+  \:norm dd<cr>
+  \:wincmd l<cr>
+  \:norm gp<cr>
+  \:wincmd h<cr>
+
+vmap <leader>< :norm gvy<cr>
+  \:norm gvd<cr>
+  \:wincmd l<cr>
+  \:norm gp<cr>
+  \:wincmd h<cr>
+
+
+  " \:norm gvd<cr>
+
+" nnoremap . @@
+" noremap . @:
+" noremap . @a
+" nnoremap . @:
+" unmap .
+
+nnoremap <C-S-M-h> :echo JoinSplits("h")<cr>
+nnoremap <C-S-M-j> :echo JoinSplits("j")<cr>
+nnoremap <C-S-M-k> :echo JoinSplits("k")<cr>
+nnoremap <C-S-M-l> :echo JoinSplits("l")<cr>
+
+nnoremap <F1> :call Help()<cr>
