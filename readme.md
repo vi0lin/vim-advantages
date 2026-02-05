@@ -89,8 +89,7 @@ Handling keystrokes, like vims popup_create function, are less programmable with
 Therefore I implement the directory traversing myself.<br>
 <code>Enter</code> opens a file, or goes into a Folder.<br>
 <p>
-Moving towards and away from the cached target is possibile.
-Simply changes to the CWD of the current buffer. And filechecking within the current directory is simply made.</p>
+Moving towards and away from the cached target is possibile. This simply changes the CWD of the current buffer. And filechecking within the current directory is simply made.</p>
 </td></tr>
     <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature</td></tr>
     <tr><td>C-,</td><td colspan=2>Set CWD ..</td></tr>
