@@ -160,12 +160,14 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </tbody>
 </table>
 
+<!--
 ```
 VIM is buggy
 EMACS SEEMS TO BE ERROR PRONE
 
 YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES
 ```
+-->
 
 
 <!--
