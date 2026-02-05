@@ -163,7 +163,7 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td>:GitAdd</td><td></td><td>Git Add This File</td></tr>
     <tr><td>:GitAddCWD</td><td></td><td>Git Add Files In CWD</td></tr>
     <tr><td>:GitAddRepo</td><td></td><td>Git Add Files In The Repository</td></tr>
-    <tr><td colspan=2>There are multiple unquoted Git commands</td><td></td></tr>
+    <tr><td colspan=3>There are multiple unquoted Git commands</td></tr>
     <tr><td colspan=2>Lazy Git</td><td>Not yet integrated.</td></tr>
   </tbody>
 </table>
