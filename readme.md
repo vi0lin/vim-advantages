@@ -105,6 +105,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
     <tr><td>C-[F5 F6 F7 F8]</td><td>Sig Term</td><td>Its All unconsidered and unfinished.</td></tr>
     <tr><td>C-S-[F5 F6 F7 F8]</td><td>Redo Last Command</td><td>Its All unconsidered and unfinished.</td></tr>
     <tr><td colspan=3>Somehow remote machines must integrate well. I will be able, to perform execution in any file and any language. I focus on bash, python, c++, c, rust and vimscript.</td></tr>
+    <tr><td colspan=3>LSP and clang<br>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
   </tbody>
 </table>
 
@@ -138,16 +139,6 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </thead>
   <tbody>
     <tr><td>/</td><td>Opens a wildmenu for a quick, simple, efficient and practicable path autocompletion</td><td>Path Completion is Buggy, its commented out</td></tr>
-  </tbody>
-</table>
-
-## LSP and clang
-<table>
-  <thead>
-    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
-  </thead>
-  <tbody>
-    <tr><td colspan=3>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
   </tbody>
 </table>
 
