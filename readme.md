@@ -29,7 +29,7 @@ call plug#end()
 # Features
 <table>
   <thead>
-    <tr><td colspan=2><b>Quick Filesystem Traversal</b></td></tr>
+    <tr><th colspan=2><b>Quick Filesystem Traversal</b></th></tr>
   </thead>
   <tbody>
     <tr><td colspan=2>
@@ -55,7 +55,7 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
 ## Statusline
 <table>
   <thead>
-    <tr><td>Repository</td><td>Branch</td><td>Mode</td><td>Quick Traversal Path</td><td>Space</td><td>Line Number / Max Lines</td></tr>
+    <tr><th>Repository</th><th>Branch</th><th>Mode</th><th>Quick Traversal Path</th><th>Space</th><th>Line Number / Max Lines</th></tr>
   </thead>
   <tbody>
     <tr><td>vim-advantages</td><td>Main</td><td>n</td><td>/path/to/<b>file.ext</b></td><td></td><td>41/246</td></tr>
@@ -104,7 +104,7 @@ Moving towards and away from the cached target is possibile. This simply changes
 ## Window Manager
 <table>
   <thead>
-    <tr><td>Key</td><td>Feature</td></tr>
+    <tr><th>Key</th><th>Feature</th></tr>
   </thead>
   <tbody>
     <tr><td>,-[hjkl]</td><td>Adds a buffer (left,below,above,right)</td></tr>
@@ -121,7 +121,7 @@ Moving towards and away from the cached target is possibile. This simply changes
 ## Execution & Debug (needs implementation)
 <table>
   <thead>
-    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
+    <tr><th>Key</th><th>Feature</th><th>Info</th></tr>
   </thead>
   <tbody>
     <tr><td>F1-F12</td><td>Will be used, to execute commands</td><td>Its All unconsidered and unfinished.</td></tr>
@@ -145,7 +145,7 @@ Moving towards and away from the cached target is possibile. This simply changes
 ## Git
 <table>
   <thead>
-    <tr><td>Command</td><td>Key</td><td>Feature</td></tr>
+    <tr><th>Command</th><th>Key</th><th>Feature</th></tr>
   </thead>
   <tbody>
     <tr><td colspan=3>My vim configuration has a hidden file where my account details for vi0lin on github.com are stored.</td></tr>
@@ -170,7 +170,7 @@ Moving towards and away from the cached target is possibile. This simply changes
 ## Path Completion
 <table>
   <thead>
-    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
+    <tr><th>Key</th><th>Feature</th><th>Info</th></tr>
   </thead>
   <tbody>
     <tr><td>/</td><td>Opens a wildmenu for a quick, simple, efficient and practicable path autocompletion</td><td>Path Completion is Buggy, its commented out</td></tr>
@@ -180,7 +180,7 @@ Moving towards and away from the cached target is possibile. This simply changes
 ## General Vim
 <table>
   <thead>
-    <tr><td>Key</td><td>Feature</td><td>Info</td></tr>
+    <tr><th>Key</th><th>Feature</th><th>Info</th></tr>
   </thead>
   <tbody>
     <tr><td>C-F2</td><td>Toggle Word Wrap</td><td></td></tr>
