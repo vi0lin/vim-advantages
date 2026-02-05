@@ -1376,8 +1376,8 @@ function! s:close_often(winid, key) abort
     elseif filereadable(entry)
       exec "e! "..entry
       unlet g:temp_files_list
-      return 1
     endif
+    call popup_close(a:winid)
     " let entry=g:temp_files_list[g:temp_files_index]
     " exec "e! "..entry
   else
@@ -1394,6 +1394,9 @@ endfunction
 " endif
 
 function s:stepFile_index(step)
+  if !exists('g:temp_files_list')
+    call s:stepFile_init_index()
+  endif
   let length=len(g:temp_files_list)
   let length=Length(g:temp_files_list)
   " let index=indexof(l, { i,v-> v:val =~ file })
@@ -1402,6 +1405,7 @@ function s:stepFile_index(step)
 endfunction
 
 function s:stepFile_init_index()
+  let g:temp_files_list=readdir('.')
   let file=expand('%:t')
   let g:temp_files_index=index(g:temp_files_list, "./".file)
 endfunction
@@ -1410,9 +1414,11 @@ function s:stepFile_repopup(winid, path='')
   call popup_close(a:winid)
   if a:path=='..'
     call CD(WFilePrev())
+    call s:stepFile_init_index()
   elseif a:path==''
   else
     call CD(a:path)
+    call s:stepFile_init_index()
   endif
   call StepFile_popup(0, 0)
 endfunction
@@ -1438,9 +1444,7 @@ function s:stepFile_popup(step=0, performFileOpening=0)
   " if !exists(g:temp_files_index)
   "   let g:temp_files_index=0
   " endif
-  let g:temp_files_list=readdir('.')
 
-  call s:stepFile_init_index()
   call s:stepFile_index(a:step)
 
   " let g:stepFile_cwd=CWD()
