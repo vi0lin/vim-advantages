@@ -23,7 +23,14 @@
     <tr><td>C .</td><td>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
     <tr><td>:Push</td><td>Pushes The File to Github</td></tr>
     <tr><td>:PushRepo</td><td>Pushes The Repo to Github</td></tr>
-    <tr><td colspan=2>You can Quickly Access The Filesystem<br>```/path/to/file/<b>File.ext</b>```<br>The first part, gets highlighted accordingly to your cwd.<br>It can be modified with C , and C .</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead>
+    <tr><td colspan=2><b>Quick Filesystem Traversal</b></td></tr>
+  </thead>
+  <tbody>
+    <tr><td colspan=2>You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>The first part, gets highlighted accordingly to your cwd.<br>It can be modified with C , and C .</td></tr>
   </tbody>
 </table>
 
