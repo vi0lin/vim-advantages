@@ -91,13 +91,13 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </tbody>
 </table>
 
-## Execution
+## Execution & Debug
 <table>
   <thead>
     <tr><td>Key</td><td>Feature</td></tr>
   </thead>
   <tbody>
-    <tr><td colspan=2>Execution</td></tr>
+    <tr><td>F5 F6 F7 F8</td><td>Will be used, to execute commands</td></tr>
   </tbody>
 </table>
 
