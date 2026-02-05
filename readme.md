@@ -1,18 +1,15 @@
 # Vim-Advantages
-This project is considered a library or plugin
-that can be installed with all features if
-needed. It provides predefined keyboard mappings and quickly
-introduces you to using Vim so you can
-develop everything.
-
-> [!WARNING]
-> Do not use this repository at this time, as it is under construction.
 
 # Features
-- Execution Manager
-- Window Manager
-- File Completion
-- Text Actions
+|----------------|----------------|
+| C-P            | Fuzzy Finder Integration (FZF)
+| C-S-P          | Fuzzy Finder Integration (FZF)
+| C-A-P          | Fuzzy Finder Integration (FZF)
+| Tab            | Tab Trough Files in CWD
+| C-,            | Set CWD ..
+| C-.            | Restore Previous CWD (traverse one folder up towards the last saved state)
+| Push           | Pushes The File to Github
+| PushRepo       | Pushes The Repo to Github
 
 # Installation
 > [!WARNING]
@@ -48,6 +45,24 @@ call plug#end()
 
 :PlugInstall
 ```
+
+
+```
+# Vim-Advantages
+This project is considered a library or plugin
+that can be installed with all features if
+needed. It provides predefined keyboard mappings and quickly
+introduces you to using Vim so you can
+develop everything.
+
+> [!WARNING]
+> Do not use this repository at this time, as it is under construction.
+
+# Features
+- Execution Manager
+- Window Manager
+- File Completion
+- Text Actions
 
 # Remove Accidentally Published Git Content
 
@@ -154,3 +169,4 @@ Donate to support my work. Every gesture helps me finalize my projects.
 - Keeping the code tidy and organized.
 - Removing unnecessary code.
 - Preparing to upload files soon.
+```
