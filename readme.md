@@ -129,6 +129,8 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td>C-[F5 F6 F7 F8]</td><td>Sig Term</td><td>Its All unconsidered and unfinished.</td></tr>
     <tr><td>C-S-[F5 F6 F7 F8]</td><td>Redo Last Command</td><td>Its All unconsidered and unfinished.</td></tr>
     <tr><td>,[S][C][A][F5 F6 F7 F8]</td><td>Programm Combination</td><td>Unimplemented</td></tr>
+    <tr><td>,,[S][C][A][F5 F6 F7 F8]</td><td>Select Window For Operation</td><td>Unimplemented</td></tr>
+    <tr><td>,,,[S][C][A][F5 F6 F7 F8]</td><td>Select Target For Operation</td><td>Unimplemented</td></tr>
     <tr><td colspan=3>Somehow remote machines must integrate well.</td></tr>
     <tr><td colspan=3>I used to realize solutions for bash, python, c++, vulkan, flutter, c, rust and vimscript. I will also share my results there with you.</td></tr>
     <tr><td colspan=3>LSP and clang<br>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
