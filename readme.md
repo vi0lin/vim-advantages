@@ -195,7 +195,7 @@ Moving towards and away from the cached target is possibile. This simply changes
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
 
 This source needs maintainance.
-It will be modular capable of loading in models for integrating various machines interacting with each other.
+It will be modular capable of loading in models for integrating with various machines interacting with each other.
 
 It is about tool-, compiler-chains and server management.
  
