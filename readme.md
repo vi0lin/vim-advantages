@@ -32,6 +32,16 @@ call plug#end()
 </table>
 -->
 
+## Statusline
+<table>
+  <thead>
+    <tr><td>Repository</td><td>Branch</td><td>Mode</td><td>Quick Traversal Path</td><td>Space</td><td>Line Number / Max Lines</td></tr>
+  </thead>
+  <tbody>
+    <tr><td>vim-advantages</td><td>Main</td><td>n</td><td>/path/to/<b>file.ext</b></td><td></td><td>41/246</td></tr>
+  </tbody>
+</table>
+
 ## File Traversal
 <table>
   <thead>
