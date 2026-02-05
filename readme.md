@@ -167,7 +167,6 @@ Moving towards and away from the cached target is possibile. This simply changes
   </tbody>
 </table>
 
-
 ## Path Completion
 <table>
   <thead>
