@@ -3,14 +3,14 @@
 # Features
 | Key | Function |
 | :---: | :---: |
-| C-P            | Fuzzy Finder Integration (FZF) |
-| C-S-P          | Fuzzy Finder Integration (FZF) |
-| C-A-P          | Fuzzy Finder Integration (FZF) |
-| Tab            | Tab Trough Files in CWD        |
-| C-,            | Set CWD ..                     | 
-| C-.            | Restore Previous CWD (traverse one folder up towards the last saved state) |
-| Push           | Pushes The File to Github |
-| PushRepo       | Pushes The Repo to Github |
+| C p              | Fuzzy Finder Integration (FZF) |
+| C S p            | Fuzzy Finder Integration (FZF) |
+| C A p            | Fuzzy Finder Integration (FZF) |
+| Tab              | Tab Trough Files in CWD        |
+| C ,              | Set CWD ..                     | 
+| C .              | Restore Previous CWD (traverse one folder up towards the last saved state) |
+| :Push            | Pushes The File to Github |
+| :PushRepo        | Pushes The Repo to Github |
 
 # Installation
 > [!WARNING]
