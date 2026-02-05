@@ -131,7 +131,8 @@ Moving towards and away from the cached target is possibile. This simply changes
     <tr><td>,[S][C][A][F1-F12]</td><td>Programm Command</td><td>Unimplemented</td></tr>
     <tr><td>,,[S][C][A][F1-F12]</td><td>Select Window For Operation</td><td>Unimplemented</td></tr>
     <tr><td>,,,[S][C][A][F1-F12]</td><td>Select Target For Operation</td><td>Unimplemented</td></tr>
-    <tr><td colspan=3>Somehow remote machines must integrate well.</td></tr>
+    <tr><td colspan=2>F1 to F12 is Programmable</td><td>Unimplemented</td></tr>
+    <tr><td colspan=3>Remote machines must integrate well.</td></tr>
     <tr><td colspan=3>Commands will get elected by filetype and programming environment</td></tr>
     <tr><td colspan=3>I used to realize solutions for bash, python, c++, vulkan, flutter, c, rust and vimscript. I will also share my results there with you.</td></tr>
     <tr><td colspan=3>LSP and clang<br>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
