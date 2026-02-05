@@ -2,7 +2,7 @@
 
 # Features
 | Key | Function |
-| :---: | :---: |
+| ---: | --- |
 | C p              | Fuzzy Finder Integration (FZF) |
 | C S p            | Fuzzy Finder Integration (FZF) |
 | C A p            | Fuzzy Finder Integration (FZF) |
