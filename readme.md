@@ -1,5 +1,16 @@
 # Vim-Advantages
 
+```
+sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
+```
+
+```
+call plug#begin()
+  Plug 'vi0lin/vim-advantages'
+call plug#end()
+:PlugInstall
+```
+
 # Features
 <table>
   <thead>
@@ -67,17 +78,6 @@
   </tbody>
 </table>
 
-# Installation
-```
-sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
-```
-
-```
-call plug#begin()
-  Plug 'vi0lin/vim-advantages'
-call plug#end()
-:PlugInstall
-```
 <!--
 You Can Choose Installing vim-advantages Using 1. or 2.
 ## 1. Install This Project
