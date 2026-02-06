@@ -29,18 +29,21 @@ call plug#end()
 # Features
 <table>
   <thead>
-    <tr><th colspan=2><b>Quick Filesystem Traversal</b></th></tr>
+    <tr>
+      <th colspan=2><b>Quick Filesystem Traversal</b></th>
+    </tr>
   </thead>
   <tbody>
-    <tr><td colspan=2>
-You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>
-The first part, gets highlighted accordingly to your cwd.<br>
-Step up with <code>C ,</code> and step in with <code>C .</code>
-Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively moving around the operating systems directory tree.
-</td></tr>
+    <tr>
+      <td colspan=2>
+        You can Quickly Access The Filesystem<br>/path/to/file/<b>File.ext</b><br>
+        The first part, gets highlighted accordingly to your cwd.<br>
+        Step up with <code>C ,</code> and step in with <code>C .</code>
+        Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively moving around the operating systems directory tree.
+      </td>
+    </tr>
   </tbody>
 </table>
-
 <!--
 <table>
   <thead>
@@ -55,10 +58,30 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
 ## Statusline
 <table>
   <thead>
-    <tr><th>Repository</th><th>Branch</th><th>Mode</th><th>Quick Traversal Path</th><th>Space</th><th>Line Number / Max Lines</th></tr>
+    <tr>
+      <th>Repository</th><th>Branch</th><th>Mode</th><th>Quick Traversal Path</th><th>Space</th><th>Line Number / Max Lines</th>
+    </tr>
   </thead>
   <tbody>
-    <tr><td>vim-advantages</td><td>Main</td><td>n</td><td>/path/to/<b>file.ext</b></td><td></td><td>41/246</td></tr>
+    <tr>
+      <td>
+        vim-advantages
+      </td>
+      <td>
+        Main
+      </td>
+      <td>
+        n
+      </td>
+      <td>
+        /path/to/<b>file.ext</b>
+      </td>
+      <td>
+      </td>
+      <td>
+        41/246
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -73,121 +96,558 @@ Then, <code>Tab</code> or <code>C-p</code> uses this pointer for effectively mov
   </thead>
   <tbody>
     <tr>
-      <td>C-p</td>
-      <td>Fuzzy Finder Integration (FZF) </td>
-      <td>Current File Workdir / Quick Filesystem Traversal workdir</td>
+      <td>
+        C-p
+      </td>
+      <td>
+        Fuzzy Finder Integration (FZF) 
+      </td>
+      <td>
+        Current File Workdir / Quick Filesystem Traversal workdir
+      </td>
     </tr>
     <tr>
-      <td>C-S-p</td>
-      <td>Fuzzy Finder Integration (FZF) </td>
-      <td>Git Repository Path</td>
+      <td>
+        C-S-p
+      </td>
+      <td>
+        Fuzzy Finder Integration (FZF) 
+      </td>
+      <td>
+        Git Repository Path
+      </td>
     </tr>
-    <tr><td>C-A-p</td><td>Fuzzy Finder Integration (FZF)</td><td>/etc /home /lib</td></tr>
-    <tr><td colspan=3>The FZF binary-call bottlenecks with a bad interface.<br>On <code>Enter</code> Key, it only delivers the file path, that then can possibily be saved in a temporary file.<br>
-That means there is no good solution for archieving further functionality, but retrieving the FZF found file or files in a list.<br>
-Handling keystrokes, like vims popup_create function, are less programmable with FZF.<br>
-Therefore I implement the directory traversing myself.<br>
-<code>Enter</code> opens a file, or goes into a Folder.<br>
-<p>
-Moving towards and away from the cached target is possibile. This simply changes the CWD of the current buffer. And filechecking within the current directory is simply made.</p>
-</td></tr>
-    <tr><td>Tab</td><td >Tab Trough Files in CWD</td><td>Todo: Add Filesearch Feature, that filters the list to contain the given keystrokes</td></tr>
-    <tr><td>[a-zA-Z0-9]</td><td >Search</td><td>Unimplemented</td></tr>
-    <tr><td>C-,</td><td colspan=2>Set CWD ..</td></tr>
-    <tr><td>C-.</td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)</td></tr>
-    <tr><td>Up/Down/h/j</td><td colspan=2>Select a file or folder</td></tr>
-    <tr><td>Enter</td><td colspan=2>Open the file, or go into the selected directory</td></tr>
-    <tr><td>Tab / S-Tab</td><td colspan=2>Opening the next or previous file anyways</td></tr>
+    <tr>
+      <td>
+        C-A-p
+      </td>
+      <td>
+        Fuzzy Finder Integration (FZF)
+      </td>
+      <td>
+        /etc /home /lib
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>The FZF binary-call bottlenecks with a bad interface.<br>On <code>Enter</code> Key, it only delivers the file path, that then can possibily be saved in a temporary file.<br>
+        That means there is no good solution for archieving further functionality, but retrieving the FZF found file or files in a list.<br>
+        Handling keystrokes, like vims popup_create function, are less programmable with FZF.<br>
+        Therefore I implement the directory traversing myself.<br>
+        <code>Enter</code> opens a file, or goes into a Folder.<br>
+        <p>
+        Moving towards and away from the cached target is possibile. This simply changes the CWD of the current buffer. And filechecking within the current directory is simply made.</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Tab
+      </td><td >Tab Trough Files in CWD
+      </td>
+        <td>
+          Todo: Add Filesearch Feature, that filters the list to contain the given keystrokes
+        </td>
+    </tr>
+    <tr>
+      <td>
+        [a-zA-Z0-9]
+      </td><td >Search
+      </td>
+        <td>
+          Unimplemented
+        </td>
+    </tr>
+    <tr>
+      <td>
+        C-,
+      </td><td colspan=2>Set CWD ..
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-.
+      </td><td colspan=2>Restore Previous CWD (traverse one folder up towards the last saved state)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Up/Down/h/j
+      </td><td colspan=2>Select a file or folder
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Enter
+      </td><td colspan=2>Open the file, or go into the selected directory
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Tab / S-Tab
+      </td><td colspan=2>Opening the next or previous file anyways
+      </td>
+    </tr>
   </tbody>
 </table>
 
 ## Window Manager
 <table>
   <thead>
-    <tr><th>Key</th><th>Feature</th></tr>
+    <tr>
+      <th>Key</th><th>Feature</th>
+    </tr>
   </thead>
   <tbody>
-    <tr><td>,-[hjkl]</td><td>Adds a buffer (left,below,above,right)</td></tr>
-    <tr><td>,,-[hjkl]</td><td>Adds a terminal (left,below,above,right)</td></tr>
-    <tr><td>C-S-[hjkl]</td><td>Move Window</td></tr>
-    <tr><td>C-S-[hjkl]</td><td>Move Window To The Foremost</td></tr>
-    <tr><td>C-q</td><td>Close Window</td></tr>
-    <tr><td>C-S-q</td><td>Close Tab</td></tr>
-    <tr><td>A-[hl]</td><td>Create a Tab, when there is none, or Move to the next or previous Tab</td></tr>
-    <tr><td>C-Space</td><td>Maximizes window / restores previous size</td></tr>
+    <tr>
+      <td>
+        ,-[hjkl]
+      </td>
+      <td>
+        Adds a buffer (left,below,above,right)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ,,-[hjkl]
+      </td>
+      <td>
+        Adds a terminal (left,below,above,right)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-S-[hjkl]
+      </td>
+      <td>
+        Move Window
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-S-[hjkl]
+      </td>
+      <td>
+        Move Window To The Foremost
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-q
+      </td>
+      <td>
+        Close Window
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-S-q
+      </td>
+      <td>
+        Close Tab
+      </td>
+    </tr>
+    <tr>
+      <td>
+        A-[hl]
+      </td>
+      <td>
+        Create a Tab, when there is none, or Move to the next or previous Tab
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-Space
+      </td>
+      <td>
+        Maximizes window / restores previous size
+      </td>
+    </tr>
   </tbody>
 </table>
 
 ## Execution & Debug (needs implementation)
 <table>
   <thead>
-    <tr><th>Key</th><th>Feature</th><th>Info</th></tr>
+    <tr>
+      <th>Key</th><th>Feature</th><th>Info</th>
+    </tr>
   </thead>
   <tbody>
-    <tr><td>F1-F12</td><td>Will be used, to execute commands</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>S-[F1-F12]</td><td>Send Visual Selection To Terminal</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>C-[F1-F12]</td><td>Sig Term</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>C-S-[F1-F12]</td><td>Redo Last Command</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>,[S][C][A][F1-F12]</td><td>Programm Command</td><td>Unimplemented</td></tr>
-    <tr><td>,,[S][C][A][F1-F12]</td><td>Select Window For Operation</td><td>Unimplemented</td></tr>
-    <tr><td>,,,[S][C][A][F1-F12]</td><td>Select Target For Operation</td><td>Unimplemented</td></tr>
-    <tr><td colspan=2>The Keys F1 to F12 are programmable</td><td>Unimplemented</td></tr>
-    <tr><td colspan=3>Remote machines must integrate well.</td></tr>
-    <tr><td colspan=3>Commands will get elected by filetype and programming environment</td></tr>
-    <tr><td colspan=3>I used to realize solutions for bash, python, c++, vulkan, flutter, c, rust and vimscript. I will also share my results there with you.</td></tr>
-    <tr><td colspan=3>LSP and clang<br>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.</td></tr>
-    <tr><td colspan=3>The Execution Keymappings will be stored in a .vim-advantages file in the vim-advantages installation dir. So every file buffer preserves its own exeuction scripts. Wherether installing on a remote machine, run local, build, debug, setting up, installing and running services, remote or locally - it all will be effortless and comfortable quickly accessible on keypress, well documented easy adaptable.</td></tr>
-    <tr><td>F5 F6 F7 F8</td><td>Make Makefile CMake Clangd integration</td><td>Its All unconsidered and unfinished.</td></tr>
-    <tr><td>:Help</td><td>Prints the current commands accordingly to the file in a popup</td><td>Unimplemented</td></tr>
-    <tr><td>Models</td><td>Loading Servers / Command / Tool / Compiler Chains</td><td>Unimplemented</td></tr>
+    <tr>
+      <td>
+        F1-F12
+      </td>
+      <td>
+        Will be used, to execute commands
+      </td>
+      <td>
+        Its All unconsidered and unfinished.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        S-[F1-F12]
+      </td>
+      <td>
+        Send Visual Selection To Terminal
+      </td>
+      <td>
+        Its All unconsidered and unfinished.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-[F1-F12]
+      </td>
+      <td>
+        Sig Term
+      </td>
+      <td>
+        Its All unconsidered and unfinished.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-S-[F1-F12]
+      </td>
+      <td>
+        Redo Last Command
+      </td>
+      <td>
+        Its All unconsidered and unfinished.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ,[S][C][A][F1-F12]
+      </td>
+      <td>
+        Programm Command
+      </td>
+      <td>
+        Unimplemented
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ,,[S][C][A][F1-F12]
+      </td>
+      <td>
+        Select Window For Operation
+      </td>
+      <td>
+        Unimplemented
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ,,,[S][C][A][F1-F12]
+      </td>
+      <td>
+        Select Target For Operation
+      </td>
+      <td>
+        Unimplemented
+      </td>
+    </tr>
+    <tr>
+      <td colspan=2>The Keys F1 to F12 are programmable
+      </td>
+      <td>
+        Unimplemented
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>Remote machines must integrate well.
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>Commands will get elected by filetype and programming environment
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>I used to realize solutions for bash, python, c++, vulkan, flutter, c, rust and vimscript. I will also share my results there with you.
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>LSP and clang<br>I am gonna switch to neovim and use the LSP and clang for learning c++. Hopefully it will not melt my cpu.
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>The Execution Keymappings will be stored in a .vim-advantages file in the vim-advantages installation dir. So every file buffer preserves its own exeuction scripts. Wherether installing on a remote machine, run local, build, debug, setting up, installing and running services, remote or locally - it all will be effortless and comfortable quickly accessible on keypress, well documented easy adaptable.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        F5 F6 F7 F8
+      </td>
+      <td>
+        Make Makefile CMake Clangd integration
+      </td>
+      <td>
+        Its All unconsidered and unfinished.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :Help
+      </td>
+      <td>
+        Prints the current commands accordingly to the file in a popup
+      </td>
+      <td>
+        Unimplemented
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Models
+      </td>
+      <td>
+        Loading Servers / Command / Tool / Compiler Chains
+      </td>
+      <td>
+        Unimplemented
+      </td>
+    </tr>
   </tbody>
 </table>
 
 ## Git
 <table>
   <thead>
-    <tr><th>Command</th><th>Key</th><th>Feature</th></tr>
+    <tr>
+      <th>Command</th><th>Key</th><th>Feature</th>
+    </tr>
   </thead>
   <tbody>
-    <tr><td colspan=3>My vim configuration has a hidden file where my account details for vi0lin on github.com are stored.</td></tr>
-    <tr><td>:Push</td><td></td><td>Pushes The File to Github</td></tr>
-    <tr><td>:PushRepo</td><td></td><td>Pushes The Repo to Github</td></tr>
-    <tr><td>:PushCWD</td><td></td><td>Pushes The Files of the CWD to Github</td></tr>
-    <tr><td>:GitDiff</td><td></td><td>Show The Git Differences Of This File</td></tr>
-    <tr><td>:GitDiffAll</td><td></td><td>Show The Git Differences Of All Changed Files Of This Repository</td></tr>
-    <tr><td>:GitDiffCWD</td><td></td><td>Show The Git Differences From The Changed Files In The Current Workdir</td></tr>
-    <tr><td colspan=3>Git Diff needs a solution for the no-pager option. Also the clearing with the !clear && ... bash-call is not valid.</td></tr>
-    <tr><td>:GitCommit</td><td></td><td>Git Commit (Todo: Standard Message or Last Message If Set)</td></tr>
-    <tr><td>:GitCommitNewMessage</td><td>Unimplemented</td><td>Git Commit (Will Yield A Popup, To Add A Commit Message)</td></tr>
-    <tr><td>:GitCommitLastMessage</td><td>Unimplemented</td><td>Git Commit With Last Message</td></tr>
-    <tr><td>:GitAdd</td><td></td><td>Git Add This File</td></tr>
-    <tr><td>:GitAddCWD</td><td></td><td>Git Add Files In CWD</td></tr>
-    <tr><td>:GitAddRepo</td><td></td><td>Git Add Files In The Repository</td></tr>
-    <tr><td colspan=3>There are multiple unquoted Git commands</td></tr>
-    <tr><td colspan=2>Lazy Git</td><td>Not yet integrated.</td></tr>
+    <tr>
+      <td colspan=3>My vim configuration has a hidden file where my account details for vi0lin on github.com are stored.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :Push
+      </td>
+      <td>
+      </td>
+      <td>
+        Pushes The File to Github
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :PushRepo
+      </td>
+      <td>
+      </td>
+      <td>
+        Pushes The Repo to Github
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :PushCWD
+      </td>
+      <td>
+      </td>
+      <td>
+        Pushes The Files of the CWD to Github
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitDiff
+      </td>
+      <td>
+      </td>
+      <td>
+        Show The Git Differences Of This File
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitDiffAll
+      </td>
+      <td>
+      </td>
+      <td>
+        Show The Git Differences Of All Changed Files Of This Repository
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitDiffCWD
+      </td>
+      <td>
+      </td>
+      <td>
+        Show The Git Differences From The Changed Files In The Current Workdir
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>Git Diff needs a solution for the no-pager option. Also the clearing with the !clear && ... bash-call is not valid.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitCommit
+      </td>
+      <td>
+      </td>
+      <td>
+        Git Commit (Todo: Standard Message or Last Message If Set)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitCommitNewMessage
+      </td>
+      <td>
+        Unimplemented
+      </td>
+      <td>
+        Git Commit (Will Yield A Popup, To Add A Commit Message)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitCommitLastMessage
+      </td>
+      <td>
+        Unimplemented
+      </td>
+      <td>
+        Git Commit With Last Message
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitAdd
+      </td>
+      <td>
+      </td>
+      <td>
+        Git Add This File
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitAddCWD
+      </td>
+      <td>
+      </td>
+      <td>
+        Git Add Files In CWD
+      </td>
+    </tr>
+    <tr>
+      <td>
+        :GitAddRepo
+      </td>
+      <td>
+      </td>
+      <td>
+        Git Add Files In The Repository
+      </td>
+    </tr>
+    <tr>
+      <td colspan=3>There are multiple unquoted Git commands
+      </td>
+    </tr>
+    <tr>
+      <td colspan=2>Lazy Git
+      </td>
+      <td>
+        Not yet integrated.
+      </td>
+    </tr>
   </tbody>
 </table>
 
 ## Path Completion
 <table>
   <thead>
-    <tr><th>Key</th><th>Feature</th><th>Info</th></tr>
+    <tr>
+      <th>Key</th><th>Feature</th><th>Info</th>
+    </tr>
   </thead>
   <tbody>
-    <tr><td>/</td><td>Opens a wildmenu for a quick, simple, efficient and practicable path autocompletion</td><td>Path Completion is Buggy, its commented out</td></tr>
+    <tr>
+      <td>
+        /
+      </td>
+      <td>
+        Opens a wildmenu for a quick, simple, efficient and practicable path autocompletion
+      </td>
+      <td>
+        Path Completion is Buggy, its commented out
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Modules
+<table>
+  <thead>
+    <tr><th>Module</th><th>Url</th><th>Installation</th></tr>
+  </thead>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  <tbody>
   </tbody>
 </table>
 
 ## General Vim
 <table>
   <thead>
-    <tr><th>Key</th><th>Feature</th><th>Info</th></tr>
+    <tr>
+      <th>Key</th><th>Feature</th><th>Info</th>
+    </tr>
   </thead>
   <tbody>
-    <tr><td>C-F2</td><td>Toggle Word Wrap</td><td></td></tr>
-    <tr><td>,,,-l</td><td>Toggle Linenumbers</td><td></td></tr>
-    <tr><td>,,,-L</td><td>Toggle Linenumbers Global</td><td></td></tr>
-    <tr><td>C-s</td><td>Saves the file - Reloads it, when it is a vim file</td><td></td></tr>
+    <tr>
+      <td>
+        C-F2
+      </td>
+      <td>
+        Toggle Word Wrap
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ,,,-l
+      </td>
+      <td>
+        Toggle Linenumbers
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        ,,,-L
+      </td>
+      <td>
+        Toggle Linenumbers Global
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        C-s
+      </td>
+      <td>
+        Saves the file - Reloads it, when it is a vim file
+      </td>
+      <td>
+      </td>
+    </tr>
   </tbody>
 </table>
 
