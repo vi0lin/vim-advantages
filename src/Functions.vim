@@ -433,7 +433,7 @@ us"ing these functions are below:
   "  " replace the location list entries for the third window
   "  :call setloclist(3, [], 'r', {'items' : newItems})
 
-  let l:cmd = $bashrc_source..'; wakeup 0 0 2'
+  let l:cmd = g:bashrc_source..'; wakeup 0 0 2'
   call job_start(l:cmd, {
     \ 'out_cb': {channel, msg -> execute('cgetexpr msg')},
     \ 'close_cb': {channel -> execute('lopen')},
@@ -612,14 +612,14 @@ function AG()
 endfunction
 
 function! SetEnvironment(user_dir, main_repo, source_dir, bashrc)
-  let $main_repo=a:main_repo
+  let g:main_repo=a:main_repo
   let g:system_folders='/'
-  let $user_dir=a:user_dir
-  let $source_dir=a:source_dir
-  let $bashrc = a:bashrc
-  let $bashrc_source = "source ".$bashrc
-  let $vimrc = "~/.vimrc"
-  let $vim = "~/.vim/plugged/vim-advantages"
+  let g:user_dir=a:user_dir
+  let g:source_dir=a:source_dir
+  let g:bashrc = a:bashrc
+  let g:bashrc_source = "source ".g:bashrc
+  let g:vimrc = "~/.vimrc"
+  let g:vim = "~/.vim/plugged/vim-advantages"
   let g:b_environment_set=1
 endfunction
 call EnsureEnvironment()
@@ -631,7 +631,6 @@ if !empty("g:target") | let target="release" | endif
 if !exists('g:date') | let g:date='~0' | endif
 if !exists('g:vertical') | let g:vertical=1 | endif
 if !exists("focus") | let focus=0 | endif
-colorscheme habamax
 let g:wholepath=0
 let mapleader=","
 let term="bash"
@@ -649,9 +648,9 @@ let g:WindowChanged=0
 let __pressedKey=""
 let __pressedControl=""
 let g:FileFinder_verbose=1
-let f1 = [ $vim."/src/Functions.vim", $main_repo."/.bashrc"]
-let projects=[ $source, $main_repo, $sh ]
-let g:executor_list={    "executor_list": {        "bash": "bash",        "bash external": "bash",        "python3": "python3",        "python3 external": "python3",    },    "machines_settings": $project_dir.."/vim/machines.settings"}
+let f1 = [ g:vim."/src/Functions.vim", g:main_repo."/.bashrc"]
+let projects=[ g:source_dir, g:main_repo ]
+let g:executor_list={    "executor_list": {        "bash": "bash",        "bash external": "bash",        "python3": "python3",        "python3 external": "python3",    },    "machines_settings": g:vim.."/machines.settings"}
 let g:RecursiveCounter=0
 let g:clipboard_last=""
 let g:clipboard_poll=""
@@ -660,12 +659,12 @@ let vlce = 0
 let s:wrapenabled = 0
 let g:firstSearchOpenFile=1
 let tFp=expand('%:p')
-let $tp=expand('%:h')
+let g:tp=expand('%:h')
 let g:user=system("whoami")
 let g:user=substitute(g:user, "\n", '', '')
-let g:bashset_save=["set | sed -E '/^_.*\(\)/,/^}$/d' | sed -E '/^(BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID)=/d' > "..$source_dir.."/.bashset"]
-let g:bashset_source=[$bashrc_source.."; source "..$source_dir..".bashset;"]
-let g:bashset_restore=["cp "..$source_dir.."/.bashset.1 > "..$source_dir.."/.bashset"]
+let g:bashset_save=["set | sed -E '/^_.*\(\)/,/^}$/d' | sed -E '/^(BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID)=/d' > "..g:source_dir.."/.bashset"]
+let g:bashset_source=[g:bashrc_source.."; source "..g:source_dir..".bashset;"]
+let g:bashset_restore=["cp "..g:source_dir.."/.bashset.1 > "..g:source_dir.."/.bashset"]
 let g:pb=[]
 let g:pe=[]
 let x=[ "a", "b",  "a", "a", "b",  "a", "a", "b",  "a", "b" ]
@@ -678,7 +677,7 @@ if !empty("g:exec_type") | let exec_type=0 | endif
 if !exists("g:modechanged") | let modechanged="Normal" | endif
 let exec_types=[ "Default", "Vim", "Bash", "Python", "Rust" ]
 
-let g:plugfile=$vim.."/3rd/plug.vim"
+let g:plugfile=g:vim.."/3rd/plug.vim"
 
 function CheckPlug()
   if filereadable(g:plugfile)
@@ -700,13 +699,13 @@ function AutoInstallPlug()
   endif
 endfunction
 call AutoInstallPlug()
-if g:checkplug
+if exists('g:checkplug') && g:checkplug
   exec "source "..g:plugfile
 endif
-source $vim/src/Statusline.vim
-source $vim/src/Map.vim
-source $vim/src/TextActions.vim
-source $vim/src/Autocommands.vim
+exec 'source '.g:vim.'/src/Statusline.vim'
+exec 'source '.g:vim.'/src/Map.vim'
+exec 'source '.g:vim.'/src/TextActions.vim'
+exec 'source '.g:vim.'/src/Autocommands.vim'
 syntax on
 set tabpagemax=50
 " set tabstop=4
@@ -817,9 +816,9 @@ set tags=./tags;,tags
 set timeout timeoutlen=700 ttimeoutlen=0
 set ttimeoutlen=700
 set laststatus=2
-set guioptions+=m  "menu bar
-set guioptions+=T  "toolbar
-set guioptions+=r  "scrollbar
+" set guioptions+=m  "menu bar
+" set guioptions+=T  "toolbar
+" set guioptions+=r  "scrollbar
 set dir=~/tmp
 set textwidth=0
 " set completeopt=menu,preview
@@ -1171,9 +1170,9 @@ function RELATIVE_DIR()
 endfunction
 
 function RELATIVE()
-  let $cwd=CWD()
-  let $y=len(split(CWD(),'/'))
-  let x=join(split(POINTER(),'/')[$y:-1],'/')
+  let g:cwd=CWD()
+  let g:y=len(split(CWD(),'/'))
+  let x=join(split(POINTER(),'/')[g:y:-1],'/')
   return x
 endfunction
 
@@ -1775,7 +1774,7 @@ function Redraw()
 endfunction
 
 function CtrlShiftP()
-  let m=system('( find / -maxdepth 10 2>/dev/null && find '.$ftp.' -maxdepth 10 2>/dev/null ) | fzf')
+  let m=system('( find / -maxdepth 10 2>/dev/null && find '.g:ftp.' -maxdepth 10 2>/dev/null ) | fzf')
   call Redraw()
   if !empty(m)
     if isdirectory(m) 
@@ -1792,12 +1791,12 @@ function NERDTreeM_Shift(focus)
 endfunction
 
 function SelectFolder()
-  let m=system('find '..$user_dir..' -type d -maxdepth 10 2>/dev/null | fzf')
+  let m=system('find '..g:user_dir..' -type d -maxdepth 10 2>/dev/null | fzf')
   echo m
 endfunction
 
 function SelectFile()
-  let m=system('find '.$project_dir.' -maxdepth 7 | fzf')
+  let m=system('find '.g:vim.' -maxdepth 7 | fzf')
   exec "e ".m
 endfunction
 
@@ -2708,7 +2707,7 @@ function SearchRight(switch)
   elseif a:switch=="<input>"
     let input=input("search for: ")
   endif
-  let cmd = $bashrc_source..'; pwd; findd '..input
+  let cmd = g:bashrc_source..'; pwd; findd '..input
   exec "AsyncRun "..cmd
   call CWindow()
 endfunction
@@ -2717,7 +2716,7 @@ function AddInCommandLine()
 endfunction
 
 function FloatTermTest(command)
-  let cmd=call('BuildString', [$main_repo, '~/Folder'])  
+  let cmd=call('BuildString', [g:main_repo, '~/Folder'])
   function! s:OnJobExit(Term_name, Exit_status) abort
     echo exit_code
   endfunction
@@ -2801,7 +2800,7 @@ function _buildLayout(layout)
     else
       let filee=expand(file)
       if !filereadable(filee) 
-        let filee = $vim.."/src/"..file
+        let filee = g:vim.."/src/"..file
       endif
       if filereadable(filee)
         silent exec pre..filee
@@ -2956,8 +2955,8 @@ function SwitchHeaderCode()
     let newext = "cpp"
   endif
   let p = expand('%:h')
-  let $out=p."/".name.".".newext
-  e $out
+  let g:out=p."/".name.".".newext
+  e g:out
 endfunction
 
 function Keys(tuple)
@@ -3457,7 +3456,7 @@ endfunction
 
 function BashExec(keymap) range
   let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
-  let m=expand($bashrc_source)
+  let m=expand(g:bashrc_source)
   for x in vs
     let m=m."\n".x
   endfor
@@ -3499,7 +3498,7 @@ endfunction
 function BashCommandLine()
   let input=input('!')
   " let list=systemlist(input)
-  exec "r ! source ".$bashrc_source."; "..input
+  exec "r ! source ".g:bashrc_source."; "..input
 endfunction
 
 function RUST(arg='') range
@@ -3523,9 +3522,9 @@ function BASH(cmd='', mode='exec_vs') range
   let cmd = EnsureArr(a:cmd)
   let c = join(cmd, '\n')
   if a:mode == 'exec_vs'
-    let m = systemlist($bashrc_source.";".c)
+    let m = systemlist(g:bashrc_source.";".c)
   elseif a:mode == 'exec_input_vs'
-    let m = systemlist($bashrc_source.";".c, vs)
+    let m = systemlist(g:bashrc_source.";".c, vs)
   endif
   call PUTT(m)
 endfunction
@@ -3533,10 +3532,10 @@ endfunction
 function PYTHON(arg='')
   let c = a:arg
   try
-    let m = system($bashrc_source."; cat | python3", c)
+    let m = system(g:bashrc_source."; cat | python3", c)
   catch
     try 
-      let m = system($bashrc_source."; cat | python3", c)
+      let m = system(g:bashrc_source."; cat | python3", c)
     endtry
   endtry
   call PUTT(m)
@@ -3661,7 +3660,7 @@ function GetTempfileLine()
 endfunction
 
 " Plugins
-if g:checkplug
+if exists('g:checkplug') && g:checkplug
   function InstallExternalPlugins()
     call plug#begin()
       Plug 'dense-analysis/ale'
@@ -3904,8 +3903,8 @@ function Layout_Bash()
   call _tabnew_if_not_empty_buffer()
   " Filename, [hjklHJKLvs], normalcommand
   let layout=[
-    \ [ $bashrc, "H"],
-    \ [ $vimrc, "v"],
+    \ [ g:bashrc, "H"],
+    \ [ g:vimrc, "v"],
     \]
   call _buildLayout(layout)
   exe 1 .. "wincmd w"
@@ -3937,21 +3936,21 @@ function LayoutVim()
   " Filename, [hjklHJKLvs], normalcommand
     " \ [ "Statusline.vim", "v"],
     " \ [ "Map.vim", "s"],
-    " \ [ $vimrc, "v"],
+    " \ [ g:vimrc, "v"],
   let layout=[
-    \ [ $vim."/src/Functions.vim", "H"],
-    \ [ $vim."/src/Keymaps.vim", "v"],
-    \ [ $vim."/src/Commands.vim", "v"],
-    \ [ $vim."/src/Autocommands.vim", "J"],
-    \ [ $bashrc, "v", "G"],
-    \ [ $vim."/src/Statusline.vim", "v"],
-    \ [ $source_dir.."/notes.md", "s"],
+    \ [ g:vim."/src/Functions.vim", "H"],
+    \ [ g:vim."/src/Keymaps.vim", "v"],
+    \ [ g:vim."/src/Commands.vim", "v"],
+    \ [ g:vim."/src/Autocommands.vim", "J"],
+    \ [ g:bashrc, "v", "G"],
+    \ [ g:vim."/src/Statusline.vim", "v"],
+    \ [ g:source_dir.."/notes.md", "s"],
     \]
   call _buildLayout(layout)
   exe 1 .. "wincmd w"
 endfunction
-source $vim/src/Commands.vim
-source $vim/src/Keymaps.vim
+exec 'source '.g:vim.'/src/Commands.vim'
+exec 'source '.g:vim.'/src/Keymaps.vim'
 if !exists("g:linestate") | let g:linestate=0 | call SetLineState(g:linestate) | endif
 if !exists("g:mode") | call SetMode("", "Normal") | endif
 
@@ -3970,7 +3969,7 @@ function KeyHandler(key)
   endif
 endfunction
 nnoremap <expr> <leader>F KeyHandler(getchar())
-" source $vim/src/Functions.vim9
+" source g:vim/src/Functions.vim9
 
 " ---- grep settings -------------------------------------------------
 " set grepprg=grep\ -nH\ --\ -r\ -w\ $*
