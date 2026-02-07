@@ -1,6 +1,6 @@
 # Vim-Advantages
 
-* These scripts work well with Neovim and Vim.
+* These scripts still throw errors.
 * The current state is unstable.
 
 #### Linux
