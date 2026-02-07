@@ -329,6 +329,8 @@ nnoremap <C-A-g>            :OpenFileCommandLineSystem<CR>
 
 nnoremap <leader>o              :OpenFileCommandLineSameDir<CR>
 nnoremap <leader>.              :OpenFileCommandLineSameDir<CR>
+nnoremap <Tab>                  :OpenFileCommandLineCWD<CR>
+nnoremap <S-Tab>                :OpenFileCommandLineCWD<CR>
 nnoremap <C-i> <C-i>
 
 nnoremap <C-S-Tab> :call PreviousFile()<cr>
@@ -340,8 +342,11 @@ nnoremap <C-Tab> :call NextFile_completefunc()<cr>
 nnoremap <C-S-Tab> :call StepFile_popup(0, 0)<cr>
 nnoremap <C-Tab> :call StepFile_popup(0, 0)<cr>
 
-nnoremap <S-Tab> :call StepFile_popup(0, 0)<cr>
-nnoremap <Tab> :call StepFile_popup(0, 0)<cr>
+cnoremap <C-,> <Backspace>
+cnoremap <C-.> <Backspace>
+
+" nnoremap <S-Tab> :call StepFile_popup(0, 0)<cr>
+" nnoremap <Tab> :call StepFile_popup(0, 0)<cr>
 
 nnoremap <leader>cd :call MakeDirCurrentCWD()<cr>
 " :MakeDirCurrentProject<cr>

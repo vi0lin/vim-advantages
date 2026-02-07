@@ -2075,6 +2075,12 @@ function OpenFileCommandLineSameDir()
   call MakeDirCurrentCWD()
 endfunction
 
+function OpenFileCommandLineCWD()
+  " call JumpFile(CWD())
+  call JumpFile(CWD()..'/')
+  call MakeDirCurrentCWD()
+endfunction
+
 function OpenFileCommandLineSystem()
   call JumpFile('/')
 endfunction

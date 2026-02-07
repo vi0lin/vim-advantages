@@ -110,6 +110,7 @@ command -nargs=* -complete=command COLOR call COLOR(<f-args>)
 
 command -nargs=0 -range OpenFileCommandLineProject <line1>,<line2>call OpenFileCommandLineProject()
 command -nargs=0 -range OpenFileCommandLineSameDir <line1>,<line2>call OpenFileCommandLineSameDir()
+command -nargs=0 -range OpenFileCommandLineCWD <line1>,<line2>call OpenFileCommandLineCWD()
 command -nargs=0 -range OpenFileCommandLineRepo <line1>,<line2>call OpenFileCommandLineRepo()
 command -nargs=0 -range OpenFileCommandLineSystem <line1>,<line2>call OpenFileCommandLineSystem()
 command -nargs=0 -range OpenFileFZFRepo <line1>,<line2>call OpenFileFZFRepo()
