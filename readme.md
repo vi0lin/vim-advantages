@@ -200,8 +200,21 @@ call plug#end()
   </thead>
   <tbody>
     <tr>
+      <td></td>
+      <td>Move to the leaf</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Take Out of leaf</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Take Out of leaf</td>
+    </tr>
+    <tr>
       <td>
-        ,-[hjkl]<br>
+        ~~,-[hjkl]<br>~~<br>
+        A-[hjkl]<br>
         A-[Left/Up/Down/Right]
       </td>
       <td>
@@ -210,7 +223,8 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        ,,-[hjkl]<br>
+        ~~,,-[hjkl]<br>~~<br>
+        A-S-[hjkl]<br>
         A-S-[Left/Up/Down/Right]
       </td>
       <td>
@@ -222,7 +236,7 @@ call plug#end()
         C-S-[hjkl]
       </td>
       <td>
-        Move Window
+        Swap Windows
       </td>
     </tr>
     <tr>
@@ -251,10 +265,12 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        A-[hl]
+        ~~A-[hl]~~<br>
+        ,[hl]
       </td>
       <td>
-        Create a Tab, when there is none, or Move to the next or previous Tab
+        Switch Tab - create if not exists<br>
+        ~~Create a Tab, when there is none, or Move to the next or previous Tab~~
       </td>
     </tr>
     <tr>
