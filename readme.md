@@ -1,22 +1,6 @@
 # Vim-Advantages
 
-* The scripts sometimes throw errors.
-* The current state is unstable.
-
-#### Linux
-```
-sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
-```
-
-#### Windows
-```
-curl -o install.sh https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/heads/main/install.sh
-"C:\Program Files\Git\bin\bash.exe" .\install.sh
-```
-```
-curl -o install.sh https://github.com/vi0lin/vim-advantages/refs/heads/main/install.sh
-wsl --install
-wsl bash install.sh
+h
 del install.sh
 ```
 
@@ -202,6 +186,7 @@ call plug#end()
     <tr>
       <td>
         ,-[hjkl]
+        A-[Left/Up/Down/Right]
       </td>
       <td>
         Adds a buffer (left,below,above,right)
@@ -210,6 +195,7 @@ call plug#end()
     <tr>
       <td>
         ,,-[hjkl]
+        A-S-[Left/Up/Down/Right]
       </td>
       <td>
         Adds a terminal (left,below,above,right)

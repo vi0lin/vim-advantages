@@ -101,14 +101,39 @@ Amap <leader>H     :call Open("H", "buffer", "new")<cr>
 Amap <leader>J     :call Open("J", "buffer", "new")<cr>
 Amap <leader>K     :call Open("K", "buffer", "new")<cr>
 Amap <leader>L     :call Open("L", "buffer", "new")<cr>
-Amap <leader><C-h> :call Open("h", "buffer", "copy")<cr> 
-Amap <leader><C-j> :call Open("j", "buffer", "copy")<cr>
-Amap <leader><C-k> :call Open("k", "buffer", "copy")<cr>
-Amap <leader><C-l> :call Open("l", "buffer", "copy")<cr>
-Amap <leader><C-S-h> :call Open("H", "buffer", "copy")<cr> 
-Amap <leader><C-S-j> :call Open("J", "buffer", "copy")<cr>
-Amap <leader><C-S-k> :call Open("K", "buffer", "copy")<cr>
-Amap <leader><C-S-l> :call Open("L", "buffer", "copy")<cr>
+" Amap <leader><C-h> :call Open("h", "buffer", "copy")<cr> 
+" Amap <leader><C-j> :call Open("j", "buffer", "copy")<cr>
+" Amap <leader><C-k> :call Open("k", "buffer", "copy")<cr>
+" Amap <leader><C-l> :call Open("l", "buffer", "copy")<cr>
+" Amap <leader><C-S-h> :call Open("H", "buffer", "copy")<cr> 
+" Amap <leader><C-S-j> :call Open("J", "buffer", "copy")<cr>
+" Amap <leader><C-S-k> :call Open("K", "buffer", "copy")<cr>
+" Amap <leader><C-S-l> :call Open("L", "buffer", "copy")<cr>
+
+Amap <A-S-Left>     :call Open("h", "terminal", "new")<cr> 
+Amap <A-S-Down>     :call Open("j", "terminal", "new")<cr>
+Amap <A-S-Up>     :call Open("k", "terminal", "new")<cr>
+Amap <A-S-Right>     :call Open("l", "terminal", "new")<cr>
+Amap <A-S-Left>     :call Open("H", "terminal", "new")<cr> 
+Amap <A-S-Down>     :call Open("J", "terminal", "new")<cr>
+Amap <A-S-Up>     :call Open("K", "terminal", "new")<cr>
+Amap <A-S-Right>     :call Open("L", "terminal", "new")<cr>
+Amap <A-Left>     :call Open("h", "buffer", "new")<cr> 
+Amap <A-Down>     :call Open("j", "buffer", "new")<cr>
+Amap <A-Up>     :call Open("k", "buffer", "new")<cr>
+Amap <A-Right>     :call Open("l", "buffer", "new")<cr>
+Amap <A-Left>     :call Open("H", "buffer", "new")<cr> 
+Amap <A-Down>     :call Open("J", "buffer", "new")<cr>
+Amap <A-Up>     :call Open("K", "buffer", "new")<cr>
+Amap <A-Right>     :call Open("L", "buffer", "new")<cr>
+" Amap <A-<C-h>> :call Open("h", "buffer", "copy")<cr> 
+" Amap <A-<C-j>> :call Open("j", "buffer", "copy")<cr>
+" Amap <A-<C-k>> :call Open("k", "buffer", "copy")<cr>
+" Amap <A-<C-l>> :call Open("l", "buffer", "copy")<cr>
+" Amap <A-<C-S-h>> :call Open("H", "buffer", "copy")<cr> 
+" Amap <A-<C-S-j>> :call Open("J", "buffer", "copy")<cr>
+" Amap <A-<C-S-k>> :call Open("K", "buffer", "copy")<cr>
+" Amap <A-<C-S-l>> :call Open("L", "buffer", "copy")<cr>
 
 Amap <C-q> :q!<CR>
 Amap <A-q> :qa!<CR>
