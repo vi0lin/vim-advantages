@@ -1,5 +1,11 @@
 # Vim-Advantages
 
+# How To Install
+
+> [!WARNING]
+> These scripts work well with Neovim and Vim.
+> The current state is unstable.
+
 #### Linux
 ```
 sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
@@ -24,7 +30,6 @@ call plug#begin()
 call plug#end()
 :PlugInstall
 ```
-
 
 # Features
 <table>
