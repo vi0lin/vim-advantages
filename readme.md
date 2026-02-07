@@ -600,6 +600,10 @@ call plug#end()
   </tbody>
 </table>
 
+<!--
+## General Vim
+On bigger rollout, there will be an automated testing and testsuite setup.
+-->
 ## General Vim
 <table>
   <thead>
@@ -652,10 +656,11 @@ call plug#end()
 </table>
 
 <!--
-## General Vim
-On bigger rollout, there will be an automated testing and testsuite setup.
+## Bash Pro
+Create The Same Behaviour Filesystem Tree Traversal For Bash (/path/to/file/**file.ext**)
+Define Own Keybindings
+Define Own Autocomplete
 -->
-
 
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.

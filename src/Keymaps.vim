@@ -3,6 +3,8 @@ nnoremap <C-s> <Nop>
 inoremap <C-s> <Nop>
 vnoremap <C-s> <Nop>
 
+map <leader>t :Tidy<cr>
+
 if !exists("g:currentMapping")
   let currentMapping=0
 endif
@@ -301,7 +303,6 @@ nnoremap <C-A-g>            :OpenFileCommandLineSystem<CR>
 
 nnoremap <leader>o              :OpenFileCommandLineSameDir<CR>
 nnoremap <leader>.              :OpenFileCommandLineSameDir<CR>
-" nnoremap <Tab>              :OpenFileCommandLineSameDir<CR>
 nnoremap <C-i> <C-i>
 
 nnoremap <C-S-Tab> :call PreviousFile()<cr>
@@ -658,3 +659,9 @@ nnoremap <C-S-M-k> :echo JoinSplits("k")<cr>
 nnoremap <C-S-M-l> :echo JoinSplits("l")<cr>
 
 nnoremap <F1> :call Help()<cr>
+
+map <C-;> zh
+map <C-'> zl
+map <C-S-;> 20zh
+map <C-S-'> 20zl
+

@@ -1,6 +1,6 @@
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
-
+"
 function Help()
   " if getbufvar(bufnr(), '&buftype') == 'terminal'
   "   echo "Terminal"
@@ -2996,6 +2996,38 @@ function Items(t)
   return output
 endfunction
 
+command -range -nargs=0 Tidy <line1>,<line2>call Tidy()
+" function Tidy() range
+"   call TidyHTML()
+"   " norm gv
+"   " call DeleteEmptyLines()
+"   " norm gv
+"   " norm =
+" endfunction
+
+function TidyHTML2()
+  let vs="'<,'>"
+  let pattern="s/<[^>]*>/\r&\r/g"
+  silent exec vs..pattern
+endfunction
+
+command -range -nargs=+ REGEX <line1>,<line2>call REGEX(<q-args>)
+function REGEX(pattern)
+  let vs="'<,'>"
+  try | silent exec vs..a:pattern | catch | finally | endtry
+  " silent exec vs..a:pattern
+endfunction
+
+function Tidy() range
+  REGEX s:<tr>:<tr>:g
+  REGEX s:</tr>:</tr>:g
+  REGEX s:<td>:<td>:g
+  REGEX s:</td>:</td>:g
+  norm gv=
+  silent '<,'>DeleteEmptyLines
+endfunction
+
+
 function CountRegex() range
   let pattern="s/^\\s*\\\"/&/gen"
   let m = 0
@@ -3173,14 +3205,9 @@ function ToggleRelativeNumber()
   endif
 endfunction
 
-set nowrap
-set textwidth=0
-set wrapmargin=0
-
-  augroup TerminalNoWrap
-    autocmd!
-    autocmd TerminalOpen * if &buftype == 'terminal' | setlocal termwinsize=0x9999 | endif
-  augroup END
+" set nowrap
+" set textwidth=0
+" set wrapmargin=0
 
 function ToggleWrap()
   if s:wrapenabled
@@ -3365,7 +3392,11 @@ function TermLeave()
 endfunction
 
 function VimEnter()
-  set nowrap
+  " if &buftype == 'terminal'
+  "   set wrap
+  " elseif &buftype == 'buffer'
+  "   set nowrap
+  " endif
   call InitLineState()
   call system("bash", g:bashset_restore)
   call Statusline()
