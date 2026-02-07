@@ -342,6 +342,7 @@ nnoremap <C-Tab> :call NextFile_completefunc()<cr>
 nnoremap <C-S-Tab> :call StepFile_popup(0, 0)<cr>
 nnoremap <C-Tab> :call StepFile_popup(0, 0)<cr>
 
+" Add functionality, to delete the last dir
 cnoremap <C-,> <Backspace>
 cnoremap <C-.> <Backspace>
 
