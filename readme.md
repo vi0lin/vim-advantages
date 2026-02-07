@@ -1,10 +1,7 @@
 # Vim-Advantages
 
-# How To Install
-
-> [!WARNING]
-> These scripts work well with Neovim and Vim.
-> The current state is unstable.
+* These scripts work well with Neovim and Vim.
+* The current state is unstable.
 
 #### Linux
 ```
