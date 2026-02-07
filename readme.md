@@ -213,7 +213,7 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        ~~,-[hjkl]<br>~~<br>
+        <del>,-[hjkl]<br></del><br>
         A-[hjkl]<br>
         A-[Left/Up/Down/Right]
       </td>
@@ -223,7 +223,7 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        ~~,,-[hjkl]<br>~~<br>
+        <del>,,-[hjkl]<br></del><br>
         A-S-[hjkl]<br>
         A-S-[Left/Up/Down/Right]
       </td>
@@ -265,12 +265,12 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        ~~A-[hl]~~<br>
+        <del>A-[hl]</del><br>
         ,[hl]
       </td>
       <td>
         Switch Tab - create if not exists<br>
-        ~~Create a Tab, when there is none, or Move to the next or previous Tab~~
+        <del>Create a Tab, when there is none, or Move to the next or previous Tab</del>
       </td>
     </tr>
     <tr>
