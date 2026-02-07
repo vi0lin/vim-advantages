@@ -213,7 +213,7 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        <del>,-[hjkl]<br></del><br>
+        <del>,-[hjkl]<br></del>
         A-[hjkl]<br>
         A-[Left/Up/Down/Right]
       </td>
@@ -223,7 +223,7 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        <del>,,-[hjkl]<br></del><br>
+        <del>,,-[hjkl]<br></del>
         A-S-[hjkl]<br>
         A-S-[Left/Up/Down/Right]
       </td>
@@ -265,7 +265,7 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        <del>A-[hl]</del><br>
+        <del>A-[hl]</del>
         ,[hl]
       </td>
       <td>
