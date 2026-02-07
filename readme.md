@@ -1,6 +1,6 @@
 # Vim-Advantages
 
-* These scripts still throw errors.
+* The scripts sometimes throw errors.
 * The current state is unstable.
 
 #### Linux
