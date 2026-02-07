@@ -85,14 +85,7 @@ tnoremap <S-F11> <C-\><C-n>:call Move('l', 't')<cr>
 " xmap <F1>m :g/^\s*"/GlobalMove<cr>
 
 " Amap <F2> :NERDTreeFind<cr>
-Amap <A-S-h>     :call Open("h", "terminal", "new")<cr> 
-Amap <A-S-j>     :call Open("j", "terminal", "new")<cr>
-Amap <A-S-k>     :call Open("k", "terminal", "new")<cr>
-Amap <A-S-l>     :call Open("l", "terminal", "new")<cr>
-Amap <A-S-H>     :call Open("H", "terminal", "new")<cr> 
-Amap <A-S-J>     :call Open("J", "terminal", "new")<cr>
-Amap <A-S-K>     :call Open("K", "terminal", "new")<cr>
-Amap <A-S-L>     :call Open("L", "terminal", "new")<cr>
+"
 Amap <A-h>     :call Open("h", "buffer", "new")<cr> 
 Amap <A-j>     :call Open("j", "buffer", "new")<cr>
 Amap <A-k>     :call Open("k", "buffer", "new")<cr>
@@ -101,6 +94,14 @@ Amap <A-H>     :call Open("H", "buffer", "new")<cr>
 Amap <A-J>     :call Open("J", "buffer", "new")<cr>
 Amap <A-K>     :call Open("K", "buffer", "new")<cr>
 Amap <A-L>     :call Open("L", "buffer", "new")<cr>
+Amap <A-S-h>     :call Open("h", "terminal", "new")<cr> 
+Amap <A-S-j>     :call Open("j", "terminal", "new")<cr>
+Amap <A-S-k>     :call Open("k", "terminal", "new")<cr>
+Amap <A-S-l>     :call Open("l", "terminal", "new")<cr>
+Amap <A-S-H>     :call Open("H", "terminal", "new")<cr> 
+Amap <A-S-J>     :call Open("J", "terminal", "new")<cr>
+Amap <A-S-K>     :call Open("K", "terminal", "new")<cr>
+Amap <A-S-L>     :call Open("L", "terminal", "new")<cr>
 " Amap <leader><C-h> :call Open("h", "buffer", "copy")<cr> 
 " Amap <leader><C-j> :call Open("j", "buffer", "copy")<cr>
 " Amap <leader><C-k> :call Open("k", "buffer", "copy")<cr>
