@@ -201,7 +201,7 @@ call plug#end()
   <tbody>
     <tr>
       <td>
-        ,-[hjkl]
+        ,-[hjkl]<br>
         A-[Left/Up/Down/Right]
       </td>
       <td>
@@ -210,7 +210,7 @@ call plug#end()
     </tr>
     <tr>
       <td>
-        ,,-[hjkl]
+        ,,-[hjkl]<br>
         A-S-[Left/Up/Down/Right]
       </td>
       <td>
