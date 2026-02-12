@@ -678,7 +678,7 @@ Define Own Keybindings
 Define Own Autocomplete
 -->
 
-# Future Features & Needed Patches / Fixes
+# Future Features & Patches / Fixes
 - [ ] ,,,l linenumbers (temporary fix)
 - [ ] ,,,l linenumbers global (temporary fix)
 - [ ] ,,,l linenumbers tabwise (temporary fix)
