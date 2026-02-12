@@ -3,91 +3,6 @@
 * The scripts sometimes throw errors.
 * The current state is unstable.
 
-## Future Features & Needed Patches / Fixes
-- [ ] ,,,l linenumbers (temporary fix)
-- [ ] ,,,l linenumbers global (temporary fix)
-- [ ] ,,,l linenumbers tabwise (temporary fix)
-- [ ] ,,,l linenumbers / disable in terminals (temporary fix)
-- [ ] ,,,l linenumbers terminal (temporary fix)
-- [ ] ,,,l linenumbers buffer (temporary fix)
-- [ ] ,,,l linenumbers terminal wise global (temporary fix)
-- [ ] ,,,l linenumbers buffer wise global (temporary fix)
-- [ ] ,,,l linenumbers terminal wise tabwise (temporary fix)
-- [ ] ,,,l linenumbers buffer wise tabwise (temporary fix)
-- [ ] the above will be implemented with a popup / quickfix / wildmenu / or fzf
-- [ ] Align from specific char   " Comment et the end
-      For example                " This is a comment
-      For example             " This is a comment
-- [ ] '<,'>Align " (Block Selection would fit better)
-               (Otherwise search left - right 2 - 10 until [ or ] )
-               Align char under the cursor
-               otherwise align, when more than two spaces or \t is found
-- [ ] move directory
-- [ ]   ,dp define project / ,rp remove project
-- [ ]   ,db pookmark / ,rb remove bookmark
-- [ ] rename files and directories
-- [ ] fix ,. / <TAB> quick path selection for the buffers and in my file selection
-- [ ] statusline expand git name in shortenend path
-- [ ] fix statusline, when no git name was found
-- [ ] fix colors / statusline
-- [ ] neovim migration / console / popup / compiler / lsp clangd
-- [ ] ,dp define project ($current_project) (.vim-advantages in cwd)
-- [ ]   ,p set CWD to go to project
-- [ ]   ,i add -i include $var
-- [ ]   ,l add -l lib $var
-- [ ]   ,I add path -I Include $var
-- [ ]   ,L add path -L Lib $var
-- [ ]   [undecided keymapping] open a popup and show all of these variables
-- [ ]   modify them, edit, delete, grey out, activate, deactivate
-- [ ] programmable buttons
-- [ ] save this in .vim-advantage of $current_project
-- [ ]   ,f1 / fzf trough commands / ,t enables tabwide / ,b enables bufferwise / vim commands are also selectable 
-- [ ]   creates a .vim-advantages file in the dir / that gets read
-- [ ]     saves the commands that are defined bufferwise/filewise/cwdwise/tabwise/global / i dont know
-- [ ]       they have a priority value which decides which of them are going to be executed first, when there are multiple commands on a key
-- [ ]       f1 f1 twice, will fire the second command.
-- [ ]       when multiple commands are on one key, the command will be executed after a timeout
-- [ ]     (you could also search the whole system for .vim-advantage files)
-- [ ]     (save them in a list / for quicker access)
-- [ ]     {and feed the list, when you find one, or delete, when its not present)
-- [ ]     f1 when no command is assigned, you can choose one with fzf
-- [ ]     commands are are globally stored / somewhere in .vim-commands for now
-- [ ]     are bash snippets differently saved? Or do they count as commands
-- [ ]     bash snippets are saved in the working directory of the current opened file in .vim-advantages json "filename": [ "compile1": "gcc $var -o program program.c", "compile2": "gcc $var -o program program.c" ]
-- [ ]     bash snippets are easily extendable
-- [ ]   ,f1 new - lets you define a bash comand 
-- [ ]   ,f1 bash - lets you execute well in a bash terminal
-- [ ]   ,f1 repeat - repeats last command
-- [ ]   ,f1 gather console - gets the last command from the console, and saves it in .vim-advantages for selection
-- [ ]   ,f1 [hjkl] define target term (left right above below)
-- [ ]   [f1-f12] executes and save the executed keystroke
-- [ ]            display last executed keystroke in statusline
-- [ ]   ,,[f1-f12] sets last executed keystroke, without executing it
-- [ ]   ,,t highlights the target term
-- [ ]   ,w -Wno-all
-- [ ]   (how to deal with target terminal and copen lopen quicklist)
-- [ ]   ,,e[f1-f12] edits the command, saves it into .vim-advantages
-- [ ]   ,,c[f1-f12] ,,<C-[f1-f12]> creates a copy of the previous command in .vim-advantages
-- [ ]   ,,d[f1-f12] deletes the command from .vim-advantages
-- [ ]     bash snippet, vim command, whatever
-- [ ]   [,][,][,][CSA]f1 Some commands are modifyable with Ctrl Shift Alt
-- [ ]     For example when defined (,f1 bash) / f1 repeats [standard config] / s-f1 executes vs / c-f1 repeats and c-c terminates / c-s-f1 executes vs and c-c terminates
-- [ ]   ,c turns c-c on/off in [standard config]
-- [ ]   ,,t (last button) toggle trough terms
-- [ ]   same buffer operation
-- [ ]     some commands are only valid in the current buffer (vim commands)
-- [ ]       for example DeleteEmptyLines
-- [ ]   must the target term meet a conditions for the command?
-- [ ]     being a term
-- [ ]     having spawned a shell 
-- [ ]     running python
-- [ ]     access on a remote machine over ssh
-- [ ]     when not
-- [ ]       spawn a new terminal,
-- [ ]       or turn one (last target, or next one) to the right condition
-- [ ]     when yes
-- [ ]       execute the command
-
 #### Linux
 ```
 sh | wget github.com/vi0lin/vim-advantages/blob/main/install.sh && rm ./install.sh
@@ -762,6 +677,93 @@ Create The Same Behaviour Filesystem Tree Traversal For Bash (/path/to/file/**fi
 Define Own Keybindings
 Define Own Autocomplete
 -->
+
+# Future Features & Needed Patches / Fixes
+- [ ] ,,,l linenumbers (temporary fix)
+- [ ] ,,,l linenumbers global (temporary fix)
+- [ ] ,,,l linenumbers tabwise (temporary fix)
+- [ ] ,,,l linenumbers / disable in terminals (temporary fix)
+- [ ] ,,,l linenumbers terminal (temporary fix)
+- [ ] ,,,l linenumbers buffer (temporary fix)
+- [ ] ,,,l linenumbers terminal wise global (temporary fix)
+- [ ] ,,,l linenumbers buffer wise global (temporary fix)
+- [ ] ,,,l linenumbers terminal wise tabwise (temporary fix)
+- [ ] ,,,l linenumbers buffer wise tabwise (temporary fix)
+- [ ] the above will be implemented with a popup / quickfix / wildmenu / or fzf
+- [ ] Align from specific char   " Comment et the end
+      For example                " This is a comment
+      For example             " This is a comment
+- [ ] '<,'>Align " (Block Selection would fit better)
+               (Otherwise search left - right 2 - 10 until [ or ] )
+               Align char under the cursor
+               otherwise align, when more than two spaces or \t is found
+- [ ] move directory
+- [ ]   ,dp define project / ,rp remove project
+- [ ]   ,db pookmark / ,rb remove bookmark
+- [ ] rename files and directories
+- [ ] fix ,. / <TAB> quick path selection for the buffers and in my file selection
+- [ ] statusline expand git name in shortenend path
+- [ ] fix statusline, when no git name was found
+- [ ] fix colors / statusline
+- [ ] neovim migration / console / popup / compiler / lsp clangd
+- [ ] ,dp define project ($current_project) (.vim-advantages in cwd)
+- [ ]   ,p set CWD to go to project
+- [ ]   ,i add -i include $var
+- [ ]   ,l add -l lib $var
+- [ ]   ,I add path -I Include $var
+- [ ]   ,L add path -L Lib $var
+- [ ]   [undecided keymapping] open a popup and show all of these variables
+- [ ]   modify them, edit, delete, grey out, activate, deactivate
+- [ ] programmable buttons
+- [ ] save this in .vim-advantage of $current_project
+- [ ]   ,f1 / fzf trough commands / ,t enables tabwide / ,b enables bufferwise / vim commands are also selectable 
+- [ ]   creates a .vim-advantages file in the dir / that gets read
+- [ ]     saves the commands that are defined bufferwise/filewise/cwdwise/tabwise/global / i dont know
+- [ ]       they have a priority value which decides which of them are going to be executed first, when there are multiple commands on a key
+- [ ]       f1 f1 twice, will fire the second command.
+- [ ]       when multiple commands are on one key, the command will be executed after a timeout
+- [ ]     (you could also search the whole system for .vim-advantage files)
+- [ ]     (save them in a list / for quicker access)
+- [ ]     {and feed the list, when you find one, or delete, when its not present)
+- [ ]     f1 when no command is assigned, you can choose one with fzf
+- [ ]     commands are are globally stored / somewhere in .vim-commands for now
+- [ ]     are bash snippets differently saved? Or do they count as commands
+- [ ]     bash snippets are saved in the working directory of the current opened file in .vim-advantages json "filename": [ "compile1": "gcc $var -o program program.c", "compile2": "gcc $var -o program program.c" ]
+- [ ]     bash snippets are easily extendable
+- [ ]   ,f1 new - lets you define a bash comand 
+- [ ]   ,f1 bash - lets you execute well in a bash terminal
+- [ ]   ,f1 repeat - repeats last command
+- [ ]   ,f1 gather console - gets the last command from the console, and saves it in .vim-advantages for selection
+- [ ]   ,f1 [hjkl] define target term (left right above below)
+- [ ]   [f1-f12] executes and save the executed keystroke
+- [ ]            display last executed keystroke in statusline
+- [ ]   ,,[f1-f12] sets last executed keystroke, without executing it
+- [ ]   ,,t highlights the target term
+- [ ]   ,w -Wno-all
+- [ ]   (how to deal with target terminal and copen lopen quicklist)
+- [ ]   ,,e[f1-f12] edits the command, saves it into .vim-advantages
+- [ ]   ,,c[f1-f12] ,,<C-[f1-f12]> creates a copy of the previous command in .vim-advantages
+- [ ]   ,,d[f1-f12] deletes the command from .vim-advantages
+- [ ]     bash snippet, vim command, whatever
+- [ ]   [,][,][,][CSA]f1 Some commands are modifyable with Ctrl Shift Alt
+- [ ]     For example when defined (,f1 bash) / f1 repeats [standard config] / s-f1 executes vs / c-f1 repeats and c-c terminates / c-s-f1 executes vs and c-c terminates
+- [ ]   ,c turns c-c on/off in [standard config]
+- [ ]   ,,t (last button) toggle trough terms
+- [ ]   same buffer operation
+- [ ]     some commands are only valid in the current buffer (vim commands)
+- [ ]       for example DeleteEmptyLines
+- [ ]   must the target term meet a conditions for the command?
+- [ ]     being a term
+- [ ]     having spawned a shell 
+- [ ]     running python
+- [ ]     access on a remote machine over ssh
+- [ ]     when not
+- [ ]       spawn a new terminal,
+- [ ]       or turn one (last target, or next one) to the right condition
+- [ ]     when yes
+- [ ]       execute the command
+
+
 
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
