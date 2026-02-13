@@ -469,7 +469,7 @@ function Push()
   " call system("read")
   " call input("Procceed? [<CR> Yes] [<C-c> Cancel]")
   GitCommit
-  " GithubPush
+  GithubPush
 endfunction
 
 command -range -nargs=0 PushRepo <line1>,<line2>:call PushRepo()
@@ -501,9 +501,12 @@ function GitMessage()
   call Fetch_Last_Git_Message()
   if g:set_git_message
     let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
-    " echo message g:lastcommitmessage
+    echo message == g:lastcommitmessage
+    return
     if message != g:lastcommitmessage
       let g:lastcommitmessage = message
+    else
+      call Fetch_Last_Git_Message()
     endif
   endif
 endfunction
@@ -556,11 +559,14 @@ endfunction
 command -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
 function GitCommit(message='')
   GitMessage
-  let commit=g:lastcommitmessage
-  if a:message!=''
-    let commit=a:message
+  let msg=''
+  if a:message==''
+    let msg=g:lastcommitmessage
+  else
+    let msg=a:message
   endif
-  exec '!clear && git commit -m "'..commit..'"'
+  echo '!clear && git commit -m "'..msg..'"'
+  exec '!clear && git commit -m "'..msg..'"'
 endfunction
 
 command -range -nargs=0 GitPush <line1>,<line2>:call GitPush()
