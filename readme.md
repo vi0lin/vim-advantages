@@ -765,7 +765,6 @@ Define Own Autocomplete
 - [ ] ,C-Space Toggles Equal Window Size
 - [ ] Git Commit Stream Integration
 
-
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
 
