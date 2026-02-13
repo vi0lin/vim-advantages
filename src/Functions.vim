@@ -554,9 +554,13 @@ function GitAddRepo()
 endfunction
 
 command -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
-function GitCommit(message='Commited')
+function GitCommit(message='')
+  let commit_message=a:lastcommitmessage
+  if a:message!=''
+    let commit_message=a:message
+  endif
   GitMessage
-  exec '!clear && git commit -m "'..a:message..'"'
+  exec '!clear && git commit -m "'..commit_message..'"'
 endfunction
 
 command -range -nargs=0 GitPush <line1>,<line2>:call GitPush()
