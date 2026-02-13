@@ -181,8 +181,8 @@ map <leader>t :call TabL()<cr>
 map <leader>g :call TabH()<cr>
 map <leader>h :call TabL()<cr>
 
-map <m-h> :call TabH()<cr>
-map <m-l> :call TabL()<cr>
+map <A-h> :call TabH()<cr>
+map <A-l> :call TabL()<cr>
 
 map <C-S-M-h> :wincmd H<cr>
 map <C-S-M-j> :wincmd J<cr>
@@ -259,6 +259,7 @@ tmap <S-ScrollWheelDown> <C-\><C-n>
 tmap <Esc> i
 tmap <LeftMouse> <C-\><C-n>
 
+map <leader><leader><leader>m :call Toggle_Set_Last_Git_Message()<CR>
 map <leader><leader><leader>l :call ToggleLineState()<CR>
 map <leader><leader><leader>L :call ToggleLineStateGlobal()<CR>
 map <leader><leader>p :call Statusline_TogglePath()<cr>
@@ -377,7 +378,7 @@ cnoremap <C-.> <Backspace>
 nnoremap <leader>cd :call MakeDirCurrentCWD()<cr>
 " :MakeDirCurrentProject<cr>
 " nnoremap <leader>.. :call CD('..')<cr>
-nnoremap <leader><leader> :call CD('..')<cr>
+" nnoremap <leader><leader> :call CD('..')<cr>
 "" nnoremap .. :call CD(split(w:relative_path,'/')[0])<cr>
 " unmap ..
 
@@ -731,9 +732,9 @@ nnoremap <silent> <leader>N  :cfirst<CR>zz
 nnoremap <silent> <leader>P  :clast<CR>zz
 nnoremap <silent> <leader>c  :cclose<CR>
 
-" ---- location list navigation --------------------------------------
-nnoremap <silent> <leader>lq :lopen<CR>
-" nnoremap <silent> <C-Down>   :lnext<CR>zz
-" nnoremap <silent> <C-Up>     :lprev<CR>zz
-nnoremap <silent> <leader>lN :lfirst<CR>zz
-nnoremap <silent> <leader>lP :llast<CR>zz
+" " ---- location list navigation --------------------------------------
+" nnoremap <silent> <leader>lq :lopen<CR>
+" " nnoremap <silent> <C-Down>   :lnext<CR>zz
+" " nnoremap <silent> <C-Up>     :lprev<CR>zz
+" nnoremap <silent> <leader>lN :lfirst<CR>zz
+" nnoremap <silent> <leader>lP :llast<CR>zz
