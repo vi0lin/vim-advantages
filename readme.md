@@ -762,6 +762,7 @@ Define Own Autocomplete
 - [ ]       or turn one (last target, or next one) to the right condition
 - [ ]     when yes
 - [ ]       execute the command
+- [ ] ,C-Space Toggles Equal Window Size
 
 
 
