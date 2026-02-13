@@ -555,11 +555,11 @@ endfunction
 
 command -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
 function GitCommit(message='')
+  GitMessage
   let commit_message=a:lastcommitmessage
   if a:message!=''
     let commit_message=a:message
   endif
-  GitMessage
   exec '!clear && git commit -m "'..commit_message..'"'
 endfunction
 
