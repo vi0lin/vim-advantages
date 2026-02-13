@@ -765,6 +765,7 @@ Define Own Autocomplete
 - [ ]       execute the command
 - [ ] ,C-Space Toggles Equal Window Size
 - [ ] Git Commit Stream Integration
+- [ ] Twitch Tokens
 
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
