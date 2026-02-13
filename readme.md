@@ -767,6 +767,7 @@ Define Own Autocomplete
 
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
+> Further, Every Global Player Trashes Out Auth Control Flows - Its An Obstacle For Hobbyists
 
 This source needs maintainance.
 It will be modular capable of loading in models for integrating with various machines interacting with each other.
