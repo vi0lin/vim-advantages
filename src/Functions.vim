@@ -565,7 +565,7 @@ function GitCommit(message='')
   else
     let msg=a:message
   endif
-  echo '!clear && git commit -m "'..msg..'"'
+  " echo '!clear && git commit -m "'..msg..'"'
   exec '!clear && git commit -m "'..msg..'"'
 endfunction
 
