@@ -501,7 +501,7 @@ function GitMessage()
   call Fetch_Last_Git_Message()
   if g:set_git_message
     let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
-    if message == ''
+    if message != ''
       let g:lastcommitmessage = message
     endif
   endif
