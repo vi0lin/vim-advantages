@@ -766,7 +766,6 @@ Define Own Autocomplete
 - [ ] Git Commit Stream Integration
 
 
-
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
 
