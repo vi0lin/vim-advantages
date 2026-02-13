@@ -142,3 +142,13 @@ command -nargs=0 -range EXEC <line1>,<line2>call EXEC()
 command -nargs=0 -range EXECTOGGLE <line1>,<line2>call EXECTOGGLE()
 command -nargs=0 -range INTERPRETERTOGGLE <line1>,<line2>call INTERPRETERTOGGLE()
 command! -nargs=+ CheckListContains call s:CheckList(<q-args>)
+
+" ---- commands ------------------------------------------------------
+" command! -nargs=1 Grep exec 'silent grep -nrw -- "<args>" .'
+" command! -nargs=1 Grep exec 'silent echo! "<args>"' | copen
+" | copen | redraw!
+" command! -nargs=1 LGrep exec 'silent lgrep -nrw -- "<args>" .' | lopen | redraw!
+" command! -nargs=1 Grep  exec 'ls! -al' | copen | redraw!
+command! -nargs=1 Grep exec 'silent grep! -nR -- "<args>" .' | copen | redraw!
+command! -nargs=0 PyCopen exec 'silent make' | copen | redraw!
+command! -nargs=0 Run exec w:runprg.' \| copen \| redraw!'

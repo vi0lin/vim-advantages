@@ -86,10 +86,28 @@ tnoremap <S-F11> <C-\><C-n>:call Move('l', 't')<cr>
 
 " Amap <F2> :NERDTreeFind<cr>
 "
-Amap <A-h>     :call Open("h", "buffer", "new")<cr> 
-Amap <A-j>     :call Open("j", "buffer", "new")<cr>
-Amap <A-k>     :call Open("k", "buffer", "new")<cr>
-Amap <A-l>     :call Open("l", "buffer", "new")<cr>
+"
+Amap <leader>h     :call Open("h", "buffer", "new")<cr>
+Amap <leader>j     :call Open("j", "buffer", "new")<cr>
+Amap <leader>k     :call Open("k", "buffer", "new")<cr>
+Amap <leader>l     :call Open("l", "buffer", "new")<cr>
+Amap <leader>H     :call Open("H", "buffer", "new")<cr>
+Amap <leader>J     :call Open("J", "buffer", "new")<cr>
+Amap <leader>K     :call Open("K", "buffer", "new")<cr>
+Amap <leader>L     :call Open("L", "buffer", "new")<cr>
+Amap <leader><leader>h     :call Open("h", "terminal", "new")<cr>
+Amap <leader><leader>j     :call Open("j", "terminal", "new")<cr>
+Amap <leader><leader>k     :call Open("k", "terminal", "new")<cr>
+Amap <leader><leader>l     :call Open("l", "terminal", "new")<cr>
+Amap <leader><leader>H     :call Open("H", "terminal", "new")<cr>
+Amap <leader><leader>J     :call Open("J", "terminal", "new")<cr>
+Amap <leader><leader>K     :call Open("K", "terminal", "new")<cr>
+Amap <leader><leader>L     :call Open("L", "terminal", "new")<cr>
+"
+" Amap <A-h>     :call Open("h", "buffer", "new")<cr>
+" Amap <A-j>     :call Open("j", "buffer", "new")<cr>
+" Amap <A-k>     :call Open("k", "buffer", "new")<cr>
+" Amap <A-l>     :call Open("l", "buffer", "new")<cr>
 Amap <A-H>     :call Open("H", "buffer", "new")<cr> 
 Amap <A-J>     :call Open("J", "buffer", "new")<cr>
 Amap <A-K>     :call Open("K", "buffer", "new")<cr>
@@ -113,20 +131,20 @@ Amap <A-S-L>     :call Open("L", "terminal", "new")<cr>
 
 Amap <A-S-Left>     :call Open("h", "terminal", "new")<cr> 
 Amap <A-S-Down>     :call Open("j", "terminal", "new")<cr>
-Amap <A-S-Up>     :call Open("k", "terminal", "new")<cr>
-Amap <A-S-Right>     :call Open("l", "terminal", "new")<cr>
+Amap <A-S-Up>       :call Open("k", "terminal", "new")<cr>
+Amap <A-S-Right>    :call Open("l", "terminal", "new")<cr>
 Amap <A-S-Left>     :call Open("H", "terminal", "new")<cr> 
 Amap <A-S-Down>     :call Open("J", "terminal", "new")<cr>
-Amap <A-S-Up>     :call Open("K", "terminal", "new")<cr>
-Amap <A-S-Right>     :call Open("L", "terminal", "new")<cr>
-Amap <A-Left>     :call Open("h", "buffer", "new")<cr> 
-Amap <A-Down>     :call Open("j", "buffer", "new")<cr>
-Amap <A-Up>     :call Open("k", "buffer", "new")<cr>
-Amap <A-Right>     :call Open("l", "buffer", "new")<cr>
-Amap <A-Left>     :call Open("H", "buffer", "new")<cr> 
-Amap <A-Down>     :call Open("J", "buffer", "new")<cr>
-Amap <A-Up>     :call Open("K", "buffer", "new")<cr>
-Amap <A-Right>     :call Open("L", "buffer", "new")<cr>
+Amap <A-S-Up>       :call Open("K", "terminal", "new")<cr>
+Amap <A-S-Right>    :call Open("L", "terminal", "new")<cr>
+Amap <A-Left>       :call Open("h", "buffer", "new")<cr>
+Amap <A-Down>       :call Open("j", "buffer", "new")<cr>
+Amap <A-Up>         :call Open("k", "buffer", "new")<cr>
+Amap <A-Right>      :call Open("l", "buffer", "new")<cr>
+Amap <A-Left>       :call Open("H", "buffer", "new")<cr>
+Amap <A-Down>       :call Open("J", "buffer", "new")<cr>
+Amap <A-Up>         :call Open("K", "buffer", "new")<cr>
+Amap <A-Right>      :call Open("L", "buffer", "new")<cr>
 " Amap <A-<C-h>> :call Open("h", "buffer", "copy")<cr> 
 " Amap <A-<C-j>> :call Open("j", "buffer", "copy")<cr>
 " Amap <A-<C-k>> :call Open("k", "buffer", "copy")<cr>
@@ -158,7 +176,13 @@ Vmap <C-S-X> :call DecRange()<cr>
 Tmap <leader>X :TIN tail -f $receiver<cr>
 
 map <leader>h :call TabH()<cr>
-map <leader>l :call TabL()<cr>
+map <leader>t :call TabL()<cr>
+
+map <leader>g :call TabH()<cr>
+map <leader>h :call TabL()<cr>
+
+map <m-h> :call TabH()<cr>
+map <m-l> :call TabL()<cr>
 
 map <C-S-M-h> :wincmd H<cr>
 map <C-S-M-j> :wincmd J<cr>
@@ -185,6 +209,7 @@ map <leader><leader><F4> :redraw \\| let c=input("Test: ")<cr>!source ".$workdir
 map <C-S-F9> :call PreviewBuffer()<CR>
 " map <M-F12> :call Info()<CR>
 map <C-F2> :call ToggleWrap()<CR>
+map <leader><leader><leader>w :call ToggleWrap()<CR>
 map <leader>in :call Intend()<cr>
 map <leader><leader><leader><space> :IntelligentSelecting<cr>
 map <leader>. @q
@@ -697,3 +722,18 @@ map <C-'> zl
 map <C-S-;> 20zh
 map <C-S-'> 20zl
 
+
+" ---- quickfix navigation -------------------------------------------
+nnoremap <silent> <leader>q  :copen<CR>
+nnoremap <silent> <C-Down>   :cnext<CR>zz
+nnoremap <silent> <C-Up>     :cprev<CR>zz
+nnoremap <silent> <leader>N  :cfirst<CR>zz
+nnoremap <silent> <leader>P  :clast<CR>zz
+nnoremap <silent> <leader>c  :cclose<CR>
+
+" ---- location list navigation --------------------------------------
+nnoremap <silent> <leader>lq :lopen<CR>
+" nnoremap <silent> <C-Down>   :lnext<CR>zz
+" nnoremap <silent> <C-Up>     :lprev<CR>zz
+nnoremap <silent> <leader>lN :lfirst<CR>zz
+nnoremap <silent> <leader>lP :llast<CR>zz

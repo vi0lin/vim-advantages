@@ -708,7 +708,7 @@ exec 'source '.g:vim.'/src/TextActions.vim'
 exec 'source '.g:vim.'/src/Autocommands.vim'
 syntax on
 set tabpagemax=50
-" set tabstop=4
+" set tabstop=2
 " filetype on
 " set nu
 " set ruler
@@ -797,6 +797,7 @@ set smartcase
 set showcmd
 set showmode
 set tabstop=2
+set softtabstop=2
 set shiftwidth=2
 set expandtab
 set noautoindent
@@ -3981,30 +3982,6 @@ nnoremap <expr> <leader>F KeyHandler(getchar())
 " set grepprg=grep\ -nH\ --\ -r\ -w\ $*
 " set grepprg=grep -nrw -- $*
 
-" ---- commands ------------------------------------------------------
-" command! -nargs=1 Grep exec 'silent grep -nrw -- "<args>" .'
-" command! -nargs=1 Grep exec 'silent echo! "<args>"' | copen
-" | copen | redraw!
-" command! -nargs=1 LGrep exec 'silent lgrep -nrw -- "<args>" .' | lopen | redraw!
-" command! -nargs=1 Grep  exec 'ls! -al' | copen | redraw!
-command! -nargs=1 Grep exec 'silent grep! -nR -- "<args>" .' | copen | redraw!
-command! -nargs=0 PyCopen exec 'silent make' | copen | redraw!
-command! -nargs=0 Run exec w:runprg.' \| copen \| redraw!'
-
-" ---- quickfix navigation -------------------------------------------
-nnoremap <silent> <leader>q  :copen<CR>
-nnoremap <silent> <C-Down>   :cnext<CR>zz
-nnoremap <silent> <C-Up>     :cprev<CR>zz
-nnoremap <silent> <leader>N  :cfirst<CR>zz
-nnoremap <silent> <leader>P  :clast<CR>zz
-nnoremap <silent> <leader>c  :cclose<CR>
-
-" ---- location list navigation --------------------------------------
-nnoremap <silent> <leader>lq :lopen<CR>
-" nnoremap <silent> <C-Down>   :lnext<CR>zz
-" nnoremap <silent> <C-Up>     :lprev<CR>zz
-nnoremap <silent> <leader>lN :lfirst<CR>zz
-nnoremap <silent> <leader>lP :llast<CR>zz
 
 " echo /home/user/MRTN/m/vim/src/Keymaps.vim
 " 
