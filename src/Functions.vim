@@ -480,6 +480,34 @@ function PushRepo()
   GithubPush
 endfunction
 
+function Fetch_Last_Git_Message()
+  let g:lastcommitmessage=systemlist('git log -1 --pretty=%B | head -n 1')[0]
+endfunction
+
+if !exists("g:set_git_message")
+  let g:set_git_message=1
+endif
+
+function Toggle_Set_Last_Git_Message()
+  let g:set_git_message=!g:set_git_message
+endfunction
+
+if !exists("g:lastmessage")
+  call Fetch_Last_Git_Message()
+endif
+
+command -range -nargs=0 GitMessage <line1>,<line2>:call GitMessage()
+function GitMessage()
+  call Fetch_Last_Git_Message()
+  if g:set_git_message
+    let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
+    " echo message g:lastcommitmessage
+    if message != g:lastcommitmessage
+      let g:lastcommitmessage = message
+    endif
+  endif
+endfunction
+
 command -range -nargs=0 PushCWD <line1>,<line2>:call PushCWD()
 function PushCWD()
   GitAddCWD
@@ -525,8 +553,9 @@ function GitAddRepo()
   " || git add -A
 endfunction
 
-command -range -nargs=0 GitCommit <line1>,<line2>:call GitCommit()
+command -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
 function GitCommit(message='Commited')
+  GitMessage
   exec '!clear && git commit -m "'..a:message..'"'
 endfunction
 
@@ -3982,19 +4011,6 @@ nnoremap <expr> <leader>F KeyHandler(getchar())
 " set grepprg=grep\ -nH\ --\ -r\ -w\ $*
 " set grepprg=grep -nrw -- $*
 
-" ---- commands ------------------------------------------------------
-" command! -nargs=1 Grep exec 'silent grep -nrw -- "<args>" .'
-" command! -nargs=1 Grep exec 'silent echo! "<args>"' | copen
-" | copen | redraw!
-" command! -nargs=1 LGrep exec 'silent lgrep -nrw -- "<args>" .' | lopen | redraw!
-" command! -nargs=1 Grep  exec 'ls! -al' | copen | redraw!
-command! -nargs=1 Grep exec 'silent grep! -nR -- "<args>" .' | copen | redraw!
-command! -nargs=0 PyCopen exec 'silent make' | copen | redraw!
-command! -nargs=0 Run exec w:runprg.' \| copen \| redraw!'
-
-
-" echo /home/user/MRTN/m/vim/src/Keymaps.vim
-" 
 " set wildmenu
 
 function OpenFileUnderCursor()
