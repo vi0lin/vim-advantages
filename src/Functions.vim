@@ -3982,6 +3982,16 @@ nnoremap <expr> <leader>F KeyHandler(getchar())
 " set grepprg=grep\ -nH\ --\ -r\ -w\ $*
 " set grepprg=grep -nrw -- $*
 
+" ---- commands ------------------------------------------------------
+" command! -nargs=1 Grep exec 'silent grep -nrw -- "<args>" .'
+" command! -nargs=1 Grep exec 'silent echo! "<args>"' | copen
+" | copen | redraw!
+" command! -nargs=1 LGrep exec 'silent lgrep -nrw -- "<args>" .' | lopen | redraw!
+" command! -nargs=1 Grep  exec 'ls! -al' | copen | redraw!
+command! -nargs=1 Grep exec 'silent grep! -nR -- "<args>" .' | copen | redraw!
+command! -nargs=0 PyCopen exec 'silent make' | copen | redraw!
+command! -nargs=0 Run exec w:runprg.' \| copen \| redraw!'
+
 
 " echo /home/user/MRTN/m/vim/src/Keymaps.vim
 " 
