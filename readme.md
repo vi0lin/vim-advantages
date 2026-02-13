@@ -763,6 +763,7 @@ Define Own Autocomplete
 - [ ]     when yes
 - [ ]       execute the command
 - [ ] ,C-Space Toggles Equal Window Size
+- [ ] Git Commit Stream Integration
 
 
 
