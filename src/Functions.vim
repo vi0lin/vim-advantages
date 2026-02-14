@@ -462,21 +462,21 @@ endfunction
 function GitApplyStash()
 endfunction
 
-command -range -nargs=0 Push <line1>,<line2>:call Push()
-function Push()
+command -range -nargs=? Push <line1>,<line2>:call Push(<q-args>)
+function Push(commitmessage='')
   GitAdd
   GitStatus
   " call system("read")
   " call input("Procceed? [<CR> Yes] [<C-c> Cancel]")
-  GitCommit
+  call GitCommit(a:commitmessage)
   GithubPush
 endfunction
 
-command -range -nargs=0 PushRepo <line1>,<line2>:call PushRepo()
-function PushRepo()
+command -range -nargs=? PushRepo <line1>,<line2>:call PushRepo(<args>)
+function PushRepo(commitmessage='')
   GitAddRepo
   GitStatus
-  GitCommit
+  call GitCommit(a:commitmessage)
   GithubPush
 endfunction
 
@@ -497,21 +497,23 @@ if !exists("g:lastmessage")
 endif
 
 command -range -nargs=0 GitMessage <line1>,<line2>:call GitMessage()
-function GitMessage()
+function GitMessage(commitmessage='')
   call Fetch_Last_Git_Message()
   if g:set_git_message
-    let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
-    if message != ''
-      let g:lastcommitmessage = message
+    if a:commitmessage!=''
+      let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
+      if message != ''
+        let g:lastcommitmessage = message
+      endif
     endif
   endif
 endfunction
 
-command -range -nargs=0 PushCWD <line1>,<line2>:call PushCWD()
-function PushCWD()
+command -range -nargs=? PushCWD <line1>,<line2>:call PushCWD(<args>)
+function PushCWD(commitmessage='')
   GitAddCWD
   GitStatus
-  GitCommit
+  call GitCommit(a:commitmessage)
   GithubPush
 endfunction
 
