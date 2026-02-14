@@ -507,6 +507,7 @@ function GitMessage(commitmessage='')
       endif
     endif
   endif
+  " Test
 endfunction
 
 command -range -nargs=? PushCWD <line1>,<line2>:call PushCWD(<args>)
