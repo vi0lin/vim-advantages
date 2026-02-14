@@ -175,11 +175,11 @@ Vmap <C-S-A> :call IncRange()<cr>
 Vmap <C-S-X> :call DecRange()<cr>
 Tmap <leader>X :TIN tail -f $receiver<cr>
 
-map <leader>h :call TabH()<cr>
-map <leader>t :call TabL()<cr>
+" map <leader>h :call TabH()<cr>
+" map <leader>t :call TabL()<cr>
 
-map <leader>g :call TabH()<cr>
-map <leader>h :call TabL()<cr>
+" map <leader>g :call TabH()<cr>
+" map <leader>h :call TabL()<cr>
 
 map <A-h> :call TabH()<cr>
 map <A-l> :call TabL()<cr>
