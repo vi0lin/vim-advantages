@@ -3,6 +3,11 @@ nnoremap <C-s> <Nop>
 inoremap <C-s> <Nop>
 vnoremap <C-s> <Nop>
 
+map <leader><leader>f :call FavoriteFile()<CR>
+map <leader><leader>p :call FavoritePath()<CR>
+map <C-8> :call Favorite()<CR>
+
+
 map <leader>t :Tidy<cr>
 
 if !exists("g:currentMapping")
@@ -262,7 +267,7 @@ tmap <LeftMouse> <C-\><C-n>
 map <leader><leader><leader>m :call Toggle_Set_Last_Git_Message()<CR>
 map <leader><leader><leader>l :call ToggleLineState()<CR>
 map <leader><leader><leader>L :call ToggleLineStateGlobal()<CR>
-map <leader><leader>p :call Statusline_TogglePath()<cr>
+map <leader><leader>s :call Statusline_TogglePath()<cr>
 
 map <leader><leader>d :echo g:debug_layout<cr>
 map <leader><leader>B :call Boilerplate_Test()<cr>
@@ -354,7 +359,8 @@ nnoremap <C-S-g>            :OpenFileCommandLineRepo<CR>
 nnoremap <C-A-g>            :OpenFileCommandLineSystem<CR>
 
 nnoremap <leader>o              :OpenFileCommandLineSameDir<CR>
-nnoremap <leader>.              :OpenFileCommandLineSameDir<CR>
+nnoremap <leader>.              :OpenFileCommandLineCWD<CR>
+nnoremap <leader><leader>.      :OpenFileCommandLineSameDir<CR>
 nnoremap <Tab>                  :OpenFileCommandLineCWD<CR>
 nnoremap <S-Tab>                :OpenFileCommandLineCWD<CR>
 nnoremap <C-i> <C-i>
@@ -438,7 +444,7 @@ nmap <leader>g :call AppendToEndNormal()<CR>
 nmap <leader>G :AppendAll<CR>
 nnoremap YY :call AppendToClipboard()<CR>
 vnoremap Y :<C-u>let @+ = @+ . join(getline("'<", "'>"), "\n") . "\n"<CR>
-noremap <expr> <leader><leader>s ShowMode()
+" noremap <expr> <leader><leader>s ShowMode()
 
 " Move Lines
 nnoremap <silent> <A-k> :m-2<cr>
