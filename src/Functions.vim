@@ -511,7 +511,6 @@ function GitMessage(commitmessage='')
       call UpdateLastCommitMessageWhenChanged()
     endif
   endif
-  " Test
 endfunction
 
 command -range -nargs=? PushCWD <line1>,<line2>:call PushCWD(<args>)
