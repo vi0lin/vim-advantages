@@ -767,11 +767,26 @@ Define Own Autocomplete
 - [ ] Git Commit Stream Integration
 - [ ] Twitch Tokens
 - [ ] Remove duplicates from .bashrc and finally release it
+- [ ] FZF Caching for improoving performance
+- [ ] solving neovim vim popup and term_start problem
+- [ ] Text for Steam Bio
+- [ ] Fix Git Projects
+- [ ] Add Git Projects
+- [ ] Quickly Add Git Projects
+- [ ] Publish Git Project
+- [ ] Add Repositories
+- [ ] Show Repositories
+- [ ] Proper Submodule Handling
 
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
 > Further, Every Global Player Trashes Out Auth Control Flows - Its An Obstacle For Hobbyists
 > Dont read them their documentation. Use my scripts.
+
+<!--
+> Networking is slow internal bare bone hardware most of the time performs better.
+> Even, when nowerdays, networking is very fast; Guess how fast internal computing is then, with all the new high tech standards.
+-->
 
 This source needs maintainance.
 It will be modular capable of loading in models for integrating with various machines interacting with each other.
