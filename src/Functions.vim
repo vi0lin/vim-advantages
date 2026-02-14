@@ -496,18 +496,21 @@ if !exists("g:lastmessage")
   call Fetch_Last_Git_Message()
 endif
 
+function UpdateLastCommitMessageWhenChanged(commitmessage='')
+  let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
+  if message != ''
+    let g:lastcommitmessage = message
+  endif
+endfunction
+
 command -range -nargs=0 GitMessage <line1>,<line2>:call GitMessage()
 function GitMessage(commitmessage='')
   call Fetch_Last_Git_Message()
   if g:set_git_message
     if a:commitmessage==''
-      let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
-      if message != ''
-        let g:lastcommitmessage = message
-      endif
+      call UpdateLastCommitMessageWhenChanged()
     endif
   endif
-  " Test
 endfunction
 
 command -range -nargs=? PushCWD <line1>,<line2>:call PushCWD(<args>)
