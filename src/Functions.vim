@@ -19,6 +19,7 @@ fun CloseOther()
   endfor
 endf
 map <F12> :call CloseOther()<cr>
+map <leader>p :GithubPush<cr>
  
 function Help()
   " if getbufvar(bufnr(), '&buftype') == 'terminal'
@@ -636,18 +637,7 @@ function! GithubPush()
   let $github_user=g:github_user
   let $github_email=g:github_email
   let $github_pat=g:github_pat
-
-  call input($github_user)
-
-  " :!echo $user;
-  " \ echo $email;
-  " \ echo $pat
-  " \ echo <c-r>=g:github_user;
-  " \ echo <c-r>=g:github_email;
-  " \ echo <c-r>=g:github_pat
-
   !github_feed() {
-  \ clear;
   \ username=$1;
   \ email=$2;
   \ pat=$3;
@@ -657,7 +647,6 @@ function! GithubPush()
   \ echo "username=$username" >> /tmp/git-credentials;
   \ echo "email=$email" >> /tmp/git-credentials;
   \ echo "password=$pat" >> /tmp/git-credentials;
-  \ echo "TEST";
   \ git credential approve < /tmp/git-credentials;
   \ };
   \ github_unfeed() {
@@ -668,8 +657,6 @@ function! GithubPush()
   \ git push origin main;
   \ github_unfeed;
   \ git config '--global' '--unset-all' core.autocrlf;
-
-  echo "done"
 endfunction
 
 function QuickYank(args='', flags='') range
