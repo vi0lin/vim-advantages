@@ -1,5 +1,4 @@
 " Keymaps.vim
-nnoremap <F12> :call QuickYank()<cr>
 command -range -nargs=* BulkMove :call _BulkMove()
 command! -range -nargs=+ Move <line1>,<line2>call Move(<f-args>)
 command -range -nargs=* SaveRoot :call SaveRoot()

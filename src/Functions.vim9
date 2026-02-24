@@ -1,0 +1,73 @@
+vim9script
+class TESST
+  var asdf = "test"
+  var x = {"a": 200}
+  def Fun()
+    echo this.x
+  enddef
+endclass
+# TESST.new().Fun()
+
+interface Assignable
+  def Assign(name: string, command: string)
+endinterface
+
+class Command implements Assignable
+  static var commands = []
+  var name = ""
+  var command = ""
+  def Assign(name: string, command: string)
+  enddef
+  def Execute()
+  enddef
+endclass
+
+interface ExecutionBehaviour
+  def Execute(command: Command)  
+endinterface
+
+class ExecuteInTerminalById implements ExecutionBehaviour
+  var id: number = -1
+  def new(id: number)
+  enddef
+  def Execute(command: Command)
+    echo winnr()
+    echo command.name
+    echo command.command
+  enddef
+endclass
+
+class ExecuteInTerminalByDirection implements ExecutionBehaviour
+  var direction: string = 'undefined'
+  def new(direction: string)
+  enddef
+  def Execute(command: Command)
+    echo command.name
+    echo command.command
+  enddef
+endclass
+
+class Assignment
+  static var assignments = []
+  static var assignments_keys = []
+
+  var key: string
+  var command: Command
+  var executionBehaviour: ExecutionBehaviour
+
+  def new(key: string, command: Command, executionBehaviour: ExecutionBehaviour)
+    this.key = key
+    this.command = command
+    this.executionBehaviour = executionBehaviour
+    extend(Assignment.assignments, [ this.command.name ])
+    extend(Assignment.assignments_keys, [ this.command.name ] )
+  enddef
+  def Save()
+  enddef
+  def Load()
+  enddef
+endclass
+
+var c = Command.new("CloseOther", ":call CloseOther()<cr>")
+var eb = ExecuteInTerminalByDirection.new('l')
+Assignment.new("<F8>", c, eb)

@@ -1,6 +1,25 @@
+exec "source ".g:vim."/src/Functions.vim9"
+
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
-"
+
+fun CloseOther()
+  let win=winnr()
+  let max_win=winnr('$')
+  let arr=range(1,max_win)
+  call filter(arr, 'v:val != '..win)
+  " exec arr..'windo echo winnr()'
+  for id in reverse(arr)
+    " echo id
+    " if win_id2win(id) > 0
+    " endif
+    let b=winbufnr(id)
+    execute id.'wincmd q'
+    execute b.'bd'
+  endfor
+endf
+map <F12> :call CloseOther()<cr>
+ 
 function Help()
   " if getbufvar(bufnr(), '&buftype') == 'terminal'
   "   echo "Terminal"
@@ -11,8 +30,13 @@ function Help()
 endfunction
 
 function DeleteFile()
-  call delete(expand('%'))
-  bd
+  let file=expand('%')
+  let sure=input('Deleting File '.file.'. Are you sure? [type yes] ')
+  if sure == "yes"
+    redraw!
+    call delete(file)
+    bd
+  endif
 endfunction
 
 function JoinSplits(dir)
@@ -264,19 +288,33 @@ function SelectTerm(keymap)
   endif
 endfunction
 
-function SelectCommand(keymap)
+function SelectCommand_callback(id, code, register)
+  echo "Not Implemented"
+endfunction
+
+function SelectCommand(keymap, info='')
+  let Callback=function('SelectCommand_callback', ["window"])
+  let list=[ 'Pray To God', 'Be Humble', 'Win Society For Jesus' ]
+  let list=[ 'Jesus, god.', 'F stands for Win ~~~ For Jesus' ]
+  let list=[ 'You did not know.' ]
+  call SelectCommandPopup("Commands: ", list, Callback)
+  return
   if a:keymap=~#"F[1234]"
     echo "tab"
   elseif a:keymap=~#"F[5678]"
     echo "win"
   endif
+  " function SelectCommand()
+  "   let Callback=function('OpenFile_callback', ["window"])
+  "   call FZFPopup("Open file: ", "file", CWD(), Callback)
+  " endfunction
 endfunction
 
 function ConfigureExecute(keymap, shift=0, control=0, alt=0)
   let vs=VS()
-  echo a:shift a:control
+  " echo a:shift a:control
   " a:alt
-  call SelectCommand(a:keymap)
+  call SelectCommand(a:keymap,"")
 endfunction
 
 function GetRepoLocation()
@@ -481,7 +519,9 @@ function PushRepo(commitmessage='')
 endfunction
 
 function Fetch_Last_Git_Message()
-  let g:lastcommitmessage=systemlist('git log -1 --pretty=%B | head -n 1')[0]
+  if exists("b:isGitRepo") && b:isGitRepo=='true'
+    let g:lastcommitmessage=systemlist('git log -1 --pretty=%B | head -n 1')[0]
+  endif
 endfunction
 
 if !exists("g:set_git_message")
@@ -497,9 +537,13 @@ if !exists("g:lastmessage")
 endif
 
 function UpdateLastCommitMessageWhenChanged(commitmessage='')
-  let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
-  if message != ''
-    let g:lastcommitmessage = message
+  if exists('g:lastcommitmessage')
+    let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
+    if message != ''
+      let g:lastcommitmessage = message
+    endif
+  else
+    echo "g:lastcommitmessage does not exists"
   endif
 endfunction
 
@@ -567,6 +611,8 @@ function GitCommit(message='')
   else
     let msg=a:message
   endif
+  " echo msg
+  " call input(msg)
   " echo '!clear && git commit -m "'..msg..'"'
   exec '!clear && git commit -m "'..msg..'"'
 endfunction
@@ -576,6 +622,7 @@ function GitPush()
   !clear && git push origin master
 endfunction
 
+command -range -nargs=0 Status <line1>,<line2>:call GitStatus()
 command -range -nargs=0 GitStatus <line1>,<line2>:call GitStatus()
 function GitStatus()
   !clear && git status
@@ -1871,7 +1918,9 @@ endfunction
 
 function SearchOpenFile(...)
   let file=a:000[0]
-  echo expand(file)
+  " echo file
+  " echo a:000
+  " echo expand(file)
   " let $v=get(a:,1,0)
   " e $v
   exec "hide e! ".file
@@ -1918,19 +1967,26 @@ function GitName_Statusline()
   return '  '..GitName()..' '
 endfunction
 
+function SetProject(dir)
+  call system("curl http://localhost:8000/SetProject?project="..a:dir)
+endfunction
+
 function FindGit(path)
   let b=split(a:path, "/")
   for i in range(1,len(b))
     let dir='/'..join(b[:len(b)-i], '/')
     let git=dir..'/.git'
     if isdirectory(git)
+      call SetProject(dir) 
       return dir
     elseif filereadable(git)
+      call SetProject(dir) 
       return dir
     endif
   endfor
   let dir = '/'
   if isdirectory(dir..'/.git')
+    call SetProject(dir) 
     return dir
   endif
   return -1
@@ -2003,6 +2059,22 @@ function PathLast(path)
   let x = x . '/' . join(parts[-3:], '/')
   return x
 endfunction
+
+function FavoriteFile()
+endfunction
+
+function FavoritePath()
+endfunction
+
+function Favorite()
+  let list=systemlist("ls -al")
+  call Find_Popup(
+        \ "Favorites",
+        \ list,
+        \ "file",
+        \)
+endfunction
+
 
 if !exists("g:shortenpath")
   let shortenpath=0
@@ -2083,6 +2155,14 @@ function PathCharwise(path, except=0)
         let x = x . '/' . join(parts[-3:], '/')
         return x
     endif
+endfunction
+
+function SelectCommandPopup(title, list, callback)
+  call Execution_Popup(
+        \ a:title,
+        \ a:list,
+        \ a:callback,
+        \)
 endfunction
 
 function FZFPopup(title, type, path, callback)
@@ -3227,15 +3307,17 @@ endfunction
 function ExpandV()
   exec GetVertical() "resize +65"
 endfunction
-if !exists('*SaveFile') 
-  function SaveFile() 
+let redefine_SaveFile= 1
+if g:redefine_SaveFile || !exists('*SaveFile') 
+  function! SaveFile() 
     call Cursor_Prep() 
     try
       w!
     catch
-      silent call SaveRoot()
+      silent call SaveAsRoot()
     endtry
     call Cursor_Back() 
+    " echo "File was saved"
   endfunction 
 endif
 
@@ -3294,7 +3376,7 @@ function SetLineState(n)
   endif
 endfunction
 
-function SaveRoot()
+function SaveAsRoot()
   try
     :silent w !clear; sudo tee %
     :e! %
@@ -3412,6 +3494,7 @@ function BufNew()
   " if exists("g:lastmain_repo")
   "   call CD(g:lastmain_repo)
   " endif
+  call BufferSetup()
 endfunction
 
 function TabNew()
@@ -3683,6 +3766,44 @@ function Find_Popup(title, paths, callback, type="file", maxdepth=10, register="
   catch 
   finally
   endtry
+endfunction
+
+function Execution_Popup(title, list, callback)
+  let title=' '..a:title..' '
+  function! OnStdout(channel, msg)
+  endfunction
+  function! OnError(...)
+  endfunction
+  function! OnExitTerm(bufname, job, code)
+  endfunction
+  let opts={
+        \ 'hidden': 1,
+        \ 'err_cb': 'OnError',
+        \ 'term_name': 'Find', 
+        \ 'term_finish': 'close',
+        \ }
+  function! MyFilter(wnid, key)
+    if a:key=='q'
+      call popup_close(a:winid)
+      call OnPopupClose(a:winid, 'User pressed q')
+      return 1
+    endif
+    return 0
+  endfunction
+  let g:pnr=popup_create(0, #{
+    \ title: title,
+    \ pos: 'center',
+    \ minwidth: 80,
+    \ minheight: 20,
+    \ maxheight: 80,
+    \ border: [1, 1, 1, 1],
+    \ borderchars: ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
+    \ highlight: 'Pmenu',
+    \ term_cols: 40,
+    \ cursorline: 1,
+    \ zindex: 200,
+    \ callback: a:callback,
+    \ })
 endfunction
 
 function GetTempfileLine()
@@ -3989,11 +4110,13 @@ function LayoutVim()
     \ [ g:vim."/src/Functions.vim", "H"],
     \ [ g:vim."/src/Keymaps.vim", "v"],
     \ [ g:vim."/src/Commands.vim", "v"],
+    \ [ g:vim."/readme.md", "v"],
     \ [ g:vim."/src/Autocommands.vim", "J"],
     \ [ g:bashrc, "v", "G"],
+    \ [ g:vim."/src/Functions.vim9", "v"],
     \ [ g:vim."/src/Statusline.vim", "v"],
-    \ [ g:source_dir.."/notes.md", "s"],
     \]
+    " \ [ g:source_dir.."/notes.md", "s"],
   call _buildLayout(layout)
   exe 1 .. "wincmd w"
 endfunction
@@ -4017,7 +4140,6 @@ function KeyHandler(key)
   endif
 endfunction
 nnoremap <expr> <leader>F KeyHandler(getchar())
-" source g:vim/src/Functions.vim9
 
 " ---- grep settings -------------------------------------------------
 " set grepprg=grep\ -nH\ --\ -r\ -w\ $*

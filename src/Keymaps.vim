@@ -7,6 +7,16 @@ map <leader><leader>f :call FavoriteFile()<CR>
 map <leader><leader>p :call FavoritePath()<CR>
 map <C-8> :call Favorite()<CR>
 
+command -nargs=0 Equal :norm <C-w>=
+map <leader>e :Equal<cr>
+nnoremap ,= :Equal<cr>
+
+map <leader>w :call ToggleZoom()<cr>
+" map <C-Space> :call ToggleZoom()<cr>
+nnoremap ,s :so %<cr>
+"
+map <C-Space> :call SelectCommand()<cr>
+
 
 map <leader>t :Tidy<cr>
 
@@ -25,11 +35,11 @@ map <S-F3> :call AG()<CR>
 " map <S-F3>  :exec "cd "..GetProject().." | Ag"<CR>
 map <C-F3> :GFiles<CR>
 
-cmap <F9> <C-R>I
-cmap <F10> <C-R>O
-cmap <F11> <C-R>P
+" cmap <F9> <C-R>I
+" cmap <F10> <C-R>O
+" cmap <F11> <C-R>P
 
-cmap <C-k> <C-e><C-u>
+
 
 noremap <leader>q :q<CR>
 noremap <M-q> :q<CR>
@@ -163,7 +173,7 @@ Amap <C-q> :q!<CR>
 Amap <A-q> :qa!<CR>
 map <C-S-q> :call TabClose()<cr>
 Amap <leader><leader>r :redraw!<cr>
-Amap <leader>ser  :call ServiceMenu()<cr>
+" Amap <leader>ser  :call ServiceMenu()<cr>
 Amap <S-F2> :let x=input("Find In Files: ") \| :echo system("grep ".expand('%')." -nrw -e \"".x."\"")<cr>
 Amap <leader>c call CountRegex()<cr>
 " Amap <leader>c :call COP('P')<cr>
@@ -204,8 +214,7 @@ tnoremap <C-S-j> <c-\><c-n>:call SwapWin("j")<cr>
 tnoremap <C-S-k> <c-\><c-n>:call SwapWin("k")<cr> 
 tnoremap <C-S-l> <c-\><c-n>:call SwapWin("l")<cr> 
 
-
-nnoremap <leader>e :call OpenFileUnderCursor()<cr>
+nnoremap <leader>fuc :call OpenFileUnderCursor()<cr>
 nnoremap <leader><leader>fb :LayoutBash<cr>
 nnoremap <leader><leader>fv :LayoutVim<cr>
 
@@ -271,7 +280,7 @@ map <leader><leader>s :call Statusline_TogglePath()<cr>
 
 map <leader><leader>d :echo g:debug_layout<cr>
 map <leader><leader>B :call Boilerplate_Test()<cr>
-vmap <C-Space> :call LineUp()<cr>
+" vmap <C-Space> :call LineUp()<cr>
 map <leader><Space> :call GetCCWD()<cr>
 
 " map <F9>  :BuildProject<cr>
@@ -286,16 +295,6 @@ map <leader><Space> :call GetCCWD()<cr>
 """ map <F10> :Run<cr>
 """ map <S-F10> :cclose<cr>
 """ map <C-F10> :AsyncStop<cr>
-
-" map <F1> :echo DBG()<cr>
-map <F9>  :silent Make<cr>
-" \\| wincmd w \| redraw! \\| copen'<cr>
-map <S-F9>  :AbortDispatch<cr>
-map <F10> :!./%<<cr>
-map <F11> :!./%<<cr>
-
-" map <F11> :Implement<cr>
-" map <F12> :Implement<cr>
 
 " nnoremap <silent> <localleader> :<c-u>WhichKey '.'<cr>
 
@@ -486,9 +485,13 @@ function Ut(...)
 endfunction
 command -range -nargs=+ Ut call Ut(<f-args>)
 
-Ut <F12> :call QuickYank()<cr>
-Ut <S-F12> :call QuickYank('paste')<cr>
-Ut <C-F12> :call QuickYank('init')<cr>
+" Ut <F12> :call QuickYank()<cr>
+" nnoremap <F12> :call QuickYank()<cr>
+" Ut <S-F12> :call QuickYank('paste')<cr>
+" Ut <C-F12> :call QuickYank('init')<cr>
+" map <F12> :call setreg('*', CWD()[0]..'/'..expand('%')..':'..line('.'))<cr>
+" map <S-F12> i<c-r>*
+
 
 " vnoremap <C-S-v> :<C-u><cr>
 nnoremap <C-S-v> :norm "+p
@@ -502,9 +505,6 @@ map <leader>v :visualblock<cr>
 " cnoremap <C-S-v> :<cr>
 " tnoremap <C-S-v> <C-\><C-n>:<cr>
 " let seperator=len(args)>0?', ':''
-
-map <F12> :call setreg('*', CWD()[0]..'/'..expand('%')..':'..line('.'))<cr>
-map <S-F12> i<c-r>*
 
 " map <leader><F5> :call RegisterTerminal()<cr>
 " map <leader><F6> :call RegisterTerminal()<cr>
@@ -688,9 +688,19 @@ map <leader><C-S-F8> :call ConfigureExecute("F8", 1, 1)<cr>
 " map <leader><C-S-A-F7> :call ConfigureExecute("F7", 1, 1, 1)<cr>
 " map <leader><C-S-A-F8> :call ConfigureExecute("F8", 1, 1, 1)<cr>
 
+"" " map <F1> :echo DBG()<cr>
+"" map <F9>  :silent Make<cr>
+"" " \\| wincmd w \| redraw! \\| copen'<cr>
+"" map <S-F9>  :AbortDispatch<cr>
+"" map <F10> :!./%<<cr>
+"" map <F11> :!./%<<cr>
+
+" map <F11> :Implement<cr>
+" map <F12> :Implement<cr>
+
+
 map <leader>rm :call DeleteFile()<cr>
 map <leader>n :call NewFile()<cr>
-
 
 " map <leader>< :norm d\<C-w>lGopG\<C-w>h
 " map <leader>< :execute 'normal! \<C-w>l'<cr>
