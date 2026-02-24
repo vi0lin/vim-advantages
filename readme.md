@@ -780,8 +780,6 @@ Define Own Autocomplete
 
 > [!WARNING]
 > YOU WILL FIND LOTS OF TRASH IN THE SOURCE FILES.
-> Further, Every Global Player Trashes Out Auth Control Flows - Its An Obstacle For Hobbyists
-> Dont read them their documentation. Use my scripts.
 
 <!--
 > Networking is slow internal bare bone hardware most of the time performs better.
