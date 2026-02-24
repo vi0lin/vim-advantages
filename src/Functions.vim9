@@ -13,9 +13,19 @@ interface Assignable
 endinterface
 
 class Command implements Assignable
-  static var commands = []
+  static var commands: list<Command> = []
+  static def ShowCommands()
+    for c in Command.commands
+      echo c
+    endfor
+  enddef
   var name = ""
   var command = ""
+  def new(name: string, command: string)
+    this.name = name
+    this.command = command
+    call extend(Command.commands, [ this ])
+  enddef
   def Assign(name: string, command: string)
   enddef
   def Execute()
@@ -71,3 +81,7 @@ endclass
 var c = Command.new("CloseOther", ":call CloseOther()<cr>")
 var eb = ExecuteInTerminalByDirection.new('l')
 Assignment.new("<F8>", c, eb)
+
+var s = Command.new("Status", ":call GitStatus()<cr>")
+Assignment.new("<leader>gs", s, eb)
+# Command.ShowCommands()
