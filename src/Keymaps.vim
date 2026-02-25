@@ -733,7 +733,7 @@ nnoremap <C-S-M-j> :echo JoinSplits("j")<cr>
 nnoremap <C-S-M-k> :echo JoinSplits("k")<cr>
 nnoremap <C-S-M-l> :echo JoinSplits("l")<cr>
 
-nnoremap <F1> :call Help()<cr>
+" nnoremap <F1> :call Help()<cr>
 
 map <C-;> zh
 map <C-'> zl

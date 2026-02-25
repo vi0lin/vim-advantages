@@ -12,6 +12,11 @@ vim9script
 #   def ToString(): string
 # endinterface
 
+def g:Execute(keymap: string)
+  AssignmentFileReader.Read()
+  echo Assignment.assignments
+enddef
+
 class VimAdvantageFinder
   static var filename = ".vim-advantages"
   static var fallback = "~/" .. VimAdvantageFinder.filename
@@ -19,64 +24,131 @@ class VimAdvantageFinder
     VimAdvantageFinder.fallback = fallback
   enddef
   static def GetDir(cwd: string): string
-    var dir = fnamemodify(cwd, ':p')
-    # falsch var dir = fnamemodify(cwd, ':h')
-    return dir
+    var path = split(cwd, '/')
+    var result = ""
+    var ret = '/' .. join(path[0 : len(path) ], '/')
+    if filereadable(ret)
+      ret = '/' .. join(path[0 : len(path) - 2 ], '/')
+    endif
+    return ret
   enddef
   var dir = fnamemodify(cwd, ':h')
   static def GetParentDir(cwd: string): string
-    var path = split(cwd, '/')
-    return '/' .. join(path[0 : len(path) - 2], '/')
+    var path = [ '' ]
+    extend(path, split(cwd, '/'))
+    var ret = join(path[0 : len(path) - 2], '/')
+    if ret == ''
+      ret = '/'
+    endif
+    return ret
   enddef
-  static def Find(cwd: string): string
-    var path = split(cwd, '/')
-    # var result = ""
-    for i in reverse(range(0, len(path)))
-      # result = result .. " " .. i
-      var search_path = '/' .. join(path[0 : i], '/')
-      var search_query = search_path .. '/' .. filename
-      # echo search_query
-      if filereadable(search_query)
-        # echo "file was found " .. search_query
-        # echo "path " .. search_path
-        return search_query
-      endif
-    endfor
-    return VimAdvantageFinder.fallback
+  # var path = split(cwd, '/')
+  # var result = ""
+  # for i in reverse(range(0, len(path)))
+  #   # result = result .. " " .. i
+  #   var search_path = '/' .. join(path[0 : i], '/')
+  #   var search_query = search_path .. '/' .. filename
+  #   if filereadable(search_query)
+  #     # echo "->" .. search_path
+  #     # echo "->" .. search_query
+  #     # echo "file was found " .. search_query
+  #     # echo "path " .. search_path
+  #     return search_query
+  #   endif
+  # endfor
+  # else
+  #   return VimAdvantageFinder.fallback
+  # endif
+  # static def Find(cwd: string): string
+  #   var lookup = VimAdvantageFinder.LookUp(cwd)
+  #   if filereadable(lookup)
+  #     return lookup
+  #   else
+  #     return VimAdvantageFinder.LookUp(VimAdvantageFinder.GetParentDir(lookup))
+  #     # return ''
+  #   endif
+  # enddef
+  static def LookUp(cwd: string): string
+    var path = VimAdvantageFinder.GetDir(cwd)
+    var check = path .. '/' .. VimAdvantageFinder.filename
+    if filereadable(check)
+      return check
+    else
+      # if path == '/'
+      #   return VimAdvantageFinder.fallback
+      # else
+      #   return VimAdvantageFinder.GetParentDir(path)
+      # endif
+      # return VimAdvantageFinder.GetParentDir(path)
+      return ''
+    endif
   enddef
   static def FindAll(cwd: string): list<string>
     var result = []
-    var x = VimAdvantageFinder.GetDir(cwd)
     var find = ""
+    var x = ""
+    var path = cwd
     while true
-      find = VimAdvantageFinder.Find(x)
-      extend(result, [ find ])
+      x = VimAdvantageFinder.LookUp(path)
+      # echo "path: " .. path
+      # echo "found : " .. x
+      if x == ''
+        path = VimAdvantageFinder.GetParentDir(path)
+      else
+        extend(result, [ x ])
+        path = VimAdvantageFinder.GetParentDir(path)
+      endif
+      # echo "LookUp--> " .. VimAdvantageFinder.LookUp(x)
+      # if filereadable(x)
+      #   extend(result, [ find ])
+      #   x = VimAdvantageFinder.GetParentDir(x)
+      # elseif isdirectory(x)
+      #   x = VimAdvantageFinder.GetParentDir(x)
+      # endif
       if find == VimAdvantageFinder.fallback
         break
-      else
-        x = VimAdvantageFinder.GetParentDir(x)
+      elseif path == '/'
+        break
       endif
+      # echo "-->" .. x
+      # echo "   " .. find
+      # echo index(result, [ find ])
+      # if index(result, [ find ]) == -1
+      # find = VimAdvantageFinder.LookUp(x)
+      #   if filereadable(find)
+      #     echo "adding: " .. find
+      #     extend(result, [ find ])
+      #   endif
+      # endif
+      # if find == VimAdvantageFinder.fallback
+      #   break
+      # else
+      #   x = VimAdvantageFinder.GetParentDir(x)
+      # endif
     endwhile
     return result
   enddef
 endclass
 VimAdvantageFinder.Init('~/')
+echo VimAdvantageFinder.FindAll(getcwd())
 
-if !exists('g:va')
-  var va = {}
-endif
+# echo VimAdvantageFinder.LookUp(getcwd())
+
+echo VimAdvantageFinder.LookUp(getcwd() .. '/Functions.vim9')
 
 class AssignmentFileReader
   static def Read()
     var files = VimAdvantageFinder.FindAll(getcwd())
-    g:va = {}
+    # extend(Assignment.assignments, [])
+    # remove(Assignment.assignments, 0)
+    # falsch filter(Assignment.assignments, { -> 0 })
     for f in files
-       # extend(g:va, json_decode(join(readfile(f), "\n")))
-       extend(g:va, { } )
+      echo f
+       # extend(Assignment.assignments, json_decode(join(readfile(f), "\n")))
+       # extend(Assignment.assignments, [ "TEST" ])
     endfor
   enddef
 endclass
-AssignmentFileReader.Read()
 
 class AssignmentFileWriter
   static def Write()
@@ -111,6 +183,13 @@ enum AssignmentRange
   Tab,
   Buffer,
   Window
+endenum
+
+enum AssignmentBinding
+  File,
+  Folder,
+  Project,
+  GitProject
 endenum
 
 class Command extends Dump implements Assignable
@@ -165,13 +244,14 @@ class ExecuteInTerminalByDirection implements ExecutionBehaviour
 endclass
 
 class Assignment
-  static var assignments = []
+  static var assignments: list<string> = []
   static var assignments_keys = []
 
   var key: string
   var command: Command
   var executionBehaviour: ExecutionBehaviour
   var range: AssignmentRange
+  var bind: AssignmentBinding
 
   def new(key: string, command: Command, executionBehaviour: ExecutionBehaviour, range: AssignmentRange=AssignmentRange.Global)
     this.key = key
@@ -212,3 +292,9 @@ Assignment.new("<leader>gs", s, eb)
 # echo Planet.Jupiter.GetMoons()
 # echo Planet.Earth.has_rings
 # echo Planet.Jupiter.ToString()
+
+Assignment.new(
+  \ "<leader><leader><leader>help",
+  \ Command.new("Help", ":call Help()<cr>"),
+  \ ExecuteInTerminalByDirection.new('l')
+\ )

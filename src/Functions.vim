@@ -334,7 +334,9 @@ function GetVimJsonLocation()
   endif
 endfunction
 
-function Execute(keymap, shift=0, control=0, alt=0)
+function Execute2(keymap, shift=0, control=0, alt=0)
+  echo "TEST"
+  return
   " Example Execution Manager Data Structure
   let pocket={
     \ "mappings": [
