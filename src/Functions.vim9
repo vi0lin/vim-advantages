@@ -12,6 +12,77 @@ vim9script
 #   def ToString(): string
 # endinterface
 
+class VimAdvantageFinder
+  static var filename = ".vim-advantages"
+  static var fallback = "~/" .. VimAdvantageFinder.filename
+  static def Init(fallback_path: string)
+    VimAdvantageFinder.fallback = fallback
+  enddef
+  static def GetDir(cwd: string): string
+    var dir = fnamemodify(cwd, ':p')
+    # falsch var dir = fnamemodify(cwd, ':h')
+    return dir
+  enddef
+  var dir = fnamemodify(cwd, ':h')
+  static def GetParentDir(cwd: string): string
+    var path = split(cwd, '/')
+    return '/' .. join(path[0 : len(path) - 2], '/')
+  enddef
+  static def Find(cwd: string): string
+    var path = split(cwd, '/')
+    # var result = ""
+    for i in reverse(range(0, len(path)))
+      # result = result .. " " .. i
+      var search_path = '/' .. join(path[0 : i], '/')
+      var search_query = search_path .. '/' .. filename
+      # echo search_query
+      if filereadable(search_query)
+        # echo "file was found " .. search_query
+        # echo "path " .. search_path
+        return search_query
+      endif
+    endfor
+    return VimAdvantageFinder.fallback
+  enddef
+  static def FindAll(cwd: string): list<string>
+    var result = []
+    var x = VimAdvantageFinder.GetDir(cwd)
+    var find = ""
+    while true
+      find = VimAdvantageFinder.Find(x)
+      extend(result, [ find ])
+      if find == VimAdvantageFinder.fallback
+        break
+      else
+        x = VimAdvantageFinder.GetParentDir(x)
+      endif
+    endwhile
+    return result
+  enddef
+endclass
+VimAdvantageFinder.Init('~/')
+
+if !exists('g:va')
+  var va = {}
+endif
+
+class AssignmentFileReader
+  static def Read()
+    var files = VimAdvantageFinder.FindAll(getcwd())
+    g:va = {}
+    for f in files
+       # extend(g:va, json_decode(join(readfile(f), "\n")))
+       extend(g:va, { } )
+    endfor
+  enddef
+endclass
+AssignmentFileReader.Read()
+
+class AssignmentFileWriter
+  static def Write()
+  enddef
+endclass
+
 abstract class Dump
   abstract def ToDict(): dict<any>
   def Dump(): string
@@ -109,10 +180,6 @@ class Assignment
     this.range = range
     extend(Assignment.assignments, [ this.command.name ])
     extend(Assignment.assignments_keys, [ this.command.name ] )
-  enddef
-  def Save()
-  enddef
-  def Load()
   enddef
 endclass
 
