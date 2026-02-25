@@ -1,16 +1,4 @@
 vim9script
-# class TESST
-#   var asdf = "test"
-#   var x = {"a": 200}
-#   def Fun()
-#     echo this.x
-#   enddef
-# endclass
-# TESST.new().Fun()
-
-# interface ToString
-#   def ToString(): string
-# endinterface
 
 def g:Execute(keymap: string)
   AssignmentFileReader.Read()
@@ -43,44 +31,12 @@ class VimAdvantageFinder
     endif
     return ret
   enddef
-  # var path = split(cwd, '/')
-  # var result = ""
-  # for i in reverse(range(0, len(path)))
-  #   # result = result .. " " .. i
-  #   var search_path = '/' .. join(path[0 : i], '/')
-  #   var search_query = search_path .. '/' .. filename
-  #   if filereadable(search_query)
-  #     # echo "->" .. search_path
-  #     # echo "->" .. search_query
-  #     # echo "file was found " .. search_query
-  #     # echo "path " .. search_path
-  #     return search_query
-  #   endif
-  # endfor
-  # else
-  #   return VimAdvantageFinder.fallback
-  # endif
-  # static def Find(cwd: string): string
-  #   var lookup = VimAdvantageFinder.LookUp(cwd)
-  #   if filereadable(lookup)
-  #     return lookup
-  #   else
-  #     return VimAdvantageFinder.LookUp(VimAdvantageFinder.GetParentDir(lookup))
-  #     # return ''
-  #   endif
-  # enddef
   static def LookUp(cwd: string): string
     var path = VimAdvantageFinder.GetDir(cwd)
     var check = path .. '/' .. VimAdvantageFinder.filename
     if filereadable(check)
       return check
     else
-      # if path == '/'
-      #   return VimAdvantageFinder.fallback
-      # else
-      #   return VimAdvantageFinder.GetParentDir(path)
-      # endif
-      # return VimAdvantageFinder.GetParentDir(path)
       return ''
     endif
   enddef
@@ -91,41 +47,17 @@ class VimAdvantageFinder
     var path = cwd
     while true
       x = VimAdvantageFinder.LookUp(path)
-      # echo "path: " .. path
-      # echo "found : " .. x
       if x == ''
         path = VimAdvantageFinder.GetParentDir(path)
       else
         extend(result, [ x ])
         path = VimAdvantageFinder.GetParentDir(path)
       endif
-      # echo "LookUp--> " .. VimAdvantageFinder.LookUp(x)
-      # if filereadable(x)
-      #   extend(result, [ find ])
-      #   x = VimAdvantageFinder.GetParentDir(x)
-      # elseif isdirectory(x)
-      #   x = VimAdvantageFinder.GetParentDir(x)
-      # endif
       if find == VimAdvantageFinder.fallback
         break
       elseif path == '/'
         break
       endif
-      # echo "-->" .. x
-      # echo "   " .. find
-      # echo index(result, [ find ])
-      # if index(result, [ find ]) == -1
-      # find = VimAdvantageFinder.LookUp(x)
-      #   if filereadable(find)
-      #     echo "adding: " .. find
-      #     extend(result, [ find ])
-      #   endif
-      # endif
-      # if find == VimAdvantageFinder.fallback
-      #   break
-      # else
-      #   x = VimAdvantageFinder.GetParentDir(x)
-      # endif
     endwhile
     return result
   enddef
@@ -139,9 +71,6 @@ VimAdvantageFinder.Init('~/')
 class AssignmentFileReader
   static def Read()
     var files = VimAdvantageFinder.FindAll(getcwd())
-    # extend(Assignment.assignments, [])
-    # remove(Assignment.assignments, 0)
-    # falsch filter(Assignment.assignments, { -> 0 })
     for f in files
       echo f
        # extend(Assignment.assignments, json_decode(join(readfile(f), "\n")))
@@ -170,9 +99,6 @@ abstract class Dump
   #   return this.Dump()
   # enddef
 endclass
-
-# class Dump
-# endclass
 
 interface Assignable
   def Assign(name: string, command: string)
