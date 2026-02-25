@@ -1,18 +1,48 @@
 vim9script
-class TESST
-  var asdf = "test"
-  var x = {"a": 200}
-  def Fun()
-    echo this.x
-  enddef
-endclass
+# class TESST
+#   var asdf = "test"
+#   var x = {"a": 200}
+#   def Fun()
+#     echo this.x
+#   enddef
+# endclass
 # TESST.new().Fun()
+
+# interface ToString
+#   def ToString(): string
+# endinterface
+
+abstract class Dump
+  abstract def ToDict(): dict<any>
+  def Dump(): string
+    var result = ""
+    for [k,v] in items(this.ToDict())
+      # result .= $"{k}: {v}"
+      result = result .. " " .. k .. ": " .. v
+    endfor
+    return result
+  enddef
+  # def ToString(): string
+  #   return join([this.name,this.command],' ')
+  #   return this.Dump()
+  # enddef
+endclass
+
+# class Dump
+# endclass
 
 interface Assignable
   def Assign(name: string, command: string)
 endinterface
 
-class Command implements Assignable
+enum AssignmentRange
+  Global,
+  Tab,
+  Buffer,
+  Window
+endenum
+
+class Command extends Dump implements Assignable
   static var commands: list<Command> = []
   static def ShowCommands()
     for c in Command.commands
@@ -29,6 +59,12 @@ class Command implements Assignable
   def Assign(name: string, command: string)
   enddef
   def Execute()
+  enddef
+  def ToDict(): dict<any>
+    return {
+      name: this.name,
+      command: this.command,
+    }
   enddef
 endclass
 
@@ -64,11 +100,13 @@ class Assignment
   var key: string
   var command: Command
   var executionBehaviour: ExecutionBehaviour
+  var range: AssignmentRange
 
-  def new(key: string, command: Command, executionBehaviour: ExecutionBehaviour)
+  def new(key: string, command: Command, executionBehaviour: ExecutionBehaviour, range: AssignmentRange=AssignmentRange.Global)
     this.key = key
     this.command = command
     this.executionBehaviour = executionBehaviour
+    this.range = range
     extend(Assignment.assignments, [ this.command.name ])
     extend(Assignment.assignments_keys, [ this.command.name ] )
   enddef
@@ -80,8 +118,30 @@ endclass
 
 var c = Command.new("CloseOther", ":call CloseOther()<cr>")
 var eb = ExecuteInTerminalByDirection.new('l')
-Assignment.new("<F8>", c, eb)
+Assignment.new("<F8>", c, eb, AssignmentRange.Global)
 
 var s = Command.new("Status", ":call GitStatus()<cr>")
 Assignment.new("<leader>gs", s, eb)
 # Command.ShowCommands()
+
+# Enums haben automatisch einen Konstruktor?
+# Klassen anscheinend nicht.
+#  vim9script
+# enum Planet
+#   Earth(1, false),
+#   Jupiter(95, true),
+#   Saturn(146, true)
+#   var moons: number
+#   var has_rings: bool
+#   def GetMoons(): number
+#      return this.moons
+#   enddef
+#   def ToString(): string
+#     # var out = this.name ..' '.. this.moons ..' '.. this.has_rings
+#     var out = join([this.name, this.moons, this.has_rings], ' ')
+#     return out
+#   enddef
+# endenum
+# echo Planet.Jupiter.GetMoons()
+# echo Planet.Earth.has_rings
+# echo Planet.Jupiter.ToString()
