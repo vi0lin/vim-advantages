@@ -51,7 +51,7 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   " autocmd! TermLeave * call OnModeChange(expand('<amatch>'))
   tnoremap <C-\><C-n> <C-\><C-n>:call OnTerminalNormalMode()<CR>
   tnoremap <C-w>N <C-w>N:call OnTerminalNormalMode()<CR>
-  nnoremap <silent> :terminal-normal<CR> :terminal-normal<CR>:call OnTerminalNormalMode()<CR>
+  " nnoremap <silent> :terminal-normal<CR> :terminal-normal<CR>:call OnTerminalNormalMode()<CR>
   function! OnTerminalNormalMode()
     if &buftype == 'terminal'
        " setlocal wrap linebreak nolist|

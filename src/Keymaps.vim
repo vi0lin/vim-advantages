@@ -169,9 +169,10 @@ Amap <A-Right>      :call Open("L", "buffer", "new")<cr>
 " Amap <A-<C-S-k>> :call Open("K", "buffer", "copy")<cr>
 " Amap <A-<C-S-l>> :call Open("L", "buffer", "copy")<cr>
 
-Amap <C-q> :q!<CR>
-Amap <A-q> :qa!<CR>
-map <C-S-q> :call TabClose()<cr>
+Amap <leader>q :q!<CR>
+Amap <C-q> :bd!<CR>
+Amap <C-A-q> :qa!<CR>
+Amap <A-q> :call TabClose()<cr>
 Amap <leader><leader>r :redraw!<cr>
 " Amap <leader>ser  :call ServiceMenu()<cr>
 Amap <S-F2> :let x=input("Find In Files: ") \| :echo system("grep ".expand('%')." -nrw -e \"".x."\"")<cr>
@@ -741,7 +742,7 @@ map <C-S-'> 20zl
 
 
 " ---- quickfix navigation -------------------------------------------
-nnoremap <silent> <leader>q  :copen<CR>
+nnoremap <silent> <leader>f  :copen<CR>
 nnoremap <silent> <C-Down>   :cnext<CR>zz
 nnoremap <silent> <C-Up>     :cprev<CR>zz
 nnoremap <silent> <leader>N  :cfirst<CR>zz
