@@ -558,7 +558,7 @@ function GitMessage(commitmessage='')
   endif
 endfunction
 
-command -range -nargs=? PushCWD <line1>,<line2>:call PushCWD(<args>)
+command -range -nargs=* PushCWD <line1>,<line2>:call PushCWD(<q-args>)
 function PushCWD(commitmessage='')
   GitAddCWD
   GitStatus
@@ -605,7 +605,7 @@ endfunction
 
 command -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
 function GitCommit(message='')
-  GitMessage
+  call GitMessage(a:message)
   let msg=''
   if a:message==''
     let msg=g:lastcommitmessage
