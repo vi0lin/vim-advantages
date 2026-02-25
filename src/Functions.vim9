@@ -15,6 +15,7 @@ vim9script
 def g:Execute(keymap: string)
   AssignmentFileReader.Read()
   echo Assignment.assignments
+  echo keymap
 enddef
 
 class VimAdvantageFinder
@@ -130,11 +131,10 @@ class VimAdvantageFinder
   enddef
 endclass
 VimAdvantageFinder.Init('~/')
-echo VimAdvantageFinder.FindAll(getcwd())
 
+# echo VimAdvantageFinder.FindAll(getcwd())
 # echo VimAdvantageFinder.LookUp(getcwd())
-
-echo VimAdvantageFinder.LookUp(getcwd() .. '/Functions.vim9')
+# echo VimAdvantageFinder.LookUp(getcwd() .. '/Functions.vim9')
 
 class AssignmentFileReader
   static def Read()
