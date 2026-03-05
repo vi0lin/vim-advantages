@@ -19,11 +19,19 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   autocmd! BufWinEnter * :call BufWinEnter()
   autocmd! BufEnter * :call Statusline()
 
-  autocmd! BufNew,BufWinEnter,WinEnter,BufEnter *
-  " autocmd! BufEnter * :call F.Window.Print(""..bufnr())
-  autocmd! BufNew * :call F.Window.AssociateBufWin(bufnr(), winnr())
-  autocmd! BufWinEnter * :call F.Window.(winnr(), bufnr())
-  " autocmd! BufWinLeave * :call F.Window.DeassociateBufWin()
+  autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *
+  autocmd! BufEnter * :call F.Buffer.Find(bufnr()).Print()
+  """ " autocmd! BufAdd * :call F.Buffer.Find(bufnr()).Print()
+  """ autocmd! BufCreate * :call F.Buffer.Find(bufnr()).Print()
+  """ autocmd! BufDelete * :call F.Buffer.Find(bufnr()).Print()
+  """ autocmd! BufWipeout * :call F.Buffer.Find(bufnr()).Print()
+  """ autocmd! BufNew * :call F.Buffer.New(bufnr())
+
+  """ autocmd! BufLeave * :call F.Buffer.Find(bufnr()).Print()
+  """ " autocmd! WinEnter * :call F.Buffer.Find(bufnr()).Print()
+  """ autocmd! BufWinEnter * :call F.Window.Find(winnr()).SetParent(bufnr()))
+  """ autocmd! BufUnload * :call F.Buffer.Find(bufnr()).Print()
+  """ " autocmd! BufWinLeave * :call F.Window.DeassociateBufWin()
 
   " augroup TerminalNoWrap
   "   autocmd!

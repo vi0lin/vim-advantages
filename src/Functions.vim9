@@ -163,31 +163,33 @@ endenum
 # there is no forward declaration / predeclaration in vim.
 # type object does not exist in my vim binary
 # interface seems to be the niciest path
+
 class Leaf
-  static var leaves: list<Leaf> = []
+  var leaves: list<Leaf> = []
   var nr: number
   var parent: number
-  def Find(nr: number)
-	  return filter(copy(this.leaves), 'v:val =~ ' .. nr)
-	  # return filter(this.leaves, 0)
+  static def Find(nr: number): Leaf
+    return filter(copy(leaves), 'v:val =~ ' .. nr)[0]
   enddef
-  def Add(nr: number)
+  static def Add(nr: number)
     call extend(this.leaves, nr)
   enddef
-  def Remove(nr: number)
+  static def New(nr: number)
+    call Add(nr)
+  enddef
+  static def Remove(nr: number)
 	  # return filter(this.leaves, 'v:val !~ ' .. nr)
 	  remove(this.leaves, nr)
   enddef
-  def Associate(leaf: number, parent: number)
-    this.Find(leaf).Associate(parent)
+  def SetParent(nr: number)
+    this.parent = nr
+  enddef
+  def Print()
+    echo this.nr
   enddef
 endclass
 
 export class Buffer extends Leaf
-  var bufnr: number
-  def new()
-    # window.buffer = this
-  enddef
 endclass
 
 export class Window extends Leaf
