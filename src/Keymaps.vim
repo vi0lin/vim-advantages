@@ -39,8 +39,6 @@ map <C-F3> :GFiles<CR>
 " cmap <F10> <C-R>O
 " cmap <F11> <C-R>P
 
-
-
 noremap <leader>q :q<CR>
 noremap <M-q> :q<CR>
 tnoremap <M-q> <c-\><c-n>:q<CR>

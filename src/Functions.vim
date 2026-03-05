@@ -1,4 +1,15 @@
-exec "source ".g:vim."/src/Functions.vim9"
+" call Print("message")
+" call vim9#Print2("message")
+" vim9cmd vim9#Print("MEEESSAGE")
+" vim9cmd vim9#Print2("MEEESSAGE")
+" finish
+
+" VimInstance.Print("test")
+import autoload "./Functions.vim9" as F
+" exec "source ".g:vim."/src/Functions.vim9"
+" call F.VimInstance.Print("test")
+" finish
+
 
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work

@@ -1,5 +1,17 @@
 vim9script
 
+# export def g:Print(message: string)
+#   # Print("This Will Raise My Polly Pocket Fuhrpark")
+#   echo "test"
+#   echo message .. ' <<-'
+# enddef
+
+# def Print2(message: string)
+#   # Print("This Will Raise My Polly Pocket Fuhrpark")
+#   echo "test"
+#   echo message .. ' <<-'
+# enddef
+
 def g:Execute(keymap: string)
   AssignmentFileReader.Read()
   echo Assignment.assignments
@@ -164,8 +176,15 @@ class Global
   static var tabs: list<Tab>
 endclass
 
-class VimInstance extends Global
+export class VimInstance extends Global
+  static def Print(message: string)
+    echo "VimInstance" .. " " .. message
+  enddef
 endclass
+
+# export def VimInstancePrint(message: string)
+#   VimInstance.Print(message)
+# enddef
 
 enum AssignmentBinding
   File,
