@@ -173,14 +173,11 @@ export class Buffer implements Leaf
   enddef
 endclass
 
-export class CurrentWindow
-  static var window: Leaf
-endclass
-
 export class Window implements Leaf
+  static var currentWindow: Window
   var winnr: number
   static def AssociateBufWin(winnr: number, bufnr: number)
-    CurrentWindow.window.bufnr = bufnr
+    currentWindow.bufnr = bufnr
     # this.bufnr = bufnr
     # echo "test"
   enddef
