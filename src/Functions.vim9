@@ -163,6 +163,7 @@ endenum
 # there is no forward declaration / predeclaration in vim.
 # type object does not exist in my vim binary
 # interface seems to be the niciest path
+#
 
 export class Leaf
   var leaves: list<Leaf> = []
@@ -255,6 +256,14 @@ export var globals: Global = Global.new()
 export var tabs: Tab = Tab.new()
 export var windows: Window = Window.new()
 export var buffers: Buffer = Buffer.new()
+
+export def New(object: Leaf)
+  extend(Storage.leaves, [object])
+enddef
+
+export def New(object: Leaf)
+  extend(Storage.leaves, [object])
+enddef
 
 # Branch.new()
 # Branch.Buffer = Buffer.new()
