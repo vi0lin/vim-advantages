@@ -163,46 +163,65 @@ endenum
 # there is no forward declaration / predeclaration in vim.
 # type object does not exist in my vim binary
 # interface seems to be the niciest path
-interface Leaf
-endinterface
-
-export class Buffer implements Leaf
-  var bufnr: number
-  def new(window: Leaf)
-    window.buffer = this
+class Leaf
+  static var leaves: list<Leaf> = []
+  var nr: number
+  var parent: number
+  def Find(nr: number)
+	  return filter(copy(this.leaves), 'v:val =~ ' .. nr)
+	  # return filter(this.leaves, 0)
+  enddef
+  def Add(nr: number)
+    call extend(this.leaves, nr)
+  enddef
+  def Remove(nr: number)
+	  # return filter(this.leaves, 'v:val !~ ' .. nr)
+	  remove(this.leaves, nr)
+  enddef
+  def Associate(leaf: number, parent: number)
+    this.Find(leaf).Associate(parent)
   enddef
 endclass
 
-export class Window implements Leaf
+export class Buffer extends Leaf
+  var bufnr: number
+  def new()
+    # window.buffer = this
+  enddef
+endclass
+
+export class Window extends Leaf
   static var currentWindow: Window
   var winnr: number
   static def AssociateBufWin(winnr: number, bufnr: number)
     currentWindow.bufnr = bufnr
-    # this.bufnr = bufnr
-    # echo "test"
   enddef
-  static def DeassociateBufWin()
-    echo "Deassociating"
-  enddef
-  static def Print(message: string)
-    echo message
-  enddef
+  # static def WinEnter(winnr: number, bufnr: number)
+  #   this.currentWindow.winnr = winnr
+  #   this.currentWindow.buffer = Buffer.Find(bufnr)
+  # enddef
+  # static def DeassociateBufWin()
+  #   echo "Deassociating"
+  # enddef
+  # static def Print(message: string)
+  #   echo message
+  # enddef
 endclass
 
-export class Tab implements Leaf
+export class Tab extends Leaf
   var tabnr: number
   static var windows: list<Window>
 endclass
 
-export class Global implements Leaf
+export class Global extends Leaf
   var viminstancenr: number
   static var tabs: list<Tab>
 endclass
 
-interface Branch
-endinterface
+class Branch
+endclass
 
-export class VimInstance extends Global implements Branch
+export class VimInstance extends Global
   static def Print(message: string)
     echo "VimInstance" .. " " .. message
   enddef
