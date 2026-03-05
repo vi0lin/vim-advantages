@@ -296,6 +296,26 @@ export def BufNew()
   New(buffers, Buffer.new(bufnr(), winnr(), tabpagenr()))
 enddef
 
+export def TabNew()
+  New(tabs, Tab.new(bufnr(), winnr(), tabpagenr()))
+enddef
+
+export def WinNew()
+  New(windows, Window.new(bufnr(), winnr(), tabpagenr()))
+enddef
+
+export def VimEnter()
+  New(globals, Global.new(bufnr(), winnr(), tabpagenr()))
+enddef
+
+export def WinClosed()
+  windows.remove(winnr())
+enddef
+
+export def TabClosed()
+  tabs.remove(tabnr())
+enddef
+
 
 export var globals: Storage = Storage.new()
 export var tabs: Storage = Storage.new()
