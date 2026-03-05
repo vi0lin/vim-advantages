@@ -237,6 +237,10 @@ export class Window extends Leaf
   static def AssociateBufWin(winnr: number, bufnr: number)
     currentWindow.bufnr = bufnr
   enddef
+  def new(winnr: number, tabnr: number)
+    this.winnr = winnr
+    this.tabnr = tabnr 
+  enddef
   # static def WinEnter(winnr: number, bufnr: number)
   #   this.currentWindow.winnr = winnr
   #   this.currentWindow.buffer = Buffer.Find(bufnr)
@@ -301,7 +305,7 @@ export def TabNew()
 enddef
 
 export def WinNew()
-  New(windows, Window.new(bufnr(), winnr(), tabpagenr()))
+  New(windows, Window.new(winnr()))
 enddef
 
 export def VimEnter()
