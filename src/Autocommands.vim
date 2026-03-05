@@ -32,7 +32,7 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   """ autocmd! BufWinEnter * :call F.Window.Find(winnr()).SetParent(bufnr()))
   """ autocmd! BufUnload * :call F.Buffer.Find(bufnr()).Print()
   """ " autocmd! BufWinLeave * :call F.Window.DeassociateBufWin()
-autocmd! BufEnter * :call F.buffers.Find(bufnr()).Print()
+  " autocmd! BufEnter * :call F.buffers.Find(bufnr()).Print()
 
 
   " augroup TerminalNoWrap
