@@ -283,7 +283,7 @@ export class Storage
 endclass
 
 export def New(storage: Storage, object: Leaf)
-  extend(storage, [ object ])
+  extend(storage.leaf.leaves, [ object ])
 enddef
 
 export def g:Display()
@@ -292,11 +292,17 @@ export def g:Display()
   windows.Print()
 enddef
 
+export def BufNew()
+  New(buffers, Buffer.new(bufnr(), winnr(), tabpagenr()))
+enddef
+
+
 export var globals: Storage = Storage.new()
 export var tabs: Storage = Storage.new()
 export var windows: Storage = Storage.new()
 export var buffers: Storage = Storage.new()
 
+# echo Buffer.new(0, 1, 2)
 # New(buffers, Buffer.new(0, 1, 2))
 
 # Branch.new()
