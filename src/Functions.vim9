@@ -148,20 +148,20 @@ enum AssignmentRange
   Window
 endenum
 
-class Global
-  static var global: Global
-  static var tabs: list<Tab>
-endclass
-
-class Tab
-  static var windows: list<Win>
+class Buffer
 endclass
 
 class Window
   static var buffer: Buffer
 endclass
 
-class Buffer
+class Tab
+  static var windows: list<Window>
+endclass
+
+class Global
+  static var global: Global
+  static var tabs: list<Tab>
 endclass
 
 class VimInstance extends Global
