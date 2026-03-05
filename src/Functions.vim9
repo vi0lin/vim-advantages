@@ -234,6 +234,7 @@ endclass
 export class Window extends Leaf
   static var currentWindow: Window
   var winnr: number
+  var tabnr: number
   static def AssociateBufWin(winnr: number, bufnr: number)
     currentWindow.bufnr = bufnr
   enddef
@@ -305,19 +306,21 @@ export def TabNew()
 enddef
 
 export def WinNew()
-  New(windows, Window.new(winnr()))
+  New(windows, Window.new(winnr(), tabpagenr()))
 enddef
 
 export def VimEnter()
-  New(globals, Global.new(bufnr(), winnr(), tabpagenr()))
+  New(globals, Global.new())
 enddef
 
 export def WinClosed()
-  windows.remove(winnr())
+  # .Find(winnr())
+  tabs.Find(tabpagenr()).leaves.remove(winnr())
 enddef
 
 export def TabClosed()
-  tabs.remove(tabnr())
+  # tabs.remove(tabnr())
+  tabs.leaves(remove(tabpagenr()))
 enddef
 
 
