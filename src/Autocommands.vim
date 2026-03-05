@@ -25,7 +25,10 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   """ autocmd! BufCreate * :call F.Buffer.Find(bufnr()).Print()
   """ autocmd! BufDelete * :call F.Buffer.Find(bufnr()).Print()
   """ autocmd! BufWipeout * :call F.Buffer.Find(bufnr()).Print()
-  autocmd! BufNew * :call F.List.new(bufnr())
+  " autocmd! BufNew * :call F.New<Buffer>(bufnr())
+  " autocmd! BufNew * :call F.New(F.buffers, F.Buffer.new(bufnr(), winnr(), tabpagenr()))
+  " autocmd! BufNew * :call F.New(F.buffers, F.Buffer.new(0, 1, 2))
+  " autocmd! TabNew * :call F.New(F.tabs, F.Tab.new(tabnr()))
 
   """ autocmd! BufLeave * :call F.Buffer.Find(bufnr()).Print()
   """ " autocmd! WinEnter * :call F.Buffer.Find(bufnr()).Print()

@@ -758,3 +758,4 @@ import autoload "./Functions.vim9" as F
 vmap <leader>s :source<cr>
 noremap <F6> :autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *<cr>
 noremap <F7> :autocmd! BufEnter * :call F.Buffer.Find(bufnr()).Print()<cr>
+noremap <F8> :call Display()<cr>

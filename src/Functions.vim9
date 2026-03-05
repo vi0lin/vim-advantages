@@ -165,7 +165,7 @@ endenum
 # interface seems to be the niciest path
 #
 
-export class Leaf
+export class Leaf extends Dump
   var leaves: list<Leaf> = []
   var nr: number
   var parent: number
@@ -203,15 +203,32 @@ export class Leaf
     this.nr = nr
     return this
   enddef
-  def Print()
-    echo this.nr
+  # def Print()
+  #   echo this.nr
+  # enddef
+  def ToDict(): dict<any>
+    return {
+      nr: this.nr,
+      parent: this.parent,
+      leaves: this.leaves
+    }
   enddef
 endclass
 
 export class Buffer extends Leaf
+  var bufnr: number = -1
+  var tabnr: number = -1
+  var winnr: number = -1
   # static def Find(nr: number): Leaf
   #   return filter(copy(Branch.Buffers.leaves), 'v:val =~ ' .. nr)[0]
   # enddef
+  #
+  def new(bufnr: number, winnr: number, tabnr: number)
+    echo bufnr winnr tabnr
+    this.tabnr = tabnr
+    this.bufnr = bufnr
+    this.winnr = winnr
+  enddef
 endclass
 
 export class Window extends Leaf
@@ -235,6 +252,9 @@ endclass
 export class Tab extends Leaf
   var tabnr: number
   static var windows: list<Window>
+  def new(tabnr: number)
+    this.tabnr = tabnr
+  enddef
 endclass
 
 export class Global extends Leaf
@@ -252,18 +272,32 @@ endclass
 # enddef
 # endclass
 
-export var globals: Global = Global.new()
-export var tabs: Tab = Tab.new()
-export var windows: Window = Window.new()
-export var buffers: Buffer = Buffer.new()
-
 export class Storage
-  static var leaves: list<Leaf>
+  var leaf = Leaf.new()
+  def Print()
+    echo this.leaf.ToDict()
+  enddef
+  def ToDict(): dict<any>
+    return this.leaf.ToDict()
+  enddef
 endclass
 
-export def New(object: Leaf)
-  extend(Storage.leaves, [object])
+export def New(storage: Storage, object: Leaf)
+  extend(storage, [ object ])
 enddef
+
+export def g:Display()
+  echo buffers.ToDict()
+  tabs.Print()
+  windows.Print()
+enddef
+
+export var globals: Storage = Storage.new()
+export var tabs: Storage = Storage.new()
+export var windows: Storage = Storage.new()
+export var buffers: Storage = Storage.new()
+
+# New(buffers, Buffer.new(0, 1, 2))
 
 # Branch.new()
 # Branch.Buffer = Buffer.new()
