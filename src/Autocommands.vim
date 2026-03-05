@@ -13,6 +13,10 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   autocmd! BufWinEnter * :call BufWinEnter()
   autocmd! BufEnter * :call Statusline()
 
+  autocmd! BufNew * :call F.Buffer
+  autocmd! BufWinEnter * :call F.Window.AssociateBufWin()
+  autocmd! BufWinLeave * :call F.Window.DeassociateBufWin()
+
   " augroup TerminalNoWrap
   "   autocmd!
   "   autocmd TerminalOpen * if &buftype == 'terminal' | setlocal termwinsize=0x9999 | endif
@@ -46,6 +50,9 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
       " endif
     endif
   endfunction
+
+  
+
   autocmd! ModeChanged * call OnModeChange(expand('<amatch>'))
   autocmd! TermChanged * call OnModeChange(expand('<amatch>'))
   " autocmd! TermLeave * call OnModeChange(expand('<amatch>'))

@@ -160,23 +160,39 @@ enum AssignmentRange
   Window
 endenum
 
-export class Buffer
+# there is no forward declaration / predeclaration in vim.
+# type object does not exist in my vim binary
+# interface seems to be the niciest path
+interface Leaf
+endinterface
+
+export class Buffer implements Leaf
+  def new(window: Leaf)
+    window.buffer = this
+  enddef
 endclass
 
-export class Window
+export class Window implements Leaf
   static var buffer: Buffer
+  static def AssociateBufWin()
+  enddef
+  static def DeassociateBufWin()
+  enddef
 endclass
 
-export class Tab
+export class Tab implements Leaf
   static var windows: list<Window>
 endclass
 
-export class Global
+export class Global implements Leaf
   static var global: Global
   static var tabs: list<Tab>
 endclass
 
-export class VimInstance extends Global
+interface Branch
+endinterface
+
+export class VimInstance extends Global implements Branch
   static def Print(message: string)
     echo "VimInstance" .. " " .. message
   enddef
