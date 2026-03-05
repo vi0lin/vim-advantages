@@ -18,7 +18,7 @@ def g:Execute(keymap: string)
   echo keymap
 enddef
 
-class Host
+export class Host
   var ip: string
   var user: string
   var password: string
@@ -31,7 +31,7 @@ class Host
   enddef
 endclass
 
-class Connect
+export class Connect
   static def Connect(host: Host)
     echo host.ip 
     echo host.user
@@ -55,7 +55,7 @@ tmap <F4> echo "TEST"
 tmap <F5> echo "test"
 # :Connect.write("test")<cr>
 
-class VimAdvantageFinder
+export class VimAdvantageFinder
   static var filename = ".vim-advantages"
   static var fallback = "~/" .. VimAdvantageFinder.filename
   static def Init(fallback_path: string)
@@ -117,7 +117,7 @@ VimAdvantageFinder.Init('~/')
 # echo VimAdvantageFinder.LookUp(getcwd())
 # echo VimAdvantageFinder.LookUp(getcwd() .. '/Functions.vim9')
 
-class AssignmentFileReader
+export class AssignmentFileReader
   static def Read()
     var files = VimAdvantageFinder.FindAll(getcwd())
     for f in files
@@ -128,7 +128,7 @@ class AssignmentFileReader
   enddef
 endclass
 
-class AssignmentFileWriter
+export class AssignmentFileWriter
   static def Write()
   enddef
 endclass
@@ -160,18 +160,18 @@ enum AssignmentRange
   Window
 endenum
 
-class Buffer
+export class Buffer
 endclass
 
-class Window
+export class Window
   static var buffer: Buffer
 endclass
 
-class Tab
+export class Tab
   static var windows: list<Window>
 endclass
 
-class Global
+export class Global
   static var global: Global
   static var tabs: list<Tab>
 endclass
@@ -193,7 +193,7 @@ enum AssignmentBinding
   GitProject
 endenum
 
-class Command extends Dump implements Assignable
+export class Command extends Dump implements Assignable
   static var commands: list<Command> = []
   static def ShowCommands()
     for c in Command.commands
@@ -223,7 +223,7 @@ interface ExecutionBehaviour
   def Execute(command: Command)  
 endinterface
 
-class ExecuteInTerminalById implements ExecutionBehaviour
+export class ExecuteInTerminalById implements ExecutionBehaviour
   var id: number = -1
   def new(id: number)
   enddef
@@ -234,7 +234,7 @@ class ExecuteInTerminalById implements ExecutionBehaviour
   enddef
 endclass
 
-class ExecuteInTerminalByDirection implements ExecutionBehaviour
+export class ExecuteInTerminalByDirection implements ExecutionBehaviour
   var direction: string = 'undefined'
   def new(direction: string)
   enddef
@@ -244,7 +244,7 @@ class ExecuteInTerminalByDirection implements ExecutionBehaviour
   enddef
 endclass
 
-class Assignment
+export class Assignment
   static var assignments: list<string> = []
   static var assignments_keys = []
 
