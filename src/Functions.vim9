@@ -167,15 +167,22 @@ interface Leaf
 endinterface
 
 export class Buffer implements Leaf
+  var bufnr: number
   def new(window: Leaf)
     window.buffer = this
   enddef
 endclass
 
+export class CurrentWindow
+  static var window: Leaf
+endclass
+
 export class Window implements Leaf
-  static var buffer: Buffer
-  static def AssociateBufWin()
-    echo "Associating"
+  var winnr: number
+  static def AssociateBufWin(winnr: number, bufnr: number)
+    CurrentWindow.window.bufnr = bufnr
+    # this.bufnr = bufnr
+    # echo "test"
   enddef
   static def DeassociateBufWin()
     echo "Deassociating"
@@ -186,11 +193,12 @@ export class Window implements Leaf
 endclass
 
 export class Tab implements Leaf
+  var tabnr: number
   static var windows: list<Window>
 endclass
 
 export class Global implements Leaf
-  static var global: Global
+  var viminstancenr: number
   static var tabs: list<Tab>
 endclass
 

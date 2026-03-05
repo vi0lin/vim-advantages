@@ -753,3 +753,5 @@ nnoremap <silent> <leader>c  :cclose<CR>
 " " nnoremap <silent> <C-Up>     :lprev<CR>zz
 " nnoremap <silent> <leader>lN :lfirst<CR>zz
 " nnoremap <silent> <leader>lP :llast<CR>zz
+
+noremap <F5> :source<cr>
