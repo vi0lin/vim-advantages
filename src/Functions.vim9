@@ -175,8 +175,10 @@ endclass
 export class Window implements Leaf
   static var buffer: Buffer
   static def AssociateBufWin()
+    echo "Associating"
   enddef
   static def DeassociateBufWin()
+    echo "Deassociating"
   enddef
 endclass
 

@@ -1,5 +1,8 @@
 # Vim-Advantages
 
+> [!WARNING]
+> I do not reccomend using this project, as basic shortcuts and semantics change during development.
+
 * The Main Goal Is Programming Intuitively In The Terminal.
 * The Userexperience Needs Improvement - This Project Is Not Recommended So Far
 * The scripts sometimes throw errors.

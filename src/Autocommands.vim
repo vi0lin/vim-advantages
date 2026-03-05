@@ -1,4 +1,10 @@
+import autoload "./Functions.vim9" as F
 if !exists("g:autocommands_set") || g:autocommands_set==0
+  " VimInstance.Print("test")
+  " importing vim9 does not autoname the import
+  " exec "source ".g:vim."/src/Functions.vim9"
+  " call F.VimInstance.Print("test")
+  " finish
   let g:autocommands_set=1
   autocmd! BufWritePost *$vim/src/*.vim :call SourceVim()
   autocmd! WinLeave * :call ClearTermOnWinLeave(expand('<abuf>'))
@@ -13,9 +19,9 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   autocmd! BufWinEnter * :call BufWinEnter()
   autocmd! BufEnter * :call Statusline()
 
-  autocmd! BufNew * :call F.Buffer
-  autocmd! BufWinEnter * :call F.Window.AssociateBufWin()
-  autocmd! BufWinLeave * :call F.Window.DeassociateBufWin()
+  " autocmd! BufNew * :call F.Buffer
+  " autocmd! BufWinEnter * :call F.Window.AssociateBufWin()
+  " autocmd! BufWinLeave * :call F.Window.DeassociateBufWin()
 
   " augroup TerminalNoWrap
   "   autocmd!

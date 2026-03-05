@@ -4,13 +4,6 @@
 " vim9cmd vim9#Print2("MEEESSAGE")
 " finish
 
-" VimInstance.Print("test")
-" importing vim9 does not autoname the import
-import autoload "./Functions.vim9" as F
-" exec "source ".g:vim."/src/Functions.vim9"
-" call F.VimInstance.Print("test")
-" finish
-
 
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
