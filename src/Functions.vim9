@@ -6,6 +6,43 @@ def g:Execute(keymap: string)
   echo keymap
 enddef
 
+class Host
+  var ip: string
+  var user: string
+  var password: string
+  var identityfile: string
+  def new(ip: string, user: string, password: string, identityfile: string = '')
+    this.ip = ip
+    this.user = ip
+    this.password = password
+    this.identityfile = identityfile
+  enddef
+endclass
+
+class Connect
+  static def Connect(host: Host)
+    echo host.ip 
+    echo host.user
+    echo host.password
+    echo host.identityfile
+  enddef
+  static def Write(command: string)
+    norm iecho "test" 
+  enddef
+endclass
+
+# Connect.Connect(Host.new('192.168.1.77', 'win', 'asdf'))
+tmap <F1> ssh win@192.168.1.77asdf
+tmap <F2> C:\msys64\msys2_shell.cmd -defterm -no-start
+  \ date
+  \ cd /C/Users/win/Documents/
+  \ ls
+tmap <F3> cd /C/Users/win/Documents/
+  \ ls
+tmap <F4> echo "TEST"
+tmap <F5> echo "test"
+# :Connect.write("test")<cr>
+
 class VimAdvantageFinder
   static var filename = ".vim-advantages"
   static var fallback = "~/" .. VimAdvantageFinder.filename
@@ -110,6 +147,25 @@ enum AssignmentRange
   Buffer,
   Window
 endenum
+
+class Global
+  static var global: Global
+  static var tabs: list<Tab>
+endclass
+
+class Tab
+  static var windows: list<Win>
+endclass
+
+class Window
+  static var buffer: Buffer
+endclass
+
+class Buffer
+endclass
+
+class VimInstance extends Global
+endclass
 
 enum AssignmentBinding
   File,
