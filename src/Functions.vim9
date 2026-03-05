@@ -257,9 +257,9 @@ export var tabs: Tab = Tab.new()
 export var windows: Window = Window.new()
 export var buffers: Buffer = Buffer.new()
 
-export def New(object: Leaf)
-  extend(Storage.leaves, [object])
-enddef
+export class Storage
+  static var leaves: list<Leaf>
+endclass
 
 export def New(object: Leaf)
   extend(Storage.leaves, [object])
