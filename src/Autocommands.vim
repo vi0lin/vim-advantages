@@ -19,6 +19,8 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   autocmd! BufWinEnter * :call BufWinEnter()
   autocmd! BufEnter * :call Statusline()
 
+  autocmd! BufEnter *
+  autocmd! BufEnter * :call F.Window.Print(""..bufnr())
   " autocmd! BufNew * :call F.Buffer
   " autocmd! BufWinEnter * :call F.Window.AssociateBufWin()
   " autocmd! BufWinLeave * :call F.Window.DeassociateBufWin()

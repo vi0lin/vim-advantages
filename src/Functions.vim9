@@ -180,6 +180,9 @@ export class Window implements Leaf
   static def DeassociateBufWin()
     echo "Deassociating"
   enddef
+  static def Print(message: string)
+    echo message
+  enddef
 endclass
 
 export class Tab implements Leaf
