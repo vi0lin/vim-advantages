@@ -164,25 +164,43 @@ endenum
 # type object does not exist in my vim binary
 # interface seems to be the niciest path
 
-class Leaf
+export class Leaf
   var leaves: list<Leaf> = []
   var nr: number
   var parent: number
-  static def Find(nr: number): Leaf
-    return filter(copy(leaves), 'v:val =~ ' .. nr)[0]
+  def FindByNr(nr: number): Leaf
+    var filtered = filter(copy(this.leaves), (_, v) => v.nr == nr)[0]
+    return filtered
   enddef
-  static def Add(nr: number)
-    call extend(this.leaves, nr)
+  def FindByParent(nr: number): Leaf
+    var filtered = filter(copy(this.leaves), (_, v) => v.parent == nr)[0]
+    return filtered
   enddef
-  static def New(nr: number)
+  def Find(nr: number): Leaf
+    return this.FindByNr(nr)
+  enddef
+  def AddRange(leaves: list<Leaf>): Leaf
+    call extend(this.leaves, leaves)
+    return this
+  enddef
+  def Add(nr: number): Leaf
+    call extend(this.leaves, Leaf.new().SetNr(nr))
+    return this
+  enddef
+  def New(nr: number): Leaf
     call Add(nr)
+    return this
   enddef
-  static def Remove(nr: number)
-	  # return filter(this.leaves, 'v:val !~ ' .. nr)
+  def Remove(nr: number)
 	  remove(this.leaves, nr)
   enddef
-  def SetParent(nr: number)
+  def SetParent(nr: number): Leaf
     this.parent = nr
+    return this
+  enddef
+  def SetNr(nr: number): Leaf
+    this.nr = nr
+    return this
   enddef
   def Print()
     echo this.nr
@@ -190,6 +208,9 @@ class Leaf
 endclass
 
 export class Buffer extends Leaf
+  # static def Find(nr: number): Leaf
+  #   return filter(copy(Branch.Buffers.leaves), 'v:val =~ ' .. nr)[0]
+  # enddef
 endclass
 
 export class Window extends Leaf
@@ -220,8 +241,23 @@ export class Global extends Leaf
   static var tabs: list<Tab>
 endclass
 
-class Branch
-endclass
+# export class Branch
+# def new()
+# Branch.Global = Global.new()
+# Branch.Tab = Tab.new()
+# Branch.Window = Window.new()
+# Branch.Buffer = Buffer.new()
+# Buffer.new()
+# enddef
+# endclass
+
+export var globals: Global = Global.new()
+export var tabs: Tab = Tab.new()
+export var windows: Window = Window.new()
+export var buffers: Buffer = Buffer.new()
+
+# Branch.new()
+# Branch.Buffer = Buffer.new()
 
 export class VimInstance extends Global
   static def Print(message: string)
@@ -319,6 +355,44 @@ var s = Command.new("Status", ":call GitStatus()<cr>")
 Assignment.new("<leader>gs", s, eb)
 # Command.ShowCommands()
 
+# var a = Leaf.new().AddRange([
+#   Leaf.new().SetNr(0),
+#   Leaf.new().SetNr(2),
+#   Leaf.new().SetNr(3),
+#   Leaf.new().SetNr(4),
+#   Leaf.new().SetNr(5),
+#   Leaf.new().SetNr(4)
+# ]
+# )
+# 
+# echo a.Find(4)
+# 
+# for ax in a.leaves
+#   echo ax.nr
+# endfor
+
+# return filter(this.leaves, 'v:val !~ ' .. nr)
+# echo len(this.leaves)
+# return Leaf.new()
+# echo nr
+# echo type(this.leaves)
+# return type(this.leaves)
+# return this.leaves
+# return filter(this.leaves, 'v:val != ' .. nr)
+# return this.leaves
+# echo nr
+# for f in this.leaves
+#   echo f
+# endfor
+# return Leaf.new()
+
+# var a = [ 1, 2, 3, 4, 5 ]
+# for ax in a
+  # echo ax.nr
+# endfor
+# echo filter(copy(a), (_, v) => v.nr != 3)
+
+
 # Enums haben automatisch einen Konstruktor?
 # Klassen anscheinend nicht.
 #  vim9script
@@ -346,3 +420,6 @@ Assignment.new(
   \ Command.new("Help", ":call Help()<cr>"),
   \ ExecuteInTerminalByDirection.new('l')
 \ )
+
+# autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *
+# autocmd! BufEnter * :call Branch.Buffer.Find(bufnr()).Print()
