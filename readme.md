@@ -1,7 +1,7 @@
 # Vim-Advantages
 
 > [!WARNING]
-> I do not reccomend using this project, as basic shortcuts and semantics change during development. The Readme Is Incomplete.
+> I do not reccomend using this project, as basic shortcuts and semantics change during development. The readme is incomplete. Parameters are missing, and many functions and to-dos are not synchronized.
 
 * The Main Goal Is Programming Intuitively In The Terminal.
 * The Userexperience Needs Improvement - This Project Is Not Recommended So Far
@@ -151,7 +151,7 @@ call plug#end()
       </td><td >Tab Trough Files in CWD
       </td>
         <td>
-          Todo: Add Filesearch Feature, that filters the list to contain the given keystrokes
+          To-do: Add Filesearch Feature, that filters the list to contain the given keystrokes
         </td>
     </tr>
     <tr>
@@ -516,7 +516,7 @@ call plug#end()
       <td>
       </td>
       <td>
-        Git Commit (Todo: Standard Message or Last Message If Set)
+        Git Commit (To-do: Standard Message or Last Message If Set)
       </td>
     </tr>
     <tr>
