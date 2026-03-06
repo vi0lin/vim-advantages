@@ -323,7 +323,8 @@ export def g:Display()
   # tabs.Print()
   # instance.Print()
   # echo instance.Tab(1)
-  instance.Print()
+  # instance.Print()
+  Command.ShowCommands()
 enddef
 
 export def BufNew()
@@ -388,6 +389,7 @@ export class Command extends Dump implements Assignable
   var name = ""
   var command = ""
   def new(name: string, command: string)
+    extend(Command.commands, [ this ])
     this.name = name
     this.command = command
     call extend(Command.commands, [ this ])

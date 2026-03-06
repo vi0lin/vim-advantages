@@ -1214,6 +1214,9 @@ function JumpFile(path)
   return
   if isdirectory(node)
     let dir=node
+    " maybe take the next two lines out
+    " exec "e "..file
+    " return
   endif
   if filereadable(node)
     let file=node
@@ -1820,10 +1823,11 @@ function _openfile_andCD(path)
   elseif exists("path") && isdirectory(path)
     call MkDir(path)
     call CD(path)
+    exec "e "..path
   elseif exists("path") && IsPossibileDirectory(path)
     call MkDir(path)
     call CD(path)
-    " exec "e "..path
+    exec "e "..path
   else
     call MkDir(GetParentDir(path))
     " call CD(GetParentDir(path))
@@ -1980,9 +1984,9 @@ function CB_OpenFileInBuffer(m)
 endfunction
 
 function Files(path)
-  echo a:path
+  " echo a:path
   exec "Files" a:path
-  call Redraw()
+  " call Redraw()
 endfunction
 
 function Redraw()
@@ -2174,8 +2178,11 @@ function SetPointer(path='')
   endif
 endfunction
 
-function REFRESH_CWD()
-  silent exec "cd ".CWD()
+function! REFRESH_CWD()
+  try
+    silent exec "cd ".CWD()
+  catch
+  endtry
 endfunction
 
 function PathLast(path)

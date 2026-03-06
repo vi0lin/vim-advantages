@@ -1,4 +1,6 @@
 
+import autoload "./Functions.vim9" as F
+
 function! NewCommand(...)
   let args=split(a:000[0], ' ')
   let i = 0
@@ -14,6 +16,8 @@ function! NewCommand(...)
   endwhile
   " echo "Name: "..name
   " echo args
+  let command = join(args[i:], ' ')
+  :call F.Command.new(name, command)
   try
     exec join(a:000, ' ')
   endtry

@@ -62,12 +62,12 @@ function! Statusline()
       set statusline+=%#User0#%=
       " Long Buffer Type
       " set statusline+=%#User0#%0a%{(GetType())}%=
-      set statusline+=%#User2#%{(exists('b:state')&&b:state.type=='buffer'?'%=\ ':'')}
-      set statusline+=%#User4#%{(exists('b:state')&&b:state.type=='terminal'?'%=\ ':'')}
-      set statusline+=%#User7#%{(exists('b:state')&&b:state.type!='buffer'&&b:state.type!='terminal'?'%=\ ':'')}
-      set statusline+=%#User2#%{(exists('b:state')&&b:state.type=='buffer'?''.GetType().'\ ':'')}
-      set statusline+=%#User4#%{(exists('b:state')&&b:state.type=='terminal'?''.GetType().'\ ':'')}
-      set statusline+=%#User7#%{(exists('b:state')&&b:state.type!='buffer'&&b:state.type!='terminal'?''.GetType().'\ ':'')}
+      """" set statusline+=%#User2#%{(exists('b:state')&&b:state.type=='buffer'?'%=\ ':'')}
+      """" set statusline+=%#User4#%{(exists('b:state')&&b:state.type=='terminal'?'%=\ ':'')}
+      """" set statusline+=%#User7#%{(exists('b:state')&&b:state.type!='buffer'&&b:state.type!='terminal'?'%=\ ':'')}
+      """" set statusline+=%#User2#%{(exists('b:state')&&b:state.type=='buffer'?''.GetType().'\ ':'')}
+      """" set statusline+=%#User4#%{(exists('b:state')&&b:state.type=='terminal'?''.GetType().'\ ':'')}
+      """" set statusline+=%#User7#%{(exists('b:state')&&b:state.type!='buffer'&&b:state.type!='terminal'?''.GetType().'\ ':'')}
       " Long Buffer Type Different Colors
       " set statusline+=%0*%=
       " set statusline+=%0a%{(GetType())}%=
