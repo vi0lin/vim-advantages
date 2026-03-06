@@ -256,11 +256,7 @@ export class Tab extends Dump
 endclass
 
 export class Instance extends Dump
-  var instance_nr: number
   var tabs: list<Tab> = []
-  def new(instance_nr: number)
-    this.instance_nr = instance_nr
-  enddef
   def Tab(tabpagenr: number): Tab
     var filtered = filter(copy(this.tabs), (_, v) => v.tabpagenr == tabpagenr)[0]
     return filtered
@@ -337,13 +333,12 @@ export def TabNew()
   instance.RefreshTabs()
 enddef
 
-export var instance: Instance = Instance.new(1)
-# Tab.new(1)
-instance.RefreshTabs()
+export var instance: Instance = Instance.new()
 
 export def VimEnter()
   # instance.AddTab(Tab.new(t))
   # instance.Tab(1).AddWin(Win.new(1))
+  instance.RefreshTabs()
 enddef
 
 export def BufWinEnter()
