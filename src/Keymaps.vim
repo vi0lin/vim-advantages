@@ -360,14 +360,14 @@ noremap <C-p>              :call Files(Folder_Project())<CR>
 noremap <A-p>              :call Files(Folder_Repo())<CR>
 noremap <A-S-p>            :call Files(Folder_Repo(1))<CR>
 noremap <A-S-C-p>          :call Files(Folder_Repo(2))<CR>
-noremap <C-A-p>            :call Files(Folder_System)<CR>
+noremap <C-A-p>            :call Files(Folder_System())<CR>
 " nnoremap <C-S-p>          :OpenFileFZFRepo<CR>
 "
 noremap <C-g>              :call AgIn(Folder_Project())<CR>
 noremap <A-g>              :call AgIn(Folder_Repo())<CR>
 noremap <A-S-g>            :call AgIn(Folder_Repo(1))<CR>
 noremap <A-S-C-g>          :call AgIn(Folder_Repo(2))<CR>
-noremap <C-A-g>            :call AgIn(Folder_System)<CR>
+noremap <C-A-g>            :call AgIn(Folder_System())<CR>
 " nnoremap <C-S-p>          :OpenFileFZFRepo<CR>
 
 
