@@ -7,6 +7,38 @@
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
 "
+function Folder_Project()
+  return CWD()
+endfunction
+function Folder_Repo(backwards=0)
+  let file = -1
+  if a:backwards==0
+    let file=w:git
+  elseif a:backwards==1
+    let file=FindGit(GetParentDir(w:git))
+  elseif a:backwards==2
+    let file=FindGit(GetParentDir(FindGit(GetParentDir(w:git))))
+  endif
+  if file == -1
+    " getcwd is not userfriendly
+    " consider throwing a message
+    let file=getcwd()
+    echo "No higher Repo"
+    return
+  endif
+  return file
+endfunction
+function Folder_System()
+  return g:system_folders
+endfunction
+
+" command! -nargs=+ AgDir call fzf#vim#ag(<q-args>, {'dir': expand('%:p:h')})
+function! AgIn(path, ...)
+  let query = join(a:000, ' ')
+  call fzf#vim#ag(query, {'dir': a:path})
+endfunction
+command -nargs=+ -complete=dir AgIn call AgIn(<f-args>)
+
 function ColorScheme()
   colorscheme blue
   colorscheme darkblue
@@ -2302,13 +2334,30 @@ function OpenFileCommandLineSystem()
   call JumpFile('/')
 endfunction
 
-function OpenFileFZFRepo(hierarchy=0)
+function OpenFileFZFRepo(backwards=0)
   let Callback=function('OpenFile_callback', ["window"])
-  if a:hierarchy==0
+  let file=Folder_Repo(a:backwards)
+  call FZFPopup("Open file: ", "file", file, Callback)
+endfunction
+
+function OpenFileFZFProject()
+  let Callback=function('OpenFile_callback', ["window"])
+
+  call FZFPopup("Open file: ", "file", CWD(), Callback)
+endfunction
+
+function OpenFileFZFSystem()
+  let Callback=function('OpenFile_callback', ["window"])
+  call FZFPopup("Open file: ", "file", g:system_folders, Callback)
+endfunction
+
+function FindInFileFZFRepo(backwards=0)
+  let Callback=function('OpenFile_callback', ["window"])
+  if a:backwards==0
     let file=w:git
-  elseif a:hierarchy==1
+  elseif a:backwards==1
     let file=FindGit(GetParentDir(w:git))
-  elseif a:hierarchy==2
+  elseif a:backwards==2
     let file=FindGit(GetParentDir(FindGit(GetParentDir(w:git))))
   endif
   if file == -1
@@ -2321,15 +2370,18 @@ function OpenFileFZFRepo(hierarchy=0)
   call FZFPopup("Open file: ", "file", file, Callback)
 endfunction
 
-function OpenFileFZFProject()
+function FindInFileFZFProject()
   let Callback=function('OpenFile_callback', ["window"])
   call FZFPopup("Open file: ", "file", CWD(), Callback)
+  map <S-F3> :call AG()<CR>
+  map <C-F3> :GFiles<CR>
 endfunction
 
-function OpenFileFZFSystem()
+function FindInFileFZFSystem()
   let Callback=function('OpenFile_callback', ["window"])
   call FZFPopup("Open file: ", "file", g:system_folders, Callback)
 endfunction
+
 
 function SetProjectCommandLineProject()
   call JumpProject(CWD())
@@ -3927,20 +3979,21 @@ endfunction
 if exists('g:checkplug') && g:checkplug
   function InstallExternalPlugins()
     call plug#begin()
-      Plug 'dense-analysis/ale'
+      " Plug 'dense-analysis/ale'
       Plug 'junegunn/fzf'
       Plug 'junegunn/fzf.vim'
       " Plug 'skywind3000/asyncrun.vim'
-      Plug 'tpope/vim-dispatch'
-      Plug 'prabirshrestha/vim-lsp'
-      Plug 'mattn/vim-lsp-settings'
-      Plug 'prabirshrestha/asyncomplete.vim'
-      Plug 'prabirshrestha/asyncomplete-lsp.vim'
+      " Plug 'tpope/vim-dispatch'
+      " Plug 'prabirshrestha/vim-lsp'
+      " Plug 'mattn/vim-lsp-settings'
+      " Plug 'prabirshrestha/asyncomplete.vim'
+      " Plug 'prabirshrestha/asyncomplete-lsp.vim'
     call plug#end()
   endfunction
   call plug#begin()
     Plug 'vi0lin/vim-advantages'
   call plug#end()
+  call InstallExternalPlugins()
 endif
 
 if executable('clangd')

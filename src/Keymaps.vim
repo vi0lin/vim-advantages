@@ -31,11 +31,6 @@ let mapping={
   \ "diary": 0,
   \ }
 
-map <F3> :call Files(expand($main_repo))<CR>
-map <S-F3> :call AG()<CR>
-" map <S-F3>  :exec "cd "..GetProject().." | Ag"<CR>
-map <C-F3> :GFiles<CR>
-
 " cmap <F9> <C-R>I
 " cmap <F10> <C-R>O
 " cmap <F11> <C-R>P
@@ -346,16 +341,42 @@ nnoremap <space>P :CopyWholePathToClipboard<CR>
 nnoremap <space>r :InsertReceiver<CR>
 nnoremap <leader>dd :call Rewindworkdir()<cr>
 
-nnoremap <A-p>              :OpenFileFZFRepo<CR>
-nnoremap <A-S-p>            :call OpenFileFZFRepo(1)<CR>
-nnoremap <A-S-C-p>            :call OpenFileFZFRepo(2)<CR>
-nnoremap <C-p>              :OpenFileFZFProject<CR>
-nnoremap <C-S-p>            :OpenFileFZFRepo<CR>
-nnoremap <C-A-p>            :OpenFileFZFSystem<CR>
 
-nnoremap <C-g>              :OpenFileCommandLineProject<CR>
-nnoremap <C-S-g>            :OpenFileCommandLineRepo<CR>
-nnoremap <C-A-g>            :OpenFileCommandLineSystem<CR>
+
+"" nnoremap <C-p>              :OpenFileFZFProject<CR>
+"" nnoremap <A-p>              :OpenFileFZFRepo<CR>
+"" nnoremap <A-S-p>            :call OpenFileFZFRepo(1)<CR>
+"" nnoremap <A-S-C-p>          :call OpenFileFZFRepo(2)<CR>
+"" nnoremap <C-A-p>            :OpenFileFZFSystem<CR>
+"" " nnoremap <C-S-p>            :OpenFileFZFRepo<CR>
+"" nnoremap <C-->              :FindInFileFZFProject<CR>
+"" nnoremap <A-->              :FindInFileFZFRepo<CR>
+"" nnoremap <A-S-->            :call FindInFileFZFRepo(1)<CR>
+"" nnoremap <A-S-C-->          :call FindInFileFZFRepo(2)<CR>
+"" nnoremap <C-A-->            :FindInFileFZFSystem<CR>
+"" " nnoremap <C-S-p>            :FindInFileFZFRepo<CR>
+
+noremap <C-p>              :call Files(Folder_Project())<CR>
+noremap <A-p>              :call Files(Folder_Repo())<CR>
+noremap <A-S-p>            :call Files(Folder_Repo(1))<CR>
+noremap <A-S-C-p>          :call Files(Folder_Repo(2))<CR>
+noremap <C-A-p>            :call Files(Folder_System)<CR>
+" nnoremap <C-S-p>          :OpenFileFZFRepo<CR>
+"
+noremap <C-g>              :call AgIn(Folder_Project())<CR>
+noremap <A-g>              :call AgIn(Folder_Repo())<CR>
+noremap <A-S-g>            :call AgIn(Folder_Repo(1))<CR>
+noremap <A-S-C-g>          :call AgIn(Folder_Repo(2))<CR>
+noremap <C-A-g>            :call AgIn(Folder_System)<CR>
+" nnoremap <C-S-p>          :OpenFileFZFRepo<CR>
+
+
+" map <F3> :call Files(expand($main_repo))<CR>
+" map <S-F3>  :exec "cd "..GetProject().." | Ag"<CR>
+
+" nnoremap <C-g>              :OpenFileCommandLineProject<CR>
+" nnoremap <C-S-g>            :OpenFileCommandLineRepo<CR>
+" nnoremap <C-A-g>            :OpenFileCommandLineSystem<CR>
 
 nnoremap <leader>o              :OpenFileCommandLineSameDir<CR>
 nnoremap <leader>.              :OpenFileCommandLineCWD<CR>
