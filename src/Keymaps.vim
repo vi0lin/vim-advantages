@@ -317,7 +317,7 @@ imap <silent> <C-s> :SaveFile<CR>l
 nnoremap <localleader>f :InsertFunction<CR>
 nnoremap <space>f :InsertFilename<CR>
 
-map <leader>c :call CTags()<cr>
+" map <leader>c :call CTags()<cr>
 
 " map <F2> :call ToggleZoom()<cr>
 map <C-Space> :call ToggleZoom()<cr>
@@ -759,3 +759,7 @@ vmap <leader>s :source<cr>
 noremap <F6> :autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *<cr>
 noremap <F7> :autocmd! BufEnter * :call F.Buffer.Find(bufnr()).Print()<cr>
 noremap <F8> :call Display()<cr>
+
+noremap ,c :call ToggleComment()<cr>
+
+

@@ -6,6 +6,56 @@
 
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
+"
+function ColorScheme()
+  colorscheme blue
+  colorscheme darkblue
+  colorscheme default
+  colorscheme delek
+  colorscheme desert
+  colorscheme elflord
+  colorscheme evening
+  colorscheme habamax
+  colorscheme industry
+  colorscheme koehler
+  colorscheme lunaperche
+  colorscheme morning
+  colorscheme murphy
+  colorscheme pablo
+  colorscheme peachpuff
+  colorscheme quiet
+  colorscheme retrobox
+  colorscheme ron
+  colorscheme shine
+  colorscheme slate
+  colorscheme sorbet
+  colorscheme torte
+  colorscheme wildcharm
+  colorscheme zaibatsu
+  colorscheme zellner
+  colorscheme blue
+  colorscheme default
+  colorscheme elflord
+  colorscheme industry
+  colorscheme koehler
+  colorscheme morning
+  colorscheme slate
+  colorscheme pablo
+  colorscheme peachpuff
+  colorscheme ron
+  colorscheme shine
+  colorscheme torte
+  colorscheme zellner
+  colorscheme darkblue
+  colorscheme murphy
+  colorscheme evening
+  colorscheme desert
+  colorscheme delek
+  colorscheme slate
+  colorscheme habamax
+endfunction
+colorscheme desert
+
 
 fun CloseOther()
   let win=winnr()
@@ -32,6 +82,26 @@ function Help()
   "   echo "Buffer"
   " endif
   echo "F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12"
+endfunction
+
+function ToggleComment()
+    if has_key(s:comment_map, &filetype)
+        let comment_leader = s:comment_map[&filetype]
+        if getline('.') =~ "^\\s*" . comment_leader . " " 
+            execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
+        else 
+            if getline('.') =~ "^\\s*" . comment_leader
+                execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
+            else
+                execute "silent s/^\\(\\s*\\)/\\1" . comment_leader . " /"
+            end
+        end
+    else
+        echo "No comment leader found for filetype"
+    end
+    if GetMode()=="Visual"
+      norm gv
+    endif
 endfunction
 
 function DeleteFile()
@@ -103,12 +173,35 @@ function FindProjects()
 endfunction
 
 " Does Not Dissolve Arrays
-function PrettyDictNested(dict, indent=2)
+function PrettyNested(dict, indent=2,surround_with_brackets=1)
+  if a:surround_with_brackets==1
+    let output="{\n"
+  else
+    let output=""
+  endif
+  for [key, value] in items(a:dict)
+    let indent=repeat(' ', a:indent+1)
+    if type(value) == v:t_dict
+      let output.=indent.string(key).': '.PrettyNested(value, a:indent+1, 1).",\n"
+    elseif type(value) == v:t_list
+      let output.='[ '.PrettyNested(value, a:indent+1, 1)." ],\n"
+    else
+      let output.=indent.string(key).': '.string(value).",\n"
+    endif
+  endfor
+  let output.=repeat(' ', a:indent)
+  if a:surround_with_brackets==1
+    let output.='}'
+  endif
+  return output
+endfunction
+
+function PrettyDictNested2(dict, indent=2)
   let output="{\n"
   for [key, value] in items(a:dict)
     let indent=repeat(' ', a:indent+1)
     if type(value) == v:t_dict
-      let output.=indent.string(key).': '.PrettyDictNested(value, a:indent+1).",\n"
+      let output.=indent.string(key).': '.PrettyDictNested2(value, a:indent+1).",\n"
     else
       let output.=indent.string(key).': '.string(value).",\n"
     endif
@@ -118,15 +211,19 @@ function PrettyDictNested(dict, indent=2)
 endfunction
 
 function Pretty(x)
-  return PrettyDictNested(a:x)
+  return PrettyNested(a:x)
 endfunction
 
 function P(x)
-  return PrettyDictNested(a:x)
+  return PrettyNested(a:x)
 endfunction
 
 function Format(x)
-  return PrettyDictNested(a:x, 2)
+  return PrettyNested(a:x, 2)
+endfunction
+
+function Format2(x)
+  return PrettyDictNested2(a:x, 2)
 endfunction
 
 function J(x)

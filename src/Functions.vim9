@@ -141,7 +141,7 @@ abstract class Dump
       # result .= $"{k}: {v}"
       result = result .. " " .. k .. ": " .. v
     endfor
-    return result
+    return Pretty(result)
   enddef
   # def ToString(): string
   #   return join([this.name,this.command],' ')
@@ -160,180 +160,216 @@ enum AssignmentRange
   Window
 endenum
 
+enum Leaftype
+  Instance,
+  Tab,
+  Window,
+  Buffer
+endenum
+
 # there is no forward declaration / predeclaration in vim.
 # type object does not exist in my vim binary
 # interface seems to be the niciest path
-#
 
-export class Leaf extends Dump
-  var leaves: list<Leaf> = []
-  var nr: number
-  var parent: number
-  def FindByNr(nr: number): Leaf
-    var filtered = filter(copy(this.leaves), (_, v) => v.nr == nr)[0]
-    return filtered
-  enddef
-  def FindByParent(nr: number): Leaf
-    var filtered = filter(copy(this.leaves), (_, v) => v.parent == nr)[0]
-    return filtered
-  enddef
-  def Find(nr: number): Leaf
-    return this.FindByNr(nr)
-  enddef
-  def AddRange(leaves: list<Leaf>): Leaf
-    call extend(this.leaves, leaves)
-    return this
-  enddef
-  def Add(nr: number): Leaf
-    call extend(this.leaves, Leaf.new().SetNr(nr))
-    return this
-  enddef
-  def New(nr: number): Leaf
-    call Add(nr)
-    return this
-  enddef
-  def Remove(nr: number)
-	  remove(this.leaves, nr)
-  enddef
-  def SetParent(nr: number): Leaf
-    this.parent = nr
-    return this
-  enddef
-  def SetNr(nr: number): Leaf
-    this.nr = nr
-    return this
-  enddef
-  # def Print()
-  #   echo this.nr
+# export interface Leaf
+#   # var leaves: list<Leaf>
+#   # var nr: number
+#   # var parent: Leaf
+#   def FindByNr(nr: number): Leaf
+#   def FindByParent(nr: number): Leaf
+#   def Win(nr: number): Leaf
+#   def Tab(nr: number): Leaf
+#   def Buf(nr: number): Leaf
+#   def AddRange(leaves: list<Leaf>): Leaf
+#   def Add(leaf: Leaf): Leaf
+#   def Remove(nr: number)
+#   def RemoveThisFromParent()
+#   def RemoveAll()
+#   def SetParent(nr: number): Leaf
+#   def SetNr(nr: number): Leaf
+# endinterface
+
+export class Buffer extends Dump
+  var bufnr: number
+  # static def Find(nr: number): Leaf
+  #   return filter(copy(Branch.Buffers.leaves), 'v:val =~ ' .. nr)[0]
   # enddef
+  def new(bufnr: number)
+    this.bufnr = bufnr
+  enddef
+  def Print()
+    echo Pretty(this.ToDict())
+  enddef
   def ToDict(): dict<any>
     return {
-      nr: this.nr,
-      parent: this.parent,
-      leaves: this.leaves
+      bufnr: this.bufnr,
     }
   enddef
 endclass
 
-export class Buffer extends Leaf
-  var bufnr: number = -1
-  var tabnr: number = -1
-  var winnr: number = -1
-  # static def Find(nr: number): Leaf
-  #   return filter(copy(Branch.Buffers.leaves), 'v:val =~ ' .. nr)[0]
-  # enddef
-  #
-  def new(bufnr: number, winnr: number, tabnr: number)
-    echo bufnr winnr tabnr
-    this.New(bufnr)
-    this.tabnr = tabnr
-    this.bufnr = bufnr
-    this.winnr = winnr
-  enddef
-endclass
-
-export class Window extends Leaf
-  static var currentWindow: Window
+export class Window extends Dump
   var winnr: number
-  var tabnr: number
-  static def AssociateBufWin(winnr: number, bufnr: number)
-    currentWindow.bufnr = bufnr
-  enddef
-  def new(winnr: number, tabnr: number)
-    this.New(winnr)
+  var tabpagenr: number
+  var bufnr: number
+  def new(winnr: number, tabpagenr: number)
     this.winnr = winnr
-    this.tabnr = tabnr 
+    this.tabpagenr = tabpagenr
   enddef
-  # static def WinEnter(winnr: number, bufnr: number)
-  #   this.currentWindow.winnr = winnr
-  #   this.currentWindow.buffer = Buffer.Find(bufnr)
-  # enddef
-  # static def DeassociateBufWin()
-  #   echo "Deassociating"
-  # enddef
-  # static def Print(message: string)
-  #   echo message
-  # enddef
-endclass
-
-export class Tab extends Leaf
-  var tabnr: number
-  static var windows: list<Window>
-  def new(tabnr: number)
-    this.New(tabnr)
-    this.tabnr = tabnr
-  enddef
-endclass
-
-export class Global extends Leaf
-  var viminstancenr: number
-  static var tabs: list<Tab>
-  def new(instancenr: number)
-    this.New(instancenr)
-  enddef
-endclass
-
-# export class Branch
-# def new()
-# Branch.Global = Global.new()
-# Branch.Tab = Tab.new()
-# Branch.Window = Window.new()
-# Branch.Buffer = Buffer.new()
-# Buffer.new()
-# enddef
-# endclass
-
-export class Storage
-  var leaf = Leaf.new()
-  def Print()
-    echo this.leaf.ToDict()
+  def SetBuf(bufnr: number)
+    this.bufnr = bufnr
   enddef
   def ToDict(): dict<any>
-    return this.leaf.ToDict()
+    return {
+      winnr: this.winnr,
+      tabpagenr: this.tabpagenr,
+      bufnr: this.bufnr,
+    }
+  enddef
+  def GetBuffer(): Buffer
+    return Storage.Buffers.Find(this.bufnr)
   enddef
 endclass
 
-export def NNew(storage: Storage, object: Leaf)
-  extend(storage.leaf.leaves, [ object ])
+export class Tab extends Dump
+  var tabpagenr: number
+  var windows: list<Window>
+  def new(tabpagenr: number)
+    this.tabpagenr = tabpagenr
+  enddef
+  def ToDict(): dict<any>
+    return {
+      tabpagenr: this.tabpagenr,
+      windows: this.windows
+    }
+  enddef
+  def Win(winnr: number): Window
+    var filtered = filter(copy(this.windows), (_, v) => v.winnr == winnr)[0]
+    return filtered
+  enddef
+  def RefreshWins(): Tab
+    this.windows = []
+    for w in range(1, winnr('$'))
+      extend(this.windows, [ Window.new(w, tabpagenr()) ])
+    endfor
+    return this
+  enddef
+endclass
+
+export class Instance extends Dump
+  var instance_nr: number
+  var tabs: list<Tab> = []
+  def new(instance_nr: number)
+    this.instance_nr = instance_nr
+  enddef
+  def Tab(tabpagenr: number): Tab
+    var filtered = filter(copy(this.tabs), (_, v) => v.tabpagenr == tabpagenr)[0]
+    return filtered
+  enddef
+  def RefreshTabs(): Instance
+    this.tabs = []
+    for t in range(1, tabpagenr('$'))
+      extend(this.tabs, [ Tab.new(t) ])
+    endfor
+    return this
+  enddef
+  def ToDict(): dict<any>
+    return {
+      instance_nr: this.instance_nr,
+      tabs: this.tabs,
+    }
+  enddef
+endclass
+
+def Pretty(d: any, indent: number = 2, level: number = 0): string
+  var prefix = repeat(' ', level * indent)
+  var next_prefix = repeat(' ', (level + 1) * indent)
+  if d->type() == v:t_dict
+    if d->empty()
+      return '{}'
+    endif
+    var items = []
+    for [k, v] in d->items()
+      items->add($'{next_prefix}{k->string()}: {Pretty(v, indent, level + 1)}')
+    endfor
+    return "{\n" .. items->join(",\n") .. $"\n{prefix}}}"
+  elseif d->type() == v:t_list
+    if d->empty()
+      return '[]'
+    endif
+    var items = []
+    for v in d
+      items->add(Pretty(v, indent, level + 1))
+    endfor
+    return "[\n" .. next_prefix .. items->join(",\n" .. next_prefix) .. $"\n{prefix}]"
+  else
+    # string, number, bool, v:none, ...
+    return d->string()
+  endif
 enddef
 
+# export def NNew(storage: Storage, object: Leaf)
+#   extend(storage.leaf.leaves, [ object ])
+# enddef
+
 export def g:Display()
-  echo buffers.ToDict()
-  tabs.Print()
-  windows.Print()
+  # echo buffers.ToDict()
+  # tabs.Print()
+  # instance.Print()
+  # echo instance.Tab(1)
+  instance.Print()
 enddef
 
 export def BufNew()
-  # NNew(buffers, Buffer.new(bufnr(), winnr(), tabpagenr()))
-enddef
-
-export def TabNew()
-  # NNew(tabs, Tab.new(bufnr(), winnr(), tabpagenr()))
+  var t = tabpagenr()
+  var w = winnr()
+  var b = bufnr()
+  # instance.Tab(t).Win(w).SetBuf(b)
 enddef
 
 export def WinNew()
-  # NNew(windows, Window.new(winnr(), tabpagenr()))
+  var t = tabpagenr()
+  var w = winnr()
+  instance.Tab(t).RefreshWins()
 enddef
 
+export def TabNew()
+  var t = tabpagenr()
+  instance.RefreshTabs()
+enddef
+
+export var instance: Instance = Instance.new(1)
+# Tab.new(1)
+instance.RefreshTabs()
+
 export def VimEnter()
-  # NNew(globals, Global.new(0))
+  # instance.AddTab(Tab.new(t))
+  # instance.Tab(1).AddWin(Win.new(1))
+enddef
+
+export def BufWinEnter()
+  var t = tabpagenr()
+  var w = winnr()
+  var b = bufnr()
+  # instance.Tab(t).Win(w).SetBuf(Buffer.new(b, w, t))
 enddef
 
 export def WinClosed()
+  var t = tabpagenr()
+  var w = winnr()
+  var b = bufnr()
+  instance.Tab(t).Win(w).RemoveThisFromParent()
   # .Find(winnr())
-  tabs.Find(tabpagenr()).leaves.remove(winnr())
+  # tabs.Find(tabpagenr()).leaves.remove(winnr())
 enddef
 
 export def TabClosed()
-  # tabs.remove(tabnr())
-  tabs.leaves(remove(tabpagenr()))
+  # tabs.remove(tabpagenr())
+  # tabs.leaves(remove(tabpagenr()))
 enddef
 
-
-export var globals: Storage = Storage.new()
-export var tabs: Storage = Storage.new()
-export var windows: Storage = Storage.new()
-export var buffers: Storage = Storage.new()
+# export var tabs: Storage = Storage.new()
+# export var windows: Storage = Storage.new()
+# export var buffers: Storage = Storage.new()
 
 # echo Buffer.new(0, 1, 2)
 # New(buffers, Buffer.new(0, 1, 2))
@@ -341,11 +377,11 @@ export var buffers: Storage = Storage.new()
 # Branch.new()
 # Branch.Buffer = Buffer.new()
 
-export class VimInstance extends Global
-  static def Print(message: string)
-    echo "VimInstance" .. " " .. message
-  enddef
-endclass
+# export class VimInstance extends Global
+#   static def Print(message: string)
+#     echo "VimInstance" .. " " .. message
+#   enddef
+# endclass
 
 # export def VimInstancePrint(message: string)
 #   VimInstance.Print(message)
