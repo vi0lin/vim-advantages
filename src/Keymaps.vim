@@ -4,6 +4,7 @@ inoremap <C-s> <Nop>
 vnoremap <C-s> <Nop>
 
 map <leader><leader>f :call FavoriteFile()<CR>
+map <leader><leader>f :call FavoriteFile()<CR>
 map <leader><leader>p :call FavoritePath()<CR>
 map <C-8> :call Favorite()<CR>
 
@@ -762,4 +763,17 @@ noremap <F8> :call Display()<cr>
 
 noremap ,c :call ToggleComment()<cr>
 
-
+function! XXXCommand(...)
+  " let name = a:000[:0][0]
+  " let arg = a:000[1:]
+  " call F.NewCommand(name, arg)
+endfunction
+command! -range -nargs=+ XXXCommand call XXXCommand(<q-args>)
+function! NewAssignment(...)
+  " let name = a:000[:0][0]
+  " let arg = a:000[1:]
+  " call F.NewAssignment(name, arg)
+endfunction
+command! -range -nargs=+ NewAssignment call NewAssignment(<f-args>)
+" NewCommand FavoriteFile :call FavoriteFile()<CR>
+" NewAssignment FavoriteFile map <leader><leader>f 

@@ -56,7 +56,6 @@ function ColorScheme()
 endfunction
 colorscheme desert
 
-
 fun CloseOther()
   let win=winnr()
   let max_win=winnr('$')

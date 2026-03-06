@@ -12,11 +12,20 @@ vim9script
 #   echo message .. ' <<-'
 # enddef
 
-def g:Execute(keymap: string)
-  AssignmentFileReader.Read()
-  echo Assignment.assignments
-  echo keymap
-enddef
+class Commander
+  def Execute(keymap: string)
+    AssignmentFileReader.Read()
+    echo Assignment.assignments
+    echo keymap
+  enddef
+  def Register()
+  enddef
+  def Unregister()
+  enddef
+  def Edit()
+  enddef
+endclass
+
 
 export class Host
   var ip: string
@@ -257,6 +266,9 @@ endclass
 
 export class Instance extends Dump
   var tabs: list<Tab> = []
+  def new()
+    this.RefreshTabs()
+  enddef
   def Tab(tabpagenr: number): Tab
     var filtered = filter(copy(this.tabs), (_, v) => v.tabpagenr == tabpagenr)[0]
     return filtered
@@ -333,8 +345,6 @@ export def TabNew()
   instance.RefreshTabs()
 enddef
 
-export var instance: Instance = Instance.new()
-
 export def VimEnter()
   # instance.AddTab(Tab.new(t))
   # instance.Tab(1).AddWin(Win.new(1))
@@ -361,26 +371,6 @@ export def TabClosed()
   # tabs.remove(tabpagenr())
   # tabs.leaves(remove(tabpagenr()))
 enddef
-
-# export var tabs: Storage = Storage.new()
-# export var windows: Storage = Storage.new()
-# export var buffers: Storage = Storage.new()
-
-# echo Buffer.new(0, 1, 2)
-# New(buffers, Buffer.new(0, 1, 2))
-
-# Branch.new()
-# Branch.Buffer = Buffer.new()
-
-# export class VimInstance extends Global
-#   static def Print(message: string)
-#     echo "VimInstance" .. " " .. message
-#   enddef
-# endclass
-
-# export def VimInstancePrint(message: string)
-#   VimInstance.Print(message)
-# enddef
 
 enum AssignmentBinding
   File,
@@ -419,6 +409,17 @@ interface ExecutionBehaviour
   def Execute(command: Command)  
 endinterface
 
+export class ExecuteInVim implements ExecutionBehaviour
+  var id: number = -1
+  def new(id: number)
+  enddef
+  def Execute(command: Command)
+    echo winnr()
+    echo command.name
+    echo command.command
+  enddef
+endclass
+
 export class ExecuteInTerminalById implements ExecutionBehaviour
   var id: number = -1
   def new(id: number)
@@ -443,13 +444,11 @@ endclass
 export class Assignment
   static var assignments: list<string> = []
   static var assignments_keys = []
-
   var key: string
   var command: Command
   var executionBehaviour: ExecutionBehaviour
   var range: AssignmentRange
   var bind: AssignmentBinding
-
   def new(key: string, command: Command, executionBehaviour: ExecutionBehaviour, range: AssignmentRange=AssignmentRange.Global)
     this.key = key
     this.command = command
@@ -459,6 +458,14 @@ export class Assignment
     extend(Assignment.assignments_keys, [ this.command.name ] )
   enddef
 endclass
+
+export def NewCommand(name: string, args: list<any>)
+  call(Command.new, name, args)
+enddef
+
+export def NewAssignment(name: string, args: list<any>)
+  call(Assignment.new, name, args)
+enddef
 
 var c = Command.new("CloseOther", ":call CloseOther()<cr>")
 var eb = ExecuteInTerminalByDirection.new('l')
@@ -527,6 +534,9 @@ Assignment.new("<leader>gs", s, eb)
 # echo Planet.Jupiter.GetMoons()
 # echo Planet.Earth.has_rings
 # echo Planet.Jupiter.ToString()
+
+export var instance: Instance = Instance.new()
+export var commander: Commander = Commander.new()
 
 Assignment.new(
   \ "<leader><leader><leader>help",
