@@ -711,3 +711,5 @@ command! -range -nargs=+ NewAssignment call NewAssignment(<f-args>)
 
 vmap <F1> J
 map <F2> :call GetKeys()<cr>
+map <F3> :call FindKeyPerform()<cr>
+map <F4> :echo AllKeys()<cr>
