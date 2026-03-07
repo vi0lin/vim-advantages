@@ -1,4 +1,3 @@
-
 import autoload "./Functions.vim9" as F
 
 function! NewCommand(...)

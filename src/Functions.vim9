@@ -12,19 +12,35 @@ vim9script
 #   echo message .. ' <<-'
 # enddef
 
-class Commander
-  def Execute(keymap: string)
-    AssignmentFileReader.Read()
-    echo Assignment.assignments
-    echo keymap
-  enddef
-  def Register()
-  enddef
-  def Unregister()
-  enddef
-  def Edit()
-  enddef
-endclass
+export def g:Execute()
+  var keymap = input("Key")
+  # AssignmentFileReader.Read()
+  # echo Assignment.assignments
+  echo keymap
+enddef
+export def g:EditCommand()
+  var keymap = input("Key")
+  echo "Configure " .. keymap .. " choosing command"
+  echo keymap
+enddef
+export def g:EditExecution()
+  var keymap = input("Key")
+  echo "Configure " .. keymap .. " choosing command"
+  echo keymap
+enddef
+export def g:EditRange()
+  var keymap = input("Key")
+  echo "Configure " .. keymap .. " choosing command"
+  echo keymap
+enddef
+export def g:DeassignKey()
+  var keymap = input("Key")
+  echo keymap
+enddef
+export def g:AssignKey()
+  var keymap = input("Key")
+  echo keymap
+enddef
 
 export class Host
   var ip: string
@@ -250,9 +266,14 @@ export class Tab extends Dump
       windows: this.windows
     }
   enddef
-  def Win(winnr: number): Window
+  def Win(winnr: number): any
+    this.RefreshWins()
     var filtered = filter(copy(this.windows), (_, v) => v.winnr == winnr)[0]
-    return filtered
+    if len(filtered) > 0
+      return filtered[0]
+    else
+      return null
+    endif
   enddef
   def RefreshWins(): Tab
     this.windows = []
@@ -268,9 +289,14 @@ export class Instance extends Dump
   def new()
     this.RefreshTabs()
   enddef
-  def Tab(tabpagenr: number): Tab
-    var filtered = filter(copy(this.tabs), (_, v) => v.tabpagenr == tabpagenr)[0]
-    return filtered
+  def Tab(tabpagenr: number): any
+    this.RefreshTabs()
+    var filtered = filter(copy(this.tabs), (_, v) => v.tabpagenr == tabpagenr)
+    if len(filtered) > 0
+      return filtered[0]
+    else
+      return null
+    endif
   enddef
   def RefreshTabs(): Instance
     this.tabs = []
@@ -336,18 +362,14 @@ enddef
 
 export def WinNew()
   var t = tabpagenr()
-  var w = winnr()
   instance.Tab(t).RefreshWins()
 enddef
 
 export def TabNew()
-  var t = tabpagenr()
   instance.RefreshTabs()
 enddef
 
 export def VimEnter()
-  # instance.AddTab(Tab.new(t))
-  # instance.Tab(1).AddWin(Win.new(1))
   instance.RefreshTabs()
 enddef
 
@@ -537,8 +559,6 @@ Assignment.new("<leader>gs", s, eb)
 # echo Planet.Jupiter.ToString()
 
 export var instance: Instance = Instance.new()
-export var commander: Commander = Commander.new()
-
 Assignment.new(
   \ "<leader><leader><leader>help",
   \ Command.new("Help", ":call Help()<cr>"),

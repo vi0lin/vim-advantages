@@ -7,6 +7,16 @@
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
 "
+function Folder_Up(nr)
+  let path=CWD()
+  let i = 0
+  " echo path a:nr i
+  while i < a:nr
+    let path=GetParentDir(path)
+    let i += 1
+  endwhile
+  return path
+endfunction
 function Folder_Project()
   return CWD()
 endfunction
@@ -443,12 +453,12 @@ function SelectCommand(keymap, info='')
   " endfunction
 endfunction
 
-function ConfigureExecute(keymap, shift=0, control=0, alt=0)
-  let vs=VS()
-  " echo a:shift a:control
-  " a:alt
-  call SelectCommand(a:keymap,"")
-endfunction
+" function ConfigureExecute(keymap, shift=0, control=0, alt=0)
+"   let vs=VS()
+"   " echo a:shift a:control
+"   " a:alt
+"   call SelectCommand(a:keymap,"")
+" endfunction
 
 function GetRepoLocation()
   if w:git!=-1
@@ -4228,6 +4238,7 @@ function Layout_Bash()
   " Filename, [hjklHJKLvs], normalcommand
   let layout=[
     \ [ g:bashrc, "H"],
+    \ [ g:bashrc..'.unreleased', "H"],
     \ [ g:vimrc, "v"],
     \]
   call _buildLayout(layout)
