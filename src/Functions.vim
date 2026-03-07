@@ -7,6 +7,60 @@
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
 "
+
+" Returns something close to mapping notation (best-effort)
+" Works well for ascii, <C-a>–<C-z>, <F1>–<F12>, <C-F1> in many terminals
+func! Key2Notation(key) abort
+    if type(a:key) == v:t_number
+        let nr = a:key
+        let c = nr2char(nr)
+    else
+        let c = a:key           " already string from getcharstr()
+        let nr = char2nr(c)
+    endif
+
+    if nr >= 0 && nr <= 31
+        " Ctrl + letter/symbol
+        if nr == 0      | return '<Nul>'     | endif
+        if nr == 27     | return '<Esc>'     | endif
+        let letter = nr2char(nr + 64)       " 1 → A, 2 → B, …
+        return '<C-' .. toupper(letter) .. '>'
+    endif
+
+    if c =~ '^[[:print:]]$'
+        if c == ' '     | return '<Space>'   | endif
+        if c == "\<Tab>"| return '<Tab>'     | endif
+        return c
+    endif
+
+    " Try to guess function keys / modified fx from common term sequences
+    " (very incomplete – terminals differ!)
+    let seq = substitute(c, "\<", '', 'g')   " just in case
+
+    if seq =~# '^[[1;[1-9]*[A-HOPZ~]$' || seq =~# '^O[A-Z]' || seq =~# '^\[\[.\+$'
+        " Many <Fx>, <S-Fx>, <C-Fx> land here
+        return '<' .. substitute(seq, '^[^[]*\[\[=\?', '', '') .. '>'   " crude
+    endif
+
+    " Fallback: show hex escape
+    let hex = ''
+    for i in range(0, strlen(c)-1)
+        let hex ..= printf('\x%02x', char2nr(c[i]))
+    endfor
+    return printf('<%s>', hex)
+endfunc
+
+" Usage example
+nnoremap <leader>K :<C-u>call ShowKeyNotation()<CR>
+
+func! ShowKeyNotation() abort
+    echon 'Press key/combo → '
+    let k = getcharstr()
+    redraw
+    echo 'getcharstr() → ' .. string(k)
+    echo 'Best-guess mapping notation → ' .. Key2Notation(k)
+endfunc
+"
 function Folder_Up(nr)
   let path=CWD()
   let i = 0

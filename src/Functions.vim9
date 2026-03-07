@@ -11,34 +11,432 @@ vim9script
 #   echo "test"
 #   echo message .. ' <<-'
 # enddef
+#
 
-export def g:Execute()
-  var keymap = input("Key")
-  # AssignmentFileReader.Read()
-  # echo Assignment.assignments
-  echo keymap
+def Key2Notation(key: string): string
+    var nr = -1
+    var c = ""
+    if type(key) == v:t_number
+        nr = char2nr(key)
+        c = nr2char(nr)
+        # c = nr .. ""
+    else
+        c = key           # already string from getcharstr()
+        nr = char2nr(c)
+        # nr = c .. ""
+    endif
+    # echo "nr: " .. nr
+    # echo "c: "  .. c
+    if nr >= 0 && nr <= 31
+        # Ctrl + letter/symbol
+        if nr == 0      | return '<Nul>'     | endif
+        if nr == 27     | return '<Esc>'     | endif
+        var letter = nr2char(nr + 64)       # 1 → A, 2 → B, …
+        return '<C-' .. toupper(letter) .. '>'
+    endif
+    if c =~ '^[[:print:]]$'
+        if c == ' '     | return '<Space>'   | endif
+        if c == "\<Tab>"| return '<Tab>'     | endif
+        return c
+    endif
+    # Try to guess function keys / modified fx from common term sequences
+    # (very incomplete – terminals differ!)
+    var seq = substitute(c, "\<", '', 'g')   # just in case
+    if seq =~# '^[[1;[1-9]*[A-HOPZ~]$' || seq =~# '^O[A-Z]' || seq =~# '^\[\[.\+$'
+        # Many <Fx>, <S-Fx>, <C-Fx> land here
+        return '<' .. substitute(seq, '^[^[]*\[\[=\?', '', '') .. '>'   # crude
+    endif
+    # Fallback: show hex escape
+    var hex = ''
+    var add: list<number> = []
+    for x in range(0, strlen(c) - 1)
+      extend(add, [ char2nr(c[x]) ] )
+      # echo "->" .. char2nr(c[x] )
+      # echo printf('\x%02x', char2nr(c[i]))
+    endfor
+    var name = input("Name: ")
+    echo ""
+    for i in range(0, strlen(c) - 1)
+        hex ..= printf('\x%02x', char2nr(c[i]))
+    endfor
+    var specifics = []
+    specifics[0] = name
+    specifics[1] = add
+    specifics[2] = hex
+    extend(keys, [ specifics ])
+    return printf('<%s>', hex)
 enddef
-export def g:EditCommand()
-  var keymap = input("Key")
-  echo "Configure " .. keymap .. " choosing command"
-  echo keymap
+
+def KeySpecs(key: string): string
+    var nr = -1
+    var c = ""
+    if type(key) == v:t_number
+        nr = char2nr(key)
+        c = nr2char(nr)
+        # c = nr .. ""
+    else
+        c = key           # already string from getcharstr()
+        nr = char2nr(c)
+        # nr = c .. ""
+    endif
+    # echo "nr: " .. nr
+    # echo "c: "  .. c
+    if nr >= 0 && nr <= 31
+        # Ctrl + letter/symbol
+        if nr == 0      | return '<Nul>'     | endif
+        if nr == 27     | return '<Esc>'     | endif
+        var letter = nr2char(nr + 64)       # 1 → A, 2 → B, …
+        return '<C-' .. toupper(letter) .. '>'
+    endif
+    if c =~ '^[[:print:]]$'
+        if c == ' '     | return '<Space>'   | endif
+        if c == "\<Tab>"| return '<Tab>'     | endif
+        return c
+    endif
+    # Try to guess function keys / modified fx from common term sequences
+    # (very incomplete – terminals differ!)
+    var seq = substitute(c, "\<", '', 'g')   # just in case
+    if seq =~# '^[[1;[1-9]*[A-HOPZ~]$' || seq =~# '^O[A-Z]' || seq =~# '^\[\[.\+$'
+        # Many <Fx>, <S-Fx>, <C-Fx> land here
+        return '<' .. substitute(seq, '^[^[]*\[\[=\?', '', '') .. '>'   # crude
+    endif
+    # Fallback: show hex escape
+    var hex = ''
+    var add: list<number> = []
+    for x in range(0, strlen(c) - 1)
+      extend(add, [ char2nr(c[x]) ] )
+      # echo "->" .. char2nr(c[x] )
+      # echo printf('\x%02x', char2nr(c[i]))
+    endfor
+    var name = input("Name: ")
+    echo ""
+    for i in range(0, strlen(c) - 1)
+        hex ..= printf('\x%02x', char2nr(c[i]))
+    endfor
+    var specifics = []
+    specifics[0] = name
+    specifics[1] = add
+    specifics[2] = hex
+    return Pretty(specifics)
+    # return printf('<%s>', hex)
 enddef
+
+export var keys: list<any> =
+[
+  [
+    '<F1>',
+    [ 128, 107, 49 ],
+    '\x80\x6b\x31'
+  ],
+  [
+    '<F2>',
+    [ 128, 107, 50 ],
+    '\x80\x6b\x32'
+  ],
+  [
+    '<F3>',
+    [ 128, 107, 51 ],
+    '\x80\x6b\x33'
+  ],
+  [
+    '<F4>',
+    [ 128, 107, 52 ],
+    '\x80\x6b\x34'
+  ],
+  [
+    '<F5>',
+    [ 128, 107, 53 ],
+    '\x80\x6b\x35'
+  ],
+  [
+    '<F6>',
+    [ 128, 107, 54 ],
+    '\x80\x6b\x36'
+  ],
+  [
+    '<F7>',
+    [ 128, 107, 55 ],
+    '\x80\x6b\x37'
+  ],
+  [
+    '<F8>',
+    [ 128, 107, 56 ],
+    '\x80\x6b\x38'
+  ],
+  [
+    '<F9>',
+    [ 128, 107, 57 ],
+    '\x80\x6b\x39'
+  ],
+  [
+    '<F10>',
+    [ 128, 107, 59 ],
+    '\x80\x6b\x3b'
+  ],
+  [
+    '<F11>',
+    [ 128, 70, 49 ],
+    '\x80\x46\x31'
+  ],
+  [
+    '<F12>',
+    [ 128, 70, 50 ],
+    '\x80\x46\x32'
+  ],
+  [
+    '<S-F1>',
+    [ 128, 253, 6 ],
+    '\x80\xfd\x06'
+  ],
+  [
+    '<S-F2>',
+    [ 128, 253, 7 ],
+    '\x80\xfd\x07'
+  ],
+  [
+    '<S-F3>',
+    [ 128, 253, 8 ],
+    '\x80\xfd\x08'
+  ],
+  [
+    '<S-F4>',
+    [ 128, 253, 9 ],
+    '\x80\xfd\x09'
+  ],
+  [
+    '<S-F5>',
+    [ 128, 253, 10 ],
+    '\x80\xfd\x0a'
+  ],
+  [
+    '<S-F6>',
+    [ 128, 253, 11 ],
+    '\x80\xfd\x0b'
+  ],
+  [
+    '<S-F7>',
+    [ 128, 253, 12 ],
+    '\x80\xfd\x0c'
+  ],
+  [
+    '<S-F8>',
+    [ 128, 253, 13 ],
+    '\x80\xfd\x0d'
+  ],
+  [
+    '<S-F9>',
+    [ 128, 253, 14 ],
+    '\x80\xfd\x0e'
+  ],
+  [
+    '<S-F10>',
+    [ 128, 253, 15 ],
+    '\x80\xfd\x0f'
+  ],
+  [
+    '<S-F11>',
+    [ 128, 253, 16 ],
+    '\x80\xfd\x10'
+  ],
+  [
+    '<S-F12>',
+    [ 128, 253, 17 ],
+    '\x80\xfd\x11'
+  ],
+  [
+    '<C-F1>',
+    [ 128, 252, 4, 128, 107, 49 ],
+    '\x80\xfc\x04\x80\x6b\x31'
+  ],
+  [
+    '<C-F2>',
+    [ 128, 252, 4, 128, 107, 50 ],
+    '\x80\xfc\x04\x80\x6b\x32'
+  ],
+  [
+    '<C-F3>',
+    [ 128, 252, 4, 128, 107, 51 ],
+    '\x80\xfc\x04\x80\x6b\x33'
+  ],
+  [
+    '<C-F4>',
+    [ 128, 252, 4, 128, 107, 52 ],
+    '\x80\xfc\x04\x80\x6b\x34'
+  ],
+  [
+    '<C-F5>',
+    [ 128, 252, 4, 128, 107, 53 ],
+    '\x80\xfc\x04\x80\x6b\x35'
+  ],
+  [
+    '<C-F6>',
+    [ 128, 252, 4, 128, 107, 54 ],
+    '\x80\xfc\x04\x80\x6b\x36'
+  ],
+  [
+    '<C-F7>',
+    [ 128, 252, 4, 128, 107, 55 ],
+    '\x80\xfc\x04\x80\x6b\x37'
+  ],
+  [
+    '<C-F8>',
+    [ 128, 252, 4, 128, 107, 56 ],
+    '\x80\xfc\x04\x80\x6b\x38'
+  ],
+  [
+    '<C-F9>',
+    [ 128, 252, 4, 128, 107, 57 ],
+    '\x80\xfc\x04\x80\x6b\x39'
+  ],
+  [
+    '<C-F10>',
+    [ 128, 252, 4, 128, 107, 59 ],
+    '\x80\xfc\x04\x80\x6b\x3b'
+  ],
+  [
+    '<C-F11>',
+    [ 128, 252, 4, 128, 70, 49 ],
+    '\x80\xfc\x04\x80\x46\x31'
+  ],
+  [
+    '<C-F12>',
+    [ 128, 252, 4, 128, 70, 50 ],
+    '\x80\xfc\x04\x80\x46\x32'
+  ],
+  [
+    '<C-S-F1>',
+    [ 128, 252, 4, 128, 253, 6 ],
+    '\x80\xfc\x04\x80\xfd\x06'
+  ],
+  [
+    '<C-S-F2>',
+    [ 128, 252, 4, 128, 253, 7 ],
+    '\x80\xfc\x04\x80\xfd\x07'
+  ],
+  [
+    '<C-S-F3>',
+    [ 128, 252, 4, 128, 253, 8 ],
+    '\x80\xfc\x04\x80\xfd\x08'
+  ],
+  [
+    '<C-S-F4>',
+    [ 128, 252, 4, 128, 253, 9 ],
+    '\x80\xfc\x04\x80\xfd\x09'
+  ],
+  [
+    '<C-S-F5>',
+    [ 128, 252, 4, 128, 253, 10 ],
+    '\x80\xfc\x04\x80\xfd\x0a'
+  ],
+  [
+    '<C-S-F6>',
+    [ 128, 252, 4, 128, 253, 11 ],
+    '\x80\xfc\x04\x80\xfd\x0b'
+  ],
+  [
+    '<C-S-F7>',
+    [ 128, 252, 4, 128, 253, 12 ],
+    '\x80\xfc\x04\x80\xfd\x0c'
+  ],
+  [
+    '<C-S-F8>',
+    [ 128, 252, 4, 128, 253, 13 ],
+    '\x80\xfc\x04\x80\xfd\x0d'
+  ],
+  [
+    '<C-S-F9>',
+    [ 128, 252, 4, 128, 253, 14 ],
+    '\x80\xfc\x04\x80\xfd\x0e'
+  ],
+  [
+    '<C-S-F10>',
+    [ 128, 252, 4, 128, 253, 15 ],
+    '\x80\xfc\x04\x80\xfd\x0f'
+  ],
+  [
+    '<C-S-F11>',
+    [ 128, 252, 4, 128, 253, 16 ],
+    '\x80\xfc\x04\x80\xfd\x10'
+  ],
+  [
+    '<C-S-F12>',
+    [ 128, 252, 4, 128, 253, 17 ],
+    '\x80\xfc\x04\x80\xfd\x11'
+  ],
+]
+
+export def g:PutKey()
+    put = KeySpecs(getcharstr()) .. ','
+    norm `[v`]=`]o
+enddef
+
+export def g:CheckKeys()
+  while v:true
+    Key2Notation(getcharstr())
+    echo Pretty(keys)
+  endwhile
+enddef
+
+export def g:K(): string
+  return Pretty(keys)
+enddef
+
+# Having Trouble With KeyMaps / Need Proper Konversion
+export def g:Assign(command: string = '')
+  Key2Notation(getcharstr())
+  return
+  # echo "Assigning A Key.\nPlease Select A Key: "
+  # var define = command == ''
+  # var cmd = command
+  # # var pressedKey = getchar()
+  # var mapKey = ""
+  # while v:true
+  #   var pressedKey = getcharstr()
+  #   mapKey =  mapKey .. pressedKey
+  #   if pressedKey != ','
+  #     break
+  #   endif
+  # endwhile
+  # echon mapKey
+  # mapKey = Key2Notation(mapKey)
+  # echon mapKey
+  # if define
+  #   # echo "Command: "
+  #   cmd = input('Command: ')
+  #   # while v:true
+  #   #   var pressedKey = getmapKeytr()
+  #   #   if pressedKey == ''
+  #   #     break
+  #   #   endif
+  #   #   echon pressedKey
+  #   #   cmd = cmd .. pressedKey
+  #   # endwhile
+  #   # echo cmd
+  # endif
+  # echo "\n"
+  # # echo cmd
+  # echo "map " .. mapKey .. " " .. cmd
+  # eval "map " .. mapKey .. " " .. cmd
+  # # echo "\n"
+  # # :call Execute("F1")<cr>
+  # # echo pressedKey
+  # # echo "Configure " .. mapKey .. " choosing command"
+enddef
+
 export def g:EditExecution()
   var keymap = input("Key")
   echo "Configure " .. keymap .. " choosing command"
   echo keymap
 enddef
+
 export def g:EditRange()
   var keymap = input("Key")
   echo "Configure " .. keymap .. " choosing command"
   echo keymap
 enddef
-export def g:DeassignKey()
-  var keymap = input("Key")
-  echo keymap
-enddef
-export def g:AssignKey()
-  var keymap = input("Key")
+
+export def g:Deassign()
+  var keymap = input("Deassign")
   echo keymap
 enddef
 
@@ -294,7 +692,7 @@ export class Instance extends Dump
     var filtered = filter(copy(this.tabs), (_, v) => v.tabpagenr == tabpagenr)
     if len(filtered) > 0
       return filtered[0]
-    else
+    else 
       return null
     endif
   enddef
@@ -490,13 +888,13 @@ export def NewAssignment(name: string, args: list<any>)
   call(Assignment.new, name, args)
 enddef
 
-var c = Command.new("CloseOther", ":call CloseOther()<cr>")
-var eb = ExecuteInTerminalByDirection.new('l')
-Assignment.new("<F8>", c, eb, AssignmentRange.Global)
-
-var s = Command.new("Status", ":call GitStatus()<cr>")
-Assignment.new("<leader>gs", s, eb)
-# Command.ShowCommands()
+# var c = Command.new("CloseOther", ":call CloseOther()<cr>")
+# var eb = ExecuteInTerminalByDirection.new('l')
+# Assignment.new("<F8>", c, eb, AssignmentRange.Global)
+# 
+# var s = Command.new("Status", ":call GitStatus()<cr>")
+# Assignment.new("<leader>gs", s, eb)
+# # Command.ShowCommands()
 
 # var a = Leaf.new().AddRange([
 #   Leaf.new().SetNr(0),

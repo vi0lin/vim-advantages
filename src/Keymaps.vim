@@ -569,49 +569,56 @@ map <leader>A =remove(a,0)<cr>
 " j0
 " q
 
-map ,ec :call EditCommand()<cr>
-map ,ee :call EditExecution()<cr>
-map ,er :call EditRange()<cr>
-map ,d :call DeassignKey()<cr>
-map ,a :call AssignKey()<cr>
-
 import autoload "./Functions.vim9" as F
 
-map <F1> :call Execute("F1")<cr>
-map <F2> :call Execute("F2")<cr>
-map <F3> :call Execute("F3")<cr>
-map <F4> :call Execute("F4")<cr>
-map <F5> :call Execute("F5")<cr>
-map <F6> :call Execute("F6")<cr>
-map <F7> :call Execute("F7")<cr>
-map <F8> :call Execute("F8")<cr>
+map <C-x> :call Assign()<cr>
+map <leader><C-x> :call Deassign()<cr>
 
-map <S-F1> :call Execute("F1", 1)<cr>
-map <S-F2> :call Execute("F2", 1)<cr>
-map <S-F3> :call Execute("F3", 1)<cr>
-map <S-F4> :call Execute("F4", 1)<cr>
-map <S-F5> :call Execute("F5", 1)<cr>
-map <S-F6> :call Execute("F6", 1)<cr>
-map <S-F7> :call Execute("F7", 1)<cr>
-map <S-F8> :call Execute("F8", 1)<cr>
+map ,p :call PutKey()<cr>
 
-map <C-F1> :call Execute("F1", 0, 1)<cr>
-map <C-F2> :call Execute("F2", 0, 1)<cr>
-map <C-F3> :call Execute("F3", 0, 1)<cr>
-map <C-F4> :call Execute("F4", 0, 1)<cr>
-map <C-F5> :call Execute("F5", 0, 1)<cr>
-map <C-F6> :call Execute("F6", 0, 1)<cr>
-map <C-F7> :call Execute("F7", 0, 1)<cr>
-map <C-F8> :call Execute("F8", 0, 1)<cr>
+" exec 'map <80>k2 :echo "TEST"<cr>'
 
-map <S-C-F1> :call Execute("F1", 1, 1)<cr>
-map <S-C-F2> :call Execute("F2", 1, 1)<cr>
-map <S-C-F3> :call Execute("F3", 1, 1)<cr>
-map <S-C-F4> :call Execute("F4", 1, 1)<cr>
-map <S-C-F5> :call Execute("F5", 1, 1)<cr>
-map <S-C-F6> :call Execute("F6", 1, 1)<cr>
-map <S-C-F7> :call Execute("F7", 1, 1)<cr>
-map <S-C-F8> :call Execute("F8", 1, 1)<cr>
+" map ,r :call EditRange()<cr>
+" map ,a  :call AssignKey()<cr>
+" map ,ec :call AssignKey()<cr>
+" map ,ee :call EditExecution()<cr>
+
+
+" map <F1> :call Execute("F1")<cr>
+" map <F2> :call Execute("F2")<cr>
+" map <F3> :call Execute("F3")<cr>
+" map <F4> :call Execute("F4")<cr>
+" map <F5> :call Execute("F5")<cr>
+" map <F6> :call Execute("F6")<cr>
+" map <F7> :call Execute("F7")<cr>
+" map <F8> :call Execute("F8")<cr>
+
+" map <S-F1> :call Execute("F1", 1)<cr>
+" map <S-F2> :call Execute("F2", 1)<cr>
+" map <S-F3> :call Execute("F3", 1)<cr>
+" map <S-F4> :call Execute("F4", 1)<cr>
+" map <S-F5> :call Execute("F5", 1)<cr>
+" map <S-F6> :call Execute("F6", 1)<cr>
+" map <S-F7> :call Execute("F7", 1)<cr>
+" map <S-F8> :call Execute("F8", 1)<cr>
+
+" map <C-F1> :call Execute("F1", 0, 1)<cr>
+" map <C-F2> :call Execute("F2", 0, 1)<cr>
+" map <C-F3> :call Execute("F3", 0, 1)<cr>
+" map <C-F4> :call Execute("F4", 0, 1)<cr>
+" map <C-F5> :call Execute("F5", 0, 1)<cr>
+" map <C-F6> :call Execute("F6", 0, 1)<cr>
+" map <C-F7> :call Execute("F7", 0, 1)<cr>
+" map <C-F8> :call Execute("F8", 0, 1)<cr>
+
+" map <S-C-F1> :call Execute("F1", 1, 1)<cr>
+" map <S-C-F2> :call Execute("F2", 1, 1)<cr>
+" map <S-C-F3> :call Execute("F3", 1, 1)<cr>
+" map <S-C-F4> :call Execute("F4", 1, 1)<cr>
+" map <S-C-F5> :call Execute("F5", 1, 1)<cr>
+" map <S-C-F6> :call Execute("F6", 1, 1)<cr>
+" map <S-C-F7> :call Execute("F7", 1, 1)<cr>
+" map <S-C-F8> :call Execute("F8", 1, 1)<cr>
 
 "" " map <F1> :echo DBG()<cr>
 "" map <F9>  :silent Make<cr>
@@ -701,3 +708,5 @@ endfunction
 command! -range -nargs=+ NewAssignment call NewAssignment(<f-args>)
 " NewCommand FavoriteFile :call FavoriteFile()<CR>
 " NewAssignment FavoriteFile map <leader><leader>f 
+
+vmap <F1> J
