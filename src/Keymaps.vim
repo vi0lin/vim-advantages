@@ -710,3 +710,4 @@ command! -range -nargs=+ NewAssignment call NewAssignment(<f-args>)
 " NewAssignment FavoriteFile map <leader><leader>f 
 
 vmap <F1> J
+map <F2> :call GetKeys()<cr>
