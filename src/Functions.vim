@@ -2907,6 +2907,11 @@ function SendCommandToTerm(direction) range
   call TERM(buf, vs)
 endfunction
 
+function SendCommandToThisTerm(command) range
+  let buf=bufnr()
+  call TERM(buf, a:command)
+endfunction
+
 function RedoCommandToTermWithSigTerm(direction)
   let x=['','[A']
   let buf=winbufnr(winnr(a:direction))

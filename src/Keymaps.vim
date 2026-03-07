@@ -713,3 +713,7 @@ vmap <F1> J
 map <F2> :call GetKeys()<cr>
 map <F3> :call FindKeyPerform()<cr>
 map <F4> :echo AllKeys()<cr>
+
+tmap <C-v> <C-\><C-n>:call SendCommandToThisTerm([getreg('"')])<cr>i
+" <C-S-v> works but be aware of copying the newline characters. they execute
+" commands immedietly.
