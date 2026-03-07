@@ -7,6 +7,7 @@
 * The Userexperience Needs Improvement - This Project Is Not Recommended So Far
 * The scripts sometimes throw errors.
 * The current state is unstable.
+* A standard set of keyboard shortcuts is provided, but can be easily customized for efficient programming in Linux environments.
 
 #### Linux
 ```
