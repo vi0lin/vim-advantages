@@ -13,6 +13,10 @@ vim9script
 # enddef
 #
 
+var w_assignments = getwinvar(winnr(), 'assignments')
+var b_assignments = getbufvar(bufnr(), 'assignments')
+var t_assignments = gettabvar(tabpagenr(), 'assignments')
+
 def Key2Notation(key: string): string
     var nr = -1
     var c = ""

@@ -6,10 +6,34 @@
 
 " Development is progressing slowly due to an important decision-making stage.
 " 0.03% Chance This Will Even Work
-"
 
 " Returns something close to mapping notation (best-effort)
 " Works well for ascii, <C-a>–<C-z>, <F1>–<F12>, <C-F1> in many terminals
+func! NEW()
+  vnew | put=getbufline('#', 1, '$')
+endfunction
+command -bar -nargs=0 NEW :call NEW()
+
+func SystemClipboard()
+  let @+ = @:
+endfun
+
+func PutCommand(nr=0)
+  " put=":
+  " put :
+  if a:nr == 0
+    let nnr=1
+  else
+    let nnr=a:nr
+  endif
+  let x=join(map(range(histnr(':')-nnr, histnr(':')-1), "histget(':', v:val)"), "\n")
+  put=x
+endfun
+
+func GrepSplit(term)
+  NEW | exec '%!grep '..a:term | exec '%g/^\d*\. /norm dwdw' | exec '%!sort | uniq'
+endfunction
+
 func! Key2Notation(key) abort
     if type(a:key) == v:t_number
         let nr = a:key
@@ -60,7 +84,7 @@ func! ShowKeyNotation() abort
     echo 'getcharstr() → ' .. string(k)
     echo 'Best-guess mapping notation → ' .. Key2Notation(k)
 endfunc
-"
+
 function Folder_Up(nr)
   let path=CWD()
   let i = 0
@@ -169,7 +193,7 @@ fun CloseOther()
 endf
 map <F12> :call CloseOther()<cr>
 map <leader>p :GithubPush<cr>
- 
+
 function Help()
   " if getbufvar(bufnr(), '&buftype') == 'terminal'
   "   echo "Terminal"
@@ -182,9 +206,9 @@ endfunction
 function ToggleComment()
     if has_key(s:comment_map, &filetype)
         let comment_leader = s:comment_map[&filetype]
-        if getline('.') =~ "^\\s*" . comment_leader . " " 
+        if getline('.') =~ "^\\s*" . comment_leader . " "
             execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
-        else 
+        else
             if getline('.') =~ "^\\s*" . comment_leader
                 execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
             else
@@ -228,6 +252,31 @@ function JoinSplits(dir)
   let new_winid=win_getid()
   call win_gotoid(winid) | close
   call win_gotoid(new_winid)
+endfunction
+
+function NewWindow(direction)
+  if a:direction ==# "H" || a:direction ==# "h"
+    vsplit
+    <C-S-l>
+  elseif a:direction ==# "J" || a:direction ==# "j"
+  elseif a:direction ==# "K" || a:direction ==# "k"
+  elseif a:direction ==# "L" || a:direction ==# "l"
+  endif
+endfunction
+
+function MoveOutOfSplit(dir)
+  let target=winnr(a:dir)
+  let bufnr=bufnr()
+
+  let opposite_direction=['l','k','j','h'][index(['h','j','k','l'], a:dir)]]
+  if target==winnr()
+    exec 'wincmd '..toupper(dir)
+  else
+    " exec winnr()..'wincmd q'
+    wincmd q
+    exec 'wincmd '..dir
+    exec 'b'..bufnr
+  endif
 endfunction
 
 function DebugPaths()
@@ -582,7 +631,7 @@ hi QuickFixLine ctermbg=Yellow guibg=Yellow
 function COTests()
   " lopen copen cclose lclose cwindow height lwindow height cbottom lbottom
   " botright cwindow
-  " botleft 
+  " botleft
 	" au BufReadPost quickfix  setlocal modifiable
 	" 	\ | silent exe 'g/^/s//\=line(".") .. " "/'
 	" 	\ | setlocal nomodifiable
@@ -858,7 +907,7 @@ function! GithubPush()
 endfunction
 
 function QuickYank(args='', flags='') range
-  let vs=VS()  
+  let vs=VS()
   if a:args=='init'
     call setreg('a', '')
   elseif a:args=='paste'
@@ -866,7 +915,7 @@ function QuickYank(args='', flags='') range
     call appendbufline(bufnr(), line('.'), reg)
     return
   endif
-  call setreg('A', vs) 
+  call setreg('A', vs)
   let reg=getreg('A')
   call RS()
 endfunction
@@ -964,7 +1013,7 @@ function CheckPlug()
   else
     let g:checkplug=0
   endif
-endfunction 
+endfunction
 
 function AutoInstallPlug()
   if !exists('g:checkplug') || g:checkplug==0
@@ -1068,7 +1117,7 @@ filetype indent on
 filetype plugin indent on
 filetype plugin indent on
 syntax on
-syntax enable 
+syntax enable
 set nocompatible
 set incsearch
 set ignorecase
@@ -1125,14 +1174,14 @@ function VS() range
     let lines[-1]=lines[-1][:l:end_col-1]
     return lines
   endf
-  if IsNormal() 
+  if IsNormal()
     return [getline('.')]
   elseif IsVisual()
-    return _prep_visual() 
+    return _prep_visual()
   elseif IsVisualLine()
     return lines
   elseif IsVisualBlock()
-    return _prep_visualblock() 
+    return _prep_visualblock()
   elseif IsInsert()
     return [getline('.')]
   endif
@@ -1151,7 +1200,7 @@ function CommandInfo(flag='')
 endfunction
 
 function IsTerminalInsert()
-  let [mode, modee, visual, command, terminalinsert] = g:CI 
+  let [mode, modee, visual, command, terminalinsert] = g:CI
   return terminalinsert && modee=="nt"
 endfunction
 
@@ -1365,7 +1414,7 @@ function Currentmain_repoRegister()
   return "/"
 endfunction
 
-function GetCWD_Statusline() 
+function GetCWD_Statusline()
   if Currentmain_repoRegister()[0] =~ "[wbgt]"
     " let x=Currentmain_repoRegister()[0]
     " let x.=" "..GetCWD_short()
@@ -1376,11 +1425,11 @@ function GetCWD_Statusline()
   endif
 endfunction
 
-function GetCWD_short(register="") 
+function GetCWD_short(register="")
   return PathCharwise(CWD())
 endfunction
 
-function GetDir(register="") 
+function GetDir(register="")
   return expand('%:p:h')
 endfunction
 
@@ -1392,7 +1441,7 @@ function GetCWDOrigin()
   if exists("w:main_repo_origin")
     return w:main_repo_origin
   else
-    let w:main_repo_origin=CWD() 
+    let w:main_repo_origin=CWD()
     return w:main_repo_origin
     " return '/'
   endif
@@ -2036,7 +2085,7 @@ function CB_OpenFileInBuffer(m)
   if Length(m)>0
     let m=m[0]
     if !empty(m)
-      if isdirectory(m) 
+      if isdirectory(m)
         call CD(m)
       else
         exec "e ".m
@@ -2061,7 +2110,7 @@ function CtrlShiftP()
   let m=system('( find / -maxdepth 10 2>/dev/null && find '.g:ftp.' -maxdepth 10 2>/dev/null ) | fzf')
   call Redraw()
   if !empty(m)
-    if isdirectory(m) 
+    if isdirectory(m)
       call CD(m)
     else
       exec "e ".m
@@ -2172,16 +2221,16 @@ function FindGit(path)
     let dir='/'..join(b[:len(b)-i], '/')
     let git=dir..'/.git'
     if isdirectory(git)
-      call SetProject(dir) 
+      call SetProject(dir)
       return dir
     elseif filereadable(git)
-      call SetProject(dir) 
+      call SetProject(dir)
       return dir
     endif
   endfor
   let dir = '/'
   if isdirectory(dir..'/.git')
-    call SetProject(dir) 
+    call SetProject(dir)
     return dir
   endif
   return -1
@@ -2568,7 +2617,7 @@ function Open(direction, type="buffer", mode="copy", file="")
     let file=g:term
   elseif buffer && exists("file") && file != ""
     let file = a:file
-    let file=GetCwordIfReadableFile() 
+    let file=GetCwordIfReadableFile()
     let arg="e ".file
   elseif buffer
     let arg="enew"
@@ -2581,7 +2630,7 @@ function Open(direction, type="buffer", mode="copy", file="")
   "   let exec=""..arg
   "   exec arg
   " elseif terminal
-  "   let exec="terminal" 
+  "   let exec="terminal"
   "
   "   if a:type=="buffer"
   "   elseif a:type=="terminal"
@@ -2651,11 +2700,11 @@ function TabL()
   endif
 endfunction
 
-function SwapWin(direction) 
+function SwapWin(direction)
   let l:current_win=winnr()
   let l:current_buf=winbufnr(l:current_win)
   let l:neighbor_win=winnr(a:direction)
-  if l:neighbor_win==l:current_win 
+  if l:neighbor_win==l:current_win
     echo "no neighbor"
     return
   endif
@@ -2699,13 +2748,13 @@ endfunction
 
 function WinSwapBuf_Prep()
   let g:lastwin= winnr()
-  let g:lastbuf= bufnr() 
+  let g:lastbuf= bufnr()
 endfunction
 
 function WinSwapBuf_Back()
   let g:thiswin= winnr()
-  let g:thisbuf= bufnr() 
-    exec  g:lastwin . " wincmd w" ."|". "buffer ". g:thisbuf ."|". g:thiswin ." wincmd w" ."|". "buffer ". g:lastbuf ."|". g:lastwin . " wincmd w" 
+  let g:thisbuf= bufnr()
+    exec  g:lastwin . " wincmd w" ."|". "buffer ". g:thisbuf ."|". g:thiswin ." wincmd w" ."|". "buffer ". g:lastbuf ."|". g:lastwin . " wincmd w"
 endfunction
 
 function WinFocus_Prep()
@@ -2903,6 +2952,7 @@ function SendCustomCommandToTerm(direction, command)
 endfunction
 
 function SendCommandToTerm(direction) range
+  let vs=VS()
   let buf=winbufnr(winnr(a:direction))
   call TERM(buf, vs)
 endfunction
@@ -3095,7 +3145,7 @@ function LsRight(switch="")
     let input=input("search for: ")
   endif
   let cmd = 'ls'
-  let output=system(cmd) 
+  let output=system(cmd)
   cgetexpr output
   call CWindow()
 endfunction
@@ -3128,7 +3178,7 @@ function _buildLayout(layout)
     if c!=0
       let operator=x[c][1]
     endif
-    let norm=""    
+    let norm=""
     if len(a)>2
       let norm=x[c][2]
     endif
@@ -3150,7 +3200,7 @@ function _buildLayout(layout)
       call _norm(norm)
     else
       let filee=expand(file)
-      if !filereadable(filee) 
+      if !filereadable(filee)
         let filee = g:vim.."/src/"..file
       endif
       if filereadable(filee)
@@ -3315,7 +3365,7 @@ function Keys(tuple)
   let len=Length(a:tuple)
   for c in range(0,len-1)
     let key = a:tuple[c][0]
-    call extend(keys , [key]) 
+    call extend(keys , [key])
   endfor
   return keys
 endfunction
@@ -3329,7 +3379,7 @@ function Values(tuple)
     else
       let value = a:tuple[c][1]
     endif
-    call extend(values, [value]) 
+    call extend(values, [value])
   endfor
   return values
 endfunction
@@ -3479,7 +3529,7 @@ function Reloadfile()
 endfunction
 
 function Implement()
-  echo "Needs Implementation" 
+  echo "Needs Implementation"
 endfunction
 
 function ToggleZoom(zoom=1)
@@ -3531,24 +3581,24 @@ function ExpandV()
   exec GetVertical() "resize +65"
 endfunction
 let redefine_SaveFile= 1
-if g:redefine_SaveFile || !exists('*SaveFile') 
-  function! SaveFile() 
-    call Cursor_Prep() 
+if g:redefine_SaveFile || !exists('*SaveFile')
+  function! SaveFile()
+    call Cursor_Prep()
     try
       w!
     catch
       silent call SaveAsRoot()
     endtry
-    call Cursor_Back() 
+    call Cursor_Back()
     " echo "File was saved"
-  endfunction 
+  endfunction
 endif
 
-if !exists('*SourceVim') 
-  function SourceVim()  
-    exec "so "..expand('%:p')  
-    call Statusline() 
-  endfunction 
+if !exists('*SourceVim')
+  function SourceVim()
+    exec "so "..expand('%:p')
+    call Statusline()
+  endfunction
 endif
 
 function ToggleRelativeNumber()
@@ -3888,7 +3938,7 @@ function PYTHON(arg='')
   try
     let m = system(g:bashrc_source."; cat | python3", c)
   catch
-    try 
+    try
       let m = system(g:bashrc_source."; cat | python3", c)
     endtry
   endtry
@@ -3946,7 +3996,7 @@ function Find_Popup(title, paths, callback, type="file", maxdepth=10, register="
   else
     let type="f"
   endif
-  let cmd=call('BuildString', [ "-maxdepth "..a:maxdepth.." -type "..type,  a:paths, tempfile])  
+  let cmd=call('BuildString', [ "-maxdepth "..a:maxdepth.." -type "..type,  a:paths, tempfile])
   let title=' '..a:title..": "..join(a:paths, ' ')..' '
   let g:FileFinder_result=""
   function! OnStdout(channel, msg)
@@ -3958,7 +4008,7 @@ function Find_Popup(title, paths, callback, type="file", maxdepth=10, register="
   let opts={
         \ 'hidden': 1,
         \ 'err_cb': 'OnError',
-        \ 'term_name': 'Find', 
+        \ 'term_name': 'Find',
         \ 'term_finish': 'close',
         \ }
   let tnr=term_start(cmd, opts)
@@ -3986,7 +4036,7 @@ function Find_Popup(title, paths, callback, type="file", maxdepth=10, register="
     \ zindex: 200,
     \ callback: a:callback,
     \ })
-  catch 
+  catch
   finally
   endtry
 endfunction
@@ -4002,7 +4052,7 @@ function Execution_Popup(title, list, callback)
   let opts={
         \ 'hidden': 1,
         \ 'err_cb': 'OnError',
-        \ 'term_name': 'Find', 
+        \ 'term_name': 'Find',
         \ 'term_finish': 'close',
         \ }
   function! MyFilter(wnid, key)
@@ -4082,7 +4132,7 @@ endif
 
 set rtp+=/usr/bin/fzf
 
-" Extend Visual Selection 
+" Extend Visual Selection
 let g:b=[]
 let g:e=[]
 
@@ -4278,11 +4328,11 @@ function HasStatuslineInitialized()
   endif
 endfunction
 
-function IsBufWin() 
+function IsBufWin()
   return exists('b:state')&&b:state.type=='buffer'
 endfunction
 
-function IsTermWin() 
+function IsTermWin()
   return exists('b:state')&&b:state.type=='terminal'
 endfunction
 
@@ -4311,7 +4361,7 @@ function IsBuffersAreEmpty()
     return len(lines) == 0 || (len(lines) == 1 && lines[0] =~ '^\s*$')
   endfunction
   let w=1
-  while w<=winnr('$') 
+  while w<=winnr('$')
     if !_isEmpty(w)
       return 1
       break

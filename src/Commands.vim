@@ -20,10 +20,19 @@ function! NewCommand(...)
   try
     exec join(a:000, ' ')
   endtry
+  " let name = a:000[:0][0]
+  " let arg = a:000[1:]
+  " call F.NewCommand(name, arg)
 endfunction
 command! -range -nargs=+ NewCommand call NewCommand(<q-args>)
 
-" Keymaps.vim
+" Commands.vim
+NewCommand command! -bar -nargs=* PutCommand :call PutCommand(<q-args>)
+NewCommand command! -bar -nargs=? GrepSplit :call GrepSplit(<q-args>)
+NewCommand command! -range -nargs=+ NewAssignment call NewAssignment(<f-args>)
+" NewCommand FavoriteFile :call FavoriteFile()<CR>
+" NewAssignment FavoriteFile map <leader><leader>f
+NewCommand command! -nargs=0 Equal :norm <C-w>=
 NewCommand command -range -nargs=* BulkMove :call _BulkMove()
 NewCommand command! -range -nargs=+ Move <line1>,<line2>call Move(<f-args>)
 NewCommand command -range -nargs=* SaveRoot :call SaveRoot()
@@ -46,11 +55,6 @@ NewCommand command -nargs=+ -complete=command TIN call TIN(<q-args>)
 NewCommand command -nargs=+ -complete=command Sys call Sys(<q-args>)
 NewCommand command -nargs=+ -complete=command Vim call Vim(<q-args>)
 NewCommand command! -range CountRegex '<,'>call CountRegex()<cr>
-vnoremap <S-F11> :<C-u>call Move('l')<cr>
-nnoremap <S-F11> :call Move('l')<cr>
-inoremap <S-F11> <C-o>:call Move('l')<cr>
-cnoremap <S-F11> :call Move('l', 'c')<cr>
-tnoremap <S-F11> <C-\><C-n>:call Move('l', 't')<cr>
 NewCommand command! -range ToggleCommentFlip <line1>,<line2>call ToggleCommentFlip()
 NewCommand command -range -nargs=0 Cword <line1>,<line2>call Cword(<f-args>)
 NewCommand command -range -nargs=0 Cfile <line1>,<line2>call Cfile(<f-args>)
