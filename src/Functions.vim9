@@ -309,18 +309,6 @@ export class Connect
   enddef
 endclass
 
-# Connect.Connect(Host.new('192.168.1.77', 'win', 'asdf'))
-tmap <F1> ssh win@192.168.1.77asdf
-tmap <F2> C:\msys64\msys2_shell.cmd -defterm -no-start
-  \ date
-  \ cd /C/Users/win/Documents/
-  \ ls
-tmap <F3> cd /C/Users/win/Documents/
-  \ ls
-tmap <F4> echo "TEST"
-tmap <F5> echo "test"
-# :Connect.write("test")<cr>
-
 export class VimAdvantageFinder
   static var filename = ".vim-advantages"
   static var fallback = "~/" .. VimAdvantageFinder.filename

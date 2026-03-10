@@ -1,11 +1,11 @@
-function _nnoremap(...) range
+function! _nnoremap(...) range
   let key=a:1[0]
   let keyesc=escape(key, "<>")
   let mode=':call SetMode("'.keyesc.'", "Normal") \|'
   let cmd = join(a:1[1:])
   exec "nnoremap ".key mode cmd
 endfunction
-function _vnoremap(...) range
+function! _vnoremap(...) range
   let key=a:1[0]
   let keyesc=escape(key, "<>")
   " let keyesc=escape(keyesc, "<>")
@@ -13,7 +13,7 @@ function _vnoremap(...) range
   let cmd = "'<,'>".join(a:1[1:])
   exec "vnoremap ".key mode cmd
 endfunction
-function _inoremap(...) range
+function! _inoremap(...) range
   let key=a:1[0]
   let keyesc=escape(key, "<>")
   " let keyesc=escape(keyesc, "<>")
@@ -21,7 +21,7 @@ function _inoremap(...) range
   let cmd = join(a:1[1:])
   exec "inoremap ".key mode cmd
 endfunction
-function _tnoremap(...) range
+function! _tnoremap(...) range
   let key=a:1[0]
   let keyesc=escape(key, "<>")
   " let keyesc=escape(keyesc, "<>")
@@ -31,7 +31,7 @@ function _tnoremap(...) range
   let cmd = join(a:1[1:])
   exec "tnoremap ".key mode cmd
 endfunction
-function _cnoremap(...) range
+function! _cnoremap(...) range
   let key=a:1[0]
   let keyesc=escape(key, "<>")
   " let keyesc=escape(keyesc, "<>")
@@ -39,29 +39,29 @@ function _cnoremap(...) range
   let cmd = join(a:1[1:])
   exec "cnoremap ".key mode cmd
 endfunction
-function Nmap(...) range
+function! Nmap(...) range
   " call _nnoremap(a:000)
   exec "call _nnoremap(a:000)"
 endfunction
-function Vmap(...) range
+function! Vmap(...) range
   " call _vnoremap(a:000)
   exec "call _vnoremap(a:000)"
   " echo "call _vnoremap(a:000)"
   " exec "<a:firstline>,<a:lastline> call _vnoremap(a:000)"
 endfunction
-function Imap(...) range
+function! Imap(...) range
   " call _inoremap(a:000)
   exec "call _inoremap(a:000)"
 endfunction
-function Tmap(...) range
+function! Tmap(...) range
   " call _tnoremap(a:000)
   exec "call _tnoremap(a:000)"
 endfunction
-function Cmap(...) range
+function! Cmap(...) range
   " call _cnoremap(a:000)
   exec "call _cnoremap(a:000)"
 endfunction
-function Amap(...) range
+function! Amap(...) range
   " echo a:lastline a:lastline
   " exec a:firstline.",".a:lastline."call _nnoremap(a:000)"
   " exec a:firstline.",".a:lastline."call _vnoremap(a:000)"
@@ -97,22 +97,22 @@ function Amap(...) range
   " call _tnoremap(a:000)
   " call _cnoremap(a:000)
 endfunction
-function UUNmap(...) range
+function! UUNmap(...) range
   call _nnoremap(a:1)
 endfunction
-function UVmap(...) range
+function! UVmap(...) range
   call _vnoremap(a:1)
 endfunction
-function UImap(...) range
+function! UImap(...) range
   call _inoremap(a:1)
 endfunction
-function UTmap(...) range
+function! UTmap(...) range
   call _tnoremap(a:1)
 endfunction
-function UCmap(...) range
+function! UCmap(...) range
   call _cnoremap(a:1)
 endfunction
-function UAmap(...) range
+function! UAmap(...) range
   call _nnoremap([a:1])
   call _vnoremap([a:1])
   call _inoremap([a:1])
@@ -148,7 +148,7 @@ endfunction
 ""   call _inoremap(a:000)
 "" endfunction
 "" command -range -nargs=+ NITmap :call NITmap(<f-args>)
-function Utilize(...) range
+function! Utilize(...) range
   let verbose=0
   let force=0
   let normal=0

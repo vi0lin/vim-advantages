@@ -1,3 +1,54 @@
+" Avoid cdo prompt for overwiting files
+set hidden
+
+function ExampleGrep()
+  return
+  grep pattern **/*.vim
+  vimgrep pattern **/*.vim
+  copen
+  cdo s/pattern/text/gc
+  cdo s/pattern/text/g
+  cfdo %s/pattern/text/gc
+  cfdo %s/pattern/text/g
+  wall
+  cfdo update
+
+  cfirst
+  %s/pattern/text/gc
+  cnext
+  %s/pattern/text/gc
+
+  grep pattern *.lua
+  cdo s//NewPattern/gc \| update
+
+  " not tested
+  lgrep function -> call src/js/**/*.js
+  cfdo %s//new/g | lupdate
+
+  " // replace last search pattern
+  cdo s//new/gce | update
+  " e flag (no error message when nothing found)
+  grep -i
+  " -i setignore case
+  set ignorecase
+  " ripgrep / ag / git-grep are much faster
+  if executable('rg')
+    set grepprg=rg\ --vimgrep\ --smart-case
+    set grepformat=%f:%l:%c:%m:,%f:%l:%m
+  endif
+  cdo s//newpattern/gc
+  " press a for abort
+
+  cdo s//new/g | w!
+  set nobackup nowritebackup " temporarily
+  set backup& writebackup&
+
+  cfdo %s//new/gc | update
+
+  " but the best solution is
+  set hidden
+endfunction
+
 " call Print("message")
 " call vim9#Print2("message")
 " vim9cmd vim9#Print("MEEESSAGE")
@@ -9,6 +60,7 @@
 
 " Returns something close to mapping notation (best-effort)
 " Works well for ascii, <C-a>–<C-z>, <F1>–<F12>, <C-F1> in many terminals
+
 func! NEW()
   vnew | put=getbufline('#', 1, '$')
 endfunction
@@ -30,7 +82,7 @@ func PutCommand(nr=0)
   put=x
 endfun
 
-func GrepSplit(term)
+function! GrepSplit(term)
   NEW | exec '%!grep '..a:term | exec '%g/^\d*\. /norm dwdw' | exec '%!sort | uniq'
 endfunction
 
@@ -1031,7 +1083,7 @@ if exists('g:checkplug') && g:checkplug
   exec "source "..g:plugfile
 endif
 exec 'source '.g:vim.'/src/Statusline.vim'
-exec 'source '.g:vim.'/src/Map.vim'
+exec 'source '.g:vim.'/src/Utilize.vim'
 exec 'source '.g:vim.'/src/TextActions.vim'
 exec 'source '.g:vim.'/src/Autocommands.vim'
 syntax on
@@ -4379,7 +4431,7 @@ function LayoutVim()
   call _tabnew_if_not_empty_buffer()
   " Filename, [hjklHJKLvs], normalcommand
     " \ [ "Statusline.vim", "v"],
-    " \ [ "Map.vim", "s"],
+    " \ [ "Utilize.vim", "s"],
     " \ [ g:vimrc, "v"],
   let layout=[
     \ [ g:vim."/src/Functions.vim", "H"],
