@@ -4435,7 +4435,7 @@ function LayoutVim()
     " \ [ g:vimrc, "v"],
   let layout=[
     \ [ g:vim."/src/Functions.vim", "H"],
-    \ [ g:vim."/src/Keymaps.vim", "v"],
+    \ [ g:vim."/src/Map.vim", "v"],
     \ [ g:vim."/src/Commands.vim", "v"],
     \ [ g:vim."/readme.md", "v"],
     \ [ g:vim."/src/Autocommands.vim", "J"],
@@ -4448,7 +4448,7 @@ function LayoutVim()
   exe 1 .. "wincmd w"
 endfunction
 exec 'source '.g:vim.'/src/Commands.vim'
-exec 'source '.g:vim.'/src/Keymaps.vim'
+exec 'source '.g:vim.'/src/Map.vim'
 if !exists("g:linestate") | let g:linestate=0 | call SetLineState(g:linestate) | endif
 if !exists("g:mode") | call SetMode("", "Normal") | endif
 

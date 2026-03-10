@@ -13,7 +13,7 @@ function! NewMap(...)
 endfunction
 command! -range -nargs=+ NewMap call NewMap(<q-args>)
 
-" Keymaps.vim
+" Map.vim
 NewMap nnoremap <C-s> <Nop>
 NewMap inoremap <C-s> <Nop>
 NewMap vnoremap <C-s> <Nop>
