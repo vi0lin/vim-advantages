@@ -307,6 +307,7 @@ function JoinSplits(dir)
 endfunction
 
 function NewWindow(direction)
+  echo "Implement NewWindow"
   if a:direction ==# "H" || a:direction ==# "h"
     vsplit
     <C-S-l>
@@ -317,6 +318,7 @@ function NewWindow(direction)
 endfunction
 
 function MoveOutOfSplit(dir)
+  echo "Implement MoveOutOfSplit"
   let target=winnr(a:dir)
   let bufnr=bufnr()
 
@@ -3004,6 +3006,7 @@ function SendCustomCommandToTerm(direction, command)
 endfunction
 
 function SendCommandToTerm(direction) range
+  " Bug (VS in normalmode sometimes results in the last selected line)
   let vs=VS()
   let buf=winbufnr(winnr(a:direction))
   call TERM(buf, vs)
@@ -3876,6 +3879,9 @@ function TabClose()
 endfunction
 
 function WinEnter()
+  " if getbufvar(bufnr(), '&buftype') == 'terminal'
+  " if win_gettype(winnr()) == ""
+  "     endif
   " exec "set tags="..CWD().."/tags"
   " echo "set tags="..CWD().."/tags"
   " if HasState()
@@ -3884,6 +3890,12 @@ function WinEnter()
   call SetLineState(g:linestate)
   " exec "cd "..CWD()
   call REFRESH_CWD()
+  " Simpliest solution for now.
+  " Visual Selection gets losts
+  call InsertIfTerminal()
+  " if BufIsTerminal()
+  "   startinsert
+  " endif
   " call InitLineState()
   " let parent=CWD()
   " if isdirectory(parent)

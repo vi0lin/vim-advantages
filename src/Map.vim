@@ -31,7 +31,6 @@ NewMap nnoremap ,s :so %<cr>
 "
 NewMap map <C-Space> :call SelectCommand()<cr>
 
-
 NewMap map <leader>t :Tidy<cr>
 
 if !exists("g:currentMapping")
@@ -107,8 +106,7 @@ NewMap tnoremap <S-F11> <C-\><C-n>:call Move('l', 't')<cr>
 " xmap <F1>m :g/^\s*"/GlobalMove<cr>
 
 " Amap <F2> :NERDTreeFind<cr>
-"
-"
+
 NewMap Amap <leader>h     :call Open("h", "buffer", "new")<cr>
 NewMap Amap <leader>j     :call Open("j", "buffer", "new")<cr>
 NewMap Amap <leader>k     :call Open("k", "buffer", "new")<cr>
@@ -252,19 +250,27 @@ NewMap vmap <M-c> :call VCopy("Visual")<CR>
 NewMap vmap <M-x> :call VCut("Visual")<CR>
 NewMap vmap <c-c> "*y
 NewMap tmap <c-o> <c-\><c-n><c-o>
-NewMap tnoremap <C-l> <C-\><C-n>:wincmd l<cr>
-NewMap tnoremap <C-h> <C-\><C-n>:wincmd h<cr>
-NewMap tnoremap <C-k> <C-\><C-n>:wincmd k<cr>
-NewMap tnoremap <C-j> <C-\><C-n>:wincmd j<cr>
 NewMap imap <C-l> <C-w>li
 NewMap imap <C-h> <C-w>hi
 " bring back in? umlaute auf c-k
 " imap <C-k> <C-w>ki
 NewMap imap <C-j> <C-w>ji
+NewMap tmap <C-h> <C-\><C-n><C-h>h
+NewMap tmap <C-j> <C-\><C-n><C-j>j
+NewMap tmap <C-k> <C-\><C-n><C-k>k
+NewMap tmap <C-l> <C-\><C-n><C-w>l
+NewMap tmap <C-h> <C-h>h
+NewMap tmap <C-j> <C-j>j
+NewMap tmap <C-k> <C-k>k
 NewMap tmap <C-l> <C-w>l
-NewMap tmap <C-h> <C-w>h
-NewMap tmap <C-k> <C-w>k
-NewMap tmap <C-j> <C-w>j
+NewMap tnoremap <C-l> <C-\><C-n>:wincmd l<cr>
+NewMap tnoremap <C-h> <C-\><C-n>:wincmd h<cr>
+NewMap tnoremap <C-k> <C-\><C-n>:wincmd k<cr>
+NewMap tnoremap <C-j> <C-\><C-n>:wincmd j<cr>
+NewMap tnoremap <C-l> l<cr>
+NewMap tnoremap <C-h> h<cr>
+NewMap tnoremap <C-k> k<cr>
+NewMap tnoremap <C-j> j<cr>
 NewMap imap <c-w><c-w> <c-w><c-w>
 NewMap tmap  :call ExitTerminal()<CR>
 NewMap imap <A-'> ä
@@ -513,7 +519,7 @@ NewMap inoremap <C-Space> <C-x><C-f>
 NewMap noremap <leader>ga :!git add .<cr>
 NewMap noremap <leader>gs :!git status %<cr>
 
-function Ut(...)
+function! Ut(...)
   " strpart({src}, {start} [, {len} [, {chars}]])
   " strcharpart({src}, {start} [, {len} [, {skipcc}]])		*strcharpart()*
   " byteidx({expr}, {nr} [, {utf16}])			*byteidx()*
@@ -531,7 +537,7 @@ function Ut(...)
   exec "cnoremap"a:1":call"function_name."(".args.seperator."'c')<cr>"
   exec "tnoremap"a:1"<C-\><C-n>:call"function_name."(".args.seperator."'t')<cr>"
 endfunction
-command -range -nargs=+ Ut call Ut(<f-args>)
+command! -range -nargs=+ Ut call Ut(<f-args>)
 
 " Ut <F12> :call QuickYank()<cr>
 " nnoremap <F12> :call QuickYank()<cr>
@@ -567,7 +573,7 @@ NewMap map <leader><F8> :call FixTargetTerm('F8')<cr>
 " command :call ToggleShortenPath()<cr>
 command! -nargs=0 ShortenPath call ToggleShortenPath()
 
-function DBG()
+function! DBG()
   echo CWD()
   echo RELATIVE()
   echo ABSOLUTE()
@@ -728,3 +734,10 @@ NewMap tmap <C-v> <C-\><C-n>:call SendCommandToThisTerm([getreg('"')])<cr>i
 
 
 NewMap vmap <leader><leader>s :<C-u>silent redir=>output \| silent '<,'>source \| redir END \| put=output<cr>
+
+NewMap map <C-S-i> :echo "Implement Bufferjump"<cr>
+NewMap map <C-S-o> :echo "Implement Bufferjump"<cr>
+
+NewMap map <F8> <C-w>p
+NewMap vnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>
+NewMap nnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>

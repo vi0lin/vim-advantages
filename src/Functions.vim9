@@ -1,21 +1,14 @@
 vim9script
 
-# export def g:Print(message: string)
-#   # Print("This Will Raise My Polly Pocket Fuhrpark")
-#   echo "test"
-#   echo message .. ' <<-'
-# enddef
+# var w_assignments = getwinvar(winnr(), 'assignments')
+# var b_assignments = getbufvar(bufnr(), 'assignments')
+# var t_assignments = gettabvar(tabpagenr(), 'assignments')
 
-# def Print2(message: string)
-#   # Print("This Will Raise My Polly Pocket Fuhrpark")
-#   echo "test"
-#   echo message .. ' <<-'
-# enddef
-#
-
-var w_assignments = getwinvar(winnr(), 'assignments')
-var b_assignments = getbufvar(bufnr(), 'assignments')
-var t_assignments = gettabvar(tabpagenr(), 'assignments')
+# setbufvar({buf}, {varname}, {val})			*setbufvar()*
+# setwinvar({winnr}, {varname}, {val})			*setwinvar()*
+# settabvar({tabnr}, {varname}, {val})			*settabvar()*
+# settabwinvar({tabnr}, {winnr}, {varname}, {val})	*settabwinvar()*
+# setreg({n}, {v} [, {opt}])	Number	set register to value and type
 
 def Key2Notation(key: string): string
     var nr = -1
