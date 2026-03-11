@@ -594,9 +594,7 @@ endfunction
 
 function SelectCommand(keymap, info='')
   let Callback=function('SelectCommand_callback', ["window"])
-  let list=[ 'Pray To God', 'Be Humble', 'Win Society For Jesus' ]
-  let list=[ 'Jesus, god.', 'F stands for Win ~~~ For Jesus' ]
-  let list=[ 'You did not know.' ]
+  let list=[ 'Data', 'More Data', 'Data For The List' ]
   call SelectCommandPopup("Commands: ", list, Callback)
   return
   if a:keymap=~#"F[1234]"
