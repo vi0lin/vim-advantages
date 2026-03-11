@@ -1,18 +1,21 @@
 #!/bin/bash
 echo "Install Vim-Advantages"
-apt-get install -y fzf silversearcher-ag ripgrep
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   echo "Linux detected"
+  installations="apt-get install -y fzf silversearcher-ag ripgrep"
   cc="wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   echo "macOS detected"
+  installations="apt-get install -y fzf silversearcher-ag ripgrep"
   cc="wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim ./plug.vim"
 elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
   echo "Windows detected"
+  installations=""
   cc="curl -o plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
 else
   echo "Unknown operating system: $OSTYPE"
 fi
+eval $installations
 eval $cc
 if ! [ -f "./plug.vim" ]; then
   plug_loaded=true
