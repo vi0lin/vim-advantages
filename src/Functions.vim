@@ -83,7 +83,7 @@ func PutCommand(nr=0)
 endfun
 
 function! GrepSplit(term)
-  NEW | exec '%!grep '..a:term | exec '%g/^\d*\. /norm dwdw' | exec '%!sort | uniq'
+  NEW | exec '%!grep '..a:term | exec '%!sort | uniq'
 endfunction
 
 func! Key2Notation(key) abort
@@ -3360,14 +3360,22 @@ function Mod(n,m)
 endfunction
 
 function ClipboardYank()
-  call system('wl-copy || xclip -i -selection clipboard', @@)
+  try
+    call system('wl-copy || xclip -i -selection clipboard', @@)
+  catch
+    call setreg('*', @@)
+  endtry
 endfunction
 
 function ClipboardPaste(mode)
   if (GetMode() == "v")
     call cursor(g:vlcb[0], g:vlcb[1]) | execute "normal! v" | call cursor(g:vlce[0], g:vlce[1])
   endif
+  try
   let @@ = system('wl-paste >/dev/null 2>/dev/null && wl-paste -n || xclip -o -selection clipboard')
+  catch
+    let @@ = getreg('*')
+  endtry
 endfunction
 func! ListMonths()
   call complete(col('.'), ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
