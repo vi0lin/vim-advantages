@@ -42,18 +42,22 @@ install() {
     [0]=lin
     [1]=mac
     [2]=win
+    [3]=device
+    [4]=unknown
   )
 
   _get_os() {
-    if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "linux-"* ]]; then
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       return 0
     elif [[ "$OSTYPE" == "darwin"* ]]; then
       return 1
     elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
       return 2
+    elif [[ "$OSTYPE" == "linux-musl" ]]; then
+      return 3
     else
       echo "Unknown operating system: $OSTYPE"
-      return 3
+      return 4
     fi
   }
 
@@ -64,22 +68,36 @@ install() {
     "lin") echo " on linux" ;;
     "mac") echo " on macintosh";;
     "win") echo " on windows";;
-    *) echo "";;
+    "device") echo " on device";;
+    *) echo " on unknown device";;
   esac
 
   case "$os" in
     "lin")
       echo "linux"
-      installations="apt-get install -y fzf silversearcher-ag ripgrep"
+      packagemanager="apt-get"
+      installations="$pkg install -y fzf silversearcher-ag ripgrep"
       plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
       ;;
     "mac")
-      installations="apt-get install -y fzf silversearcher-ag ripgrep"
+      packagemanager="choc"
+      installations="$pkg install -y fzf silversearcher-ag ripgrep"
       plug_vim="wget -q $plugvim -o "$autoload"plug.vim"
       ;;
     "win")
+      packagemanager="pacman"
       installations=""
       plug_vim="curl -fLo "$autoload"plug.vim $plugvim"
+      ;;
+    "device")
+      echo "device"
+      packagemanager="apk"
+      installations="$pkg install -y fzf ripgrep"
+      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
+      ;;
+    *)
+      echo "Exiting: unknown device"
+      exit 1
       ;;
   esac
 
