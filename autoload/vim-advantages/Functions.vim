@@ -991,9 +991,9 @@ function AG()
   call CD(p)
 endfunction
 
-:echo split(&runtimepath, ',')[0]
+" :echo split(&runtimepath, ',')[0]
 
-function! SetEnvironment(user_dir, main_repo, source_dir, bashrc)
+function! SetEnvironment(user_dir='~', main_repo='', source_dir='', bashrc='~/.bashrc')
   let g:main_repo=a:main_repo
   let g:system_folders='/'
   let g:user_dir=a:user_dir
@@ -1001,10 +1001,15 @@ function! SetEnvironment(user_dir, main_repo, source_dir, bashrc)
   let g:bashrc = a:bashrc
   let g:bashrc_source = "source ".g:bashrc
   let g:vimrc = "~/.vimrc"
-  let g:vim = "~/.vim/plugged/vim-advantages"
+  " let g:vim = "~/.vim/plugged/vim-advantages"
+  let g:vim = $VIMRUNTIME
   let g:b_environment_set=1
 endfunction
 call EnsureEnvironment()
+call SetEnvironment()
+exec 'source '.g:vim.'/autoload/vim-advantages/Commands.vim'
+exec 'source '.g:vim.'/autoload/vim-advantages/Map.vim'
+try | source autoload/vim-advantages/Functions.vim.unreleased | endtry
 
 " General Variables
 if !exists("g:__pattern") | let g:__pattern={} | endif
@@ -4466,8 +4471,6 @@ function LayoutVim()
   call _buildLayout(layout)
   exe 1 .. "wincmd w"
 endfunction
-exec 'source '.g:vim.'/autoload/vim-advantages/Commands.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/Map.vim'
 if !exists("g:linestate") | let g:linestate=0 | call SetLineState(g:linestate) | endif
 if !exists("g:mode") | call SetMode("", "Normal") | endif
 
