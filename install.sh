@@ -34,6 +34,8 @@ install() {
     return $(test -f "runtimepath.tmp") && return 0 || return 1
   }
 
+  vimplug_exists=$([[ -f plug.vim ]] && echo true || echo false)
+
   runtimepath_tmp_exists && echo "runtimepath.tmp exists. Consider removing it or change the directory and start again" && exit 0 || echo "Checking Runtime Path"
 
   if ! runtimepath_tmp_exists; then
@@ -108,7 +110,7 @@ install() {
       echo "device"
       packagemanager="apk"
       installations="$pkg add fzf ripgrep"
-      plug_vim="wget -q $plugvim -O ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim -P ${autoload} -O plug.vim"
       ;;
     *)
       echo "Exiting: unknown device"
