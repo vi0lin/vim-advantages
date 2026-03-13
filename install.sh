@@ -62,9 +62,11 @@ install() {
     fi
   fi
   vimruntime=$vimruntime
+  autoload=$vimruntime"/autoload/"
 
-  vimplug_exists_in_vimruntime=$([[ -f ${vimruntime}/plug.vim ]] && echo true || echo false)
+  vimplug_exists_in_vimruntime=$([[ -f ${autoload}/plug.vim ]] && echo true || echo false)
   debug $vimruntime
+  debug $autoload
   # mkdir -p $vimruntime
 
   ostype=(
@@ -109,22 +111,22 @@ install() {
     "lin")
       manager="apt-get"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${vimruntime}/plug.vim"
+      plug_vim="wget -q $plugvim -o ${autoload}/plug.vim"
       ;;
     "mac")
       manager="choc"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${vimruntime}/plug.vim"
+      plug_vim="wget -q $plugvim -o ${autoload}/plug.vim"
       ;;
     "win")
       manager="pacman"
       installations=""
-      plug_vim="curl -fLo ${vimruntime}/plug.vim $plugvim"
+      plug_vim="curl -fLo ${autoload}/plug.vim $plugvim"
       ;;
     "device")
       manager="apk"
       installations="$manager add fzf ripgrep"
-      plug_vim="wget -q $plugvim -P ${vimruntime}"
+      plug_vim="wget -q $plugvim -P ${autoload}"
       ;;
     "unknown"|*)
       echo "Exiting: unknown device"
