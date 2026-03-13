@@ -51,23 +51,25 @@ install() {
   mkdir -p $autoload
 
   ostype=(
-    [0]=lin
+    [0]=device
     [1]=mac
     [2]=win
-    [3]=device
+    [3]=lin
     [4]=unknown
   )
 
   debug $OSTYPE
 
+  echo $OSTYPE
+
   _get_os() {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    if [[ "$OSTYPE" == "linux-musl" ]]; then
       return 0
     elif [[ "$OSTYPE" == "darwin"* ]]; then
       return 1
     elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
       return 2
-    elif [[ "$OSTYPE" == "linux-musl" ]]; then
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       return 3
     else
       echo "Unknown operating system: $OSTYPE"
@@ -88,7 +90,6 @@ install() {
 
   case "$os" in
     "lin")
-      echo "linux"
       packagemanager="apt-get"
       installations="$pkg install -y fzf silversearcher-ag ripgrep"
       plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
