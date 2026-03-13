@@ -148,7 +148,7 @@ install() {
   fi
 
   echo "Installing Vim-Advantages (with plug.vim)"
-  $vimbinary -es -c "source plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
+  $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
 }
 
 install "vim"
