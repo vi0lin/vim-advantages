@@ -62,7 +62,7 @@ install() {
     fi
   fi
   vimruntime=$vimruntime
-  plugins=$vimruntime"/plugins/"
+  plugins=$vimruntime"/plugin/"
 
   vimplug_exists_in_vimruntime=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
   debug $vimruntime
