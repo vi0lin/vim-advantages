@@ -11,7 +11,7 @@
 
 #### Linux
 ```
-wget -qO- https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/heads/main/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/heads/main/install.sh | bash -s -- debug
 ```
 
 #### Windows

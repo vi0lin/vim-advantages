@@ -23,14 +23,24 @@ install() {
   vimbinary=$1
 
   plugvim="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
-  datadir_win_fallback="~/vimfiles/autoload/plug.vim"
-  datadir_win_std="~/.vim/autoload/plug.vim"
-  datadir_mac_std="~/.vim/autoload/plug.vim"
-  datadir_lin_std="~/.vim/autoload/plug.vim"
-  datadir_neovim_modern="~/.local/share/nvim/site/autoload/plug.vim"
-  datadir_neovim_alt="~/.config/nvim/autoload/plug.vim"
-  datadir_vim92="/usr/share/vim/vim92"
-  datadir_vimfiles="/usr/share/vim/vimfiles"
+  datadir=(
+    "~/vimfiles/autoload"
+    "~/.vim/autoload"
+    "~/.vim/autoload"
+    "~/.vim/autoload"
+    "~/.local/share/nvim/site/autoload"
+    "~/.config/nvim/autoload"
+    "/usr/share/vim/vimfiles"
+    "/usr/share/vim/vim92"
+  )
+  score_paths() {
+    decision=""
+    for dir in ${datadir[@]}; do
+      decision=$dir
+    done
+    echo $decision
+  }
+  # echo $(score_paths)
 
   runtimepath_tmp_exists () {
     return $(test -f "runtimepath.tmp") && return 0 || return 1
