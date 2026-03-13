@@ -1008,7 +1008,8 @@ function! SetEnvironment(user_dir='~', main_repo='', source_dir='', bashrc='~/.b
 endfunction
 call EnsureEnvironment()
 call SetEnvironment()
-echo g:vim_advantages
+let runtimepath=split(&runtimepath, ",")[0]
+let g:vim_advantages=runtimepath..'/plugged/vim-advantages/autoload/vim-advantages/'
 exec 'source '.g:vim_advantages.'/Commands.vim'
 exec 'source '.g:vim_advantages.'/Map.vim'
 try | source autoload/vim-advantages/Functions.vim.unreleased | endtry
