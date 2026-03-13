@@ -1,2 +1,3 @@
-source ../src/Functions.vim
-source ../src/Functions.vim9
+let vimruntime=split(&vimruntime, ",")[0]
+exec 'source '..vimruntime..'autoload/vim-advantages/Functions.vim'
+exec 'source '..vimruntime..'autoload/vim-advantages/Functions.vim9'
