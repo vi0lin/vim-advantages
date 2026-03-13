@@ -1003,12 +1003,13 @@ function! SetEnvironment(user_dir='~', main_repo='', source_dir='', bashrc='~/.b
   let g:vimrc = "~/.vimrc"
   " let g:vim = "~/.vim/plugged/vim-advantages"
   let g:vim = $VIMRUNTIME
+  let g:vim_advantages = split(&runtimepath, ",")[0]..'/plugged/vim-advantages/autoload/vim-advantages'
   let g:b_environment_set=1
 endfunction
 call EnsureEnvironment()
 call SetEnvironment()
-exec 'source '.g:vim.'/autoload/vim-advantages/Commands.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/Map.vim'
+exec 'source '.g:vim_advantages.'/Commands.vim'
+exec 'source '.g:vim_advantages.'/Map.vim'
 try | source autoload/vim-advantages/Functions.vim.unreleased | endtry
 
 " General Variables
@@ -1035,7 +1036,7 @@ let g:WindowChanged=0
 let __pressedKey=""
 let __pressedControl=""
 let g:FileFinder_verbose=1
-let f1 = [ g:vim."/autoload/vim-advantages/Functions.vim", g:main_repo."/.bashrc"]
+let f1 = [ g:vim_advantages."/Functions.vim", g:main_repo."/.bashrc"]
 let projects=[ g:source_dir, g:main_repo ]
 let g:executor_list={    "executor_list": {        "bash": "bash",        "bash external": "bash",        "python3": "python3",        "python3 external": "python3",    },    "machines_settings": g:vim.."/machines.settings"}
 let g:RecursiveCounter=0
@@ -1088,10 +1089,10 @@ endfunction
 "   exec "source "..g:plugfile
 " endif
 " call AutoInstallPlug()
-exec 'source '.g:vim.'/autoload/vim-advantages/Statusline.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/Utilize.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/TextActions.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/Autocommands.vim'
+exec 'source '.g:vim_advantages.'/Statusline.vim'
+exec 'source '.g:vim_advantages.'/Utilize.vim'
+exec 'source '.g:vim_advantages.'/TextActions.vim'
+exec 'source '.g:vim_advantage_advantagess.'/Autocommands.vim'
 syntax on
 set tabpagemax=50
 " set tabstop=2
@@ -3260,7 +3261,7 @@ function _buildLayout(layout)
     else
       let filee=expand(file)
       if !filereadable(filee)
-        let filee = g:vim.."/autoload/vim-advantages/"..file
+        let filee = g:vim_advantages.."/"..file
       endif
       if filereadable(filee)
         silent exec pre..filee
@@ -4458,14 +4459,14 @@ function LayoutVim()
     " \ [ "Utilize.vim", "s"],
     " \ [ g:vimrc, "v"],
   let layout=[
-    \ [ g:vim."/autoload/vim-advantages/Functions.vim", "H"],
-    \ [ g:vim."/autoload/vim-advantages/Map.vim", "v"],
-    \ [ g:vim."/autoload/vim-advantages/Commands.vim", "v"],
-    \ [ g:vim."/readme.md", "v"],
-    \ [ g:vim."/autoload/vim-advantages/Autocommands.vim", "J"],
+    \ [ g:vim_advantages."/Functions.vim", "H"],
+    \ [ g:vim_advantages."/Map.vim", "v"],
+    \ [ g:vim_advantages."/Commands.vim", "v"],
+    \ [ g:vim_advantages."/readme.md", "v"],
+    \ [ g:vim_advantages."/Autocommands.vim", "J"],
     \ [ g:bashrc, "v", "G"],
-    \ [ g:vim."/autoload/vim-advantages/Functions.vim9", "v"],
-    \ [ g:vim."/autoload/vim-advantages/Statusline.vim", "v"],
+    \ [ g:vim_advantages."/Functions.vim9", "v"],
+    \ [ g:vim_advantages."/Statusline.vim", "v"],
     \]
     " \ [ g:source_dir.."/notes.md", "s"],
   call _buildLayout(layout)
