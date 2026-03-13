@@ -92,24 +92,23 @@ install() {
 
   case "$os" in
     "lin")
-      packagemanager="apt-get"
-      installations="$pkg install -y fzf silversearcher-ag ripgrep"
+      manager="apt-get"
+      installations="$manager install -y fzf silversearcher-ag ripgrep"
       plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
       ;;
     "mac")
-      packagemanager="choc"
-      installations="$pkg install -y fzf silversearcher-ag ripgrep"
+      manager="choc"
+      installations="$manager install -y fzf silversearcher-ag ripgrep"
       plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
       ;;
     "win")
-      packagemanager="pacman"
+      manager="pacman"
       installations=""
       plug_vim="curl -fLo ${autoload}plug.vim $plugvim"
       ;;
     "device")
-      echo "device"
-      packagemanager="apk"
-      installations="$pkg add fzf ripgrep"
+      manager="apk"
+      installations="$manager add fzf ripgrep"
       plug_vim="wget -q $plugvim -P ${autoload}"
       ;;
     *)
