@@ -69,7 +69,7 @@ install() {
       return 1
     elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
       return 2
-      elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
       return 3
     else
       echo "Unknown operating system: $OSTYPE"
