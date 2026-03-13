@@ -1030,7 +1030,7 @@ let g:WindowChanged=0
 let __pressedKey=""
 let __pressedControl=""
 let g:FileFinder_verbose=1
-let f1 = [ g:vim."/src/Functions.vim", g:main_repo."/.bashrc"]
+let f1 = [ g:vim."/autoload/vim-advantages/Functions.vim", g:main_repo."/.bashrc"]
 let projects=[ g:source_dir, g:main_repo ]
 let g:executor_list={    "executor_list": {        "bash": "bash",        "bash external": "bash",        "python3": "python3",        "python3 external": "python3",    },    "machines_settings": g:vim.."/machines.settings"}
 let g:RecursiveCounter=0
@@ -1083,10 +1083,10 @@ endfunction
 "   exec "source "..g:plugfile
 " endif
 " call AutoInstallPlug()
-exec 'source '.g:vim.'/src/Statusline.vim'
-exec 'source '.g:vim.'/src/Utilize.vim'
-exec 'source '.g:vim.'/src/TextActions.vim'
-exec 'source '.g:vim.'/src/Autocommands.vim'
+exec 'source '.g:vim.'/autoload/vim-advantages/Statusline.vim'
+exec 'source '.g:vim.'/autoload/vim-advantages/Utilize.vim'
+exec 'source '.g:vim.'/autoload/vim-advantages/TextActions.vim'
+exec 'source '.g:vim.'/autoload/vim-advantages/Autocommands.vim'
 syntax on
 set tabpagemax=50
 " set tabstop=2
@@ -3255,7 +3255,7 @@ function _buildLayout(layout)
     else
       let filee=expand(file)
       if !filereadable(filee)
-        let filee = g:vim.."/src/"..file
+        let filee = g:vim.."/autoload/vim-advantages/"..file
       endif
       if filereadable(filee)
         silent exec pre..filee
@@ -4453,21 +4453,21 @@ function LayoutVim()
     " \ [ "Utilize.vim", "s"],
     " \ [ g:vimrc, "v"],
   let layout=[
-    \ [ g:vim."/src/Functions.vim", "H"],
-    \ [ g:vim."/src/Map.vim", "v"],
-    \ [ g:vim."/src/Commands.vim", "v"],
+    \ [ g:vim."/autoload/vim-advantages/Functions.vim", "H"],
+    \ [ g:vim."/autoload/vim-advantages/Map.vim", "v"],
+    \ [ g:vim."/autoload/vim-advantages/Commands.vim", "v"],
     \ [ g:vim."/readme.md", "v"],
-    \ [ g:vim."/src/Autocommands.vim", "J"],
+    \ [ g:vim."/autoload/vim-advantages/Autocommands.vim", "J"],
     \ [ g:bashrc, "v", "G"],
-    \ [ g:vim."/src/Functions.vim9", "v"],
-    \ [ g:vim."/src/Statusline.vim", "v"],
+    \ [ g:vim."/autoload/vim-advantages/Functions.vim9", "v"],
+    \ [ g:vim."/autoload/vim-advantages/Statusline.vim", "v"],
     \]
     " \ [ g:source_dir.."/notes.md", "s"],
   call _buildLayout(layout)
   exe 1 .. "wincmd w"
 endfunction
-exec 'source '.g:vim.'/src/Commands.vim'
-exec 'source '.g:vim.'/src/Map.vim'
+exec 'source '.g:vim.'/autoload/vim-advantages/Commands.vim'
+exec 'source '.g:vim.'/autoload/vim-advantages/Map.vim'
 if !exists("g:linestate") | let g:linestate=0 | call SetLineState(g:linestate) | endif
 if !exists("g:mode") | call SetMode("", "Normal") | endif
 
