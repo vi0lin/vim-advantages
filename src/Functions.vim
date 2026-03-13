@@ -991,6 +991,8 @@ function AG()
   call CD(p)
 endfunction
 
+:echo split(&runtimepath, ',')[0]
+
 function! SetEnvironment(user_dir, main_repo, source_dir, bashrc)
   let g:main_repo=a:main_repo
   let g:system_folders='/'
@@ -1057,8 +1059,6 @@ if !empty("g:exec_type") | let exec_type=0 | endif
 if !exists("g:modechanged") | let modechanged="Normal" | endif
 let exec_types=[ "Default", "Vim", "Bash", "Python", "Rust" ]
 
-let g:plugfile=g:vim.."/3rd/plug.vim"
-
 function CheckPlug()
   if filereadable(g:plugfile)
     let g:checkplug=1
@@ -1078,10 +1078,11 @@ function AutoInstallPlug()
     endif
   endif
 endfunction
-call AutoInstallPlug()
-if exists('g:checkplug') && g:checkplug
-  exec "source "..g:plugfile
-endif
+" let g:plugfile=g:vim.."/3rd/plug.vim"
+" if exists('g:checkplug') && g:checkplug
+"   exec "source "..g:plugfile
+" endif
+" call AutoInstallPlug()
 exec 'source '.g:vim.'/src/Statusline.vim'
 exec 'source '.g:vim.'/src/Utilize.vim'
 exec 'source '.g:vim.'/src/TextActions.vim'
