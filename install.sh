@@ -111,7 +111,7 @@ install() {
     "lin")
       manager="apt-get"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${plugins}plug.vim"
+      plug_vim="wget -q $plugvim -O ${plugins}plug.vim"
       ;;
     "mac")
       manager="choc"
