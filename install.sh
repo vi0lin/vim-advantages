@@ -19,7 +19,7 @@ install() {
       return 0
     fi
   }
-  _check_binary $1 && echo "$1 found: $(which $1)" || { echo "$1 not found"; return; }
+  _check_binary $1 && debug "$1 found: $(which $1)" || { debug "$1 not found"; return; }
   vimbinary=$1
 
   plugvim="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
@@ -106,7 +106,7 @@ install() {
     "device")
       echo "device"
       packagemanager="apk"
-      installations="$pkg install -y fzf ripgrep"
+      installations="$pkg add fzf ripgrep"
       plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
       ;;
     *)
