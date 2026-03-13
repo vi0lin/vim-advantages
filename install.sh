@@ -29,6 +29,8 @@ install() {
   datadir_lin_std="~/.vim/autoload/plug.vim"
   datadir_neovim_modern="~/.local/share/nvim/site/autoload/plug.vim"
   datadir_neovim_alt="~/.config/nvim/autoload/plug.vim"
+  datadir_vim92="/usr/share/vim/vim92"
+  datadir_vimfiles="/usr/share/vim/vimfiles"
 
   runtimepath_tmp_exists () {
     return $(test -f "runtimepath.tmp") && return 0 || return 1
