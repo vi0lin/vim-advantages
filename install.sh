@@ -1,5 +1,16 @@
 #!/bin/bash
 
+arg=${1:+0}
+if [[ $arg ]]; then
+  debug=$([[ $1 == "debug" ]] && echo true || echo false)
+fi
+
+debug() {
+  if (( $debug )); then
+    echo "$@"
+  fi
+}
+
 install() {
   _check_binary() {
     if [[ -z `which $1` ]]; then
@@ -36,6 +47,7 @@ install() {
     fi
   fi
   autoload=$runtimepath"/autoload/"
+  debug $autoload
   mkdir -p $autoload
 
   ostype=(
@@ -45,6 +57,8 @@ install() {
     [3]=device
     [4]=unknown
   )
+
+  debug $OSTYPE
 
   _get_os() {
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
