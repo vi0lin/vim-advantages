@@ -42,29 +42,30 @@ install() {
   }
   # echo $(score_paths)
 
-  runtimepath_tmp_exists () {
-    return $(test -f "runtimepath.tmp") && return 0 || return 1
+  vimruntime_tmp_exists () {
+    return $(test -f "vimruntime.tmp") && return 0 || return 1
   }
 
   vimplug_exists=$([[ -f plug.vim ]] && echo true || echo false)
 
-  runtimepath_tmp_exists && echo "runtimepath.tmp exists. Consider removing it or change the directory and start again" && exit 0 || echo "Checking Runtime Path"
+  vimruntime_tmp_exists && echo "vimruntime.tmp exists. Consider removing it or change the directory and start again" && exit 0 || echo "Checking Runtime Path"
 
-  if ! runtimepath_tmp_exists; then
+  # &vimruntime
+  if ! vimruntime_tmp_exists; then
     $vimbinary -es \
-      -c 'call writefile([ trim(split(&runtimepath, ",")[0]) ], "runtimepath.tmp")' \
+      -c 'call writefile([ trim(split($VIMRUNTIME, ",")[0]) ], "vimruntime.tmp")' \
       -c 'qa!' \
       2>/dev/null
-    if runtimepath_tmp_exists; then
-      runtimepath=`cat runtimepath.tmp`
-      rm runtimepath.tmp
+    if vimruntime_tmp_exists; then
+      vimruntime=`cat vimruntime.tmp`
+      rm vimruntime.tmp
     fi
   fi
-  autoload=$runtimepath"/autoload/"
+  vimruntime=$vimruntime
 
-  vimplug_exists_in_autoload=$([[ -f ${autoload}plug.vim ]] && echo true || echo false)
-  debug $autoload
-  mkdir -p $autoload
+  vimplug_exists_in_vimruntime=$([[ -f ${vimruntime}/plug.vim ]] && echo true || echo false)
+  debug $vimruntime
+  # mkdir -p $vimruntime
 
   ostype=(
     [0]=device
@@ -108,22 +109,22 @@ install() {
     "lin")
       manager="apt-get"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim -o ${vimruntime}/plug.vim"
       ;;
     "mac")
       manager="choc"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim -o ${vimruntime}/plug.vim"
       ;;
     "win")
       manager="pacman"
       installations=""
-      plug_vim="curl -fLo ${autoload}plug.vim $plugvim"
+      plug_vim="curl -fLo ${vimruntime}/plug.vim $plugvim"
       ;;
     "device")
       manager="apk"
       installations="$manager add fzf ripgrep"
-      plug_vim="wget -q $plugvim -P ${autoload}"
+      plug_vim="wget -q $plugvim -P ${vimruntime}"
       ;;
     "unknown"|*)
       echo "Exiting: unknown device"
@@ -135,7 +136,7 @@ install() {
   debug "sudo" $installations
   eval "sudo" $installations
 
-  if ! $vimplug_exists_in_autoload; then
+  if ! $vimplug_exists_in_vimruntime; then
     echo "Installing Vim Plug (plug.vim)"
     debug "sudo" $plug_vim
     eval "sudo" $plug_vim
