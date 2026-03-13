@@ -45,7 +45,7 @@ install() {
   )
 
   _get_os() {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "linux-"* ]]; then
       return 0
     elif [[ "$OSTYPE" == "darwin"* ]]; then
       return 1
