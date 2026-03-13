@@ -11,7 +11,7 @@
 
 #### Linux
 ```
-wget https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/heads/main/install.sh | bash && rm ./install.sh
+wget -qO- https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/heads/main/install.sh | bash
 ```
 
 #### Windows
@@ -20,7 +20,7 @@ curl -o install.sh https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/
 "C:\Program Files\Git\bin\bash.exe" .\install.sh
 ```
 ```
-curl -o install.sh https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/heads/main/install.sh wsl --install
+curl -o install.sh -sSfL https://raw.githubusercontent.com/vi0lin/vim-advantages/refs/heads/main/install.sh wsl --install
 wsl bash install.sh
 del install.sh
 ```
