@@ -1006,7 +1006,7 @@ function! SetEnvironment(user_dir='~', main_repo='', source_dir='', bashrc='~/.b
   let g:vim_advantages = split(&runtimepath, ",")[0]..'/plugged/vim-advantages/autoload/vim-advantages'
   let g:b_environment_set=1
 endfunction
-call EnsureEnvironment()
+" call EnsureEnvironment()
 call SetEnvironment()
 let runtimepath=split(&runtimepath, ",")[0]
 let g:vim_advantages=runtimepath..'/plugged/vim-advantages/autoload/vim-advantages/'
