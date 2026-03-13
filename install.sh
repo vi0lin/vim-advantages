@@ -92,12 +92,12 @@ install() {
     "lin")
       packagemanager="apt-get"
       installations="$pkg install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
       ;;
     "mac")
       packagemanager="choc"
       installations="$pkg install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
       ;;
     "win")
       packagemanager="pacman"
@@ -108,7 +108,7 @@ install() {
       echo "device"
       packagemanager="apk"
       installations="$pkg add fzf ripgrep"
-      plug_vim="wget -q $plugvim ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim -O ${autoload}plug.vim"
       ;;
     *)
       echo "Exiting: unknown device"
