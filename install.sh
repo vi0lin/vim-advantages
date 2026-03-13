@@ -92,23 +92,23 @@ install() {
     "lin")
       packagemanager="apt-get"
       installations="$pkg install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim ${autoload}plug.vim"
       ;;
     "mac")
       packagemanager="choc"
       installations="$pkg install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o "$autoload"plug.vim"
+      plug_vim="wget -q $plugvim ${autoload}plug.vim"
       ;;
     "win")
       packagemanager="pacman"
       installations=""
-      plug_vim="curl -fLo "$autoload"plug.vim $plugvim"
+      plug_vim="curl -fLo ${autoload}plug.vim $plugvim"
       ;;
     "device")
       echo "device"
       packagemanager="apk"
       installations="$pkg add fzf ripgrep"
-      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
+      plug_vim="wget -q $plugvim ${autoload}plug.vim"
       ;;
     *)
       echo "Exiting: unknown device"
@@ -117,9 +117,11 @@ install() {
   esac
 
   echo "Installing Additional Software"
+  debug "sudo" $installations
   eval "sudo" $installations
 
   echo "Installing Vim Plug (plug.vim)"
+  debug "sudo" $plug_vim
   eval "sudo" $plug_vim
 
   echo "Installing Vim-Advantages (with plug.vim)"
