@@ -110,7 +110,7 @@ install() {
       echo "device"
       packagemanager="apk"
       installations="$pkg add fzf ripgrep"
-      plug_vim="wget -q $plugvim -P ${autoload} -O plug.vim"
+      plug_vim="wget -q $plugvim -P ${autoload}"
       ;;
     *)
       echo "Exiting: unknown device"
