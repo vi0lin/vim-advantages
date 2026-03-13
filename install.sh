@@ -64,7 +64,7 @@ install() {
   vimruntime=$vimruntime
   plugins=$vimruntime"/plugins/"
 
-  vimplug_exists_in_vimruntime=$([[ -f ${plugins}/plug.vim ]] && echo true || echo false)
+  vimplug_exists_in_vimruntime=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
   debug $vimruntime
   debug $plugins
   # mkdir -p $vimruntime
@@ -111,17 +111,17 @@ install() {
     "lin")
       manager="apt-get"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${plugins}/plug.vim"
+      plug_vim="wget -q $plugvim -o ${plugins}plug.vim"
       ;;
     "mac")
       manager="choc"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${plugins}/plug.vim"
+      plug_vim="wget -q $plugvim -o ${plugins}plug.vim"
       ;;
     "win")
       manager="pacman"
       installations=""
-      plug_vim="curl -fLo ${plugins}/plug.vim $plugvim"
+      plug_vim="curl -fLo ${plugins}plug.vim $plugvim"
       ;;
     "device")
       manager="apk"
