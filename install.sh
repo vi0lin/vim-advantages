@@ -6,7 +6,7 @@ if [[ $arg ]]; then
 fi
 
 debug() {
-  if (( $debug )); then
+  if $debug; then
     echo "$@"
   fi
 }
@@ -49,6 +49,8 @@ install() {
     fi
   fi
   autoload=$runtimepath"/autoload/"
+
+  vimplug_exists_in_autoload=$([[ -f ${autoload}plug.vim ]] && echo true || echo false)
   debug $autoload
   mkdir -p $autoload
 
@@ -60,26 +62,26 @@ install() {
     [4]=unknown
   )
 
-  debug $OSTYPE
-
-  echo $OSTYPE
+  debug "$OSTYPE"
 
   _get_os() {
     if [[ "$OSTYPE" == "linux-musl" ]]; then
-      return 0
+      echo 0
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-      return 1
+      echo 1
     elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
-      return 2
+      echo 2
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-      return 3
+      echo 3
     else
       echo "Unknown operating system: $OSTYPE"
-      return 4
+      echo 4
     fi
   }
 
   os=${ostype[$(_get_os)]}
+
+  debug $os
 
   echo -n "Installing Vim-Advantages"
   case  "$os" in
@@ -87,7 +89,7 @@ install() {
     "mac") echo " on macintosh";;
     "win") echo " on windows";;
     "device") echo " on device";;
-    *) echo " on unknown device";;
+    "unknown"|*) echo " on unknown";;
   esac
 
   case "$os" in
@@ -111,7 +113,7 @@ install() {
       installations="$manager add fzf ripgrep"
       plug_vim="wget -q $plugvim -P ${autoload}"
       ;;
-    *)
+    "unknown"|*)
       echo "Exiting: unknown device"
       exit 1
       ;;
@@ -121,9 +123,14 @@ install() {
   debug "sudo" $installations
   eval "sudo" $installations
 
-  echo "Installing Vim Plug (plug.vim)"
-  debug "sudo" $plug_vim
-  eval "sudo" $plug_vim
+  if ! $vimplug_exists_in_autoload; then
+    echo "Installing Vim Plug (plug.vim)"
+    debug "sudo" $plug_vim
+    eval "sudo" $plug_vim
+  else
+    echo "Plug.vim is already installed"
+    echo "Implement Check For Updates"
+  fi
 
   echo "Installing Vim-Advantages (with plug.vim)"
   $vimbinary -es -c "source plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
