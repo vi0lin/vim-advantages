@@ -1,79 +1,97 @@
 #!/bin/bash
 
-# datadir="~/.vim/autoload/"
-# if ! [ -d $datadir ]; then
-#   datadir="~/.vim/plugged/vim-advantages/autoload/"
-#   if ! [ -d $datadir ]; then
-#     datadir="."
-#   fi
-# fi
-# echo $datadir
-exit
+install() {
+  _check_binary() {
+    if [[ -z `which $1` ]]; then
+      return 1
+    else
+      return 0
+    fi
+  }
+  _check_binary $1 && echo "$1 found: $(which $1)" || { echo "$1 not found"; return; }
+  vimbinary=$1
 
-echo "Install Vim-Advantages"
+  plugvim="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
+  datadir_win_fallback="~/vimfiles/autoload/plug.vim"
+  datadir_win_std="~/.vim/autoload/plug.vim"
+  datadir_mac_std="~/.vim/autoload/plug.vim"
+  datadir_lin_std="~/.vim/autoload/plug.vim"
+  datadir_neovim_modern="~/.local/share/nvim/site/autoload/plug.vim"
+  datadir_neovim_alt="~/.config/nvim/autoload/plug.vim"
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  echo "Linux detected"
-  installations="apt-get install -y fzf silversearcher-ag ripgrep"
-  plug_vim="wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim "+$datadir+"plug.vim"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-  echo "macOS detected"
-  installations="apt-get install -y fzf silversearcher-ag ripgrep"
-  plug_vim="wget -q https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim "+$datadir+"plug.vim"
-elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
-  echo "Windows detected"
-  installations=""
-  plug_vim="curl -o "+$datadir+"plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
-else
-  echo "Unknown operating system: $OSTYPE"
-fi
+  runtimepath_tmp_exists () {
+    return $(test -f "runtimepath.tmp") && return 0 || return 1
+  }
 
-eval $installations
-eval $plug_vim
+  runtimepath_tmp_exists && echo "runtimepath.tmp exists. Consider removing it or change the directory and start again" && exit 0 || echo "Checking Runtime Path"
 
-# if [ -f "./plug.vim" ]; then
-#   mv plug.vim ~/.vim/autoload/plug.vim
-# fi
-#   echo ""
-#   plug_loaded=false
-#   exit
-# else
-#   plug_loaded=true
-# fi
-# echo $plug_loaded
+  if ! runtimepath_tmp_exists; then
+    $vimbinary -es \
+      -c 'call writefile([ trim(split(&runtimepath, ",")[0]) ], "runtimepath.tmp")' \
+      -c 'qa!' \
+      2>/dev/null
+    if runtimepath_tmp_exists; then
+      runtimepath=`cat runtimepath.tmp`
+      rm runtimepath.tmp
+    fi
+  fi
+  autoload=$runtimepath"/autoload/"
+  mkdir -p $autoload
 
-echo "installing"
+  ostype=(
+    [0]=lin
+    [1]=mac
+    [2]=win
+  )
 
-if $plug_loaded; then
-  vim -c "source plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
-  unset plug_loaded
-fi
+  _get_os() {
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+      return 0
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+      return 1
+    elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+      return 2
+    else
+      echo "Unknown operating system: $OSTYPE"
+      return 3
+    fi
+  }
 
-# echo "Done Installing vi0lin/vim-advantages"
-# echo ""
-# echo "#####################################"
-# echo "Configuration"
+  os=${ostype[$(_get_os)]}
 
-# main_repo="`pwd`"
-# source_dir="`pwd`/src"
-# bashrc="~/.bashrc"
+  echo -n "Installing Vim-Advantages"
+  case  "$os" in
+    "lin") echo " on linux" ;;
+    "mac") echo " on macintosh";;
+    "win") echo " on windows";;
+    *) echo "";;
+  esac
 
-# echo -n "Where Is Your Main Repository? [default=$main_repo]: "
-# read -r _main_repo
-# if [[ -n "$main_repo" ]]; then
-#   main_repo=$_main_repo
-# fi
+  case "$os" in
+    "lin")
+      echo "linux"
+      installations="apt-get install -y fzf silversearcher-ag ripgrep"
+      plug_vim="wget -q $plugvim -o ${autoload}plug.vim"
+      ;;
+    "mac")
+      installations="apt-get install -y fzf silversearcher-ag ripgrep"
+      plug_vim="wget -q $plugvim -o "$autoload"plug.vim"
+      ;;
+    "win")
+      installations=""
+      plug_vim="curl -fLo "$autoload"plug.vim $plugvim"
+      ;;
+  esac
 
-# echo -n "Where Is Your SourceFolder? [default=$source_dir]: "
-# read -r _source_dir
-# if [[ -n "$source_dir" ]]; then
-#   source_dir=$_source_dir
-# fi
+  echo "Installing Additional Software"
+  eval "sudo" $installations
 
-# echo -n "Where Is Your .bashrc? [default=$bashrc]: "
-# read -r _bashrc
-# if [[ -n "$_bashrc" ]]; then
-#   bashrc=$_bashrc
-# fi
+  echo "Installing Vim Plug (plug.vim)"
+  eval "sudo" $plug_vim
 
-# sed -i '/^call EnsureEnvironment()/ { N; s/^call EnsureEnvironment()\n/&call SetEnvironment("~", "'$main_repo'", "'$source_dir'", "'$bashrc'")\n/ }' ~/.vim/plugged/vim-advantages/src/Functions.vim
+  echo "Installing Vim-Advantages (with plug.vim)"
+  $vimbinary -es -c "source plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
+}
+
+install "vim"
+install "nvim"
