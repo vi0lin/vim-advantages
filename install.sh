@@ -19,41 +19,29 @@ vim_gather() {
   command=$@
   if ! vimgather_tmp_exists; then
     debug "Creating File vimgather.tmp"
-    comm=$(cat << 'SHELL'
-      $vimbinary -es \
-      -c "let variable=execute('scriptnames')->split('\n')->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join('\n')" \
-      -c 'call writefile([ trim(variable) ], "vimgather.tmp")' \
-      -c 'qa!' \
-      2>/dev/null
-SHELL
-)
-    # $vimbinary -es \
-    # -c 'redir=>variable | scriptnames | %s/^\s*\d\+:\s*// | redir END' \
-    # -c 'call writefile([ trim(split($VIMRUNTIME, ",")[0]) ], "vimgather.tmp2")' \
-    # -c 'qa!' \
-    # 2>/dev/null
-      # $vimbinary
-      # -c "let variable=\"OUTPUT WORKED\""
-      # -c "call writefile([trim(variable)], 'vimgather.tmp')"
-      # -c "qa!"
-      # 2>/dev/null
-    # debug "$comm"
-    # echo "tEST"
-    echo "$comm"
-    # More Dangerous
-    # eval "$comm"
-    eval "$comm"
-    # -c "${command}" \
-    # -es
-    cat vimgather.tmp
+    #     comm=$(cat << 'SHELL'
+    #       $vimbinary -es \
+    #       -c "let variable=execute('scriptnames')->split("\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join(\"\n\")" \
+    #       -c 'call writefile([ trim(variable) ], "vimgather.tmp")' \
+    #       -c 'qa!' \
+    #       2>/dev/null
+    # SHELL
+    # )
+      $vimbinary -Es << 'VIMSCRIPT'
+let variable=execute('scriptnames')->split("\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join("\n")
+call writefile([ trim(variable) ], "vimgather.tmp")
+qa!
+VIMSCRIPT
+
     if vimgather_tmp_exists; then
-      vimgather=`cat vimgather.tmp`
+      # vimgather=`cat vimgather.tmp`
+      cat vimgather.tmp
       rm vimgather.tmp
     fi
   else
     echo "File exists, remove it manualy."
   fi
-  echo $vimgather
+  echo "$vimgather"
 }
 
 install() {
@@ -87,7 +75,8 @@ install() {
   }
   # echo $(score_paths)
   # scriptnames=
-  scriptnames=$(vim_gather "redir=>variable | scriptnames | redir END")
+  # scriptnames=$(vim_gather "redir=>variable | scriptnames | redir END")
+  vim_gather "redir=>variable | scriptnames | redir END"
   # debug $scriptnames
   vimplug_exists=$([[ -f plug.vim ]] && echo true || echo false)
 
