@@ -1,53 +1,53 @@
 " Avoid cdo prompt for overwiting files
 set hidden
 
-function ExampleGrep()
-  return
-  grep pattern **/*.vim
-  vimgrep pattern **/*.vim
-  copen
-  cdo s/pattern/text/gc
-  cdo s/pattern/text/g
-  cfdo %s/pattern/text/gc
-  cfdo %s/pattern/text/g
-  wall
-  cfdo update
-
-  cfirst
-  %s/pattern/text/gc
-  cnext
-  %s/pattern/text/gc
-
-  grep pattern *.lua
-  cdo s//NewPattern/gc \| update
-
-  " not tested
-  lgrep function -> call src/js/**/*.js
-  cfdo %s//new/g | lupdate
-
-  " // replace last search pattern
-  cdo s//new/gce | update
-  " e flag (no error message when nothing found)
-  grep -i
-  " -i setignore case
-  set ignorecase
-  " ripgrep / ag / git-grep are much faster
-  if executable('rg')
-    set grepprg=rg\ --vimgrep\ --smart-case
-    set grepformat=%f:%l:%c:%m:,%f:%l:%m
-  endif
-  cdo s//newpattern/gc
-  " press a for abort
-
-  cdo s//new/g | w!
-  set nobackup nowritebackup " temporarily
-  set backup& writebackup&
-
-  cfdo %s//new/gc | update
-
-  " but the best solution is
-  set hidden
-endfunction
+" function! ExampleGrep()
+"   return
+"   grep pattern **/*.vim
+"   vimgrep pattern **/*.vim
+"   copen
+"   cdo s/pattern/text/gc
+"   cdo s/pattern/text/g
+"   cfdo %s/pattern/text/gc
+"   cfdo %s/pattern/text/g
+"   wall
+"   cfdo update
+"
+"   cfirst
+"   %s/pattern/text/gc
+"   cnext
+"   %s/pattern/text/gc
+"
+"   grep pattern *.lua
+"   cdo s//NewPattern/gc \| update
+"
+"   " not tested
+"   lgrep function -> call src/js/**/*.js
+"   cfdo %s//new/g | lupdate
+"
+"   " // replace last search pattern
+"   cdo s//new/gce | update
+"   " e flag (no error message when nothing found)
+"   grep -i
+"   " -i setignore case
+"   set ignorecase
+"   " ripgrep / ag / git-grep are much faster
+"   if executable('rg')
+"     set grepprg=rg\ --vimgrep\ --smart-case
+"     set grepformat=%f:%l:%c:%m:,%f:%l:%m
+"   endif
+"   cdo s//newpattern/gc
+"   " press a for abort
+"
+"   cdo s//new/g | w!
+"   set nobackup nowritebackup " temporarily
+"   set backup& writebackup&
+"
+"   cfdo %s//new/gc | update
+"
+"   " but the best solution is
+"   set hidden
+" endfunction
 
 " call Print("message")
 " call vim9#Print2("message")
@@ -64,13 +64,13 @@ endfunction
 func! NEW()
   vnew | put=getbufline('#', 1, '$')
 endfunction
-command -bar -nargs=0 NEW :call NEW()
+command! -bar -nargs=0 NEW :call NEW()
 
-func SystemClipboard()
+func! SystemClipboard()
   let @+ = @:
 endfun
 
-func PutCommand(nr=0)
+func! PutCommand(nr=0)
   " put=":
   " put :
   if a:nr == 0
@@ -137,7 +137,7 @@ func! ShowKeyNotation() abort
     echo 'Best-guess mapping notation → ' .. Key2Notation(k)
 endfunc
 
-function Folder_Up(nr)
+function! Folder_Up(nr)
   let path=CWD()
   let i = 0
   " echo path a:nr i
@@ -147,10 +147,10 @@ function Folder_Up(nr)
   endwhile
   return path
 endfunction
-function Folder_Project()
+function! Folder_Project()
   return CWD()
 endfunction
-function Folder_Repo(backwards=0)
+function! Folder_Repo(backwards=0)
   let file = -1
   if a:backwards==0
     let file=w:git
@@ -168,7 +168,7 @@ function Folder_Repo(backwards=0)
   endif
   return file
 endfunction
-function Folder_System()
+function! Folder_System()
   return g:system_folders
 endfunction
 
@@ -177,9 +177,9 @@ function! AgIn(path, ...)
   let query = join(a:000, ' ')
   call fzf#vim#ag(query, {'dir': a:path})
 endfunction
-command -nargs=+ -complete=dir AgIn call AgIn(<f-args>)
+command! -nargs=+ -complete=dir AgIn call AgIn(<f-args>)
 
-function ColorScheme()
+function! ColorScheme()
   colorscheme blue
   colorscheme darkblue
   colorscheme default
@@ -228,7 +228,7 @@ function ColorScheme()
 endfunction
 colorscheme desert
 
-fun CloseOther()
+fun! CloseOther()
   let win=winnr()
   let max_win=winnr('$')
   let arr=range(1,max_win)
@@ -246,7 +246,7 @@ endf
 map <F12> :call CloseOther()<cr>
 map <leader>p :GithubPush<cr>
 
-function Help()
+function! Help()
   " if getbufvar(bufnr(), '&buftype') == 'terminal'
   "   echo "Terminal"
   " elseif getbufvar(bufnr(), '&buftype') == 'buffer'
@@ -255,7 +255,7 @@ function Help()
   echo "F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12"
 endfunction
 
-function ToggleComment()
+function! ToggleComment()
     if has_key(s:comment_map, &filetype)
         let comment_leader = s:comment_map[&filetype]
         if getline('.') =~ "^\\s*" . comment_leader . " "
@@ -275,7 +275,7 @@ function ToggleComment()
     endif
 endfunction
 
-function DeleteFile()
+function! DeleteFile()
   let file=expand('%')
   let sure=input('Deleting File '.file.'. Are you sure? [type yes] ')
   if sure == "yes"
@@ -285,7 +285,7 @@ function DeleteFile()
   endif
 endfunction
 
-function JoinSplits(dir)
+function! JoinSplits(dir)
   " call win_gotoid(win_getid(winnr('l')))
   " call win_gotoid(win_getid(winnr('1l')))
   let total=winnr('$')
@@ -306,7 +306,7 @@ function JoinSplits(dir)
   call win_gotoid(new_winid)
 endfunction
 
-function NewWindow(direction)
+function! NewWindow(direction)
   echo "Implement NewWindow"
   if a:direction ==# "H" || a:direction ==# "h"
     vsplit
@@ -317,7 +317,7 @@ function NewWindow(direction)
   endif
 endfunction
 
-function MoveOutOfSplit(dir)
+function! MoveOutOfSplit(dir)
   echo "Implement MoveOutOfSplit"
   let target=winnr(a:dir)
   let bufnr=bufnr()
@@ -333,7 +333,7 @@ function MoveOutOfSplit(dir)
   endif
 endfunction
 
-function DebugPaths()
+function! DebugPaths()
   echo "CWD          "CWD()
   echo "POINTER     "POINTER()
   echo "POINTER_DIR "POINTER_DIR()
@@ -343,35 +343,35 @@ function DebugPaths()
   echo "ABSOLUTE_DIR "ABSOLUTE_DIR()
 endfunction
 
-function NewFile()
+function! NewFile()
   let path=POINTER_DIR().'/'
   let node = input('New File:  ['..path..']  ', path, 'file')
   call _newfile_andCD(node)
 endfunction
 
 " Environment
-function __dump(obj)
+function! __dump(obj)
   return l:
 endfunction
-function __load(json)
+function! __load(json)
   let l:=a:json
 endfunction
 
-function SaveDict(file, dict)
+function! SaveDict(file, dict)
   call writefile([json_encode(a:dict)], a:file)
 endfunction
 
-function LoadDict(file)
+function! LoadDict(file)
   return json_decode(join(readfile(a:file), "\n"))
 endfunction
 
-function FindProjects()
+function! FindProjects()
   let list=systemlist("find . -name .git -type d")
   echo list
 endfunction
 
 " Does Not Dissolve Arrays
-function PrettyNested(dict, indent=2,surround_with_brackets=1)
+function! PrettyNested(dict, indent=2,surround_with_brackets=1)
   if a:surround_with_brackets==1
     let output="{\n"
   else
@@ -394,7 +394,7 @@ function PrettyNested(dict, indent=2,surround_with_brackets=1)
   return output
 endfunction
 
-function PrettyDictNested2(dict, indent=2)
+function! PrettyDictNested2(dict, indent=2)
   let output="{\n"
   for [key, value] in items(a:dict)
     let indent=repeat(' ', a:indent+1)
@@ -408,27 +408,27 @@ function PrettyDictNested2(dict, indent=2)
   return output
 endfunction
 
-function Pretty(x)
+function! Pretty(x)
   return PrettyNested(a:x)
 endfunction
 
-function P(x)
+function! P(x)
   return PrettyNested(a:x)
 endfunction
 
-function Format(x)
+function! Format(x)
   return PrettyNested(a:x, 2)
 endfunction
 
-function Format2(x)
+function! Format2(x)
   return PrettyDictNested2(a:x, 2)
 endfunction
 
-function J(x)
+function! J(x)
   return json_encode(a:x)
 endfunction
 
-function CountWindowsInDirection(direction)
+function! CountWindowsInDirection(direction)
   let i = 0
   let last_win=winnr()
   while v:true
@@ -442,11 +442,11 @@ function CountWindowsInDirection(direction)
   endwhile
 endfunction
 
-function DirectionBufWin(direction)
+function! DirectionBufWin(direction)
   return winbufnr(winnr(a:direction))
 endfunction
 
-function GetWinDirectionIfTerm(direction)
+function! GetWinDirectionIfTerm(direction)
   for i in range(0, CountWindowsInDirection(a:direction))
     let win=DirectionBufWin(i+1..a:direction)
     if BufIsTerminal(win)
@@ -456,25 +456,25 @@ function GetWinDirectionIfTerm(direction)
   return -1
 endfunction
 
-function BufType(nr)
+function! BufType(nr)
   echo getbufvar(a:nr, 'buftype')
 endfunction
 
-function BufIsBuffer(nr)
+function! BufIsBuffer(nr)
   if getbufvar(a:nr, '&buftype') == 'buffer'
     return 1
   endif
   return 0
 endfunction
 
-function BufIsTerminal(nr)
+function! BufIsTerminal(nr)
   if getbufvar(a:nr, '&buftype') == 'terminal'
     return 1
   endif
   return 0
 endfunction
 
-function GetTargetTerm(direction)
+function! GetTargetTerm(direction)
   " if exists("b:target_term_fixed")
   "   return b:target_term_fixed
   " endif
@@ -484,7 +484,7 @@ function GetTargetTerm(direction)
   return SearchTargetTerm(a:direction)
 endfunction
 
-function GetDirection(key)
+function! GetDirection(key)
   let directions={
     \  'F5': 'h',
     \  'F6': 'j',
@@ -525,7 +525,7 @@ function! FixTargetTerm(key)
   " endif
 endfunction
 
-function ToArrayIfIsnt(data)
+function! ToArrayIfIsnt(data)
   if type(a:data)!=3
     return [a:data]
   endif
@@ -533,7 +533,7 @@ function ToArrayIfIsnt(data)
 endfunction
 
 map <leader>x :if exists("b:target_term") \| unlet b:target_term \| endif<cr>
-function List_CWD_OpenedWindows()
+function! List_CWD_OpenedWindows()
   let list = []
   for nr in range(1,winnr('$'))
     call extend(list, [getwinvar(nr, 'cwd')])
@@ -541,7 +541,7 @@ function List_CWD_OpenedWindows()
   return list
 endfunction
 
-function BuildString_Find_All_CWDS_slow(cwds)
+function! BuildString_Find_All_CWDS_slow(cwds)
   let out=""
   let len=len(a:cwds)
   let range=range(1,len)
@@ -557,7 +557,7 @@ function BuildString_Find_All_CWDS_slow(cwds)
   return 'find '.out.' -type f -name ="*.sh"'
 endfunction
 
-function BuildString_Find_All_CWDS(cwds, pattern, postfix='')
+function! BuildString_Find_All_CWDS(cwds, pattern, postfix='')
   let cwds=uniq(uniq(a:cwds))
   let out=""
   let len=len(cwds)
@@ -580,7 +580,7 @@ function BuildString_Find_All_CWDS(cwds, pattern, postfix='')
   return globpath(out, a:pattern)
 endfunction
 
-function SelectTerm(keymap)
+function! SelectTerm(keymap)
   if a:keymap=~#"F[1234]"
     echo "tab"
   elseif a:keymap=~#"F[5678]"
@@ -588,11 +588,11 @@ function SelectTerm(keymap)
   endif
 endfunction
 
-function SelectCommand_callback(id, code, register)
+function! SelectCommand_callback(id, code, register)
   echo "Not Implemented"
 endfunction
 
-function SelectCommand(keymap, info='')
+function! SelectCommand(keymap, info='')
   let Callback=function('SelectCommand_callback', ["window"])
   let list=[ 'Data', 'More Data', 'Data For The List' ]
   call SelectCommandPopup("Commands: ", list, Callback)
@@ -615,7 +615,7 @@ endfunction
 "   call SelectCommand(a:keymap,"")
 " endfunction
 
-function GetRepoLocation()
+function! GetRepoLocation()
   if w:git!=-1
     return w:git
   else
@@ -623,7 +623,7 @@ function GetRepoLocation()
   endif
 endfunction
 
-function GetVimJsonLocation()
+function! GetVimJsonLocation()
   if w:git!=-1
     return w:git.."/vim.json"
   else
@@ -631,7 +631,7 @@ function GetVimJsonLocation()
   endif
 endfunction
 
-function Execute2(keymap, shift=0, control=0, alt=0)
+function! Execute2(keymap, shift=0, control=0, alt=0)
   echo "TEST"
   return
   " Example Execution Manager Data Structure
@@ -680,7 +680,7 @@ function Execute2(keymap, shift=0, control=0, alt=0)
 endfunction
 
 hi QuickFixLine ctermbg=Yellow guibg=Yellow
-function COTests()
+function! COTests()
   " lopen copen cclose lclose cwindow height lwindow height cbottom lbottom
   " botright cwindow
   " botleft
@@ -779,29 +779,29 @@ us"ing these functions are below:
 endfunction
 map <C-F8> :call COTests()<cr>
 
-function GitCheckoutPrevback()
+function! GitCheckoutPrevback()
 endfunction
 
-function GitCheckoutPrevbackCWD()
+function! GitCheckoutPrevbackCWD()
 endfunction
 
-function GitCheckoutPrevnext()
+function! GitCheckoutPrevnext()
 endfunction
 
-function GitCheckoutPrevnextCWD()
+function! GitCheckoutPrevnextCWD()
 endfunction
 
-function GitStash()
+function! GitStash()
 endfunction
 
-function GitStashCWD()
+function! GitStashCWD()
 endfunction
 
-function GitApplyStash()
+function! GitApplyStash()
 endfunction
 
-command -range -nargs=? Push <line1>,<line2>:call Push(<q-args>)
-function Push(commitmessage='')
+command! -range -nargs=? Push <line1>,<line2>:call Push(<q-args>)
+function! Push(commitmessage='')
   GitAdd
   GitStatus
   " call system("read")
@@ -810,15 +810,15 @@ function Push(commitmessage='')
   GithubPush
 endfunction
 
-command -range -nargs=? PushRepo <line1>,<line2>:call PushRepo(<args>)
-function PushRepo(commitmessage='')
+command! -range -nargs=? PushRepo <line1>,<line2>:call PushRepo(<args>)
+function! PushRepo(commitmessage='')
   GitAddRepo
   GitStatus
   call GitCommit(a:commitmessage)
   GithubPush
 endfunction
 
-function Fetch_Last_Git_Message()
+function! Fetch_Last_Git_Message()
   if exists("b:isGitRepo") && b:isGitRepo=='true'
     let g:lastcommitmessage=systemlist('git log -1 --pretty=%B | head -n 1')[0]
   endif
@@ -828,7 +828,7 @@ if !exists("g:set_git_message")
   let g:set_git_message=1
 endif
 
-function Toggle_Set_Last_Git_Message()
+function! Toggle_Set_Last_Git_Message()
   let g:set_git_message=!g:set_git_message
 endfunction
 
@@ -836,7 +836,7 @@ if !exists("g:lastmessage")
   call Fetch_Last_Git_Message()
 endif
 
-function UpdateLastCommitMessageWhenChanged(commitmessage='')
+function! UpdateLastCommitMessageWhenChanged(commitmessage='')
   if exists('g:lastcommitmessage')
     let message = input("Commit with Message: ['".g:lastcommitmessage."']  ")
     if message != ''
@@ -847,8 +847,8 @@ function UpdateLastCommitMessageWhenChanged(commitmessage='')
   endif
 endfunction
 
-command -range -nargs=0 GitMessage <line1>,<line2>:call GitMessage()
-function GitMessage(commitmessage='')
+command! -range -nargs=0 GitMessage <line1>,<line2>:call GitMessage()
+function! GitMessage(commitmessage='')
   call Fetch_Last_Git_Message()
   if g:set_git_message
     if a:commitmessage==''
@@ -857,53 +857,53 @@ function GitMessage(commitmessage='')
   endif
 endfunction
 
-command -range -nargs=* PushCWD <line1>,<line2>:call PushCWD(<q-args>)
-function PushCWD(commitmessage='')
+command! -range -nargs=* PushCWD <line1>,<line2>:call PushCWD(<q-args>)
+function! PushCWD(commitmessage='')
   GitAddCWD
   GitStatus
   call GitCommit(a:commitmessage)
   GithubPush
 endfunction
 
-command -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
-command -range -nargs=0 Diff <line1>,<line2>:call GitDiff()
-function GitDiff()
+command! -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
+command! -range -nargs=0 Diff <line1>,<line2>:call GitDiff()
+function! GitDiff()
   " !clear && git --no-pager diff --text %
   !clear && git diff --text %
 endfunction
 
-command -range -nargs=0 GitDiffAll <line1>,<line2>:call GitDiffAll()
-command -range -nargs=0 DiffAll <line1>,<line2>:call GitDiffAll()
-function GitDiffAll()
+command! -range -nargs=0 GitDiffAll <line1>,<line2>:call GitDiffAll()
+command! -range -nargs=0 DiffAll <line1>,<line2>:call GitDiffAll()
+function! GitDiffAll()
   " !clear && git --no-pager diff --text
   !clear && git diff --text
 endfunction
 
-command -range -nargs=0 GitDiffCWD <line1>,<line2>:call GitDiffCWD()
-function GitDiffCWD()
+command! -range -nargs=0 GitDiffCWD <line1>,<line2>:call GitDiffCWD()
+function! GitDiffCWD()
   !clear && git diff
 endfunction
 
-command -range -nargs=0 GitAdd <line1>,<line2>:call GitAdd()
-function GitAdd()
+command! -range -nargs=0 GitAdd <line1>,<line2>:call GitAdd()
+function! GitAdd()
   !clear && git add %
 endfunction
 
-command -range -nargs=0 GitAddCWD <line1>,<line2>:call GitAddCWD()
-function GitAddCWD()
+command! -range -nargs=0 GitAddCWD <line1>,<line2>:call GitAddCWD()
+function! GitAddCWD()
   !clear && git add .
   " || git add -A
 endfunction
 
-command -range -nargs=0 GitAddRepo <line1>,<line2>:call GitAddRepo()
-function GitAddRepo()
+command! -range -nargs=0 GitAddRepo <line1>,<line2>:call GitAddRepo()
+function! GitAddRepo()
   " echo '!clear && git add'w:git
   exec '!clear && git add'w:git
   " || git add -A
 endfunction
 
-command -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
-function GitCommit(message='')
+command! -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
+function! GitCommit(message='')
   call GitMessage(a:message)
   let msg=''
   if a:message==''
@@ -917,21 +917,21 @@ function GitCommit(message='')
   exec '!clear && git commit -m "'..msg..'"'
 endfunction
 
-command -range -nargs=0 GitPush <line1>,<line2>:call GitPush()
-function GitPush()
+command! -range -nargs=0 GitPush <line1>,<line2>:call GitPush()
+function! GitPush()
   !clear && git push origin master
 endfunction
 
-command -range -nargs=0 Status <line1>,<line2>:call GitStatus()
-command -range -nargs=0 GitStatus <line1>,<line2>:call GitStatus()
-function GitStatus()
+command! -range -nargs=0 Status <line1>,<line2>:call GitStatus()
+command! -range -nargs=0 GitStatus <line1>,<line2>:call GitStatus()
+function! GitStatus()
   !clear && git status
 endfunction
 
 if !exists('g:github_user') | let g:github_user='your_username' | endif
 if !exists('g:github_email') | let g:github_email='your_email' | endif
 if !exists('g:github_pat') | let g:github_pat='{pat_TOKEN}' | endif
-command -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
+command! -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
 function! GithubPush()
   let $github_user=g:github_user
   let $github_email=g:github_email
@@ -958,7 +958,7 @@ function! GithubPush()
   \ git config '--global' '--unset-all' core.autocrlf;
 endfunction
 
-function QuickYank(args='', flags='') range
+function! QuickYank(args='', flags='') range
   let vs=VS()
   if a:args=='init'
     call setreg('a', '')
@@ -972,7 +972,7 @@ function QuickYank(args='', flags='') range
   call RS()
 endfunction
 
-function EnsureEnvironment()
+function! EnsureEnvironment()
   if !exists("g:b_environment_set")
     let g:b_environment_set=1
     echo 'Dear User,'
@@ -985,7 +985,7 @@ function EnsureEnvironment()
   endif
 endfunction
 
-function AG()
+function! AG()
   let p=CWD()
   :Ag
   call CD(p)
@@ -1003,13 +1003,20 @@ function! SetEnvironment(user_dir='~', main_repo='', source_dir='', bashrc='~/.b
   let g:vimrc = "~/.vimrc"
   " let g:vim = "~/.vim/plugged/vim-advantages"
   let g:vim = $VIMRUNTIME
+  let g:vim_advantages = split(&runtimepath, ",")[0]..'/plugged/vim-advantages/autoload/vim-advantages'
   let g:b_environment_set=1
 endfunction
-call EnsureEnvironment()
+" call EnsureEnvironment()
 call SetEnvironment()
-exec 'source '.g:vim.'/autoload/vim-advantages/Commands.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/Map.vim'
-try | source autoload/vim-advantages/Functions.vim.unreleased | endtry
+let runtimepath=split(&runtimepath, ",")[0]
+let g:vim_advantages=runtimepath..'/plugged/vim-advantages/src'
+let g:vim_advantages=runtimepath..'/plugged/vim-advantages/autoload/vim-advantages'
+let mapleader=","
+exec 'source '.g:vim_advantages.'/Commands.vim'
+exec 'source '.g:vim_advantages.'/Utilize.vim'
+exec 'source '.g:vim_advantages.'/Map.vim'
+let unreleased=g:vim_advantages.'/Functions.vim.unreleased'
+try | if filereadable(unreleased) | exec 'source '..unreleased | endif | endtry
 
 " General Variables
 if !exists("g:__pattern") | let g:__pattern={} | endif
@@ -1019,7 +1026,6 @@ if !exists('g:date') | let g:date='~0' | endif
 if !exists('g:vertical') | let g:vertical=1 | endif
 if !exists("focus") | let focus=0 | endif
 let g:wholepath=0
-let mapleader=","
 let term="bash"
 let debugexec=1
 let debugvars=0
@@ -1035,7 +1041,7 @@ let g:WindowChanged=0
 let __pressedKey=""
 let __pressedControl=""
 let g:FileFinder_verbose=1
-let f1 = [ g:vim."/autoload/vim-advantages/Functions.vim", g:main_repo."/.bashrc"]
+let f1 = [ g:vim_advantages."/Functions.vim", g:main_repo."/.bashrc"]
 let projects=[ g:source_dir, g:main_repo ]
 let g:executor_list={    "executor_list": {        "bash": "bash",        "bash external": "bash",        "python3": "python3",        "python3 external": "python3",    },    "machines_settings": g:vim.."/machines.settings"}
 let g:RecursiveCounter=0
@@ -1064,7 +1070,7 @@ if !empty("g:exec_type") | let exec_type=0 | endif
 if !exists("g:modechanged") | let modechanged="Normal" | endif
 let exec_types=[ "Default", "Vim", "Bash", "Python", "Rust" ]
 
-function CheckPlug()
+function! CheckPlug()
   if filereadable(g:plugfile)
     let g:checkplug=1
   else
@@ -1072,7 +1078,7 @@ function CheckPlug()
   endif
 endfunction
 
-function AutoInstallPlug()
+function! AutoInstallPlug()
   if !exists('g:checkplug') || g:checkplug==0
     call CheckPlug()
     if !g:checkplug
@@ -1088,10 +1094,10 @@ endfunction
 "   exec "source "..g:plugfile
 " endif
 " call AutoInstallPlug()
-exec 'source '.g:vim.'/autoload/vim-advantages/Statusline.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/Utilize.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/TextActions.vim'
-exec 'source '.g:vim.'/autoload/vim-advantages/Autocommands.vim'
+exec 'source '.g:vim_advantages.'/Statusline.vim'
+" exec 'source '.g:vim_advantages.'/Utilize.vim'
+exec 'source '.g:vim_advantages.'/TextActions.vim'
+exec 'source '.g:vim_advantages.'/Autocommands.vim'
 syntax on
 set tabpagemax=50
 " set tabstop=2
@@ -1114,7 +1120,7 @@ set tabpagemax=50
 " inoremap <S-Tab> <C-d>
 " set whichwrap+=<,>,[,]
 
-function PathCompletion()
+function! PathCompletion()
   " Avoid These In A Function Call?
   " ---> Compact WILDMENU --: set wildmode=longest:list,full
   " ---> Compact WILDMENU --: set wildmode=longest:full,full
@@ -1212,7 +1218,7 @@ set textwidth=0
 
 " Visual Selection
 
-function VS() range
+function! VS() range
   call CommandInfo()
   let [l:start_line, l:start_col]=getpos("'<")[1:2]
   let [l:end_line, l:end_col]=getpos("'>")[1:2]
@@ -1245,7 +1251,7 @@ function VS() range
   endif
 endfunction
 
-function RS()
+function! RS()
   if IsAnyVisual()
     call setpos("'>", [g:start_line, g:start_col])
     call setpos("'<", [g:end_line, g:end_col])
@@ -1253,68 +1259,68 @@ function RS()
   endif
 endfunction
 
-function CommandInfo(flag='')
+function! CommandInfo(flag='')
   let g:CI=[mode(0), mode(1), visualmode(1), a:flag=='c'?1:0, a:flag=='t'?1:0]
 endfunction
 
-function IsTerminalInsert()
+function! IsTerminalInsert()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return terminalinsert && modee=="nt"
 endfunction
 
-function IsTerminalNormal()
+function! IsTerminalNormal()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return !IsAnyVisual() && !terminalinsert && modee=="nt"
 endfunction
 
-function IsTerminalVisual()
+function! IsTerminalVisual()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return !terminalinsert && modee=="nt"
 endfunction
 
-function IsNormal()
+function! IsNormal()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return !IsAnyVisual() && modee=="n" || IsTerminalNormal()
 endfunction
 
-function IsAnyVisual()
+function! IsAnyVisual()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return visual!="" && visual=~#"[vV]"
 endfunction
 
-function IsVisual()
+function! IsVisual()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return visual!="" && visual==#"v"
 endfunction
 
-function IsVisualLine()
+function! IsVisualLine()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return visual!="" && visual==#"V"
 endfunction
 
-function IsVisualBlock()
+function! IsVisualBlock()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return visual!="" && visual==""
 endfunction
 
-function IsInsert()
+function! IsInsert()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return modee=~?".*i.*"||IsTerminalInsert()
 endfunction
 
-function IsCommand()
+function! IsCommand()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return command
 endfunction
 
-function IsTerminal()
+function! IsTerminal()
   let [mode, modee, visual, command, terminalinsert] = g:CI
   return modee =~?".*t"
 endfunction
 
 " Build
 
-function BuildPath(a, b)
+function! BuildPath(a, b)
   if a:a=~#".*/$"
     return a:a..a:b
   else
@@ -1322,23 +1328,23 @@ function BuildPath(a, b)
   endif
 endfunction
 
-function RunThis()
+function! RunThis()
   " call Open("l", "terminal", "new")<cr>
   call SendCustomCommandToTerm("l", [ './build/'..expand('%:t:r') ])
 endfunction
 
-function CTagsProject()
+function! CTagsProject()
   exec "!ctags -R --exclude=.git--exclude=vendor --exclude=node_modules --exclude=db --exclude=log "..CWD()
 endfunction
 
-function BuildProject()
+function! BuildProject()
   exec "!gcc -o "
         \ CWD()."/build/".expand('%:t:r')
         \ " "
         \ expand('%')
 endfunction
 
-function CTags()
+function! CTags()
   let filetype=expand('%:e')
   let map={
         \ 'cpp': "C++",
@@ -1360,7 +1366,7 @@ function CTags()
   let x=systemlist('ctags -R '..CWD())
 endfunction
 
-function BuildThis()
+function! BuildThis()
   exec "!gcc -o "
         \ expand('%:r')
         \ " "
@@ -1369,7 +1375,7 @@ endfunction
 
 " Git Integration
 
-function GetBranch()
+function! GetBranch()
   if exists("b:branch") && strlen(b:branch)<20
     return b:branch
   endif
@@ -1378,7 +1384,7 @@ endfunction
 
 " Project Manager
 
-function JumpFile(path)
+function! JumpFile(path)
   let path=a:path
   let node = input('Open File:  ['..path..']  ', path, 'file')
   call _openfile_andCD(node)
@@ -1406,7 +1412,7 @@ function JumpFile(path)
   endif
 endfunction
 
-function JumpProject()
+function! JumpProject()
   let path=CWD()
   let dir = input('Open Project:  ['..path..']  ', path, 'file')
   if isdirectory(dir)
@@ -1414,15 +1420,15 @@ function JumpProject()
   endif
 endfunction
 
-function JumpProjectIn()
+function! JumpProjectIn()
   call JumpProject()
 endfunction
 
-function JumpProjectSetProjectOrigin(origin)
+function! JumpProjectSetProjectOrigin(origin)
   call SetProjectOrigin(a:origin)
 endfunction
 
-function JumpProjectBackup()
+function! JumpProjectBackup()
   let haystack=GetCWDOrigin()
   let needle=CWD()
   " update the project origin, when the needle path does differ at some point
@@ -1431,14 +1437,14 @@ function JumpProjectBackup()
   endif
 endfunction
 
-function JumpProjectUp()
+function! JumpProjectUp()
   let path=CWD()
   " call SetProject(GetParentDir(path))
   call Statusline()
   call JumpProjectBackup()
 endfunction
 
-function JumpProjectR()
+function! JumpProjectR()
   let a=split(CWD(), "/")
   let b=split(GetCWDOrigin(), "/")
   let la=len(a)
@@ -1449,17 +1455,17 @@ function JumpProjectR()
   endif
 endfunction
 
-function JumpProjectDump()
+function! JumpProjectDump()
   echo CWD()
   echo GetCWDOrigin()
 endfunction
 
-function GetParentDir(path)
+function! GetParentDir(path)
     let l:parent = fnamemodify(a:path, ':h')
     return l:parent
 endfunction
 
-function Currentmain_repoRegister()
+function! Currentmain_repoRegister()
   if exists("w:main_repo")
     return 'window'
   " elseif exists("b:main_repo")
@@ -1472,7 +1478,7 @@ function Currentmain_repoRegister()
   return "/"
 endfunction
 
-function GetCWD_Statusline()
+function! GetCWD_Statusline()
   if Currentmain_repoRegister()[0] =~ "[wbgt]"
     " let x=Currentmain_repoRegister()[0]
     " let x.=" "..GetCWD_short()
@@ -1483,19 +1489,19 @@ function GetCWD_Statusline()
   endif
 endfunction
 
-function GetCWD_short(register="")
+function! GetCWD_short(register="")
   return PathCharwise(CWD())
 endfunction
 
-function GetDir(register="")
+function! GetDir(register="")
   return expand('%:p:h')
 endfunction
 
-function SetProjectOrigin(path)
+function! SetProjectOrigin(path)
   let w:main_repo_origin=a:path
 endfunction
 
-function GetCWDOrigin()
+function! GetCWDOrigin()
   if exists("w:main_repo_origin")
     return w:main_repo_origin
   else
@@ -1524,16 +1530,16 @@ endfunction
 "   exec "cd "..w:main_repo
 " endfunction
 
-function Basename(path)
+function! Basename(path)
   return ""
 endfunction
 
-function POINTER()
+function! POINTER()
   return w:pointer
 endfunction
 
 " Eating Lobster 🦞
-function ABSOLUTE()
+function! ABSOLUTE()
   let r=expand('%:p')
   if r!=""
     return r
@@ -1542,7 +1548,7 @@ function ABSOLUTE()
   endif
 endfunction
 
-function ABSOLUTE_DIR()
+function! ABSOLUTE_DIR()
   if filereadable(ABSOLUTE())
     return GetParentDir(ABSOLUTE())
   elseif isdirectory(ABSOLUTE())
@@ -1550,7 +1556,7 @@ function ABSOLUTE_DIR()
   endif
 endfunction
 
-function RELATIVE_DIR()
+function! RELATIVE_DIR()
   " KEEP IT POINTER, OTHERWISE FILE IS NOT READABLE ANYWAYS
   if filereadable(POINTER())
     return GetParentDir(RELATIVE())
@@ -1559,7 +1565,7 @@ function RELATIVE_DIR()
   endif
 endfunction
 
-function RELATIVE()
+function! RELATIVE()
   let g:cwd=CWD()
   let g:y=len(split(CWD(),'/'))
   let x=join(split(POINTER(),'/')[g:y:-1],'/')
@@ -1601,15 +1607,15 @@ endfunction
 "   endif
 " endfunction
 
-function GetBasename()
+function! GetBasename()
   return expand('%:t')
 endfunction
 
-function GetFilenameNoExt()
+function! GetFilenameNoExt()
   return substitute(GetBasename(), ".rs", "", "")
 endfunction
 
-function GetPath_Statusline()
+function! GetPath_Statusline()
   if g:wholepath==0
     return PathCharwise(expand('%:p'))
   elseif g:wholepath==1
@@ -1619,24 +1625,24 @@ function GetPath_Statusline()
   endif
 endfunction
 
-function GetPath()
+function! GetPath()
   return expand('%:p:h')
 endfunction
 
-function GetDirname()
+function! GetDirname()
   return expand('%:p:h')
 endfunction
 
-function GetDirnameFromFile(path)
+function! GetDirnameFromFile(path)
   let x=system("dirname ".a:path)
   return x
 endfunction
 
-function GetFileName()
+function! GetFileName()
   return expand('%')
 endfunction
 
-function GetLastsaved()
+function! GetLastsaved()
   if !exists("b:lastsaved")
     let b:lastsaved=0
   else
@@ -1644,21 +1650,21 @@ function GetLastsaved()
   endif
 endfunction
 
-function IsPossibileDirectory(path)
+function! IsPossibileDirectory(path)
   if a:path =~# ".*/\ *$"
     return 1
   endif
   return 0
 endfunction
 
-function s:stepFile_completefunc(step)
+function! s:stepFile_completefunc(step)
   let path=expand('%:h')
   let l=systemlist('find '.path.' -maxdepth 1 -type f')
   let file=expand('%:t')
   let g:matches=l
 endfunction
 
-function KeyToArray(key)
+function! KeyToArray(key)
   " echo len(a:key)
   let out=[]
   for a in a:key
@@ -1782,7 +1788,7 @@ function! s:close_often(winid, key) abort
 endfunction
 " endif
 
-function s:stepFile_index(step)
+function! s:stepFile_index(step)
   if !exists('g:temp_files_list')
     call s:stepFile_init_index()
   endif
@@ -1793,13 +1799,13 @@ function s:stepFile_index(step)
   let g:temp_files_index=Mod(g:temp_files_index, length)
 endfunction
 
-function s:stepFile_init_index()
+function! s:stepFile_init_index()
   let g:temp_files_list=readdir('.')
   let file=expand('%:t')
   let g:temp_files_index=index(g:temp_files_list, "./".file)
 endfunction
 
-function s:stepFile_repopup(winid, path='')
+function! s:stepFile_repopup(winid, path='')
   call popup_close(a:winid)
   if a:path=='..'
     call CD(WFilePrev())
@@ -1813,7 +1819,7 @@ function s:stepFile_repopup(winid, path='')
 endfunction
 
 
-function s:stepFile_open(winid=-1)
+function! s:stepFile_open(winid=-1)
   let entry=g:temp_files_list[g:temp_files_index]
   if isdirectory(entry)
     " echo "is dir"
@@ -1824,7 +1830,7 @@ function s:stepFile_open(winid=-1)
   endif
 endfunction
 
-function s:stepFile_popup(step=0, performFileOpening=0)
+function! s:stepFile_popup(step=0, performFileOpening=0)
   " let x=0
   " for i in l
   "   let l[x]=path.."/"..i
@@ -1885,14 +1891,14 @@ endfunction
 "   endif
 " endfunction
 
-function MyCustomComplete(findstart, base)
+function! MyCustomComplete(findstart, base)
   if a:findstart
   else
     return filter(copy(g:matches), 'v:val =~ "^'. a:base .'"')
   endif
 endfunction
 
-function ShowMyCustomComplete()
+function! ShowMyCustomComplete()
   " let col=col('.') -1
   " call complete(col, g:matches)
   call feedkeys("i\<C-x>\<C-u>\<Esc>", 'in')
@@ -1909,7 +1915,7 @@ endfunction
 "   return ['A', 'B', 'C']
 " endfunction
 
-function s:stepFile(step)
+function! s:stepFile(step)
   let path=expand('%:h')
   let l=systemlist('find '.path.' -maxdepth 1 -type f')
   let file=expand('%:t')
@@ -1932,13 +1938,13 @@ function s:stepFile(step)
   " echo l
 endfunction
 
-function NextFile_completefunc()
+function! NextFile_completefunc()
   setlocal completefunc=MyCustomComplete
   call s:stepFile_completefunc(1)
   call ShowMyCustomComplete()
 endfunction
 
-function PreviousFile_completefunc()
+function! PreviousFile_completefunc()
   setlocal completefunc=MyCustomComplete
   call s:stepFile_completefunc(-1)
   call ShowMyCustomComplete()
@@ -1965,28 +1971,28 @@ endfunction
 "   " endif
 " endfunction
 
-function StepFile_popup(step, performFileOpening)
+function! StepFile_popup(step, performFileOpening)
   call s:stepFile_popup(a:step, a:performFileOpening)
 endfunction
 
-function NextFile()
+function! NextFile()
   call s:stepFile(1)
 endfunction
 
-function PreviousFile()
+function! PreviousFile()
   call s:stepFile(-1)
 endfunction
 
-function MkDir(path)
+function! MkDir(path)
     " silent exec "!mkdir -p "..path
     call mkdir(a:path, 'p')
 endfunction
 
-function _newfile_andCD(path)
+function! _newfile_andCD(path)
   call _openfile_andCD(a:path)
 endfunction
 
-function _openfile_andCD(path)
+function! _openfile_andCD(path)
   let path=a:path
   if exists("path") && filereadable(path)
     call _openfile(path)
@@ -2006,7 +2012,7 @@ function _openfile_andCD(path)
   endif
 endfunction
 
-function _openfile_orCD(path)
+function! _openfile_orCD(path)
   let path=a:path
   if exists("path") && filereadable(path)
     call _openfile(path)
@@ -2019,14 +2025,14 @@ function _openfile_orCD(path)
   endif
 endfunction
 
-function _openfile(file)
+function! _openfile(file)
   let file=a:file
   if exists("file") && filereadable(file)
     exec "e "..file
   endif
 endfunction
 
-function Rewindmain_repo()
+function! Rewindmain_repo()
   let temp=w:main_repo
   call CD(w:lastmain_repo)
   let w:lastmain_repo=temp
@@ -2046,7 +2052,7 @@ endfunction
 "   endif
 " endfunction
 
-function OpenFileSetProject_callback(id, code, register)
+function! OpenFileSetProject_callback(id, code, register)
   let path=GetTempfileLine()
   call CD(GetParentDir(path))
   unlet b:popup_tempfile
@@ -2054,7 +2060,7 @@ function OpenFileSetProject_callback(id, code, register)
   call _openfile_andCD(path)
 endfunction
 
-function OpenFile_callback(id, code, register)
+function! OpenFile_callback(id, code, register)
   let path=GetTempfileLine()
   unlet b:popup_tempfile
   if path=='0' || path==0
@@ -2068,7 +2074,7 @@ function OpenFile_callback(id, code, register)
   endif
 endfunction
 
-function MakeDirCurrentCWD()
+function! MakeDirCurrentCWD()
   let [n, y, x, n, n]=getcurpos()
   " let w:cwd=expand("%:p:h")
   " let w:pointer=expand('%')
@@ -2085,17 +2091,17 @@ endfunction
 "   call cursor(y, x)
 " endfunction
 
-function SetProject_callback(register, id, code)
+function! SetProject_callback(register, id, code)
   let path=GetTempfileLine()
   call CD(path)
   unlet b:popup_tempfile
 endfunction
 
-function AgFile(title, register, path)
+function! AgFile(title, register, path)
   echo "AG"
 endfunction
 
-function OpenFile(title, register, path)
+function! OpenFile(title, register, path)
   if a:register =~ 'window\|buffer\|tab\|global'
     let title=a:title.." ["..a:register.."]"
   else
@@ -2116,7 +2122,7 @@ function OpenFile(title, register, path)
         \)
 endfunction
 
-function Changemain_repo(title, register, path)
+function! Changemain_repo(title, register, path)
   if a:register =~ 'window\|buffer\|tab\|global'
     let title="Set ["..a:register[0].."]"
   else
@@ -2137,7 +2143,7 @@ function Changemain_repo(title, register, path)
         \)
 endfunction
 
-function CB_OpenFileInBuffer(m)
+function! CB_OpenFileInBuffer(m)
   let m = a:m
   if Length(m)==0 | return "" | endif
   if Length(m)>0
@@ -2154,17 +2160,17 @@ function CB_OpenFileInBuffer(m)
   call Redraw()
 endfunction
 
-function Files(path)
+function! Files(path)
   " echo a:path
   exec "Files" a:path
   " call Redraw()
 endfunction
 
-function Redraw()
+function! Redraw()
   redraw!
 endfunction
 
-function CtrlShiftP()
+function! CtrlShiftP()
   let m=system('( find / -maxdepth 10 2>/dev/null && find '.g:ftp.' -maxdepth 10 2>/dev/null ) | fzf')
   call Redraw()
   if !empty(m)
@@ -2177,21 +2183,21 @@ function CtrlShiftP()
   endif
 endfunction
 
-function NERDTreeM_Shift(focus)
+function! NERDTreeM_Shift(focus)
     try | NERDTreeFind | catch | try | call NERDTreeCWD() | catch | try | NERDTree  | endtry | endtry | endtry
 endfunction
 
-function SelectFolder()
+function! SelectFolder()
   let m=system('find '..g:user_dir..' -type d -maxdepth 10 2>/dev/null | fzf')
   echo m
 endfunction
 
-function SelectFile()
+function! SelectFile()
   let m=system('find '.g:vim.' -maxdepth 7 | fzf')
   exec "e ".m
 endfunction
 
-function GetDirs(path, maxdepth)
+function! GetDirs(path, maxdepth)
   let out=[]
   let j = system("find \"".a:path."\" -maxdepth ".a:maxdepth." -type d")
   for line in filter(split(j, "\n")[1:], "v:val!=''")
@@ -2200,7 +2206,7 @@ function GetDirs(path, maxdepth)
   return out
 endfunction
 
-function GetFiles(path, name, maxdepth)
+function! GetFiles(path, name, maxdepth)
   let out=[]
   let j=system("find \"".a:path."\" -name \"".a:name."\" -maxdepth ".a:maxdepth." -type f")
   for line in filter(split(j, "\n")[1:], "v:val!=''")
@@ -2209,7 +2215,7 @@ function GetFiles(path, name, maxdepth)
   return out
 endfunction
 
-function GetFilesAndDirs(path, name, maxdepth)
+function! GetFilesAndDirs(path, name, maxdepth)
   let out=[]
   let j=system("find \"".a:path."\" -name \"".a:name."\" -maxdepth ".a:maxdepth)
   for line in filter(split(j, "\n")[1:], "v:val!=''")
@@ -2218,7 +2224,7 @@ function GetFilesAndDirs(path, name, maxdepth)
   return out
 endfunction
 
-function SearchOpenFile(...)
+function! SearchOpenFile(...)
   let file=a:000[0]
   " echo file
   " echo a:000
@@ -2229,7 +2235,7 @@ function SearchOpenFile(...)
   call CD(GetDirname())
 endfunction
 
-func FindFiles(path, pattern, maxdepth)
+func! FindFiles(path, pattern, maxdepth)
   let files=[]
   let maxdepth=""
   if a:maxdepth>0
@@ -2243,7 +2249,7 @@ func FindFiles(path, pattern, maxdepth)
   return files
 endfunc
 
-function LineNumberOnOff()
+function! LineNumberOnOff()
   set number!
   set norelativenumber
 endfunction
@@ -2257,23 +2263,23 @@ endfunction
 "   " endtry
 " endfunction
 
-function GitName()
+function! GitName()
   let b=split(w:git, "/")
   return b[-1]
 endfunction
 
-function GitName_Statusline()
+function! GitName_Statusline()
   if w:git==-1
     return ''
   endif
   return '  '..GitName()..' '
 endfunction
 
-function SetProject(dir)
+function! SetProject(dir)
   call system("curl http://localhost:8000/SetProject?project="..a:dir)
 endfunction
 
-function FindGit(path)
+function! FindGit(path)
   let b=split(a:path, "/")
   for i in range(1,len(b))
     let dir='/'..join(b[:len(b)-i], '/')
@@ -2295,7 +2301,7 @@ function FindGit(path)
   " let parent=GetParentDir(a:path)
 endfunction
 
-function CWD_Statusline()
+function! CWD_Statusline()
   if w:cwd=='/'
     return '/'
   else
@@ -2303,18 +2309,18 @@ function CWD_Statusline()
   endif
 endfunction
 
-function CWD()
+function! CWD()
   if !exists("w:cwd")
     call MakeDirCurrentCWD()
   endif
   return w:cwd
 endfunction
 
-function WFilePrev()
+function! WFilePrev()
   return '..'
 endfunction
 
-function WFileNext()
+function! WFileNext()
   let split=split(RELATIVE(),'/')
   let len=len(split)
   if len>0
@@ -2325,7 +2331,7 @@ function WFileNext()
   endif
 endfunction
 
-function CD(path)
+function! CD(path)
   if isdirectory(a:path)
     silent exec "cd ".a:path
   else
@@ -2336,7 +2342,7 @@ function CD(path)
   " echo "Not A Directory"
 endfunction
 
-function SetPointer(path='')
+function! SetPointer(path='')
   if a:path==''
     let p=expand("%:p")
   else
@@ -2356,7 +2362,7 @@ function! REFRESH_CWD()
   endtry
 endfunction
 
-function PathLast(path)
+function! PathLast(path)
   let parts = split(a:path, '/')
     if len(parts) > 3
       let x = '...'
@@ -2365,13 +2371,13 @@ function PathLast(path)
   return x
 endfunction
 
-function FavoriteFile()
+function! FavoriteFile()
 endfunction
 
-function FavoritePath()
+function! FavoritePath()
 endfunction
 
-function Favorite()
+function! Favorite()
   let list=systemlist("ls -al")
   call Find_Popup(
         \ "Favorites",
@@ -2389,7 +2395,7 @@ if !exists("g:shortenpath_file")
   let shortenpath_file=1
 endif
 
-function ToggleShortenPath()
+function! ToggleShortenPath()
   if g:shortenpath==0
     let g:shortenpath=-1
   else
@@ -2403,7 +2409,7 @@ function ToggleShortenPath()
   call Statusline()
 endfunction
 
-function PathCharwise_All(path, except=0, prependSlash=v:false, appendSlash=v:false)
+function! PathCharwise_All(path, except=0, prependSlash=v:false, appendSlash=v:false)
   let except=a:except
   if filereadable(a:path)
     let except=a:except
@@ -2441,7 +2447,7 @@ function PathCharwise_All(path, except=0, prependSlash=v:false, appendSlash=v:fa
   return out
 endfunction
 
-function PathCharwise(path, except=0)
+function! PathCharwise(path, except=0)
     let except=a:except
     let parts = split(a:path, '/')
     if len(parts) <= 3
@@ -2462,7 +2468,7 @@ function PathCharwise(path, except=0)
     endif
 endfunction
 
-function SelectCommandPopup(title, list, callback)
+function! SelectCommandPopup(title, list, callback)
   call Execution_Popup(
         \ a:title,
         \ a:list,
@@ -2470,7 +2476,7 @@ function SelectCommandPopup(title, list, callback)
         \)
 endfunction
 
-function FZFPopup(title, type, path, callback)
+function! FZFPopup(title, type, path, callback)
   let path=a:path
   let type=type(path)
   if type==1
@@ -2492,44 +2498,44 @@ function FZFPopup(title, type, path, callback)
         \)
 endfunction
 
-function OpenFileCommandLineProject()
+function! OpenFileCommandLineProject()
   call JumpFile(expand("%:h"))
 endfunction
 
-function OpenFileCommandLineSameDir()
+function! OpenFileCommandLineSameDir()
   " call JumpFile(CWD())
   call JumpFile(ABSOLUTE_DIR()..'/')
   call MakeDirCurrentCWD()
 endfunction
 
-function OpenFileCommandLineCWD()
+function! OpenFileCommandLineCWD()
   " call JumpFile(CWD())
   call JumpFile(CWD()..'/')
   call MakeDirCurrentCWD()
 endfunction
 
-function OpenFileCommandLineSystem()
+function! OpenFileCommandLineSystem()
   call JumpFile('/')
 endfunction
 
-function OpenFileFZFRepo(backwards=0)
+function! OpenFileFZFRepo(backwards=0)
   let Callback=function('OpenFile_callback', ["window"])
   let file=Folder_Repo(a:backwards)
   call FZFPopup("Open file: ", "file", file, Callback)
 endfunction
 
-function OpenFileFZFProject()
+function! OpenFileFZFProject()
   let Callback=function('OpenFile_callback', ["window"])
 
   call FZFPopup("Open file: ", "file", CWD(), Callback)
 endfunction
 
-function OpenFileFZFSystem()
+function! OpenFileFZFSystem()
   let Callback=function('OpenFile_callback', ["window"])
   call FZFPopup("Open file: ", "file", g:system_folders, Callback)
 endfunction
 
-function FindInFileFZFRepo(backwards=0)
+function! FindInFileFZFRepo(backwards=0)
   let Callback=function('OpenFile_callback', ["window"])
   if a:backwards==0
     let file=w:git
@@ -2548,63 +2554,63 @@ function FindInFileFZFRepo(backwards=0)
   call FZFPopup("Open file: ", "file", file, Callback)
 endfunction
 
-function FindInFileFZFProject()
+function! FindInFileFZFProject()
   let Callback=function('OpenFile_callback', ["window"])
   call FZFPopup("Open file: ", "file", CWD(), Callback)
   map <S-F3> :call AG()<CR>
   map <C-F3> :GFiles<CR>
 endfunction
 
-function FindInFileFZFSystem()
+function! FindInFileFZFSystem()
   let Callback=function('OpenFile_callback', ["window"])
   call FZFPopup("Open file: ", "file", g:system_folders, Callback)
 endfunction
 
 
-function SetProjectCommandLineProject()
+function! SetProjectCommandLineProject()
   call JumpProject(CWD())
 endfunction
 
-function SetProjectCommandLineSystem()
+function! SetProjectCommandLineSystem()
   call JumpProject('/')
 endfunction
 
-function SetProjectFZFProject()
+function! SetProjectFZFProject()
   let Callback=function('SetProject_callback', ["window"])
   call FZFPopup("Set Project: ", "directory", CWD(), Callback)
 endfunction
 
-function SetProjectFZFSystem()
+function! SetProjectFZFSystem()
   let Callback=function('SetProject_callback', ["window"])
   call FZFPopup("Set Project: ", "directory", [ '/etc' ], Callback)
 endfunction
 
-function SetProjectFZFProjectAndFile()
+function! SetProjectFZFProjectAndFile()
   let Callback=function('OpenFileSetProject_callback', ["w"])
   call FZFPopup("Set Project And File: ", "file", CWD(), Callback)
 endfunction
 
-function SetProjectFZFSystemAndFile()
+function! SetProjectFZFSystemAndFile()
   let Callback=function('OpenFileSetProject_callback', ["w"])
   call FZFPopup("Set Project And File: ", "file", '/', Callback)
 endfunction
 
 " Window Manager
 
-function s:_term_nvim(p, commands)
+function! s:_term_nvim(p, commands)
   let chan=getbufvar(a:p, "terminal_job_id")
   let c=extend(a:commands, [""])
   call chansend(chan, c)
 endfunction
 
-function s:_term_vim(p, commands)
+function! s:_term_vim(p, commands)
   for c in a:commands
     call term_sendkeys(a:p, c)
     call term_sendkeys(a:p, '')
   endfor
 endfunction
 
-function TERM(p, commands)
+function! TERM(p, commands)
   if has('nvim')
     call s:_term_nvim(a:p, a:commands)
   else
@@ -2612,13 +2618,13 @@ function TERM(p, commands)
   endif
 endfunction
 
-function ClearTermOnWinLeave(bufnr)
+function! ClearTermOnWinLeave(bufnr)
   if bufname('%') == 'Find'
     call timer_start(50, {->execute('bwipeout! '..a:bufnr)})
   endif
 endfunction
 
-function Open(direction, type="buffer", mode="copy", file="")
+function! Open(direction, type="buffer", mode="copy", file="")
   let file=""
   " call WinSwapBuf_Prep()
   let projectpath=CWD()
@@ -2737,7 +2743,7 @@ function Open(direction, type="buffer", mode="copy", file="")
   endif
 endfunction
 
-function TabH()
+function! TabH()
   let nr=tabpagenr()
   let len=tabpagenr('$')
   if nr==1
@@ -2748,7 +2754,7 @@ function TabH()
   endif
 endfunction
 
-function TabL()
+function! TabL()
   let nr=tabpagenr()
   let len=tabpagenr('$')
   if len==nr
@@ -2758,7 +2764,7 @@ function TabL()
   endif
 endfunction
 
-function SwapWin(direction)
+function! SwapWin(direction)
   let l:current_win=winnr()
   let l:current_buf=winbufnr(l:current_win)
   let l:neighbor_win=winnr(a:direction)
@@ -2772,7 +2778,7 @@ function SwapWin(direction)
   execute l:neighbor_win "windo b" l:current_buf
 endfunction
 
-function WinBufSwap_Back()
+function! WinBufSwap_Back()
   let thiswin = winnr()
   let thisbuf = bufnr("%")
   let lastwin = winnr("#")
@@ -2780,56 +2786,56 @@ function WinBufSwap_Back()
   exec  lastwin . " wincmd w" ."|". "buffer ". thisbuf ."|". thiswin ." wincmd w" ."|". "buffer ". lastbuf
 endfunction
 
-function Cursor_Prep()
+function! Cursor_Prep()
   let g:cursorpos=getcurpos()
 endfunction
 
-function Cursor_Back()
+function! Cursor_Back()
   call cursor(g:cursorpos[1], g:cursorpos[2])
 endfunction
 
-function TabSwap_Prep()
+function! TabSwap_Prep()
   let g:lasttab=tabpagenr()
 endfunction
 
-function TabSwap_Back()
+function! TabSwap_Back()
   execute "norm" g:lasttab "gt"
 endfunction
 
-function WinSwap_Prep()
+function! WinSwap_Prep()
   let g:lastwin= winnr()
 endfunction
 
-function WinSwap_Back()
+function! WinSwap_Back()
   exec g:lastwin . " wincmd w"
 endfunction
 
-function WinSwapBuf_Prep()
+function! WinSwapBuf_Prep()
   let g:lastwin= winnr()
   let g:lastbuf= bufnr()
 endfunction
 
-function WinSwapBuf_Back()
+function! WinSwapBuf_Back()
   let g:thiswin= winnr()
   let g:thisbuf= bufnr()
     exec  g:lastwin . " wincmd w" ."|". "buffer ". g:thisbuf ."|". g:thiswin ." wincmd w" ."|". "buffer ". g:lastbuf ."|". g:lastwin . " wincmd w"
 endfunction
 
-function WinFocus_Prep()
+function! WinFocus_Prep()
   let g:focusUUID=GetUUID()
 endfunction
 
-function WinFocus_Back()
+function! WinFocus_Back()
   if GetKeyH() || GetKeyK() || GetKeyJ() || GetKeyL()
     exec GetWinByUUID(g:focusUUID) "wincmd w"
   endif
 endfunction
 
-function WinFocusBack()
+function! WinFocusBack()
   echo winnr("$")
 endfunction
 
-function GetCurrentNeighborActive()
+function! GetCurrentNeighborActive()
   let active=-1
   return
   if !has_key(g:hideToggles, bufnr())
@@ -2845,10 +2851,10 @@ function GetCurrentNeighborActive()
   return g:hideToggles[bufnr()][GetKey()]
 endfunction
 
-function ToggleCurrentNeighbors()
+function! ToggleCurrentNeighbors()
 endfunction
 
-function SwitchBackIfIsTerm()
+function! SwitchBackIfIsTerm()
   echo "switchback"
   let bufname = bufname('%')
   let bufnr = bufnr('%')
@@ -2861,7 +2867,7 @@ function SwitchBackIfIsTerm()
   echo g:bufferNumber
 endfunction
 
-function GetCwordIfReadableFile()
+function! GetCwordIfReadableFile()
   let cword=""
   let cword=expand('<cword>')
   let cword=expand('<cWORD>')
@@ -2872,7 +2878,7 @@ function GetCwordIfReadableFile()
   return path
 endfunction
 
-function HideTerminal()
+function! HideTerminal()
   if 1
     if IsTerminalVisibile()
       if IsTerminalFocus()
@@ -2902,11 +2908,11 @@ function HideTerminal()
   endif
 endfunction
 
-function IsTerminalExists()
+function! IsTerminalExists()
   return Length(GetTerms(AimTermNameWoId()))
 endfunction
 
-function IsTerminalExistsX()
+function! IsTerminalExistsX()
   let g:terminalBuffer=BufSell(AimTermName())
   if g:terminalBuffer > 0
     return 1
@@ -2916,7 +2922,7 @@ function IsTerminalExistsX()
   endif
 endfunction
 
-function IsTerminalFocus()
+function! IsTerminalFocus()
   let bufnr = bufnr("%")
   let g:terminalBuffer=GetBufByUUID(AimTermName())
   if bufnr == g:terminalBuffer
@@ -2926,7 +2932,7 @@ function IsTerminalFocus()
   endif
 endfunction
 
-function IsTerminalVisibile()
+function! IsTerminalVisibile()
   let visible = {}
   for t in range(1, tabpagenr('$'))
       for b in tabpagebuflist(t)
@@ -2937,7 +2943,7 @@ function IsTerminalVisibile()
   return bufexists(g:terminalBuffer) && has_key(visible, g:terminalBuffer)
 endfunction
 
-function ScrollTerminalDown()
+function! ScrollTerminalDown()
   let termwin=winnr()
   let b=GetWin()
   exec b" wincmd w"
@@ -2945,14 +2951,14 @@ function ScrollTerminalDown()
   exec termwin" wincmd w"
 endfunction
 
-function FocusTerminal()
+function! FocusTerminal()
   let win=winnr()
   let b=bufwinnr(g:terminalBuffer)
   exec b" wincmd w"
   norm <c-\><c-n><PageDown><PageDown>i
 endfunction
 
-function TermClosed()
+function! TermClosed()
   if exists("t:exec_targets")
     for i in range(0,len(t:exec_targets)-1)
       if HasState()
@@ -2964,17 +2970,17 @@ function TermClosed()
   endif
 endfunction
 
-function UnsetTerms(uuid)
+function! UnsetTerms(uuid)
 endfunction
 
-function ExitTerminal()
+function! ExitTerminal()
   let i=GetBufByUUID(g:termname)
   if i>0
     execute "bd!" i
   endif
 endfunction
 
-function SetTerms(uuid, k)
+function! SetTerms(uuid, k)
   if HasState()
     if IsTermWin() || IsVash()
       call Statusline()
@@ -2982,7 +2988,7 @@ function SetTerms(uuid, k)
   endif
 endfunction
 
-function InsertIfTerminal()
+function! InsertIfTerminal()
   try
   if IsTermWin()
     if has('nvim')
@@ -2997,68 +3003,68 @@ function InsertIfTerminal()
   endtry
 endfunction
 
-function SigTermToTerm(direction)
+function! SigTermToTerm(direction)
   let x=['']
   let buf=winbufnr(winnr(a:direction))
   call TERM(buf, x)
 endfunction
 
-function SendCustomCommandToTerm(direction, command)
+function! SendCustomCommandToTerm(direction, command)
   let x=a:command
   let buf=winbufnr(winnr(a:direction))
   call TERM(buf, x)
 endfunction
 
-function SendCommandToTerm(direction) range
+function! SendCommandToTerm(direction) range
   " Bug (VS in normalmode sometimes results in the last selected line)
   let vs=VS()
   let buf=winbufnr(winnr(a:direction))
   call TERM(buf, vs)
 endfunction
 
-function SendCommandToThisTerm(command) range
+function! SendCommandToThisTerm(command) range
   let buf=bufnr()
   call TERM(buf, a:command)
 endfunction
 
-function RedoCommandToTermWithSigTerm(direction)
+function! RedoCommandToTermWithSigTerm(direction)
   let x=['','[A']
   let buf=winbufnr(winnr(a:direction))
   call TERM(buf, x)
 endfunction
 
-function RedoCommandToTerm(direction)
+function! RedoCommandToTerm(direction)
   let x=[ '[A' ]
   let buf=winbufnr(winnr(a:direction))
   call TERM(buf, x)
 endfunction
 
-function SigTermToTerm_win(win)
+function! SigTermToTerm_win(win)
   let x=['']
   call TERM(a:win, x)
 endfunction
 
-function SendCustomCommandToTerm_win(win, command)
+function! SendCustomCommandToTerm_win(win, command)
   let x=a:command
   call TERM(a:win, x)
 endfunction
 
-function SendCommandToTerm_win(win) range
+function! SendCommandToTerm_win(win) range
   call TERM(a:win, vs)
 endfunction
 
-function RedoCommandToTermWithSigTerm_win(win)
+function! RedoCommandToTermWithSigTerm_win(win)
   let x=['','[A']
   call TERM(a:win, x)
 endfunction
 
-function RedoCommandToTerm_win(win)
+function! RedoCommandToTerm_win(win)
   let x=[ '[A' ]
   call TERM(a:win, x)
 endfunction
 
 
-function CheckVS() abort
+function! CheckVS() abort
   if mode() =~# '[vV\<C-v>]'
     let [l:start_line, l:start_col]=getpos("'<")[1:2]
     let [l:end_line, l:end_col]=getpos("'>")[1:2]
@@ -3081,7 +3087,7 @@ function CheckVS() abort
   endif
 endfunction
 
-function CWindow(focus=0)
+function! CWindow(focus=0)
   let leaveUnfocused=""
   if !a:focus
     let leaveUnfocused=" | wincmd p"
@@ -3096,7 +3102,7 @@ function CWindow(focus=0)
   exec GetVertical() "copen "..size.." "..leaveUnfocused
 endfunction
 
-function ToggleVertical()
+function! ToggleVertical()
   if g:vertical==1
     let g:vertical=0
   else
@@ -3113,21 +3119,21 @@ function ToggleVertical()
   " endif
 endfunction
 
-function GetVertical()
+function! GetVertical()
   if g:vertical
     return "vertical"
   endif
   return ""
 endfunction
 
-function IsQuickfixOpenAndFocused()
+function! IsQuickfixOpenAndFocused()
   if winnr('$') > 0 && getwinvar(winnr("$"), '&buftype') ==# 'quickfix'
     return 1
   else
     return 0
 endfunction
 
-function IsQuickfixOpen1()
+function! IsQuickfixOpen1()
   for win in getwininfo()
     if win.quickfix
       return 1
@@ -3136,7 +3142,7 @@ function IsQuickfixOpen1()
   return 0
 endfunction
 
-function IsQuickfixOpen2()
+function! IsQuickfixOpen2()
   if !empty(filter(getwininfo(), 'v:val.quickfix && !v:val.loclist'))
     return 1
   else
@@ -3144,7 +3150,7 @@ function IsQuickfixOpen2()
   endif
 endfunction
 
-function ToggleC()
+function! ToggleC()
   if IsQuickfixOpen2()
     cclose
   else
@@ -3152,12 +3158,12 @@ function ToggleC()
   endif
 endfunction
 
-function BashCWindow(cmd)
+function! BashCWindow(cmd)
   exec "AsyncRun "..a:cmd
   call CWindow()
 endfunction
 
-function SearchRight(switch)
+function! SearchRight(switch)
   if a:switch=="<visual>"
     let input=CheckVS()
   elseif a:switch=="<cword>"
@@ -3172,10 +3178,10 @@ function SearchRight(switch)
   call CWindow()
 endfunction
 
-function AddInCommandLine()
+function! AddInCommandLine()
 endfunction
 
-function FloatTermTest(command)
+function! FloatTermTest(command)
   let cmd=call('BuildString', [g:main_repo, '~/Folder'])
   function! s:OnJobExit(Term_name, Exit_status) abort
     echo exit_code
@@ -3183,7 +3189,7 @@ function FloatTermTest(command)
   exec "FloatermNew --autoclose=2 "..cmd
 endfunction
 
-function ExecuteRight_Scriptnames()
+function! ExecuteRight_Scriptnames()
   redir=>m
     silent scriptnames
   redir END
@@ -3191,7 +3197,7 @@ function ExecuteRight_Scriptnames()
   call CWindow()
 endfunction
 
-function LsRight(switch="")
+function! LsRight(switch="")
   if a:switch==""
     let input=CWD()[0]
   elseif a:switch=="<visual>"
@@ -3209,7 +3215,7 @@ function LsRight(switch="")
   call CWindow()
 endfunction
 
-function _buildLayout(layout)
+function! _buildLayout(layout)
   function! _wincmd(operator)
     if a:operator=~'[HJKL]'
       if a:operator=="H"
@@ -3260,7 +3266,7 @@ function _buildLayout(layout)
     else
       let filee=expand(file)
       if !filereadable(filee)
-        let filee = g:vim.."/autoload/vim-advantages/"..file
+        let filee = g:vim_advantages.."/"..file
       endif
       if filereadable(filee)
         silent exec pre..filee
@@ -3276,7 +3282,7 @@ function _buildLayout(layout)
 endfunction
 " Utilities
 
-function ContainsAll(haystack, needle)
+function! ContainsAll(haystack, needle)
     for l:item in a:list2
         if index(a:list1, l:item) == -1
             return 0
@@ -3285,7 +3291,7 @@ function ContainsAll(haystack, needle)
     return 1
 endfunction
 
-function CheckList(args)
+function! CheckList(args)
     let l:lists = split(a:args, '\s\+')
     if len(l:lists) != 2
         echoerr "Please provide two lists"
@@ -3300,7 +3306,7 @@ function CheckList(args)
     endif
 endfunction
 
-function ContainsString(haystack, needle)
+function! ContainsString(haystack, needle)
   if stridx(a:haystack, a:needle) == -1
     return 0
   else
@@ -3308,7 +3314,7 @@ function ContainsString(haystack, needle)
   endif
 endfunction
 
-function FindStringColumns(searchstr) range
+function! FindStringColumns(searchstr) range
   let line = getline('.')
   let cols = []
   let pos = 0
@@ -3324,7 +3330,7 @@ function FindStringColumns(searchstr) range
   return cols
 endfunction
 
-function FindCharColumns(searchchar)
+function! FindCharColumns(searchchar)
   let searchchar=input('char: ')
   let x = map(
         \ split(getline('.'), '\zs'),
@@ -3334,15 +3340,15 @@ function FindCharColumns(searchchar)
   return x
 endfunction
 
-function GotoMarker(marker) range
+function! GotoMarker(marker) range
   execute "norm `".upper(a:marker)
 endfunction
 
-function CreateMarker(marker) range
+function! CreateMarker(marker) range
   execute "norm m".upper(a:marker)
 endfunction
 
-function Length(arr)
+function! Length(arr)
   let x=a:arr
   let i= 0
   while i < len(x)
@@ -3351,21 +3357,21 @@ function Length(arr)
   return i
 endfunction
 
-function SearchNext(keymap) range
+function! SearchNext(keymap) range
   let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
   call feedkeys('/')
 endfunction
 
-function SearchPrev(keymap) range
+function! SearchPrev(keymap) range
   let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
   call feedkeys('? "sy?<C-r>s<CR>gN')
 endfunction
 
-function Mod(n,m)
+function! Mod(n,m)
   return ((a:n % a:m) + a:m) % a:m
 endfunction
 
-function ClipboardYank()
+function! ClipboardYank()
   try
     call system('wl-copy || xclip -i -selection clipboard', @@)
   catch
@@ -3373,7 +3379,7 @@ function ClipboardYank()
   endtry
 endfunction
 
-function ClipboardPaste(mode)
+function! ClipboardPaste(mode)
   if (GetMode() == "v")
     call cursor(g:vlcb[0], g:vlcb[1]) | execute "normal! v" | call cursor(g:vlce[0], g:vlce[1])
   endif
@@ -3388,17 +3394,17 @@ func! ListMonths()
   return ''
 endfunc
 
-function ToggleLineStateGlobal()
+function! ToggleLineStateGlobal()
   Implement
 endfunction
 
-function ToggleLineState()
+function! ToggleLineState()
   let g:linestate = g:linestate+1
   let g:linestate = g:linestate % 3
   call SetLineState(g:linestate)
 endfunction
 
-function StashAndFree(file)
+function! StashAndFree(file)
   !clear && git stash save "my saved stash"
   exec "!git checkout ".a:file
   !git stash list
@@ -3408,7 +3414,7 @@ function StashAndFree(file)
   !git stash branch add-sidebar
 endfunction
 
-function SwitchHeaderCode()
+function! SwitchHeaderCode()
   let e=@%
   let f=split(e, "/")[-1]
   let name=system('cut -d. -f 1', f)
@@ -3427,7 +3433,7 @@ function SwitchHeaderCode()
   e g:out
 endfunction
 
-function Keys(tuple)
+function! Keys(tuple)
   let keys=[]
   let len=Length(a:tuple)
   for c in range(0,len-1)
@@ -3437,7 +3443,7 @@ function Keys(tuple)
   return keys
 endfunction
 
-function Values(tuple)
+function! Values(tuple)
   let values=[]
   let len=Length(a:tuple)
   for c in range(0,len-1)
@@ -3451,7 +3457,7 @@ function Values(tuple)
   return values
 endfunction
 
-function Items(t)
+function! Items(t)
   let output=[]
   for iv in range(0, len(a:t[0])-1)
     let temp=[]
@@ -3463,7 +3469,7 @@ function Items(t)
   return output
 endfunction
 
-command -range -nargs=0 Tidy <line1>,<line2>call Tidy()
+command! -range -nargs=0 Tidy <line1>,<line2>call Tidy()
 " function Tidy() range
 "   call TidyHTML()
 "   " norm gv
@@ -3472,20 +3478,20 @@ command -range -nargs=0 Tidy <line1>,<line2>call Tidy()
 "   " norm =
 " endfunction
 
-function TidyHTML2()
+function! TidyHTML2()
   let vs="'<,'>"
   let pattern="s/<[^>]*>/\r&\r/g"
   silent exec vs..pattern
 endfunction
 
-command -range -nargs=+ REGEX <line1>,<line2>call REGEX(<q-args>)
-function REGEX(pattern)
+command! -range -nargs=+ REGEX <line1>,<line2>call REGEX(<q-args>)
+function! REGEX(pattern)
   let vs="'<,'>"
   try | silent exec vs..a:pattern | catch | finally | endtry
   " silent exec vs..a:pattern
 endfunction
 
-function Tidy() range
+function! Tidy() range
   REGEX s:<tr>:<tr>:g
   REGEX s:</tr>:</tr>:g
   REGEX s:<td>:<td>:g
@@ -3495,7 +3501,7 @@ function Tidy() range
 endfunction
 
 
-function CountRegex() range
+function! CountRegex() range
   let pattern="s/^\\s*\\\"/&/gen"
   let m = 0
   try
@@ -3510,23 +3516,23 @@ function CountRegex() range
   echo m
 endfunction
 
-function AppendToClipboard()
+function! AppendToClipboard()
     let @+ = @+ . getline(".") . "\n"
 endfunction
 
-function StartsWith(longer, shorter) abort
+function! StartsWith(longer, shorter) abort
   return a:longer[0:len(a:shorter)-1] ==# a:shorter
 endfunction
 
-function EndsWith(longer, shorter) abort
+function! EndsWith(longer, shorter) abort
   return a:longer[len(a:longer)-len(a:shorter):] ==# a:shorter
 endfunction
 
-function Contains(longer, shorter) abort
+function! Contains(longer, shorter) abort
   return stridx(a:longer, a:shorter) >= 0
 endfunction
 
-function __util(c)
+function! __util(c)
   let cmd = a:c
   execute "Imap ".cmd
   execute "Nmap ".cmd
@@ -3534,7 +3540,7 @@ function __util(c)
   execute "Vmap ".cmd
 endfunction
 
-function GetDictValueCaseInsensitive(dict, key_pattern)
+function! GetDictValueCaseInsensitive(dict, key_pattern)
   for [k, v] in items(a:dict)
     if tolower(k)==# tolower(a:key_pattern)
       return v
@@ -3543,14 +3549,14 @@ function GetDictValueCaseInsensitive(dict, key_pattern)
   return v:null
 endfunction
 
-function SubstGtoDollar()
+function! SubstGtoDollar()
   let [n, y, x, n]=getpos(".")
   let word=expand('<cword>')
   exec "%s/g:"..word.."/$"..word.."/g"
   call cursor(y,x)
 endfunction
 
-function Hex_codes()
+function! Hex_codes()
   redir=>M
     silent g/.*\(#\x*\)/s//\1/p
   redir END
@@ -3558,24 +3564,24 @@ function Hex_codes()
   call setreg('+', M)
 endfunction
 
-function ListInQuickfix(dir)
+function! ListInQuickfix(dir)
   let dir = empty(a:dir) ? '.' : a:dir
   let files = systemlist('ls -1 ' . dir)
   call setqflist(map(files, {_, f -> {'filename': dir . '/' . f, 'lnum': 1}}))
   copen
 endfunction
 
-function CopyFileNameToClipboard()
+function! CopyFileNameToClipboard()
   let path=expand('%:p')
   call setreg('+', path)
 endfunction
 
-function CopyWholePathToClipboard()
+function! CopyWholePathToClipboard()
   let path=expand('%:p')
   call setreg('+', path)
 endfunction
 
-function InsertFilename()
+function! InsertFilename()
    let cmd=["call expand('%')",
          \ expand('%:p'),
          \ expand('%:h'),
@@ -3585,21 +3591,21 @@ function InsertFilename()
   call appendbufline(bufnr(), line('.'), cmd)
 endfunction
 
-function RepeatLastCommand()
+function! RepeatLastCommand()
   norm :[A
 endfunction
 
 " Vim General
 
-function Reloadfile()
+function! Reloadfile()
   :e!
 endfunction
 
-function Implement()
+function! Implement()
   echo "Needs Implementation"
 endfunction
 
-function ToggleZoom(zoom=1)
+function! ToggleZoom(zoom=1)
   if exists("t:restore_zoom") && (a:zoom == v:true || t:restore_zoom.win != winnr())
       exec t:restore_zoom.cmd
       unlet t:restore_zoom
@@ -3609,7 +3615,7 @@ function ToggleZoom(zoom=1)
   endif
 endfunction
 
-function Resize(keymap)
+function! Resize(keymap)
   let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
   let vim_height = &lines
   let vim_width = &columns
@@ -3632,19 +3638,19 @@ function Resize(keymap)
   call DebugKeys()
 endfunction
 
-function ShrinkH()
+function! ShrinkH()
   horizontal resize -25
 endfunction
 
-function ShrinkV()
+function! ShrinkV()
   exec GetVertical() "resize -65"
 endfunction
 
-function ExpandH()
+function! ExpandH()
   horizontal resize +25
 endfunction
 
-function ExpandV()
+function! ExpandV()
   exec GetVertical() "resize +65"
 endfunction
 let redefine_SaveFile= 1
@@ -3668,7 +3674,7 @@ if !exists('*SourceVim')
   endfunction
 endif
 
-function ToggleRelativeNumber()
+function! ToggleRelativeNumber()
   if v:version > 703
     set relativenumber!
   endif
@@ -3678,7 +3684,7 @@ endfunction
 " set textwidth=0
 " set wrapmargin=0
 
-function ToggleWrap()
+function! ToggleWrap()
   if s:wrapenabled
     set nowrap nolist nolinebreak
     unmap j
@@ -3703,7 +3709,7 @@ function ToggleWrap()
   endif
 endfunction
 
-function SetLineState(n)
+function! SetLineState(n)
   if a:n== 0
     set nonumber
     set norelativenumber
@@ -3716,7 +3722,7 @@ function SetLineState(n)
   endif
 endfunction
 
-function SaveAsRoot()
+function! SaveAsRoot()
   try
     :silent w !clear; sudo tee %
     :e! %
@@ -3727,12 +3733,12 @@ function SaveAsRoot()
   endtry
 endfunction
 
-function SaveVars(file, prefix)
+function! SaveVars(file, prefix)
   let b=json_encode(copy(g:)->filter('v:key =~# "^'.a:prefix.'"'))
   call system("python -m json.tool > ".a:file, b)
 endfunction
 
-function LoadVars(file)
+function! LoadVars(file)
   try
     let b:data = json_decode(readfile(a:file))
   catch
@@ -3741,7 +3747,7 @@ function LoadVars(file)
   endtry
 endfunction
 
-function HasState()
+function! HasState()
   if exists("b:state")
     return 1
   else
@@ -3749,7 +3755,7 @@ function HasState()
   endif
 endfunction
 
-function BufferSetup()
+function! BufferSetup()
   let g:RecursiveCounter=g:RecursiveCounter+1
   let uuid=NewUUID()
   let type=""
@@ -3780,7 +3786,7 @@ function BufferSetup()
   endif
 endfunction
 
-function NewUUID()
+function! NewUUID()
   let g:seed = srand()
   let min=00000000000000000000
   let nr=rand(g:seed) %  99999999999999999999  " to echo a random number between 0-99
@@ -3788,7 +3794,7 @@ function NewUUID()
   return out
 endfunction
 
-function IsVash()
+function! IsVash()
   if HasState()
     if b:state.type=='vash'
       return 1
@@ -3800,10 +3806,10 @@ function IsVash()
   endif
 endfunction
 
-function s:OnEvent(job_id, data, event) dict
+function! s:OnEvent(job_id, data, event) dict
 endfunction
 
-function GetType()
+function! GetType()
   if IsTermWin()
     return 'Terminal'
   elseif IsBufWin()
@@ -3813,16 +3819,16 @@ endfunction
 
 " Autocommands
 
-function BufferSetupAutoCMD()
+function! BufferSetupAutoCMD()
 endfunction
 
-function UpdateAutoCMD()
+function! UpdateAutoCMD()
 endfunction
 
-function BufReadPost()
+function! BufReadPost()
 endfunction
 
-function BufWinEnter()
+function! BufWinEnter()
   " call REFRESH_CWD()
   call MakeDirCurrentCWD()
   " call CD(expand('%:p:h'))
@@ -3830,38 +3836,38 @@ function BufWinEnter()
   " echo "BufReadPost"
 endfunction
 
-function BufNew()
+function! BufNew()
   " if exists("g:lastmain_repo")
   "   call CD(g:lastmain_repo)
   " endif
   call BufferSetup()
 endfunction
 
-function TabNew()
+function! TabNew()
   " if exists("g:lastmain_repo")
   "   call CD(g:lastmain_repo)
   " endif
 endfunction
 
-function InitLineState()
+function! InitLineState()
   " Implement " LineState Global And BufferWise
   if IsTermWin()
     call InsertIfTerminal()
   endif
 endfunction
 
-function VimLeave()
+function! VimLeave()
   redraw!
 endfunction
 
-function FocusLost()
+function! FocusLost()
   echo "test"
 endfunction
 
-function TermLeave()
+function! TermLeave()
 endfunction
 
-function VimEnter()
+function! VimEnter()
   " if &buftype == 'terminal'
   "   set wrap
   " elseif &buftype == 'buffer'
@@ -3875,13 +3881,13 @@ function VimEnter()
   " redraw!
 endfunction
 
-function BufEnter()
+function! BufEnter()
   call CD(expand('%:p'))
   " call DebugPaths()
   " call Statusline()
 endfunction
 
-function TabClose()
+function! TabClose()
   try
     tabclose
   catch
@@ -3890,7 +3896,7 @@ function TabClose()
   endtry
 endfunction
 
-function WinEnter()
+function! WinEnter()
   " if getbufvar(bufnr(), '&buftype') == 'terminal'
   " if win_gettype(winnr()) == ""
   "     endif
@@ -3915,11 +3921,11 @@ function WinEnter()
   " endif
 endfunction
 
-function WinLeave()
+function! WinLeave()
   let g:lastmain_repo=CWD()
 endfunction
 
-function BufLeave()
+function! BufLeave()
 	let last_buffer = bufnr("$")
   let last_winid = bufwinid(last_buffer)
   let g:lastmain_repo=getwinvar(last_winid, "main_repo")
@@ -3930,11 +3936,11 @@ endfunction
 
 " Execute In File
 
-function PyExec(keymap) range
+function! PyExec(keymap) range
   echo "Python"
 endfunction
 
-function BashExec(keymap) range
+function! BashExec(keymap) range
   let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
   let m=expand(g:bashrc_source)
   for x in vs
@@ -3970,22 +3976,22 @@ function BashExec(keymap) range
   endif
 endfunction
 
-function BashPaste(keymap) range
+function! BashPaste(keymap) range
   let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
   put=a
 endfunction
 
-function BashCommandLine()
+function! BashCommandLine()
   let input=input('!')
   " let list=systemlist(input)
   exec "r ! source ".g:bashrc_source."; "..input
 endfunction
 
-function RUST(arg='') range
+function! RUST(arg='') range
   let vs = a:arg
 endfunction
 
-function VIM(arg='') range
+function! VIM(arg='') range
   let vs = a:arg
   redir=>v
     for c in vs | silent exec c | endfor
@@ -3997,7 +4003,7 @@ function VIM(arg='') range
   call PUTT(v)
 endfunction
 
-function BASH(cmd='', mode='exec_vs') range
+function! BASH(cmd='', mode='exec_vs') range
   let vs=VS()
   let cmd = EnsureArr(a:cmd)
   let c = join(cmd, '\n')
@@ -4009,7 +4015,7 @@ function BASH(cmd='', mode='exec_vs') range
   call PUTT(m)
 endfunction
 
-function PYTHON(arg='')
+function! PYTHON(arg='')
   let c = a:arg
   try
     let m = system(g:bashrc_source."; cat | python3", c)
@@ -4021,19 +4027,19 @@ function PYTHON(arg='')
   call PUTT(m)
 endfunction
 
-function TIN(...)
+function! TIN(...)
   let b = bufnr()
   call TERM(b, a:000)
   exec "wincmd w"
   call Win(b)
 endfunction
 
-function Sys(...)
+function! Sys(...)
   let x = system(join(a:000))
   put=x
 endfunction
 
-function Vim(...)
+function! Vim(...)
   redir=>m
     silent exec join(a:000)
   redir END
@@ -4042,7 +4048,7 @@ endfunction
 
 " Customizable FZF Integration
 
-function BuildString(options, paths, tempfile="")
+function! BuildString(options, paths, tempfile="")
   let fzf="fzf --multi -i --no-sort --tiebreak=length,begin,index"
   let fzf="fzf --multi -i --tiebreak=begin,length"
   let m = a:paths
@@ -4064,7 +4070,7 @@ function BuildString(options, paths, tempfile="")
   return string
 endfunction
 
-function Find_Popup(title, paths, callback, type="file", maxdepth=10, register="")
+function! Find_Popup(title, paths, callback, type="file", maxdepth=10, register="")
   let tempfile="/tmp/tempfile_fzf"
   let b:popup_tempfile=tempfile
   if a:type=="directory"
@@ -4117,7 +4123,7 @@ function Find_Popup(title, paths, callback, type="file", maxdepth=10, register="
   endtry
 endfunction
 
-function Execution_Popup(title, list, callback)
+function! Execution_Popup(title, list, callback)
   let title=' '..a:title..' '
   function! OnStdout(channel, msg)
   endfunction
@@ -4155,7 +4161,7 @@ function Execution_Popup(title, list, callback)
     \ })
 endfunction
 
-function GetTempfileLine()
+function! GetTempfileLine()
   let tempfile=get(b:, 'popup_tempfile', '')
   if !filereadable(tempfile)
     return
@@ -4212,7 +4218,7 @@ set rtp+=/usr/bin/fzf
 let g:b=[]
 let g:e=[]
 
-function PopSelection() range
+function! PopSelection() range
   if len(g:pb) > 0
     norm 
     call setpos("'<", g:pb[-1])
@@ -4223,7 +4229,7 @@ function PopSelection() range
   endif
 endfunction
 
-function PushSelection() range
+function! PushSelection() range
   let b = getpos("'<")
   let e = getpos("'>")
   call extend(g:pb, [b])
@@ -4231,21 +4237,21 @@ function PushSelection() range
   norm gv
 endfunction
 
-function BackupSelection()
+function! BackupSelection()
   let b = getpos("'<")
   let e = getpos("'>")
   call extend(g:b, [b])
   call extend(g:e, [e])
 endfunction
 
-function RestoreSelection()
+function! RestoreSelection()
   call setpos("'<", g:b)
   call setpos("'>", g:e)
   let g:b=[]
   let g:e=[]
 endfunction
 
-function ResetVS()
+function! ResetVS()
   call setpos("'<", [0,0,0,0])
   call setpos("'>", [0,0,0,0])
   let g:b=[]
@@ -4254,7 +4260,7 @@ function ResetVS()
   let g:pe=[]
 endfunction
 
-function RightmostVirtualColumn()
+function! RightmostVirtualColumn()
   let reg_v = @v
   silent normal! gv"vy
   let max = 0
@@ -4267,7 +4273,7 @@ function RightmostVirtualColumn()
   return max
 endfunction
 
-function VSPerLine()
+function! VSPerLine()
   norm gv
   let X=[getpos("'<"), getpos("'>"), getpos("v"), getpos("."), getpos("$"), getpos("#"), getpos("*")]
   let from=X[0][2]
@@ -4293,7 +4299,7 @@ endfunction
 "   endif
 " endfunction
 
-function VS_DebugKeys()
+function! VS_DebugKeys()
   if IsVisual()
     return VS()
   else
@@ -4301,19 +4307,19 @@ function VS_DebugKeys()
   endif
 endfunction
 
-function KeepPointer()
+function! KeepPointer()
   norm `Y
 endfunction
 
-function SetKey(key)
+function! SetKey(key)
   let g:__pressedKey=a:key
 endfunction
 
-function GetKey()
+function! GetKey()
   return g:__pressedKey
 endfunction
 
-function CountString(string, pattern)
+function! CountString(string, pattern)
   let oc=0
   let result=0
   let index=0
@@ -4327,7 +4333,7 @@ function CountString(string, pattern)
   return oc
 endfunction
 
-function SplitA(k)
+function! SplitA(k)
   let i4=CountString(a:k, "<leader>")
   let pos=i4*8
   let leaders=""
@@ -4345,11 +4351,11 @@ function SplitA(k)
   return [ key, leaders, fkey ]
 endfunction
 
-function SetKeymap(key)
+function! SetKeymap(key)
   let g:__pressedKeymap=a:key
 endfunction
 
-function UtilHelper(keymap)
+function! UtilHelper(keymap)
   let vs = VS()
   call SetKeymap(a:keymap)
   let [ key, leaders, fkey ] = SplitA(a:keymap)
@@ -4361,32 +4367,32 @@ function UtilHelper(keymap)
   return [ key, leaders, fkey, vs ]
 endfunction
 
-function SetModeChanged(modechanged)
+function! SetModeChanged(modechanged)
   let g:modechanged=a:modechanged
 endfunction
 
-function GetModeChanged() range
+function! GetModeChanged() range
   return g:modechanged
 endfunction
 
-function SetMode(keymap, mode)
+function! SetMode(keymap, mode)
   let g:mode=a:mode
   if a:keymap!=""
     let [ key, leaders, fkey, vs ] = UtilHelper(a:keymap)
   endif
 endfunction
 
-function GetMode()
+function! GetMode()
   return g:mode
 endfunction
 
 " Statusline
 
-function SETCOLOR(m)
+function! SETCOLOR(m)
   set statusline+=%#User2%{(g:linestate)}
 endfunction
 
-function COLOR(...)
+function! COLOR(...)
   if HasState()
     if IsBuffer()
       call SETCOLOR(a:1)
@@ -4396,7 +4402,7 @@ function COLOR(...)
   endif
 endfunction
 
-function HasStatuslineInitialized()
+function! HasStatuslineInitialized()
   if exists("b:statusline_initialized")
     return 1
   else
@@ -4404,21 +4410,21 @@ function HasStatuslineInitialized()
   endif
 endfunction
 
-function IsBufWin()
+function! IsBufWin()
   return exists('b:state')&&b:state.type=='buffer'
 endfunction
 
-function IsTermWin()
+function! IsTermWin()
   return exists('b:state')&&b:state.type=='terminal'
 endfunction
 
-function Statusline_TogglePath()
+function! Statusline_TogglePath()
   let g:wholepath=Mod(g:wholepath+1, 2)
   call Statusline()
 endfunction
 
 " Layouts
-function Layout_Bash()
+function! Layout_Bash()
   call _tabnew_if_not_empty_buffer()
   " Filename, [hjklHJKLvs], normalcommand
   let layout=[
@@ -4430,7 +4436,7 @@ function Layout_Bash()
   exe 1 .. "wincmd w"
 endfunction
 
-function IsBuffersAreEmpty()
+function! IsBuffersAreEmpty()
   function! _isEmpty(winnr)
     let bufnr=winbufnr(a:winnr)
     let lines=getbufline(bufnr, 1, '$')
@@ -4447,25 +4453,25 @@ function IsBuffersAreEmpty()
   return 0
 endfunction
 
-function _tabnew_if_not_empty_buffer()
+function! _tabnew_if_not_empty_buffer()
   exec IsBuffersAreEmpty() ? "tabnew" : ""
 endfunction
 
-function LayoutVim()
+function! LayoutVim()
   call _tabnew_if_not_empty_buffer()
   " Filename, [hjklHJKLvs], normalcommand
     " \ [ "Statusline.vim", "v"],
     " \ [ "Utilize.vim", "s"],
     " \ [ g:vimrc, "v"],
   let layout=[
-    \ [ g:vim."/autoload/vim-advantages/Functions.vim", "H"],
-    \ [ g:vim."/autoload/vim-advantages/Map.vim", "v"],
-    \ [ g:vim."/autoload/vim-advantages/Commands.vim", "v"],
-    \ [ g:vim."/readme.md", "v"],
-    \ [ g:vim."/autoload/vim-advantages/Autocommands.vim", "J"],
+    \ [ g:vim_advantages."/Functions.vim", "H"],
+    \ [ g:vim_advantages."/Map.vim", "v"],
+    \ [ g:vim_advantages."/Commands.vim", "v"],
+    \ [ g:vim_advantages."/readme.md", "v"],
+    \ [ g:vim_advantages."/Autocommands.vim", "J"],
     \ [ g:bashrc, "v", "G"],
-    \ [ g:vim."/autoload/vim-advantages/Functions.vim9", "v"],
-    \ [ g:vim."/autoload/vim-advantages/Statusline.vim", "v"],
+    \ [ g:vim_advantages."/Functions.vim9", "v"],
+    \ [ g:vim_advantages."/Statusline.vim", "v"],
     \]
     " \ [ g:source_dir.."/notes.md", "s"],
   call _buildLayout(layout)
@@ -4475,8 +4481,8 @@ if !exists("g:linestate") | let g:linestate=0 | call SetLineState(g:linestate) |
 if !exists("g:mode") | call SetMode("", "Normal") | endif
 
 " What is this <expr>?
-command -range -nargs=0 KeyHandler <line1>,<line2>:call KeyHandler(getchar())
-function KeyHandler(key)
+command! -range -nargs=0 KeyHandler <line1>,<line2>:call KeyHandler(getchar())
+function! KeyHandler(key)
   echo a:key
   return
   let l:keystr=n2char(a:key)
@@ -4496,7 +4502,7 @@ nnoremap <expr> <leader>F KeyHandler(getchar())
 
 " set wildmenu
 
-function OpenFileUnderCursor()
+function! OpenFileUnderCursor()
   hide e <cfile>
   " exec 'e '..expand("<cfile>")
   " exec ':call SearchOpenFile(expand("<cfile>"))'
@@ -4506,7 +4512,7 @@ function OpenFileUnderCursor()
   call MakeDirCurrentCWD()
 endfunction
 
-function DebugReplacements()
+function! DebugReplacements()
   echo expand("<cWORD>")
   echo expand("<cword>")
   echo expand("<cexpr>")
