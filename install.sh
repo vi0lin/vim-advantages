@@ -62,9 +62,9 @@ install() {
     fi
   fi
   vimruntime=$vimruntime
-  # plugins=$vimruntime"/plugin/"
+  plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
-  plugins=$vim_folder"/plugged/"
+  plugins=$vim_folder"/autoload/"
 
   vimplug_exists_in_vimruntime=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
   debug $vimruntime
