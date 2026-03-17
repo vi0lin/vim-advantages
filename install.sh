@@ -11,6 +11,51 @@ debug() {
   fi
 }
 
+vimgather_tmp_exists () {
+  return $(test -f "vimgather.tmp") && return 0 || return 1
+}
+
+vim_gather() {
+  command=$@
+  if ! vimgather_tmp_exists; then
+    debug "Creating File vimgather.tmp"
+    comm=$(cat << 'SHELL'
+      $vimbinary -es \
+      -c "let variable=execute('scriptnames')->split('\n')->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join('\n')" \
+      -c 'call writefile([ trim(variable) ], "vimgather.tmp")' \
+      -c 'qa!' \
+      2>/dev/null
+SHELL
+)
+    # $vimbinary -es \
+    # -c 'redir=>variable | scriptnames | %s/^\s*\d\+:\s*// | redir END' \
+    # -c 'call writefile([ trim(split($VIMRUNTIME, ",")[0]) ], "vimgather.tmp2")' \
+    # -c 'qa!' \
+    # 2>/dev/null
+      # $vimbinary
+      # -c "let variable=\"OUTPUT WORKED\""
+      # -c "call writefile([trim(variable)], 'vimgather.tmp')"
+      # -c "qa!"
+      # 2>/dev/null
+    # debug "$comm"
+    # echo "tEST"
+    echo "$comm"
+    # More Dangerous
+    # eval "$comm"
+    eval "$comm"
+    # -c "${command}" \
+    # -es
+    cat vimgather.tmp
+    if vimgather_tmp_exists; then
+      vimgather=`cat vimgather.tmp`
+      rm vimgather.tmp
+    fi
+  else
+    echo "No!"
+  fi
+  echo $vimgather
+}
+
 install() {
   _check_binary() {
     if [[ -z `which $1` ]]; then
@@ -41,27 +86,16 @@ install() {
     echo $decision
   }
   # echo $(score_paths)
-
-  vimruntime_tmp_exists () {
-    return $(test -f "vimruntime.tmp") && return 0 || return 1
-  }
-
+  # scriptnames=
+  scriptnames=$(vim_gather "redir=>variable | scriptnames | redir END")
+  # debug $scriptnames
   vimplug_exists=$([[ -f plug.vim ]] && echo true || echo false)
 
-  vimruntime_tmp_exists && echo "vimruntime.tmp exists. Consider removing it or change the directory and start again" && exit 0 || echo "Checking Runtime Path"
+  vimgather_tmp_exists && echo "vimgather.tmp exists. Consider removing it or change the directory and start again" && exit 0 || echo "Checking Runtime Path"
 
   # &vimruntime
-  if ! vimruntime_tmp_exists; then
-    $vimbinary -es \
-      -c 'call writefile([ trim(split($VIMRUNTIME, ",")[0]) ], "vimruntime.tmp")' \
-      -c 'qa!' \
-      2>/dev/null
-    if vimruntime_tmp_exists; then
-      vimruntime=`cat vimruntime.tmp`
-      rm vimruntime.tmp
-    fi
-  fi
-  vimruntime=$vimruntime
+  # vimruntime=$(vim_gather "split(\$VIMRUNTIME, ',')[0]")
+  debug $vimruntime
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
   plugins=$vim_folder"/autoload/"
@@ -138,19 +172,19 @@ install() {
 
   echo "Installing Additional Software"
   debug "sudo" $installations
-  eval "sudo" $installations
+  # eval "sudo" $installations
 
   if ! $vimplug_exists; then
     echo "Installing Vim Plug (plug.vim)"
     debug "sudo" $wget_plug_vim
-    eval "sudo" $wget_plug_vim
+    # eval "sudo" $wget_plug_vim
   else
     echo "Plug.vim is already installed"
     echo "Implement Check For Updates"
   fi
 
   echo "Installing Vim-Advantages (with plug.vim)"
-  $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
+  # $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
 }
 
 install "vim"

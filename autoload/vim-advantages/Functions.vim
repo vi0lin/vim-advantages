@@ -1,6 +1,10 @@
 " Avoid cdo prompt for overwiting files
 set hidden
 
+function TESTTEST()
+  echo execute('scriptnames')->split('\n')->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join('\n')
+endfunction
+
 " function! ExampleGrep()
 "   return
 "   grep pattern **/*.vim
