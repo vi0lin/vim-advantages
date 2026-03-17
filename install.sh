@@ -51,7 +51,7 @@ SHELL
       rm vimgather.tmp
     fi
   else
-    echo "No!"
+    echo "File exists, remove it manualy."
   fi
   echo $vimgather
 }
