@@ -1,3 +1,5 @@
 let runtimepath=split(&runtimepath, ",")[0]
-exec 'source '..runtimepath..'/plugged/vim-advantages/autoload/vim-advantages/Functions.vim'
-exec 'source '..runtimepath..'/plugged/vim-advantages/autoload/vim-advantages/Functions.vim9'
+let p = 'src'
+let p = 'autoload/vim-advantages'
+exec 'source '..runtimepath..'/plugged/vim-advantages/'..p..'/Functions.vim'
+exec 'source '..runtimepath..'/plugged/vim-advantages/'..p..'/Functions.vim9'
