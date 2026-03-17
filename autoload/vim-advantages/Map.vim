@@ -711,6 +711,8 @@ NewMap nnoremap <silent> <leader>c  :cclose<CR>
 " nnoremap <silent> <leader>lP :llast<CR>zz
 
 NewMap vmap <leader>s :source<cr>
+NewMap nmap <leader>S :%source<cr>
+"!! source even with comment # // " literals
 NewMap noremap <F6> :autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *<cr>
 NewMap noremap <F7> :autocmd! BufEnter * :call F.Buffer.Find(bufnr()).Print()<cr>
 NewMap noremap <F8> :call Display()<cr>
@@ -741,3 +743,5 @@ NewMap map <C-S-o> :echo "Implement Bufferjump"<cr>
 NewMap map <F8> <C-w>p
 NewMap vnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>
 NewMap nnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>
+
+NewMap nnoremap <F5> :<C-u>call RedoCommandToTerm("l")<cr>

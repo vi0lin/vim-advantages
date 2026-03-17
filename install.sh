@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# autocmd! BufWritePost install.sh :call RedoCommandToTerm("l")
+# autocmd! BufWritePost install.sh
+
 arg=${1:+0}
 if [[ $arg ]]; then
   debug=$([[ $1 == "debug" ]] && echo true || echo false)
@@ -17,26 +20,27 @@ vimgather_tmp_exists () {
 
 vim_gather() {
   command=$@
+  filename="vimgather.tmp"
   if ! vimgather_tmp_exists; then
-    debug "Creating File vimgather.tmp"
+    # debug "Creating File $filename"
     #     comm=$(cat << 'SHELL'
     #       $vimbinary -es \
     #       -c "let variable=execute('scriptnames')->split("\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join(\"\n\")" \
-    #       -c 'call writefile([ trim(variable) ], "vimgather.tmp")' \
+    #       -c 'call writefile([ trim(variable) ], "$filename")' \
     #       -c 'qa!' \
     #       2>/dev/null
     # SHELL
     # )
-      $vimbinary -Es << 'VIMSCRIPT'
-let variable=execute('scriptnames')->split("\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join("\n")
-call writefile([ trim(variable) ], "vimgather.tmp")
+    #
+    # New Line Seems To Be Impossibile
+      $vimbinary -es << VIMSCRIPT
+let variable=execute('$command')->split("\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
+call writefile(variable, "$filename")
 qa!
 VIMSCRIPT
-
     if vimgather_tmp_exists; then
-      # vimgather=`cat vimgather.tmp`
-      cat vimgather.tmp
-      rm vimgather.tmp
+      vimgather=`cat $filename`
+      rm $filename
     fi
   else
     echo "File exists, remove it manualy."
@@ -74,9 +78,11 @@ install() {
     echo $decision
   }
   # echo $(score_paths)
-  # scriptnames=
   # scriptnames=$(vim_gather "redir=>variable | scriptnames | redir END")
-  vim_gather "redir=>variable | scriptnames | redir END"
+  scriptnames="`vim_gather scriptnames`"
+  for scriptname in $scriptnames; do
+    echo "--->" $scriptname
+  done
   # debug $scriptnames
   vimplug_exists=$([[ -f plug.vim ]] && echo true || echo false)
 
