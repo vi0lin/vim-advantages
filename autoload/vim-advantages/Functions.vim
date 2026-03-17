@@ -4471,6 +4471,8 @@ function! LayoutVim()
     \ [ g:vim_advantages."/Functions.vim", "H"],
     \ [ g:vim_advantages."/Map.vim", "v"],
     \ [ g:vim_advantages."/Commands.vim", "v"],
+    \ [ g:vim_advantages."/../../install.sh", "v"],
+    \ [ g:vim_advantages."/../../.gitignore", "v"],
     \ [ g:vim_advantages."/readme.md", "v"],
     \ [ g:vim_advantages."/Autocommands.vim", "J"],
     \ [ g:bashrc, "v", "G"],
