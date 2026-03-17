@@ -66,7 +66,7 @@ install() {
   vim_folder="~/.vim"
   plugins=$vim_folder"/autoload/"
 
-  vimplug_exists_in_vimruntime=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
+  vimplug_exists=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
   debug $vimruntime
   debug $plugins
   # mkdir -p $vimruntime
@@ -113,22 +113,22 @@ install() {
     "lin")
       manager="apt-get"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -O ${plugins}plug.vim"
+      wget_plug_vim="wget -q $plugvim -O ${plugins}plug.vim"
       ;;
     "mac")
       manager="choc"
       installations="$manager install -y fzf silversearcher-ag ripgrep"
-      plug_vim="wget -q $plugvim -o ${plugins}plug.vim"
+      wget_plug_vim="wget -q $plugvim -o ${plugins}plug.vim"
       ;;
     "win")
       manager="pacman"
       installations=""
-      plug_vim="curl -fLo ${plugins}plug.vim $plugvim"
+      wget_plug_vim="curl -fLo ${plugins}plug.vim $plugvim"
       ;;
     "device")
       manager="apk"
       installations="$manager add fzf ripgrep"
-      plug_vim="wget -q $plugvim -P ${plugins}"
+      wget_plug_vim="wget -q $plugvim -P ${plugins}"
       ;;
     "unknown"|*)
       echo "Exiting: unknown device"
@@ -140,10 +140,10 @@ install() {
   debug "sudo" $installations
   eval "sudo" $installations
 
-  if ! $vimplug_exists_in_vimruntime; then
+  if ! $vimplug_exists; then
     echo "Installing Vim Plug (plug.vim)"
-    debug "sudo" $plug_vim
-    eval "sudo" $plug_vim
+    debug "sudo" $wget_plug_vim
+    eval "sudo" $wget_plug_vim
   else
     echo "Plug.vim is already installed"
     echo "Implement Check For Updates"
