@@ -1,0 +1,14 @@
+.gitignore
+**/*.git.off
+**/*.unreleased
+**/*.unused
+**/*.unreleased.unused
+**/*.unused.unreleased
+3rd/dashboard2.vim
+3rd/dashboard.vim
+3rd/matchit.vim
+3rd/minibufexpl.vim
+3rd/plug.vim
+zip/
+vim-advantages.zip
+vimgather.tmp
