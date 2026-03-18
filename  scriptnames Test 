@@ -1,0 +1,190 @@
+Error detected while processing BufNewFile Autocommands for "*"..script /usr/local/share/vim/vim91/scripts.vim[27]../usr/local/share/vim/vim91/autoload/dist/script.vim:
+line    1:
+E683: File name missing or invalid pattern
+line    3:
+E488: Trailing characters: Vim function for detecting a filetype from the file contents.: # Vim function for detecting a filetype from the file contents.
+line    4:
+E488: Trailing characters: Invoked from: # Invoked from
+line    5:
+E749: Empty buffer
+line    6:
+E488: Trailing characters: Maintainer:^IThe Vim Project <https://github.com/vim/vim>: # Maintainer:^IThe Vim Project <https://github.com/vim/vim>
+line    7:
+E488: Trailing characters: Last Change:^I2023 Aug 10: # Last Change:^I2023 Aug 10
+line    8:
+E488: Trailing characters: Former Maintainer:^IBram Moolenaar <Bram@vim.org>: # Former Maintainer:^IBram Moolenaar <Bram@vim.org>
+line   10:
+E492: Not an editor command: export def DetectFiletype()
+line   11:
+E492: Not an editor command:   var line1 = getline(1)
+line   12:
+E121: Undefined variable: line1
+line   19:
+E492: Not an editor command: enddef
+line   21:
+E488: Trailing characters: Called for a script that has: # Called for a script that has
+line   22:
+E492: Not an editor command: def DetectFromHashBang(firstline: string)
+line   23:
+E492: Not an editor command:   var line1 = firstline
+line   25:
+E488: Trailing characters: Check for a line like:   # Check for a line like
+line   26:
+E749: Empty buffer
+line   27:
+E488: Trailing characters: Recognize only a few {options} that are commonly used.:   # Recognize only a few {options} that are commonly used.
+line   28:
+E121: Undefined variable: line1
+line   34:
+E488: Trailing characters: Get the program name.:   # Get the program name.
+line   35:
+E488: Trailing characters: Only accept spaces in PC style paths::   # Only accept spaces in PC style paths:
+line   36:
+E488: Trailing characters: If the word env is used, use the first word after the space::   # If the word env is used, use the first word after the space:
+line   37:
+E749: Empty buffer
+line   38:
+E488: Trailing characters: If there is no path use the first word::   # If there is no path use the first word:
+line   39:
+E488: Trailing characters: Otherwise get the last word after a slash::   # Otherwise get the last word after a slash:
+line   40:
+E492: Not an editor command:   var name: string
+line   41:
+E121: Undefined variable: line1
+line   51:
+E488: Trailing characters: tcl scripts may have #!/bin/sh in the first line and:   # tcl scripts may have #!/bin/sh in the first line and
+line   52:
+E488: Trailing characters: third line.  Suggested by Steven Atkinson.:   # third line.  Suggested by Steven Atkinson.
+line   57:
+E492: Not an editor command:   var ft = Exe2filetype(name, line1)
+line   58:
+E121: Undefined variable: ft
+line   61:
+E492: Not an editor command: enddef
+line   63:
+E488: Trailing characters: Returns the filetype name associated with program: # Returns the filetype name associated with program
+line   64:
+E749: Empty buffer
+line   65:
+E488: Trailing characters: not available.: # not available.
+line   66:
+E488: Trailing characters: Returns an empty string when not recognized.: # Returns an empty string when not recognized.
+line   67:
+E492: Not an editor command: export def Exe2filetype(name: string, line1: string): string
+line   68:
+E488: Trailing characters: Bourne-like shell scripts: bash bash2 dash ksh ksh93 sh:     # Bourne-like shell scripts: bash bash2 dash ksh ksh93 sh
+line   69:
+E121: Undefined variable: name
+line   70:
+E133: :return not inside a function
+line   74:
+E133: :return not inside a function
+line   78:
+E133: :return not inside a function
+line   82:
+E133: :return not inside a function
+line   86:
+E133: :return not inside a function
+line   90:
+E133: :return not inside a function
+line   94:
+E133: :return not inside a function
+line   98:
+E133: :return not inside a function
+line  102:
+E133: :return not inside a function
+line  106:
+E133: :return not inside a function
+line  110:
+E133: :return not inside a function
+line  114:
+E133: :return not inside a function
+line  118:
+E133: :return not inside a function
+line  122:
+E133: :return not inside a function
+line  126:
+E133: :return not inside a function
+line  130:
+E133: :return not inside a function
+line  134:
+E133: :return not inside a function
+line  138:
+E133: :return not inside a function
+line  142:
+E133: :return not inside a function
+line  146:
+E133: :return not inside a function
+line  150:
+E133: :return not inside a function
+line  154:
+E133: :return not inside a function
+line  158:
+E133: :return not inside a function
+line  162:
+E133: :return not inside a function
+line  166:
+E133: :return not inside a function
+line  170:
+E133: :return not inside a function
+line  174:
+E133: :return not inside a function
+line  178:
+E133: :return not inside a function
+line  182:
+E133: :return not inside a function
+line  186:
+E133: :return not inside a function
+line  190:
+E133: :return not inside a function
+line  194:
+E133: :return not inside a function
+line  198:
+E133: :return not inside a function
+line  202:
+E133: :return not inside a function
+line  206:
+E133: :return not inside a function
+line  210:
+E133: :return not inside a function
+line  214:
+E133: :return not inside a function
+line  218:
+E133: :return not inside a function
+line  222:
+E133: :return not inside a function
+line  226:
+E133: :return not inside a function
+line  230:
+E133: :return not inside a function
+line  234:
+E133: :return not inside a function
+line  238:
+E133: :return not inside a function
+line  239:
+E492: Not an editor command: enddef
+line  242:
+E488: Trailing characters: Called for a script that does not have: # Called for a script that does not have
+line  243:
+E492: Not an editor command: def DetectFromText(line1: string)
+line  244:
+E492: Not an editor command:   var line2 = getline(2)
+line  245:
+E492: Not an editor command:   var line3 = getline(3)
+line  246:
+E492: Not an editor command:   var line4 = getline(4)
+line  247:
+E492: Not an editor command:   var line5 = getline(5)
+line  249:
+E488: Trailing characters: Bourne-like shell scripts: sh ksh bash bash2:   # Bourne-like shell scripts: sh ksh bash bash2
+line  250:
+E121: Undefined variable: line1
+line  429:
+E488: Trailing characters: line2 == ''
+line  430:
+E488: Trailing characters: line3 =~ '^Each sample counts as .* seconds.$'
+line  474:
+E492: Not an editor command: enddef
+Error detected while processing BufNewFile Autocommands for "*"..script /usr/local/share/vim/vim91/scripts.vim:
+line   27:
+E117: Unknown function: dist#script#DetectFiletype
