@@ -86,7 +86,7 @@ install() {
   file_exists $tmpfile && echo $tmpfile exists. Consider removing it or change the directory and start again && exit 0 || echo "Checking Runtime Path"
 
   # &vimruntime
-  vim_gather vimruntime "echo split(\$VIMRUNTIME, ',')[0]"
+  vim_gather vimruntime "echo split(\$VIMRUNTIME, \",\")[0]"
   debug Vimruntime $tmpfile $vimruntime
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
