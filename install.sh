@@ -15,7 +15,39 @@ debug() {
   fi
 }
 
-debug "Debug:" $dbg
+signature="vim-advantage installation 2866039580"
+grep_subset_with_signature() {
+  echo "gerp_subset_with_signature"
+  # echo "___"
+  # echo "$@"
+  # echo "___"
+  # echo "$@" | xargs -I {} grep -l "$signature" {}
+  # grep -rlZ "test" $files
+}
+signature_exists() {
+  sed -n "/$signature/q" $1 && return 0 || return 1
+}
+
+file_exists2() {
+  local path="$1"
+  path="${path/#\~/$HOME}"
+  [[ -e "$path" ]]
+}
+
+keep_existing() {
+  unset existing
+  existing=()
+  for f in "${@}"; do
+    # f="${f##+([[:space:]])}"
+    # if [[ -f $f ]]; then
+    # realpath -m -- "$f"
+    # echo "file exists: " $f
+    file_exists2 $f && existing+=( "$f" )
+  done
+  printf -v $1 "%s\n" "${existing[@]}"
+}
+
+debug Debug: $dbg
 
 file_exists () {
   return $(test -f $@) && return 0 || return 1
@@ -27,14 +59,16 @@ vim_gather() {
   args=$@
   # printf -v "$1" '%s ' "${args[1]}" "${@:2}"
   command=${@:2}
-  debug Command $command
+  debug Command: $command
   if ! file_exists $tmpfile; then
     # New Line Seems To Be Impossibile
-    $vimbinary -es << VIMSCRIPT
-let variable=execute('$command')->split("\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
-call writefile(variable, "$tmpfile")
-qa!
-VIMSCRIPT
+#    $vimbinary -es << VIMSCRIPT
+#let variable=execute('$command')->split("\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
+#call writefile(variable, "$tmpfile")
+#qa!
+#VIMSCRIPT
+    $vimbinary -e -c "redir! > $tmpfile | $command | redir END | qa!"
+   # -c "redir > $tmpfile | echo execute('$command')->split(\"\\n\")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')}) | redir END | qa!"
     if file_exists $tmpfile; then
       vimgather=$(cat $tmpfile)
       rm $tmpfile
@@ -76,24 +110,36 @@ install() {
   }
   # echo $(score_paths)
   # scriptnames=$(vim_gather "redir=>variable | scriptnames | redir END")
-  vim_gather scriptnames "scriptnames"
-  for scriptname in $scriptnames; do
-    echo $scriptname
-  done
-  # debug $scriptnames
+  # vim_gather scriptnames "scriptnames"
+  vim_gather scriptnames "echo execute('scriptnames')->split(\"\\n\")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join(\"\n\")"
+
+  keep_existing existing_scriptnames $scriptnames
+
+  echo "$existing_scriptnames"
+
+  grep_subset_with_signature "$existing_scriptnames"
+  # for scriptname in $scriptnames; do
+  #   # echo "-> check for signature: " $scriptname
+  #   if [ -f $scriptname ]; then
+  #     echo $scriptname
+  #     signature_exists $scriptname && echo $scriptname "sig found"
+  #   fi
+  # done
+  # debug $scriptnameo
   vimplug_exists=$([[ -f plug.vim ]] && echo true || echo false)
 
   file_exists $tmpfile && echo $tmpfile exists. Consider removing it or change the directory and start again && exit 0 || echo "Checking Runtime Path"
 
   # &vimruntime
   vim_gather vimruntime "echo split(\$VIMRUNTIME, \",\")[0]"
-  debug Vimruntime $tmpfile $vimruntime
+  debug Vimruntime: $vimruntime
+  debug "Tmpfile was deleted ($tmpfile)"
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
   plugins=$vim_folder"/autoload/"
 
   vimplug_exists=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
-  debug plugins $plugins
+  debug Plugins: $plugins
   # mkdir -p $vimruntime
 
   ostype=(
@@ -104,7 +150,7 @@ install() {
     [4]=unknown
   )
 
-  debug "$OSTYPE"
+  debug OsType: "$OSTYPE"
 
   _get_os() {
     if [[ "$OSTYPE" == "linux-musl" ]]; then
@@ -123,7 +169,7 @@ install() {
 
   os=${ostype[$(_get_os)]}
 
-  debug $os
+  debug ShortOsType: $os
 
   echo -n "Installing Vim-Advantages"
   case  "$os" in
@@ -162,12 +208,12 @@ install() {
   esac
 
   echo "Installing Additional Software"
-  debug "sudo" $installations
+  debug Installation Instruction: "sudo" $installations
   # eval "sudo" $installations
 
   if ! $vimplug_exists; then
     echo "Installing Vim Plug (plug.vim)"
-    debug "sudo" $wget_plug_vim
+    debug Download Instructions: "sudo" $wget_plug_vim
     # eval "sudo" $wget_plug_vim
   else
     echo "Plug.vim is already installed"
@@ -179,4 +225,4 @@ install() {
 }
 
 install "vim"
-install "nvim"
+# install "nvim"
