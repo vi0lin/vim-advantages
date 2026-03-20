@@ -184,7 +184,8 @@ install() {
   debug Vimruntime: $vimruntime
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
-  source_command="source" $plugins"/vim-advantages.vim"
+  source_command="source ${plugins}vim-advantages.vim"
+  debug source_command: $source_command
   plugins=$vim_folder"/autoload/"
 
   vimplug_exists=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
@@ -274,7 +275,7 @@ install() {
   # check if vim-advantages got sourced
   vimgather got_sourced "try | if exists('g:vim_advantages_got_sourced') | echo g:vim_advantages_got_sourced | endif | endtry"
 
-  debug "Got Sourced: " $got_sourced
+  debug "Got Sourced:" $got_sourced
 
   # echo $got_sourced | xxd -b
   # echo "0" | xxd -b
