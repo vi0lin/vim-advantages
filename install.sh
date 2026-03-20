@@ -45,22 +45,18 @@ check_signature() {
 }
 create_signature() {
   debug "Create Signature" $@
-  date=$(date)
-  source_command="source command.vim $date"
   for file in "$@"; do
     local path="$file"
     path="${path/#\~/$HOME}"
-    sudo sed -i "\$a$sig_b\n\" $source_command\n$sig_e" $path
+    sudo sed -i "\$a$sig_b\n$source_command\n$sig_e" $path
   done
 }
 update_signature() {
   debug "Update Signature" $@
-  date=$(date)
-  source_command="source command.vim $date"
   for file in ${files_with_signature[@]}; do
     # sed -z "s/\(^.*$signature\).*\(^.*$signature\)/\1\n\" ${date}\n\2/g" $file
     # sed "/$sig/{N; s/$sig.*$sig/\" $date/}" $file
-    sudo sed -i -n "/$sig_b/{:a;N;/$sig_b/!ba;N;s/.*\n/$sig_b\n\" $source_command\n/};p" $file
+    sudo sed -i -n "/$sig_b/{:a;N;/$sig_b/!ba;N;s/.*\n/$sig_b\n$source_command\n/};p" $file
     # sed -E 's/(\d*) (.*)/\0 == \t\1-->\t\2/'
     # echo $stdin | sed -E 's/(\d*) (.*)/\0 == \t\1-->\t\2/'
   done
@@ -71,8 +67,6 @@ update_signature() {
 }
 remove_signature() {
   debug "Remove Signature" $@
-  date=$(date)
-  source_command="source command.vim"
   for file in ${files_with_signature[@]}; do
     sudo sed -i "/$sig_b/,/$sig_e/d" $file
   done
@@ -190,6 +184,7 @@ install() {
   debug Vimruntime: $vimruntime
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
+  source_command="source" $plugins"/vim-advantages.vim"
   plugins=$vim_folder"/autoload/"
 
   vimplug_exists=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
