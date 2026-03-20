@@ -263,12 +263,12 @@ install() {
 
   echo "Installing Additional Software"
   debug Installation Instruction: "sudo" $installations
-  # eval "sudo" $installations
+  eval "sudo" $installations
 
   if ! $vimplug_exists; then
     echo "Installing Vim Plug (plug.vim)"
     debug Download Instructions: "sudo" $wget_plug_vim
-    # eval "sudo" $wget_plug_vim
+    eval "sudo" $wget_plug_vim
   else
     echo "Plug.vim is already installed"
     echo "Implement Check For Updates"
@@ -278,6 +278,7 @@ install() {
 
   # check if vim-advantages got sourced
   vimgather got_sourced "try | if exists('g:vim_advantages_got_sourced') | echo g:vim_advantages_got_sourced | endif | endtry"
+
   debug "Got Sourced: " $got_sourced
 
   # echo $got_sourced | xxd -b
@@ -286,8 +287,9 @@ install() {
 
   # echo "$got_sourced" | xxd -b
 
+  $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
+
   [[ $got_sourced ]] && ( echo "Vim Advantages Got Sourced!"; echo "LOADED" ) || ( echo "Vim Advantages Not Loaded"; echo "NOT LOADED"; check_signature $existing )
-  # $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
 }
 
 install "vim"
