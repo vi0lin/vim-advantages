@@ -311,4 +311,4 @@ install() {
 }
 
 install "vim"
-# install "nvim"
+install "nvim"
