@@ -186,9 +186,7 @@ install() {
   debug Vimruntime: $vimruntime
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
-  source_command="source ${plugins}vim-advantages.vim"
-  source_command=$(echo $source_command | sed 's;/;\\/;g' )
-  debug source_command: $source_command
+  vim_folder="${vim_folder/#\~/$HOME}"
   plugins=$vim_folder"/autoload/"
 
   vimplug_exists=$([[ -f ${plugins}plug.vim ]] && echo true || echo false)
@@ -289,6 +287,19 @@ install() {
   $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
 
   # [[ $got_sourced ]] && ( echo "Vim Advantages Got Sourced!" ) || ( echo "Vim Advantages Not Loaded"; )
+  vimgather scriptnames "echo execute('scriptnames')->split(\"\\n\")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join(\"\n\")"
+
+  # fallback with find / -name vim-advantages.vim
+  source_command="source ${vim_folder}/plugged/vim-advantages/plugin/vim-advantages.vim"
+  for scriptname in ${scriptnames[@]}; do
+    if [[ $scriptname == *"vim-advantages.vim" ]]; then
+      source_command="source ${scriptname}"
+      break
+    fi
+  done
+  source_command=$(echo $source_command | sed 's;/;\\/;g' )
+  debug source_command: $source_command
+
   check_signature $existing
 
   vimgather got_sourced "try | if exists('g:vim_advantages_got_sourced') | echo g:vim_advantages_got_sourced | endif | endtry"
