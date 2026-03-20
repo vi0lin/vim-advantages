@@ -25,7 +25,6 @@ get_files_with_signature() {
   files_with_signature=()
   for path in ${@}; do
     path="${path/#\~/$HOME}"
-    echo "count" $path
     grep -q "$sig_b" $path && files_with_signature+=("$path")
   done
   debug "Files With Signature:" ${files_with_signature[@]}
@@ -51,7 +50,7 @@ create_signature() {
   for file in "$@"; do
     local path="$file"
     path="${path/#\~/$HOME}"
-    sed -i "\$a$sig_b\n\" $source_command\n$sig_e" $path
+    sudo sed -i "\$a$sig_b\n\" $source_command\n$sig_e" $path
   done
 }
 update_signature() {
@@ -61,7 +60,7 @@ update_signature() {
   for file in ${files_with_signature[@]}; do
     # sed -z "s/\(^.*$signature\).*\(^.*$signature\)/\1\n\" ${date}\n\2/g" $file
     # sed "/$sig/{N; s/$sig.*$sig/\" $date/}" $file
-    sed -i -n "/$sig_b/{:a;N;/$sig_b/!ba;N;s/.*\n/$sig_b\n\" $source_command\n/};p" $file
+    sudo sed -i -n "/$sig_b/{:a;N;/$sig_b/!ba;N;s/.*\n/$sig_b\n\" $source_command\n/};p" $file
     # sed -E 's/(\d*) (.*)/\0 == \t\1-->\t\2/'
     # echo $stdin | sed -E 's/(\d*) (.*)/\0 == \t\1-->\t\2/'
   done
@@ -75,11 +74,11 @@ remove_signature() {
   date=$(date)
   source_command="source command.vim"
   for file in ${files_with_signature[@]}; do
-    sed -i "/$sig_b/,/$sig_e/d" $file
+    sudo sed -i "/$sig_b/,/$sig_e/d" $file
   done
 }
 signature_exists() {
-  sed -n "/$sig_b/q" $1 && return 0 || return 1
+  sudo sed -n "/$sig_b/q" $1 && return 0 || return 1
 }
 
 file_exists2() {
