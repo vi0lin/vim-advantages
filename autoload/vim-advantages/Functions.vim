@@ -3422,8 +3422,8 @@ function! Mod(n,m)
 endfunction
 
 function! ClipboardYank()
-  try
-    call system('wl-copy || xclip -i -selection clipboard', @@)
+  silent try
+    silent call system('wl-copy || xclip -i -selection clipboard', @@)
   catch
     call setreg('*', @@)
   endtry
@@ -3433,8 +3433,8 @@ function! ClipboardPaste(mode)
   if (GetMode() == "v")
     call cursor(g:vlcb[0], g:vlcb[1]) | execute "normal! v" | call cursor(g:vlce[0], g:vlce[1])
   endif
-  try
-  let @@ = system('wl-paste >/dev/null 2>/dev/null && wl-paste -n || xclip -o -selection clipboard')
+  silent try
+    silent let @@ = system('wl-paste >/dev/null 2>/dev/null && wl-paste -n || xclip -o -selection clipboard')
   catch
     let @@ = getreg('*')
   endtry
