@@ -548,6 +548,7 @@ command! -range -nargs=+ Ut call Ut(<f-args>)
 
 " vnoremap <C-S-v> :<C-u><cr>
 NewMap nnoremap <C-S-v> :norm "+p
+unmap <C-S-v>
 NewMap inoremap <C-S-v> <c-r>+
 " nnoremap <C-v> :norm "+p
 " inoremap <C-v> <c-r>+

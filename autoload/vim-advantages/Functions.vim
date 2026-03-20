@@ -3422,22 +3422,34 @@ function! Mod(n,m)
 endfunction
 
 function! ClipboardYank()
-  silent try
-    silent call system('wl-copy || xclip -i -selection clipboard', @@)
-  catch
+  " silent try
+  "   silent call system('wl-copy || xclip -i -selection clipboard', @@)
+  " catch
+  "   call setreg('*', @@)
+  " endtry
+  try
     call setreg('*', @@)
+    " call setreg('*', @@, 'ac')
+  catch
+    call setreg('"', @@)
+    " call setreg('"', @@, 'ac')
   endtry
 endfunction
 
 function! ClipboardPaste(mode)
-  if (GetMode() == "v")
-    call cursor(g:vlcb[0], g:vlcb[1]) | execute "normal! v" | call cursor(g:vlce[0], g:vlce[1])
-  endif
-  silent try
-    silent let @@ = system('wl-paste >/dev/null 2>/dev/null && wl-paste -n || xclip -o -selection clipboard')
+  try
+    put=getreg('*')
   catch
-    let @@ = getreg('*')
+    put=getreg('"')
   endtry
+  " if (GetMode() == "v")
+  "   call cursor(g:vlcb[0], g:vlcb[1]) | execute "normal! v" | call cursor(g:vlce[0], g:vlce[1])
+  " endif
+  " silent try
+  "   silent let @@ = system('wl-paste >/dev/null 2>/dev/null && wl-paste -n || xclip -o -selection clipboard')
+  " catch
+  "   let @@ = getreg('*')
+  " endtry
 endfunction
 func! ListMonths()
   call complete(col('.'), ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
