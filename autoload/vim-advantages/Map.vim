@@ -712,7 +712,7 @@ NewMap nnoremap <silent> <leader>c  :cclose<CR>
 " nnoremap <silent> <leader>lP :llast<CR>zz
 
 NewMap vmap <leader>s :source<cr>
-NewMap nmap <leader>S :%source<cr>
+NewMap nmap <leader>S :Re \| :%source \| :ReEnd<cr>
 "!! source even with comment # // " literals
 NewMap noremap <F6> :autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *<cr>
 NewMap noremap <F7> :autocmd! BufEnter * :call F.Buffer.Find(bufnr()).Print()<cr>

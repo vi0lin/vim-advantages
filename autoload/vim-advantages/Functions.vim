@@ -3,6 +3,16 @@ if !exists("g:vim_advantages_got_sourced")
 
 set hidden
 
+function Re()
+  if exists('g:vim_advantages_got_sourced')
+    unlet g:vim_advantages_got_sourced
+  endif
+endfunction
+
+function ReEnd()
+  let g:vim_advantages_got_sourced='true'
+endfunction
+
 let g:hostinfo="host@your-ip"
 function Download_Unreleased()
   let rem="/home/user/.vim/plugged/vim-advantages/autoload/vim-advantages/"
