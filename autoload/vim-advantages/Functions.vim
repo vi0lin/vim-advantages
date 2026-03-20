@@ -4069,7 +4069,7 @@ function! Vim(args)
   " echo "exists" exists(a:args)
   " echo "a:args[0]" a:args[0]
   " echo "type" type(a:000)
-  echo VS()
+  " echo VS()
   if !empty(a:args)
     let command=a:args
   else
