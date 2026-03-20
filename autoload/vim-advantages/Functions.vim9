@@ -1,4 +1,5 @@
 vim9script
+# if !exists("g:vim_advantages_vim9_got_sourced")
 
 # var w_assignments = getwinvar(winnr(), 'assignments')
 # var b_assignments = getbufvar(bufnr(), 'assignments')
@@ -790,3 +791,5 @@ Assignment.new(
 
 # autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *
 # autocmd! BufEnter * :call Branch.Buffer.Find(bufnr()).Print()
+# let g:vim_advantages_vim9_got_sourced=0
+# endif

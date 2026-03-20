@@ -1,3 +1,5 @@
+if !exists("g:vim_advantages_got_sourced")
+
 function WordsPerLine(n) range
   call CommandInfo()
   let text=VS()
@@ -494,4 +496,4 @@ function SearchIps() range
   " last search pattern (n and N)
 endfunction
 
-
+endif

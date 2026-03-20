@@ -1,4 +1,6 @@
 " Avoid cdo prompt for overwiting files
+if !exists("g:vim_advantages_got_sourced")
+
 set hidden
 
 function TESTTEST()
@@ -4473,11 +4475,13 @@ function! LayoutVim()
     \ [ g:vim_advantages."/Commands.vim", "v"],
     \ [ g:vim_advantages."/../../install.sh", "v"],
     \ [ g:vim_advantages."/../../.gitignore", "v"],
-    \ [ g:vim_advantages."/readme.md", "v"],
+    \ [ g:vim_advantages."/../../plugin/vim-advantages.vim", "v"],
+    \ [ g:vim_advantages."/../../readme.md", "v"],
     \ [ g:vim_advantages."/Autocommands.vim", "J"],
     \ [ g:bashrc, "v", "G"],
     \ [ g:vim_advantages."/Functions.vim9", "v"],
     \ [ g:vim_advantages."/Statusline.vim", "v"],
+    \ [ "/usr/local/share/vim/vim91/plugin/vim-advantages.vim", "v"],
     \]
     " \ [ g:source_dir.."/notes.md", "s"],
   call _buildLayout(layout)
@@ -4533,3 +4537,7 @@ function! DebugReplacements()
   echo expand("<sflnum>")
   echo expand("<client>")
 endfunction
+
+endif
+
+let g:vim_advantages_got_sourced='true'

@@ -1,5 +1,6 @@
-import autoload "./Functions.vim9" as F
+if !exists("g:vim_advantages_got_sourced")
 
+import autoload "./Functions.vim9" as F
 function! NewCommand(...)
   let args=split(a:000[0], ' ')
   let i = 0
@@ -180,3 +181,5 @@ NewCommand command! -nargs=+ CheckListContains call s:CheckList(<q-args>)
 NewCommand command! -nargs=1 Grep exec 'silent grep! -nR -- "<args>" .' | copen | redraw!
 NewCommand command! -nargs=0 PyCopen exec 'silent make' | copen | redraw!
 NewCommand command! -nargs=0 Run exec w:runprg.' \| copen \| redraw!'
+
+endif

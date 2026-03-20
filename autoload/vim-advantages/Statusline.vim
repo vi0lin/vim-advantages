@@ -1,3 +1,5 @@
+if !exists("g:vim_advantages_got_sourced")
+
 " Statusline.vim
 function! Statusline()
   " let $timersCount=Length(timer_info())
@@ -201,3 +203,5 @@ function! Statusline()
   "   let b:statusline_initialized=1
   " endif
 endfunction
+
+endif

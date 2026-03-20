@@ -1,3 +1,5 @@
+if !exists("g:vim_advantages_got_sourced")
+
 function! _nnoremap(...) range
   let key=a:1[0]
   let keyesc=escape(key, "<>")
@@ -297,3 +299,5 @@ function! Utilize(...) range
     endfor
   endfor
 endfunction
+
+endif

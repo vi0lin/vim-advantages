@@ -23,8 +23,9 @@ debug sig_e $sig_e
 get_files_with_signature() {
   unset files_with_signature
   files_with_signature=()
-  for path in ${@:2}; do
+  for path in ${@}; do
     path="${path/#\~/$HOME}"
+    echo "count" $path
     grep -q "$sig_b" $path && files_with_signature+=("$path")
   done
   debug "Files With Signature:" ${files_with_signature[@]}
@@ -33,7 +34,7 @@ get_files_with_signature() {
   # eval $1=$files_with_signature[@]
 }
 check_signature() {
-  get_files_with_signature "files_with_signature" $@
+  get_files_with_signature $@
   first_file=${@:1:1}
   debug first_file $first_file
   len=${#files_with_signature[@]}
@@ -90,14 +91,15 @@ file_exists2() {
 keep_existing() {
   unset existing
   existing=()
-  for f in "${@}"; do
+  for f in "$@"; do
     # f="${f##+([[:space:]])}"
     # if [[ -f $f ]]; then
     # realpath -m -- "$f"
     # echo "file exists: " $f
     file_exists2 $f && existing+=( "$f" )
   done
-  printf -v $1 "%s\n" "${existing[@]}"
+  # echo ${existing[@]}
+  # printf -v $1 "%s\n" "${existing[@]}"
 }
 
 debug Debug: $dbg
@@ -106,11 +108,13 @@ file_exists () {
   return $(test -f $@) && return 0 || return 1
 }
 
-tmpfile="vimgather.tmp"
-
-vim_gather() {
-  args=$@
+vimgather() {
+  tmpfile="vimgather.tmp"
+  # args=$@
   # printf -v "$1" '%s ' "${args[1]}" "${@:2}"
+  # debug "vimgather args:" $@
+  #
+  # command=${@:1}
   command=${@:2}
   debug Command: $command
   if ! file_exists $tmpfile; then
@@ -124,12 +128,16 @@ vim_gather() {
    # -c "redir > $tmpfile | echo execute('$command')->split(\"\\n\")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')}) | redir END | qa!"
     if file_exists $tmpfile; then
       vimgather=$(cat $tmpfile)
+      #printf -v "$1" '%s' "$vimgather"
+      eval $1=\$vimgather
       rm $tmpfile
     fi
   else
     echo "File exists, remove it manualy."
   fi
-  printf -v "$1" '%s ' "$vimgather"
+
+  file_exists $tmpfile && echo $tmpfile exists. Consider removing it or change the directory and start again && exit 0 || echo "Checking Runtime Path"
+  debug "Tmpfile was deleted ($tmpfile)"
 }
 
 install() {
@@ -162,15 +170,12 @@ install() {
     echo $decision
   }
   # echo $(score_paths)
-  # scriptnames=$(vim_gather "redir=>variable | scriptnames | redir END")
-  # vim_gather scriptnames "scriptnames"
-  vim_gather scriptnames "echo execute('scriptnames')->split(\"\\n\")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join(\"\n\")"
+  # scriptnames=$(vimgather "redir=>variable | scriptnames | redir END")
+  # vimgather scriptnames "scriptnames"
+  vimgather scriptnames "echo execute('scriptnames')->split(\"\\n\")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join(\"\n\")"
 
-  keep_existing existing_scriptnames $scriptnames
+  keep_existing $scriptnames
 
-  echo "$existing_scriptnames"
-
-  check_signature $existing_scriptnames
   # for scriptname in $scriptnames; do
   #   # echo "-> check for signature: " $scriptname
   #   if [ -f $scriptname ]; then
@@ -181,12 +186,9 @@ install() {
   # debug $scriptnameo
   vimplug_exists=$([[ -f plug.vim ]] && echo true || echo false)
 
-  file_exists $tmpfile && echo $tmpfile exists. Consider removing it or change the directory and start again && exit 0 || echo "Checking Runtime Path"
-
   # &vimruntime
-  vim_gather vimruntime "echo split(\$VIMRUNTIME, \",\")[0]"
+  vimgather vimruntime "echo split(\$VIMRUNTIME, \",\")[0]"
   debug Vimruntime: $vimruntime
-  debug "Tmpfile was deleted ($tmpfile)"
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
   plugins=$vim_folder"/autoload/"
@@ -274,6 +276,18 @@ install() {
   fi
 
   echo "Installing Vim-Advantages (with plug.vim)"
+
+  # check if vim-advantages got sourced
+  vimgather got_sourced "try | if exists('g:vim_advantages_got_sourced') | echo g:vim_advantages_got_sourced | endif | endtry"
+  debug "Got Sourced: " $got_sourced
+
+  # echo $got_sourced | xxd -b
+  # echo "0" | xxd -b
+  # echo 0 | xxd -b
+
+  # echo "$got_sourced" | xxd -b
+
+  [[ $got_sourced ]] && ( echo "Vim Advantages Got Sourced!"; echo "LOADED" ) || ( echo "Vim Advantages Not Loaded"; echo "NOT LOADED"; check_signature $existing )
   # $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
 }
 

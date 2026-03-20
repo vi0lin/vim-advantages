@@ -1,5 +1,6 @@
-import autoload "./Functions.vim9" as F
+if !exists("g:vim_advantages_got_sourced")
 
+import autoload "./Functions.vim9" as F
 function! NewMap(...)
   let args=split(a:000[0], ' ')
   let map = join(args[0:], ' ')
@@ -745,3 +746,5 @@ NewMap vnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>
 NewMap nnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>
 
 NewMap nnoremap <F5> :<C-u>call RedoCommandToTerm("l")<cr>
+
+endif

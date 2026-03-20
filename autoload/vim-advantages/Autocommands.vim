@@ -1,3 +1,5 @@
+if !exists("g:vim_advantages_got_sourced")
+
 import autoload "./Functions.vim9" as F
 if !exists("g:autocommands_set") || g:autocommands_set==0
   " VimInstance.Print("test")
@@ -145,4 +147,6 @@ if !exists("g:autocommands_set") || g:autocommands_set==0
   "   autocmd BufEnter term://* startinsert
   " augroup END
   finish
+endif
+
 endif
