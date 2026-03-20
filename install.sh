@@ -54,6 +54,8 @@ create_signature() {
 update_signature() {
   debug "Update Signature" $@
   for file in ${files_with_signature[@]}; do
+    local path="$file"
+    path="${path/#\~/$HOME}"
     # sed -z "s/\(^.*$signature\).*\(^.*$signature\)/\1\n\" ${date}\n\2/g" $file
     # sed "/$sig/{N; s/$sig.*$sig/\" $date/}" $file
     sudo sed -i -n "/$sig_b/{:a;N;/$sig_b/!ba;N;s/.*\n/$sig_b\n$source_command\n/};p" $file
@@ -185,6 +187,7 @@ install() {
   plugins=$vimruntime"/plugin/"
   vim_folder="~/.vim"
   source_command="source ${plugins}vim-advantages.vim"
+  source_command=$(echo $source_command | sed 's;/;\\/;g' )
   debug source_command: $source_command
   plugins=$vim_folder"/autoload/"
 
@@ -285,7 +288,8 @@ install() {
 
   $vimbinary -es -c "source ${plugins}plug.vim | call plug#begin() | Plug 'vi0lin/vim-advantages' | call plug#end() | PlugInstall | quitall"
 
-  [[ $got_sourced ]] && ( echo "Vim Advantages Got Sourced!"; echo "LOADED" ) || ( echo "Vim Advantages Not Loaded"; echo "NOT LOADED"; check_signature $existing )
+  [[ $got_sourced ]] && ( echo "Vim Advantages Got Sourced!" ) || ( echo "Vim Advantages Not Loaded"; )
+  check_signature $existing
 }
 
 install "vim"
