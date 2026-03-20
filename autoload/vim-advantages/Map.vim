@@ -26,10 +26,7 @@ NewMap map <C-8> :call Favorite()<CR>
 
 NewMap map <leader>= :Equal<cr>
 
-NewMap map <leader>w :call ToggleZoom()<cr>
-" map <C-Space> :call ToggleZoom()<cr>
 NewMap nnoremap ,s :so %<cr>
-"
 NewMap map <C-Space> :call SelectCommand()<cr>
 
 NewMap map <leader>t :Tidy<cr>
@@ -335,8 +332,9 @@ NewMap nnoremap <space>f :InsertFilename<CR>
 
 " map <leader>c :call CTags()<cr>
 
-" map <F2> :call ToggleZoom()<cr>
-NewMap map <C-Space> :call ToggleZoom()<cr>
+
+
+NewMap map <leader><Space> :call ToggleZoom()<cr>
 
 NewMap map <silent> <S-F1> :SearchCword<cr>
 
@@ -556,6 +554,8 @@ NewMap inoremap <C-S-v> <c-r>+
 " nnoremap <C-v>
 " inoremap <C-v>
 NewMap map <leader>v :visualblock<cr>
+
+NewMap map <leader>v :Vim<cr>
 " inoremap <C-S-v> <C-o>:<cr>
 " cnoremap <C-S-v> :<cr>
 " tnoremap <C-S-v> <C-\><C-n>:<cr>

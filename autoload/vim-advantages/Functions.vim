@@ -3,6 +3,21 @@ if !exists("g:vim_advantages_got_sourced")
 
 set hidden
 
+let g:hostinfo="host@your-ip"
+function Download_Unreleased()
+  let rem="/home/user/.vim/plugged/vim-advantages/autoload/vim-advantages/"
+  let loc=rem
+  fun! SshD(file) closure
+    let c = '!ssh '..g:hostinfo..' "cat '..rem..a:file..'" > '..loc..a:file
+    exec c
+    echo c
+    exec "source "..loc..a:file
+  endfunction
+  SshD Functions.vim.unreleased
+  SshD Functions.vim9.unreleased
+" echo expand('%:p:h')
+endfunction
+
 function TESTTEST()
   echo execute('scriptnames')->split('\n')->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join('\n')
 endfunction
@@ -946,6 +961,8 @@ function! GithubPush()
   \ username=$1;
   \ email=$2;
   \ pat=$3;
+  \ git config --global user.name "$1";
+  \ git config --global user.email "$2";
   \ git config --global credential.helper cache;
   \ echo "protocol=https" > /tmp/git-credentials;
   \ echo "host=github.com" >> /tmp/git-credentials;
@@ -4045,11 +4062,23 @@ function! Sys(...)
   put=x
 endfunction
 
-function! Vim(...)
+function! Vim(args)
+  " echo "len" len(a:args)
+  " echo "a:args" a:args
+  " echo "empty" empty(a:args)
+  " echo "exists" exists(a:args)
+  " echo "a:args[0]" a:args[0]
+  " echo "type" type(a:000)
+  echo VS()
+  if !empty(a:args)
+    let command=a:args
+  else
+    let command=VS()
+  endif
   redir=>m
-    silent exec join(a:000)
+    silent exec join(command)
   redir END
-  put=m
+  put=trim(m)
 endfunction
 
 " Customizable FZF Integration
