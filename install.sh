@@ -15,17 +15,71 @@ debug() {
   fi
 }
 
-signature="vim-advantage installation 2866039580"
-grep_subset_with_signature() {
-  echo "gerp_subset_with_signature"
-  # echo "___"
-  # echo "$@"
-  # echo "___"
-  # echo "$@" | xargs -I {} grep -l "$signature" {}
+signature="\" vim-advantage installation 2866039580"
+sig_b=$signature" Begin"
+sig_e=$signature" End"
+debug sig_b $sig_b
+debug sig_e $sig_e
+get_files_with_signature() {
+  unset files_with_signature
+  files_with_signature=()
+  for path in ${@:2}; do
+    path="${path/#\~/$HOME}"
+    grep -q "$sig_b" $path && files_with_signature+=("$path")
+  done
+  debug "Files With Signature:" ${files_with_signature[@]}
+  # printf -v $1 '%s\n' "${files_with_signature[@]}"
+  # declare -n ref="files_with_signature"
+  # eval $1=$files_with_signature[@]
+}
+check_signature() {
+  get_files_with_signature "files_with_signature" $@
+  first_file=${@:1:1}
+  debug first_file $first_file
+  len=${#files_with_signature[@]}
+  debug "Files With Signature:" $len
+  [ $len -gt 1 ] && remove_signature ${files_with_signature[@]} && create_signature $first_file
+  [ $len -eq 1 ] && update_signature ${files_with_signature[@]}
+  [ $len -eq 0 ] && create_signature $first_file
+  # [[ $len -lt 1 ]] && update_signature $@
+}
+create_signature() {
+  debug "Create Signature" $@
+  date=$(date)
+  source_command="source command.vim $date"
+  for file in "$@"; do
+    local path="$file"
+    path="${path/#\~/$HOME}"
+    sed -i "\$a$sig_b\n\" $source_command\n$sig_e" $path
+  done
+}
+update_signature() {
+  debug "Update Signature" $@
+  date=$(date)
+  source_command="source command.vim $date"
+  for file in ${files_with_signature[@]}; do
+    # sed -z "s/\(^.*$signature\).*\(^.*$signature\)/\1\n\" ${date}\n\2/g" $file
+    # echo $file
+    # sed "/$sig/{N; s/$sig.*$sig/\" $date/}" $file
+    sed -i -n "/$sig_b/{:a;N;/$sig_b/!ba;N;s/.*\n/$sig_b\n\" $source_command\n/};p" $file
+    # sed -E 's/(\d*) (.*)/\0 == \t\1-->\t\2/'
+    # echo $stdin | sed -E 's/(\d*) (.*)/\0 == \t\1-->\t\2/'
+  done
+  # echo "${files_with_signature[@]}"
+  # echo "$@" | xargs -I {} grep vim-advantages {}
+  # grep "$signature" "{}"
   # grep -rlZ "test" $files
 }
+remove_signature() {
+  debug "Remove Signature" $@
+  date=$(date)
+  source_command="source command.vim"
+  for file in ${files_with_signature[@]}; do
+    sed -i "/$sig_b/,/$sig_e/d" $file
+  done
+}
 signature_exists() {
-  sed -n "/$signature/q" $1 && return 0 || return 1
+  sed -n "/$sig_b/q" $1 && return 0 || return 1
 }
 
 file_exists2() {
@@ -117,7 +171,7 @@ install() {
 
   echo "$existing_scriptnames"
 
-  grep_subset_with_signature "$existing_scriptnames"
+  check_signature $existing_scriptnames
   # for scriptname in $scriptnames; do
   #   # echo "-> check for signature: " $scriptname
   #   if [ -f $scriptname ]; then
