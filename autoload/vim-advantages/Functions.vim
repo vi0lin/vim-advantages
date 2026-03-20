@@ -831,6 +831,23 @@ function! Push(commitmessage='')
   GithubPush
 endfunction
 
+command! -range -nargs=? Pull <line1>,<line2>:call Pull(<q-args>)
+function! Pull(commitmessage='')
+  StashPush
+  !git pull origin main
+  StashPop
+endfunction
+
+command! -range -nargs=? StashPush <line1>,<line2>:call StashPush(<q-args>)
+function! StashPush(commitmessage='')
+  !git stash push
+endfunction
+
+command! -range -nargs=? StashPop <line1>,<line2>:call StashPop(<q-args>)
+function! StashPop(commitmessage='')
+  !git stash pop
+endfunction
+
 command! -range -nargs=? PushRepo <line1>,<line2>:call PushRepo(<args>)
 function! PushRepo(commitmessage='')
   GitAddRepo
