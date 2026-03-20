@@ -59,7 +59,6 @@ update_signature() {
   source_command="source command.vim $date"
   for file in ${files_with_signature[@]}; do
     # sed -z "s/\(^.*$signature\).*\(^.*$signature\)/\1\n\" ${date}\n\2/g" $file
-    # echo $file
     # sed "/$sig/{N; s/$sig.*$sig/\" $date/}" $file
     sed -i -n "/$sig_b/{:a;N;/$sig_b/!ba;N;s/.*\n/$sig_b\n\" $source_command\n/};p" $file
     # sed -E 's/(\d*) (.*)/\0 == \t\1-->\t\2/'
