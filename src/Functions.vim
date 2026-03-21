@@ -28,7 +28,7 @@ function Download_Unreleased()
 " echo expand('%:p:h')
 endfunction
 
-function TESTTEST()
+function! TESTTEST()
   echo execute('scriptnames')->split('\n')->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})->join('\n')
 endfunction
 
