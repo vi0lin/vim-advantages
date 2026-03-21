@@ -1,0 +1,795 @@
+vim9script
+# if !exists("g:vim_advantages_vim9_got_sourced")
+
+# var w_assignments = getwinvar(winnr(), 'assignments')
+# var b_assignments = getbufvar(bufnr(), 'assignments')
+# var t_assignments = gettabvar(tabpagenr(), 'assignments')
+
+# setbufvar({buf}, {varname}, {val})			*setbufvar()*
+# setwinvar({winnr}, {varname}, {val})			*setwinvar()*
+# settabvar({tabnr}, {varname}, {val})			*settabvar()*
+# settabwinvar({tabnr}, {winnr}, {varname}, {val})	*settabwinvar()*
+# setreg({n}, {v} [, {opt}])	Number	set register to value and type
+
+def Key2Notation(key: string): string
+    var nr = -1
+    var c = ""
+    if type(key) == v:t_number
+        nr = char2nr(key)
+        c = nr2char(nr)
+        # c = nr .. ""
+    else
+        c = key           # already string from getcharstr()
+        nr = char2nr(c)
+        # nr = c .. ""
+    endif
+    # echo "nr: " .. nr
+    # echo "c: "  .. c
+    if nr >= 0 && nr <= 31
+        # Ctrl + letter/symbol
+        if nr == 0      | return '<Nul>'     | endif
+        if nr == 27     | return '<Esc>'     | endif
+        var letter = nr2char(nr + 64)       # 1 â†’ A, 2 â†’ B, â€¦
+        return '<C-' .. toupper(letter) .. '>'
+    endif
+    if c =~ '^[[:print:]]$'
+        if c == ' '     | return '<Space>'   | endif
+        if c == "\<Tab>"| return '<Tab>'     | endif
+        return c
+    endif
+    # Try to guess function keys / modified fx from common term sequences
+    # (very incomplete â€“ terminals differ!)
+    var seq = substitute(c, "\<", '', 'g')   # just in case
+    if seq =~# '^[[1;[1-9]*[A-HOPZ~]$' || seq =~# '^O[A-Z]' || seq =~# '^\[\[.\+$'
+        # Many <Fx>, <S-Fx>, <C-Fx> land here
+        return '<' .. substitute(seq, '^[^[]*\[\[=\?', '', '') .. '>'   # crude
+    endif
+    # Fallback: show hex escape
+    var hex = ''
+    var add: list<number> = []
+    for x in range(0, strlen(c) - 1)
+      extend(add, [ char2nr(c[x]) ] )
+      # echo "->" .. char2nr(c[x] )
+      # echo printf('\x%02x', char2nr(c[i]))
+    endfor
+    var name = input("Name: ")
+    echo ""
+    for i in range(0, strlen(c) - 1)
+        hex ..= printf('\x%02x', char2nr(c[i]))
+    endfor
+    var specifics = []
+    specifics[0] = name
+    specifics[1] = add
+    specifics[2] = hex
+    extend(keys, [ specifics ])
+    return printf('<%s>', hex)
+enddef
+
+def KeySpecs(key: string): string
+    var nr = -1
+    var c = ""
+    if type(key) == v:t_number
+        nr = char2nr(key)
+        c = nr2char(nr)
+        # c = nr .. ""
+    else
+        c = key           # already string from getcharstr()
+        nr = char2nr(c)
+        # nr = c .. ""
+    endif
+    # echo "nr: " .. nr
+    # echo "c: "  .. c
+    if nr >= 0 && nr <= 31
+        # Ctrl + letter/symbol
+        if nr == 0      | return '<Nul>'     | endif
+        if nr == 27     | return '<Esc>'     | endif
+        var letter = nr2char(nr + 64)       # 1 â†’ A, 2 â†’ B, â€¦
+        return '<C-' .. toupper(letter) .. '>'
+    endif
+    if c =~ '^[[:print:]]$'
+        if c == ' '     | return '<Space>'   | endif
+        if c == "\<Tab>"| return '<Tab>'     | endif
+        return c
+    endif
+    # Try to guess function keys / modified fx from common term sequences
+    # (very incomplete â€“ terminals differ!)
+    var seq = substitute(c, "\<", '', 'g')   # just in case
+    if seq =~# '^[[1;[1-9]*[A-HOPZ~]$' || seq =~# '^O[A-Z]' || seq =~# '^\[\[.\+$'
+        # Many <Fx>, <S-Fx>, <C-Fx> land here
+        return '<' .. substitute(seq, '^[^[]*\[\[=\?', '', '') .. '>'   # crude
+    endif
+    # Fallback: show hex escape
+    var hex = ''
+    var add: list<number> = []
+    for x in range(0, strlen(c) - 1)
+      extend(add, [ char2nr(c[x]) ] )
+      # echo "->" .. char2nr(c[x] )
+      # echo printf('\x%02x', char2nr(c[i]))
+    endfor
+    var name = input("Name: ")
+    echo ""
+    for i in range(0, strlen(c) - 1)
+        hex ..= printf('\x%02x', char2nr(c[i]))
+    endfor
+    var specifics = []
+    specifics[0] = name
+    specifics[1] = add
+    specifics[2] = hex
+    return Pretty(specifics)
+    # return printf('<%s>', hex)
+enddef
+
+export var all_keys: list<any>
+all_keys = [['<S-A-F1>', '€ü€ý', [128, 252, 8, 128, 253, 6], '\x80\xfc\x08\x80\xfd\x06'], ['<S-A-F2>', '€ü€ý', [128, 252, 8, 128, 253, 7], '\x80\xfc\x08\x80\xfd\x07'], ['<S-A-F3>', '€ü€ý', [128, 252, 8, 128, 253, 8], '\x80\xfc\x08\x80\xfd\x08'], ['<S-A-F4>', '€ü€ý	', [128, 252, 8, 128, 253, 9], '\x80\xfc\x08\x80\xfd\x09'], ['<S-A-F5>', '€ü€ý', [128, 252, 8, 128, 253, 10], '\x80\xfc\x08\x80\xfd\x0a'], ['<S-A-F7>', '€ü€ý', [128, 252, 8, 128, 253, 12], '\x80\xfc\x08\x80\xfd\x0c'], ['<S-A-F8>', '€ü€ý', [128, 252, 8, 128, 253, 13], '\x80\xfc\x08\x80\xfd\x0d'], ['<S-A-F9>', '€ü€ý', [128, 252, 8, 128, 253, 14], '\x80\xfc\x08\x80\xfd\x0e'], ['<S-A-F10>', '€ü€ý', [128, 252, 8, 128, 253, 15], '\x80\xfc\x08\x80\xfd\x0f'], ['<S-A-F11>', '€ü€ý', [128, 252, 8, 128, 253, 16], '\x80\xfc\x08\x80\xfd\x10'], ['<S-A-F12>', '€ü€ý', [128, 252, 8, 128, 253, 17], '\x80\xfc\x08\x80\xfd\x11'], ['<C-F1>', '€ü€k1', [128, 252, 4, 128, 107, 49], '\x80\xfc\x04\x80\x6b\x31'], ['<C-F2>', '€ü€k2', [128, 252, 4, 128, 107, 50], '\x80\xfc\x04\x80\x6b\x32'], ['<C-F3>', '€ü€k3', [128, 252, 4, 128, 107, 51], '\x80\xfc\x04\x80\x6b\x33'], ['<C-F4>', '€ü€k4', [128, 252, 4, 128, 107, 52], '\x80\xfc\x04\x80\x6b\x34'], ['<C-F5>', '€ü€k5', [128, 252, 4, 128, 107, 53], '\x80\xfc\x04\x80\x6b\x35'], ['<C-F6>', '€ü€k6', [128, 252, 4, 128, 107, 54], '\x80\xfc\x04\x80\x6b\x36'], ['<C-F7>', '€ü€k7', [128, 252, 4, 128, 107, 55], '\x80\xfc\x04\x80\x6b\x37'], ['<C-F8>', '€ü€k8', [128, 252, 4, 128, 107, 56], '\x80\xfc\x04\x80\x6b\x38'], ['<C-F9>', '€ü€k9', [128, 252, 4, 128, 107, 57], '\x80\xfc\x04\x80\x6b\x39'], ['<C-F10>', '€ü€k;', [128, 252, 4, 128, 107, 59], '\x80\xfc\x04\x80\x6b\x3b'], ['<C-F11>', '€ü€F1', [128, 252, 4, 128, 70, 49], '\x80\xfc\x04\x80\x46\x31'], ['<C-F12>', '€ü€F2', [128, 252, 4, 128, 70, 50], '\x80\xfc\x04\x80\x46\x32'], ['<S-F1>', '€ý', [128, 253, 6], '\x80\xfd\x06'], ['<S-F2>', '€ý', [128, 253, 7], '\x80\xfd\x07'], ['<S-F3>', '€ý', [128, 253, 8], '\x80\xfd\x08'], ['<S-F4>', '€ý	', [128, 253, 9], '\x80\xfd\x09'], ['<S-F5>', '€ý', [128, 253, 10], '\x80\xfd\x0a'], ['<S-F6>', '€ý', [128, 253, 11], '\x80\xfd\x0b'], ['<S-F7>', '€ý', [128, 253, 12], '\x80\xfd\x0c'], ['<S-F8>', '€ý', [128, 253, 13], '\x80\xfd\x0d'], ['<S-F9>', '€ý', [128, 253, 14], '\x80\xfd\x0e'], ['<S-F10>', '€ý', [128, 253, 15], '\x80\xfd\x0f'], ['<S-F11>', '€ý', [128, 253, 16], '\x80\xfd\x10'], ['<S-F12>', '€ý', [128, 253, 17], '\x80\xfd\x11'], ['<C-S-F1>', '€ü€ý', [128, 252, 4, 128, 253, 6], '\x80\xfc\x04\x80\xfd\x06'], ['<C-S-F2>', '€ü€ý', [128, 252, 4, 128, 253, 7], '\x80\xfc\x04\x80\xfd\x07'], ['<C-S-F3>', '€ü€ý', [128, 252, 4, 128, 253, 8], '\x80\xfc\x04\x80\xfd\x08'], ['<C-S-F4>', '€ü€ý	', [128, 252, 4, 128, 253, 9], '\x80\xfc\x04\x80\xfd\x09'], ['<C-S-F5>', '€ü€ý', [128, 252, 4, 128, 253, 10], '\x80\xfc\x04\x80\xfd\x0a'], ['<C-S-F6>', '€ü€ý', [128, 252, 4, 128, 253, 11], '\x80\xfc\x04\x80\xfd\x0b'], ['<C-S-F7>', '€ü€ý', [128, 252, 4, 128, 253, 12], '\x80\xfc\x04\x80\xfd\x0c'], ['<C-S-F8>', '€ü€ý', [128, 252, 4, 128, 253, 13], '\x80\xfc\x04\x80\xfd\x0d'], ['<C-S-F9>', '€ü€ý', [128, 252, 4, 128, 253, 14], '\x80\xfc\x04\x80\xfd\x0e'], ['<C-S-F10>', '€ü€ý', [128, 252, 4, 128, 253, 15], '\x80\xfc\x04\x80\xfd\x0f'], ['<C-S-F11>', '€ü€ý', [128, 252, 4, 128, 253, 16], '\x80\xfc\x04\x80\xfd\x10'], ['<C-S-F12>', '€ü€ý', [128, 252, 4, 128, 253, 17], '\x80\xfc\x04\x80\xfd\x11'], ['<C-S-A-F1>', '€ü€ý', [128, 252, 12, 128, 253, 6], '\x80\xfc\x0c\x80\xfd\x06'], ['<C-S-A-F2>', '€ü€ý', [128, 252, 12, 128, 253, 7], '\x80\xfc\x0c\x80\xfd\x07'], ['<C-S-A-F3>', '€ü€ý', [128, 252, 12, 128, 253, 8], '\x80\xfc\x0c\x80\xfd\x08'], ['<C-S-A-F4>', '€ü€ý	', [128, 252, 12, 128, 253, 9], '\x80\xfc\x0c\x80\xfd\x09'], ['<C-S-A-F5>', '€ü€ý', [128, 252, 12, 128, 253, 10], '\x80\xfc\x0c\x80\xfd\x0a'], ['<C-S-A-F6>', '€ü€ý', [128, 252, 12, 128, 253, 11], '\x80\xfc\x0c\x80\xfd\x0b'], ['<C-S-A-F7>', '€ü€ý', [128, 252, 12, 128, 253, 12], '\x80\xfc\x0c\x80\xfd\x0c'], ['<C-S-A-F8>', '€ü€ý', [128, 252, 12, 128, 253, 13], '\x80\xfc\x0c\x80\xfd\x0d'], ['<C-S-A-F9>', '€ü€ý', [128, 252, 12, 128, 253, 14], '\x80\xfc\x0c\x80\xfd\x0e'], ['<C-S-A-F10>', '€ü€ý', [128, 252, 12, 128, 253, 15], '\x80\xfc\x0c\x80\xfd\x0f'], ['<C-S-A-F11>', '€ü€ý', [128, 252, 12, 128, 253, 16], '\x80\xfc\x0c\x80\xfd\x10'], ['<C-S-A-F12>', '€ü€ý', [128, 252, 12, 128, 253, 17], '\x80\xfc\x0c\x80\xfd\x11'], ['<F1>', '€k1', [128, 107, 49], '\x80\x6b\x31'], ['<F2>', '€k2', [128, 107, 50], '\x80\x6b\x32'], ['<F3>', '€k3', [128, 107, 51], '\x80\x6b\x33'], ['<F4>', '€k4', [128, 107, 52], '\x80\x6b\x34'], ['<F5>', '€k5', [128, 107, 53], '\x80\x6b\x35'], ['<F6>', '€k6', [128, 107, 54], '\x80\x6b\x36'], ['<F7>', '€k7', [128, 107, 55], '\x80\x6b\x37'], ['<F8>', '€k8', [128, 107, 56], '\x80\x6b\x38'], ['<F9>', '€k9', [128, 107, 57], '\x80\x6b\x39'], ['<F10>', '€k;', [128, 107, 59], '\x80\x6b\x3b'], ['<F11>', '€F1', [128, 70, 49], '\x80\x46\x31'], ['<F12>', '€F2', [128, 70, 50], '\x80\x46\x32']]
+export def g:AllKeys(): list<any>
+  return all_keys
+enddef
+
+# extend(all_keys, g:PutKeyPerformed("<F%d>", range(1, 12)))
+# put = [ all_keys ]
+
+export def g:GetKeys()
+  var keys: list<any> = []
+  var from: number = 1
+  var to: number = 12
+  #extend(keys, g:PutKeyPerformed("<S-A-F%d>", filter(range(from, to), 'index([6], v:val) == 0')))
+  extend(keys, g:PutKeyPerformed("<F%d>", range(from, to)))
+  extend(keys, g:PutKeyPerformed("<C-F%d>", range(from, to)))
+  extend(keys, g:PutKeyPerformed("<S-F%d>", range(from, to)))
+  # extend(keys, g:PutKeyPerformed("<A-F%d>", range(from, to)))
+  extend(keys, g:PutKeyPerformed("<C-S-F%d>", range(from, to)))
+  extend(keys, g:PutKeyPerformed("<S-A-F%d>", filter(range(from, to), '6 != v:val')))
+  extend(keys, g:PutKeyPerformed("<C-S-A-F%d>", range(from, to)))
+  # extend(keys, g:PutKeyPerformed("<C-A-F%d>", range(from, to)))
+  # put = keys
+  extend(all_keys, keys)
+  # put = Pretty(keys)
+  put = [ keys ]
+  # norm `[v`]=`]o
+enddef
+
+export def g:FindKeyPerform()
+  while v:true
+    echo g:FindKey()
+  endwhile
+enddef
+
+export def g:FindKey(): any
+  var keycharstr = getcharstr()
+  for k in all_keys
+    if k[1] == keycharstr
+      return k[0]
+    endif
+  endfor
+  return null
+enddef
+
+export def g:PutKeyPerformed(formatstring: string, range: list<number>): list<any>
+    var nr = -1
+    var name: string = ""
+    var hex: list<number> = []
+    var add: string = ''
+    var result: list<any> = []
+    for f in range
+
+      echo printf(formatstring, f)
+
+      var key: list<any> = []
+
+      var pocket_plain: list<any> = []
+      extend(pocket_plain, [ printf(formatstring, f) ] )
+      var keycharstr = getcharstr()
+      # var keychar = getchar()
+
+      var pocket_hex: string = ''
+      for i in range(0, strlen(keycharstr) - 1)
+          pocket_hex ..= printf('\x%02x', char2nr(keycharstr[i]))
+      endfor
+
+      var pocket_number: list<any> = []
+      for x in range(0, strlen(keycharstr) - 1)
+        extend(pocket_number, [ char2nr(keycharstr[x]) ] )
+      endfor
+
+      extend(key, pocket_plain )
+      extend(key, [ keycharstr ] )
+      # extend(key, [ keychar ] )
+      extend(key, [ pocket_number ] )
+      extend(key, [ pocket_hex ] )
+      extend(result, [ key ] )
+    endfor
+    return result
+    # put = KeySpecs(getcharstr()) .. ','
+    # norm `[v`]=`]o
+enddef
+
+export def g:PutKey()
+    put = KeySpecs(getcharstr()) .. ','
+    norm `[v`]=`]o
+enddef
+
+export def g:CheckKeys()
+  while v:true
+    Key2Notation(getcharstr())
+    echo Pretty(keys)
+  endwhile
+enddef
+
+export def g:K(): string
+  return Pretty(keys)
+enddef
+
+# Having Trouble With KeyMaps / Need Proper Konversion
+export def g:Assign(command: string = '')
+  Key2Notation(getcharstr())
+  return
+  # echo "Assigning A Key.\nPlease Select A Key: "
+  # var define = command == ''
+  # var cmd = command
+  # # var pressedKey = getchar()
+  # var mapKey = ""
+  # while v:true
+  #   var pressedKey = getcharstr()
+  #   mapKey =  mapKey .. pressedKey
+  #   if pressedKey != ','
+  #     break
+  #   endif
+  # endwhile
+  # echon mapKey
+  # mapKey = Key2Notation(mapKey)
+  # echon mapKey
+  # if define
+  #   # echo "Command: "
+  #   cmd = input('Command: ')
+  #   # while v:true
+  #   #   var pressedKey = getmapKeytr()
+  #   #   if pressedKey == ''
+  #   #     break
+  #   #   endif
+  #   #   echon pressedKey
+  #   #   cmd = cmd .. pressedKey
+  #   # endwhile
+  #   # echo cmd
+  # endif
+  # echo "\n"
+  # # echo cmd
+  # echo "map " .. mapKey .. " " .. cmd
+  # eval "map " .. mapKey .. " " .. cmd
+  # # echo "\n"
+  # # :call Execute("F1")<cr>
+  # # echo pressedKey
+  # # echo "Configure " .. mapKey .. " choosing command"
+enddef
+
+export def g:EditExecution()
+  var keymap = input("Key")
+  echo "Configure " .. keymap .. " choosing command"
+  echo keymap
+enddef
+
+export def g:EditRange()
+  var keymap = input("Key")
+  echo "Configure " .. keymap .. " choosing command"
+  echo keymap
+enddef
+
+export def g:Deassign()
+  var keymap = input("Deassign")
+  echo keymap
+enddef
+
+export class Host
+  var ip: string
+  var user: string
+  var password: string
+  var identityfile: string
+  def new(ip: string, user: string, password: string, identityfile: string = '')
+    this.ip = ip
+    this.user = ip
+    this.password = password
+    this.identityfile = identityfile
+  enddef
+endclass
+
+export class Connect
+  static def Connect(host: Host)
+    echo host.ip 
+    echo host.user
+    echo host.password
+    echo host.identityfile
+  enddef
+  static def Write(command: string)
+    norm iecho "test" 
+  enddef
+endclass
+
+export class VimAdvantageFinder
+  static var filename = ".vim-advantages"
+  static var fallback = "~/" .. VimAdvantageFinder.filename
+  static def Init(fallback_path: string)
+    VimAdvantageFinder.fallback = fallback
+  enddef
+  static def GetDir(cwd: string): string
+    var path = split(cwd, '/')
+    var result = ""
+    var ret = '/' .. join(path[0 : len(path) ], '/')
+    if filereadable(ret)
+      ret = '/' .. join(path[0 : len(path) - 2 ], '/')
+    endif
+    return ret
+  enddef
+  var dir = fnamemodify(cwd, ':h')
+  static def GetParentDir(cwd: string): string
+    var path = [ '' ]
+    extend(path, split(cwd, '/'))
+    var ret = join(path[0 : len(path) - 2], '/')
+    if ret == ''
+      ret = '/'
+    endif
+    return ret
+  enddef
+  static def LookUp(cwd: string): string
+    var path = VimAdvantageFinder.GetDir(cwd)
+    var check = path .. '/' .. VimAdvantageFinder.filename
+    if filereadable(check)
+      return check
+    else
+      return ''
+    endif
+  enddef
+  static def FindAll(cwd: string): list<string>
+    var result = []
+    var find = ""
+    var x = ""
+    var path = cwd
+    while true
+      x = VimAdvantageFinder.LookUp(path)
+      if x == ''
+        path = VimAdvantageFinder.GetParentDir(path)
+      else
+        extend(result, [ x ])
+        path = VimAdvantageFinder.GetParentDir(path)
+      endif
+      if find == VimAdvantageFinder.fallback
+        break
+      elseif path == '/'
+        break
+      endif
+    endwhile
+    return result
+  enddef
+endclass
+VimAdvantageFinder.Init('~/')
+
+# echo VimAdvantageFinder.FindAll(getcwd())
+# echo VimAdvantageFinder.LookUp(getcwd())
+# echo VimAdvantageFinder.LookUp(getcwd() .. '/Functions.vim9')
+
+export class AssignmentFileReader
+  static def Read()
+    var files = VimAdvantageFinder.FindAll(getcwd())
+    for f in files
+      echo f
+       # extend(Assignment.assignments, json_decode(join(readfile(f), "\n")))
+       # extend(Assignment.assignments, [ "TEST" ])
+    endfor
+  enddef
+endclass
+
+export class AssignmentFileWriter
+  static def Write()
+  enddef
+endclass
+
+abstract class Dump
+  abstract def ToDict(): dict<any>
+  def Dump(): string
+    var result = ""
+    for [k,v] in items(this.ToDict())
+      # result .= $"{k}: {v}"
+      result = result .. " " .. k .. ": " .. v
+    endfor
+    return Pretty(result)
+  enddef
+  # def ToString(): string
+  #   return join([this.name,this.command],' ')
+  #   return this.Dump()
+  # enddef
+endclass
+
+interface Assignable
+  def Assign(name: string, command: string)
+endinterface
+
+enum AssignmentRange
+  Global,
+  Tab,
+  Buffer,
+  Window
+endenum
+
+enum Leaftype
+  Instance,
+  Tab,
+  Window,
+  Buffer
+endenum
+
+# there is no forward declaration / predeclaration in vim.
+# type object does not exist in my vim binary
+# interface seems to be the niciest path
+
+# export interface Leaf
+#   # var leaves: list<Leaf>
+#   # var nr: number
+#   # var parent: Leaf
+#   def FindByNr(nr: number): Leaf
+#   def FindByParent(nr: number): Leaf
+#   def Win(nr: number): Leaf
+#   def Tab(nr: number): Leaf
+#   def Buf(nr: number): Leaf
+#   def AddRange(leaves: list<Leaf>): Leaf
+#   def Add(leaf: Leaf): Leaf
+#   def Remove(nr: number)
+#   def RemoveThisFromParent()
+#   def RemoveAll()
+#   def SetParent(nr: number): Leaf
+#   def SetNr(nr: number): Leaf
+# endinterface
+
+export class Buffer extends Dump
+  var bufnr: number
+  # static def Find(nr: number): Leaf
+  #   return filter(copy(Branch.Buffers.leaves), 'v:val =~ ' .. nr)[0]
+  # enddef
+  def new(bufnr: number)
+    this.bufnr = bufnr
+  enddef
+  def Print()
+    echo Pretty(this.ToDict())
+  enddef
+  def ToDict(): dict<any>
+    return {
+      bufnr: this.bufnr,
+    }
+  enddef
+endclass
+
+export class Window extends Dump
+  var winnr: number
+  var tabpagenr: number
+  var bufnr: number
+  def new(winnr: number, tabpagenr: number)
+    this.winnr = winnr
+    this.tabpagenr = tabpagenr
+  enddef
+  def SetBuf(bufnr: number)
+    this.bufnr = bufnr
+  enddef
+  def ToDict(): dict<any>
+    return {
+      winnr: this.winnr,
+      tabpagenr: this.tabpagenr,
+      bufnr: this.bufnr,
+    }
+  enddef
+  def GetBuffer(): Buffer
+    return Storage.Buffers.Find(this.bufnr)
+  enddef
+endclass
+
+export class Tab extends Dump
+  var tabpagenr: number
+  var windows: list<Window>
+  def new(tabpagenr: number)
+    this.tabpagenr = tabpagenr
+  enddef
+  def ToDict(): dict<any>
+    return {
+      tabpagenr: this.tabpagenr,
+      windows: this.windows
+    }
+  enddef
+  def Win(winnr: number): any
+    this.RefreshWins()
+    var filtered = filter(copy(this.windows), (_, v) => v.winnr == winnr)[0]
+    if len(filtered) > 0
+      return filtered[0]
+    else
+      return null
+    endif
+  enddef
+  def RefreshWins(): Tab
+    this.windows = []
+    for w in range(1, winnr('$'))
+      extend(this.windows, [ Window.new(w, tabpagenr()) ])
+    endfor
+    return this
+  enddef
+endclass
+
+export class Instance extends Dump
+  var tabs: list<Tab> = []
+  def new()
+    this.RefreshTabs()
+  enddef
+  def Tab(tabpagenr: number): any
+    this.RefreshTabs()
+    var filtered = filter(copy(this.tabs), (_, v) => v.tabpagenr == tabpagenr)
+    if len(filtered) > 0
+      return filtered[0]
+    else 
+      return null
+    endif
+  enddef
+  def RefreshTabs(): Instance
+    this.tabs = []
+    for t in range(1, tabpagenr('$'))
+      extend(this.tabs, [ Tab.new(t) ])
+    endfor
+    return this
+  enddef
+  def ToDict(): dict<any>
+    return {
+      instance_nr: this.instance_nr,
+      tabs: this.tabs,
+    }
+  enddef
+endclass
+
+def Pretty(d: any, indent: number = 2, level: number = 0): string
+  var prefix = repeat(' ', level * indent)
+  var next_prefix = repeat(' ', (level + 1) * indent)
+  if d->type() == v:t_dict
+    if d->empty()
+      return '{}'
+    endif
+    var items = []
+    for [k, v] in d->items()
+      items->add($'{next_prefix}{k->string()}: {Pretty(v, indent, level + 1)}')
+    endfor
+    return "{\n" .. items->join(",\n") .. $"\n{prefix}}}"
+  elseif d->type() == v:t_list
+    if d->empty()
+      return '[]'
+    endif
+    var items = []
+    for v in d
+      items->add(Pretty(v, indent, level + 1))
+    endfor
+    return "[\n" .. next_prefix .. items->join(",\n" .. next_prefix) .. $"\n{prefix}]"
+  else
+    # string, number, bool, v:none, ...
+    return d->string()
+  endif
+enddef
+
+# export def NNew(storage: Storage, object: Leaf)
+#   extend(storage.leaf.leaves, [ object ])
+# enddef
+
+export def g:Display()
+  # echo buffers.ToDict()
+  # tabs.Print()
+  # instance.Print()
+  # echo instance.Tab(1)
+  # instance.Print()
+  Command.ShowCommands()
+enddef
+
+export def BufNew()
+  var t = tabpagenr()
+  var w = winnr()
+  var b = bufnr()
+  # instance.Tab(t).Win(w).SetBuf(b)
+enddef
+
+export def WinNew()
+  var t = tabpagenr()
+  instance.Tab(t).RefreshWins()
+enddef
+
+export def TabNew()
+  instance.RefreshTabs()
+enddef
+
+export def VimEnter()
+  instance.RefreshTabs()
+enddef
+
+export def BufWinEnter()
+  var t = tabpagenr()
+  var w = winnr()
+  var b = bufnr()
+  # instance.Tab(t).Win(w).SetBuf(Buffer.new(b, w, t))
+enddef
+
+export def WinClosed()
+  var t = tabpagenr()
+  var w = winnr()
+  var b = bufnr()
+  instance.Tab(t).Win(w).RemoveThisFromParent()
+  # .Find(winnr())
+  # tabs.Find(tabpagenr()).leaves.remove(winnr())
+enddef
+
+export def TabClosed()
+  # tabs.remove(tabpagenr())
+  # tabs.leaves(remove(tabpagenr()))
+enddef
+
+enum AssignmentBinding
+  File,
+  Folder,
+  Project,
+  GitProject
+endenum
+
+export class Command extends Dump implements Assignable
+  static var commands: list<Command> = []
+  static def ShowCommands()
+    for c in Command.commands
+      echo c
+    endfor
+  enddef
+  var name = ""
+  var command = ""
+  def new(name: string, command: string)
+    extend(Command.commands, [ this ])
+    this.name = name
+    this.command = command
+    call extend(Command.commands, [ this ])
+  enddef
+  def Assign(name: string, command: string)
+  enddef
+  def Execute()
+  enddef
+  def ToDict(): dict<any>
+    return {
+      name: this.name,
+      command: this.command,
+    }
+  enddef
+endclass
+
+interface ExecutionBehaviour
+  def Execute(command: Command)  
+endinterface
+
+export class ExecuteInVim implements ExecutionBehaviour
+  var id: number = -1
+  def new(id: number)
+  enddef
+  def Execute(command: Command)
+    echo winnr()
+    echo command.name
+    echo command.command
+  enddef
+endclass
+
+export class ExecuteInTerminalById implements ExecutionBehaviour
+  var id: number = -1
+  def new(id: number)
+  enddef
+  def Execute(command: Command)
+    echo winnr()
+    echo command.name
+    echo command.command
+  enddef
+endclass
+
+export class ExecuteInTerminalByDirection implements ExecutionBehaviour
+  var direction: string = 'undefined'
+  def new(direction: string)
+  enddef
+  def Execute(command: Command)
+    echo command.name
+    echo command.command
+  enddef
+endclass
+
+export class Assignment
+  static var assignments: list<string> = []
+  static var assignments_keys = []
+  var key: string
+  var command: Command
+  var executionBehaviour: ExecutionBehaviour
+  var range: AssignmentRange
+  var bind: AssignmentBinding
+  def new(key: string, command: Command, executionBehaviour: ExecutionBehaviour, range: AssignmentRange=AssignmentRange.Global)
+    this.key = key
+    this.command = command
+    this.executionBehaviour = executionBehaviour
+    this.range = range
+    extend(Assignment.assignments, [ this.command.name ])
+    extend(Assignment.assignments_keys, [ this.command.name ] )
+  enddef
+endclass
+
+export def NewCommand(name: string, args: list<any>)
+  call(Command.new, name, args)
+enddef
+
+export def NewAssignment(name: string, args: list<any>)
+  call(Assignment.new, name, args)
+enddef
+
+# var c = Command.new("CloseOther", ":call CloseOther()<cr>")
+# var eb = ExecuteInTerminalByDirection.new('l')
+# Assignment.new("<F8>", c, eb, AssignmentRange.Global)
+# 
+# var s = Command.new("Status", ":call GitStatus()<cr>")
+# Assignment.new("<leader>gs", s, eb)
+# # Command.ShowCommands()
+
+# var a = Leaf.new().AddRange([
+#   Leaf.new().SetNr(0),
+#   Leaf.new().SetNr(2),
+#   Leaf.new().SetNr(3),
+#   Leaf.new().SetNr(4),
+#   Leaf.new().SetNr(5),
+#   Leaf.new().SetNr(4)
+# ]
+# )
+# 
+# echo a.Find(4)
+# 
+# for ax in a.leaves
+#   echo ax.nr
+# endfor
+
+# return filter(this.leaves, 'v:val !~ ' .. nr)
+# echo len(this.leaves)
+# return Leaf.new()
+# echo nr
+# echo type(this.leaves)
+# return type(this.leaves)
+# return this.leaves
+# return filter(this.leaves, 'v:val != ' .. nr)
+# return this.leaves
+# echo nr
+# for f in this.leaves
+#   echo f
+# endfor
+# return Leaf.new()
+
+# var a = [ 1, 2, 3, 4, 5 ]
+# for ax in a
+  # echo ax.nr
+# endfor
+# echo filter(copy(a), (_, v) => v.nr != 3)
+
+
+# Enums haben automatisch einen Konstruktor?
+# Klassen anscheinend nicht.
+#  vim9script
+# enum Planet
+#   Earth(1, false),
+#   Jupiter(95, true),
+#   Saturn(146, true)
+#   var moons: number
+#   var has_rings: bool
+#   def GetMoons(): number
+#      return this.moons
+#   enddef
+#   def ToString(): string
+#     # var out = this.name ..' '.. this.moons ..' '.. this.has_rings
+#     var out = join([this.name, this.moons, this.has_rings], ' ')
+#     return out
+#   enddef
+# endenum
+# echo Planet.Jupiter.GetMoons()
+# echo Planet.Earth.has_rings
+# echo Planet.Jupiter.ToString()
+
+export var instance: Instance = Instance.new()
+Assignment.new(
+  \ "<leader><leader><leader>help",
+  \ Command.new("Help", ":call Help()<cr>"),
+  \ ExecuteInTerminalByDirection.new('l')
+\ )
+
+# autocmd! BufAdd,BufCreate,BufDelete,BufWipeout,BufNew,BufEnter,BufLeave,WinEnter,BufWinEnter,BufUnload *
+# autocmd! BufEnter * :call Branch.Buffer.Find(bufnr()).Print()
+# let g:vim_advantages_vim9_got_sourced=0
+# endif
