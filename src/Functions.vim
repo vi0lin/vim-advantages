@@ -3439,11 +3439,9 @@ function! ClipboardYank()
 endfunction
 
 function! ClipboardPaste(mode)
-  try
-    put=getreg('*')
-  catch
-    put=getreg('"')
-  endtry
+  " put=getreg('*')
+  " call getreg('*')
+  " put=getreg('"')
   " if (GetMode() == "v")
   "   call cursor(g:vlcb[0], g:vlcb[1]) | execute "normal! v" | call cursor(g:vlce[0], g:vlce[1])
   " endif
@@ -3453,6 +3451,7 @@ function! ClipboardPaste(mode)
   "   let @@ = getreg('*')
   " endtry
 endfunction
+
 func! ListMonths()
   call complete(col('.'), ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
   return ''
