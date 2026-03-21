@@ -15,7 +15,7 @@ endfunction
 
 let g:hostinfo="host@your-ip"
 function Download_Unreleased()
-  let rem="/home/user/.vim/plugged/vim-advantages/autoload/vim-advantages/"
+  let rem="/home/user/.vim/plugged/vim-advantages/src/"
   let loc=rem
   fun! SshD(file) closure
     let c = '!ssh '..g:hostinfo..' "cat '..rem..a:file..'" > '..loc..a:file
