@@ -939,7 +939,8 @@ endfunction
 
 command! -range -nargs=0 GitAddCWD <line1>,<line2>:call GitAddCWD()
 function! GitAddCWD()
-  !clear && git add .
+  " !clear && git add .
+  !clear && git add -A
   " || git add -A
 endfunction
 
