@@ -3953,9 +3953,7 @@ function! VimEnter()
   " call SetProject(getcwd())
   " call Layout_Vim()
   " redraw!
-  if !Sourced_Plug_Vim()
-    call AutoInstallPlug()
-  endif
+  call AutoInstallPlug()
   call InitPlug()
 endfunction
 
@@ -4313,6 +4311,7 @@ endfunction
 
 " Happens On Vim Enter
 function! AutoInstallPlug()
+  echo Has_Plug_Vim() Sourced_Plug_Vim()
   if Has_Plug_Vim() && !Sourced_Plug_Vim()
     let x=execute('scriptnames')->split("\\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
     let f=filter(copy(x), "v:val=~'plug.vim'")
