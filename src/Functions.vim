@@ -4308,6 +4308,7 @@ function Update()
   :PlugInstall
   :PlugUpdate
 endfunction
+command! -bar -range -nargs=0 Update call Update()
 
 " Happens On Vim Enter
 function! AutoInstallPlug()
