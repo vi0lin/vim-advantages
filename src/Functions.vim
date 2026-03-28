@@ -7,8 +7,8 @@ if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
   " set ttimeoutlen=50
   " set ttimeoutlen=0
   " Enable modifyOtherKeys (Vim 8.2+ / 9+)
-  let &t_TI = "\<Esc>[>4;2m"
-  let &t_TE = "\<Esc>[>4;m"
+  " let &t_TI = "\<Esc>[>4;2m"
+  " let &t_TE = "\<Esc>[>4;m"
 endif
 
 function Re()
