@@ -3953,7 +3953,10 @@ function! VimEnter()
   " call SetProject(getcwd())
   " call Layout_Vim()
   " redraw!
-  call AutoInstallPlug()
+  if !Sourced_Plug_Vim()
+    call AutoInstallPlug()
+  endif
+  call InitPlug()
 endfunction
 
 function! BufEnter()
@@ -4311,6 +4314,11 @@ function! Sourced_Plug_Vim()
   return g:Sourced_Plug_Vim
 endfunction
 
+function Update()
+  :PlugInstall
+  :PlugUpdate
+endfunction
+
 " Happens On Vim Enter
 function! AutoInstallPlug()
   if !Has_Plug_Vim()
@@ -4327,7 +4335,7 @@ endfunction
 
 let g:plugfile="~/.vim/plug.vim"
 
-if Sourced_Plug_Vim()
+function InitPlug()
   call plug#begin()
     " Plug 'dense-analysis/ale'
     " Plug 'junegunn/fzf'
@@ -4342,8 +4350,8 @@ if Sourced_Plug_Vim()
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
   call plug#end()
-  :PlugInstall
-endif
+endfunction
+
 if executable('clangd')
   au User lsp_setup call lsp#register_server({
     \ 'name': 'clangd',
