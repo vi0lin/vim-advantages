@@ -4287,14 +4287,6 @@ function Has_Plug_Vim()
   endif
 endfunction
 
-if Has_Plug_Vim() && !Sourced_Plug_Vim()
-  let x=execute('scriptnames')->split("\\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
-  let f=filter(copy(x), "v:val=~'plug.vim'")
-  if len(f) > 0
-    exec "source" f[0]
-  endif
-endif
-
 function! Sourced_Plug_Vim()
   if Has_Plug_Vim()
     return 1
@@ -4321,15 +4313,17 @@ endfunction
 
 " Happens On Vim Enter
 function! AutoInstallPlug()
-  if !Has_Plug_Vim()
-    echo "has no pv"
-    if !Sourced_Plug_Vim()
-      echo "has no s pv"
-      let httpplug="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
-      " echo "!wget -q "..httpplug.." "..g:plugfile
-      exec "!wget "..httpplug.." "..g:plugfile
-      " echo "!wget "..httpplug.." "..g:plugfile
+  if Has_Plug_Vim() && !Sourced_Plug_Vim()
+    let x=execute('scriptnames')->split("\\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
+    let f=filter(copy(x), "v:val=~'plug.vim'")
+    if len(f) > 0
+      exec "source" f[0]
     endif
+  elseif !Has_Plug_Vim() && !Sourced_Plug_Vim()
+    let httpplug="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
+    " echo "!wget -q "..httpplug.." "..g:plugfile
+    exec "!wget "..httpplug.." "..g:plugfile
+    " echo "!wget "..httpplug.." "..g:plugfile
   endif
 endfunction
 
