@@ -4327,7 +4327,7 @@ function! AutoInstallPlug()
   endif
 endfunction
 
-let g:plugfile="~/.vim/plug.vim"
+let g:plugfile="~/.vim/autoload/plug.vim"
 
 function InitPlug()
   call plug#begin()
