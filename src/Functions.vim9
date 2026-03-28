@@ -793,3 +793,6 @@ Assignment.new(
 # autocmd! BufEnter * :call Branch.Buffer.Find(bufnr()).Print()
 # let g:vim_advantages_vim9_got_sourced=0
 # endif
+
+# LUA
+# vim.keymap.set({'n', 'i'}, '<C-s>', '<Esc>:w<CR>', { desc = "Save' })

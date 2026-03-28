@@ -3,6 +3,14 @@ if !exists("g:vim_advantages_got_sourced")
 
 set hidden
 
+if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
+  " set ttimeoutlen=50
+  " set ttimeoutlen=0
+  " Enable modifyOtherKeys (Vim 8.2+ / 9+)
+  let &t_TI = "\<Esc>[>4;2m"
+  let &t_TE = "\<Esc>[>4;m"
+endif
+
 function Re()
   if exists('g:vim_advantages_got_sourced')
     unlet g:vim_advantages_got_sourced
@@ -11,6 +19,33 @@ endfunction
 
 function ReEnd()
   let g:vim_advantages_got_sourced='true'
+endfunction
+
+function! JumpToNextFile(dir) abort
+    " dir = 1  → forward (like Ctrl-I)
+    " dir = -1 → backward (like Ctrl-O)
+    let jl = getjumplist()
+    let jumplist = jl[0]
+    let cur_idx = jl[1]
+    let current_buf = bufnr('%')
+    if a:dir > 0
+        " Forward: search from cur_idx + 1 to the end
+        let range = range(cur_idx + 1, len(jumplist) - 1)
+    else
+        " Backward: search from cur_idx - 1 down to 0
+        let range = range(cur_idx - 1, 0, -1)
+    endif
+    for i in range
+        let entry = jumplist[i]
+        if entry.bufnr != current_buf && entry.bufnr > 0
+            " Found a jump in a different file
+            let steps = abs(i - cur_idx)
+            execute 'normal! ' . steps . (a:dir > 0 ? "\<C-I>" : "\<C-O>")
+            return
+        endif
+    endfor
+    " No different file found in that direction
+    echo "No more jumps to other files in this direction"
 endfunction
 
 let g:hostinfo="host@your-ip"
@@ -1122,30 +1157,6 @@ if !empty("g:exec_type") | let exec_type=0 | endif
 if !exists("g:modechanged") | let modechanged="Normal" | endif
 let exec_types=[ "Default", "Vim", "Bash", "Python", "Rust" ]
 
-function! CheckPlug()
-  if filereadable(g:plugfile)
-    let g:checkplug=1
-  else
-    let g:checkplug=0
-  endif
-endfunction
-
-function! AutoInstallPlug()
-  if !exists('g:checkplug') || g:checkplug==0
-    call CheckPlug()
-    if !g:checkplug
-      let httpplug="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
-      " echo "!wget -q "..httpplug.." "..g:plugfile
-      exec "!wget "..httpplug.." "..g:plugfile
-      call CheckPlug()
-    endif
-  endif
-endfunction
-" let g:plugfile=g:vim.."/3rd/plug.vim"
-" if exists('g:checkplug') && g:checkplug
-"   exec "source "..g:plugfile
-" endif
-" call AutoInstallPlug()
 exec 'source '.g:vim_advantages.'/Statusline.vim'
 " exec 'source '.g:vim_advantages.'/Utilize.vim'
 exec 'source '.g:vim_advantages.'/TextActions.vim'
@@ -3942,6 +3953,7 @@ function! VimEnter()
   " call SetProject(getcwd())
   " call Layout_Vim()
   " redraw!
+  call AutoInstallPlug()
 endfunction
 
 function! BufEnter()
@@ -4259,26 +4271,79 @@ function! GetTempfileLine()
 endfunction
 
 " Plugins
-if exists('g:checkplug') && g:checkplug
-  function InstallExternalPlugins()
-    call plug#begin()
-      " Plug 'dense-analysis/ale'
-      Plug 'junegunn/fzf'
-      Plug 'junegunn/fzf.vim'
-      " Plug 'skywind3000/asyncrun.vim'
-      " Plug 'tpope/vim-dispatch'
-      " Plug 'prabirshrestha/vim-lsp'
-      " Plug 'mattn/vim-lsp-settings'
-      " Plug 'prabirshrestha/asyncomplete.vim'
-      " Plug 'prabirshrestha/asyncomplete-lsp.vim'
-    call plug#end()
-  endfunction
-  call plug#begin()
-    Plug 'vi0lin/vim-advantages'
-  call plug#end()
-  call InstallExternalPlugins()
+function Has_Plug_Vim()
+  let x=execute('scriptnames')->split("\\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
+  " echo x
+  " for xi in x
+  "   echo xi
+  " endfor
+  if len(filter(copy(x), "v:val=~'plug.vim'")) > 0
+    return 1
+  else
+    return 0
+  endif
+endfunction
+
+if Has_Plug_Vim() && !Sourced_Plug_Vim()
+  let x=execute('scriptnames')->split("\\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
+  let f=filter(copy(x), "v:val=~'plug.vim'")
+  if len(f) > 0
+    exec "source" f[0]
+  endif
 endif
 
+function! Sourced_Plug_Vim()
+  if Has_Plug_Vim()
+    return 1
+  endif
+  if !exists('g:Sourced_Plug_Vim') || g:Sourced_Plug_Vim==0
+    if !Has_Plug_Vim()
+      if filereadable(g:plugfile)
+        exec "source "..g:plugfile
+      endif
+    endif
+    if Has_Plug_Vim()
+      let g:Sourced_Plug_Vim=1
+    else
+      let g:Sourced_Plug_Vim=0
+    endif
+  endif
+  return g:Sourced_Plug_Vim
+endfunction
+
+" Happens On Vim Enter
+function! AutoInstallPlug()
+  if !Has_Plug_Vim()
+    echo "has no pv"
+    if !Sourced_Plug_Vim()
+      echo "has no s pv"
+      let httpplug="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
+      " echo "!wget -q "..httpplug.." "..g:plugfile
+      exec "!wget "..httpplug.." "..g:plugfile
+      " echo "!wget "..httpplug.." "..g:plugfile
+    endif
+  endif
+endfunction
+
+let g:plugfile="~/.vim/plug.vim"
+
+if Sourced_Plug_Vim()
+  call plug#begin()
+    " Plug 'dense-analysis/ale'
+    " Plug 'junegunn/fzf'
+    " Plug 'junegunn/fzf.vim'
+    " Plug 'skywind3000/asyncrun.vim'
+    " Plug 'tpope/vim-dispatch'
+    " Plug 'prabirshrestha/vim-lsp'
+    " Plug 'mattn/vim-lsp-settings'
+    " Plug 'prabirshrestha/asyncomplete.vim'
+    " Plug 'prabirshrestha/asyncomplete-lsp.vim'
+    Plug 'vi0lin/vim-advantages'
+    Plug 'junegunn/fzf'
+    Plug 'junegunn/fzf.vim'
+  call plug#end()
+  :PlugInstall
+endif
 if executable('clangd')
   au User lsp_setup call lsp#register_server({
     \ 'name': 'clangd',

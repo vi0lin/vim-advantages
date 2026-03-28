@@ -14,6 +14,23 @@ function! NewMap(...)
 endfunction
 command! -range -nargs=+ NewMap call NewMap(<q-args>)
 
+" set <F8>=ük8
+" NewMap map ük8 :echo "KEYMAPPING"<cr>
+" NewMap map <F8> :echo "KEYMAPPING"<cr>
+" NewMap map <C-F8> :echo "TEST"<cr>
+" NewMap map :echo "test"
+" NewMap map :echo "TEST"
+
+" NewMap map <C-S-i> :echo "Implement Bufferjump"<cr>
+" NewMap map <C-S-o> :echo "Implement Bufferjump"<cr>
+" Jump to previous or next file
+" nnoremap <silent> <leader><C-O> :call JumpToNextFile(-1)<CR>
+" nnoremap <silent> <leader><C-I> :call JumpToNextFile(1)<CR>
+nnoremap <silent> <C-S-o> :call JumpToNextFile(-1)<CR>
+nnoremap <silent> <C-S-i> :call JumpToNextFile(1)<CR>
+" unmap <silent> <leader><C-O>
+" unmap <silent> <leader><C-I>
+
 " Map.vim
 NewMap nnoremap <C-s> <Nop>
 NewMap inoremap <C-s> <Nop>
@@ -25,6 +42,7 @@ NewMap map <leader><leader>p :call FavoritePath()<CR>
 NewMap map <C-8> :call Favorite()<CR>
 
 NewMap map <leader>= :Equal<cr>
+NewMap map <leader>e :Equal<cr>
 
 NewMap nnoremap ,s :so %<cr>
 NewMap map <C-Space> :call SelectCommand()<cr>
@@ -182,7 +200,7 @@ NewMap Amap <S-F2> :let x=input("Find In Files: ") \| :echo system("grep ".expan
 NewMap Amap <leader>c call CountRegex()<cr>
 " Amap <leader>c :call COP('P')<cr>
 " Amap <leader>x :call CUT('P')<cr>
-NewMap Amap <leader>z :call CreateMarker('P')<cr>
+" NewMap Amap <leader>z :call CreateMarker('P')<cr>
 " Amap <leader>m :call LeaderDot("'<,'>")<cr>
 " Amap <leader><leader>m :call LeaderDot("%")<cr>
 " Nmap <leader>m :call LeaderDot("")<cr>
@@ -193,6 +211,16 @@ NewMap vmap if :call Vif()<cr>
 NewMap vmap <C-S-A> :call IncRange()<cr>
 NewMap vmap <C-S-X> :call DecRange()<cr>
 NewMap tmap <leader>X :TIN tail -f $receiver<cr>
+
+NewMap map <A-S-n> <C-w>+
+NewMap map <A-S-m> <C-w>-
+NewMap map <A-S-u> <C-w><
+NewMap map <A-S-i> <C-w>>
+
+NewMap map <A-n> 12<C-w>+
+NewMap map <A-m> 12<C-w>-
+NewMap map <A-u> 12<C-w><
+NewMap map <A-i> 12<C-w>>
 
 " map <leader>h :call TabH()<cr>
 " map <leader>t :call TabL()<cr>
@@ -208,7 +236,7 @@ NewMap map <C-S-M-j> :wincmd J<cr>
 NewMap map <C-S-M-k> :wincmd K<cr>
 NewMap map <C-S-M-l> :wincmd L<cr>
 
-NewMap map <leader><leader>a :call VSP()<cr>
+" NewMap map <leader><leader>a :call VSP()<cr>
 NewMap map <C-S-h> :call SwapWin("h")<cr> 
 NewMap map <C-S-j> :call SwapWin("j")<cr> 
 NewMap map <C-S-k> :call SwapWin("k")<cr> 
@@ -316,8 +344,8 @@ NewMap map <leader><Space> :call GetCCWD()<cr>
 
 " nmap <F1> :RepeatLastCommand<cr>
 
-NewMap nmap <leader>a :AddFunctionUserInput<cr>
-NewMap vmap <leader>a :AddFunctionVisualSplit<cr>
+" NewMap nmap <leader>a :AddFunctionUserInput<cr>
+" NewMap vmap <leader>a :AddFunctionVisualSplit<cr>
 
 " nmap <silent> <C-s> :w!<CR>
 " vmap <silent> <C-s> :w!<CR>
@@ -581,8 +609,8 @@ function! DBG()
   echo ABSOLUTE()
 endfunction
 
-NewMap map <leader>a :y \| :let a=split(@", "\n")<cr>
-NewMap map <leader>A =remove(a,0)<cr>
+" NewMap map <leader>a :y \| :let a=split(@", "\n")<cr>
+" NewMap map <leader>A =remove(a,0)<cr>
 " qq
 " f,f,a "
 " <C-r>=remove(a,0)
@@ -738,9 +766,6 @@ NewMap tmap <C-v> <C-\><C-n>:call SendCommandToThisTerm([getreg('"')])<cr>i
 
 
 NewMap vmap <leader><leader>s :<C-u>silent redir=>output \| silent '<,'>source \| redir END \| put=output<cr>
-
-NewMap map <C-S-i> :echo "Implement Bufferjump"<cr>
-NewMap map <C-S-o> :echo "Implement Bufferjump"<cr>
 
 NewMap map <F8> <C-w>p
 NewMap vnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>
