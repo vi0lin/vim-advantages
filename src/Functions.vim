@@ -4320,9 +4320,10 @@ function! AutoInstallPlug()
     endif
   elseif !Has_Plug_Vim() && !Sourced_Plug_Vim()
     let httpplug="https://raw.githubusercontent.com/junegunn/vim-plug/refs/heads/master/plug.vim"
-    " echo "!wget -q "..httpplug.." "..g:plugfile
-    exec "!wget "..httpplug.." "..g:plugfile
-    " echo "!wget "..httpplug.." "..g:plugfile
+    " exec "!wget -q "..httpplug.." "..g:plugfile
+    if !filereadable(g:plugfile)
+      exec "!wget "..httpplug.." "..g:plugfile
+    endif
   endif
 endfunction
 
