@@ -948,23 +948,90 @@ function! PushCWD(commitmessage='')
   GithubPush
 endfunction
 
-command! -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff()
-command! -range -nargs=0 Diff <line1>,<line2>:call GitDiff()
-function! GitDiff()
-  " !clear && git --no-pager diff --text %
-  !clear && git diff --text %
+function! GetOptExample(...) abort
+    let opts = #{verbose: 0, output: '', force: 0}
+    let files = []
+    let i = 0
+    while i < a:0
+        let arg = a:000[i]
+        if arg =~# '^--\?\w'
+            if arg ==# '-v' || arg ==# '--verbose'
+                let opts.verbose = 1
+            elseif arg ==# '-f' || arg ==# '--force'
+                let opts.force = 1
+            elseif arg =~# '^-\?-\?o\(utput\)\?='
+                " Handle -o=value or --output=value
+                let val = substitute(arg, '^-\?-\?o\(utput\)\?=', '', '')
+                if empty(val)
+                    let i += 1
+                    let val = a:000[i]
+                endif
+                let opts.output = val
+            elseif arg ==# '-o' || arg ==# '--output'
+                let i += 1
+                let opts.output = a:000[i]
+            else
+                echoerr "Unknown option: " .. arg
+                return
+            endif
+        else
+            call add(files, arg)
+        endif
+        let i += 1
+    endwhile
+    " Use opts and files...
+    if opts.verbose
+        echo "Running in verbose mode"
+    endif
 endfunction
 
-command! -range -nargs=0 GitDiffAll <line1>,<line2>:call GitDiffAll()
-command! -range -nargs=0 DiffAll <line1>,<line2>:call GitDiffAll()
+
+command! -range -nargs=0 GitDiff <line1>,<line2>:call GitDiff(<f-args>)
+command! -range -nargs=* Diff <line1>,<line2>:call GitDiff(<f-args>)
+function! GitDiff(...)
+  let cmd = #{text: '--text', pager: '', cached: '', file: '%'}
+  let i = 0
+  while i < len(a:000)
+    let arg = a:000[i]
+    if arg ==# '-a' || arg ==# '--all'
+      let cmd.file=''
+    elseif arg ==# '-t' || arg ==# '--text'
+      let cmd.text='--text'
+    elseif arg ==# '-n' || arg ==# '--no-text'
+      let cmd.text=''
+    elseif arg ==# '-p' || arg ==# '--no-pager'
+      let cmd.pager=''
+    elseif arg ==# '-c' || arg ==# '--cached'
+      let cmd.cached='--cached'
+    endif
+    let i += 1
+  endwhile
+  " !clear && git --no-pager diff --text %
+  " !clear && git diff --text %
+  " !clear && git diff --cached --text %
+  " let args=join([ cmd.text, cmd.pager, cmd.cached, cmd.file ], ' ')
+  let x = [ cmd.text, cmd.pager, cmd.cached, cmd.file ]
+  let cleaned=filter(x, 'v:val != "^\\s*$"')
+  " exec "!clear && git diff "..join(cleaned, ' ')
+  exec "!clear && git diff "..join(cleaned, ' ')
+  " let x =<< eval trim EOF
+  " !clear && git diff {cmd.text} {cmd.pager} {cmd.cached} {cmd.file}
+  " EOF
+" exec trim(join(x,''))
+endfunction
+
+command! -range -nargs=0 GitDiffAll <line1>,<line2>:call GitDiffAll(<q-args>)
+command! -range -nargs=0 DiffAll <line1>,<line2>:call GitDiffAll(<q-args>)
 function! GitDiffAll()
   " !clear && git --no-pager diff --text
-  !clear && git diff --text
+  " !clear && git diff --text
+  GitDiff --all
 endfunction
 
 command! -range -nargs=0 GitDiffCWD <line1>,<line2>:call GitDiffCWD()
 function! GitDiffCWD()
-  !clear && git diff
+  " !clear && git diff
+  GitDiff --all
 endfunction
 
 command! -range -nargs=0 GitAdd <line1>,<line2>:call GitAdd()
@@ -1011,6 +1078,23 @@ command! -range -nargs=0 GitStatus <line1>,<line2>:call GitStatus()
 function! GitStatus()
   !clear && git status
 endfunction
+
+function GithubIntegrateProject(repo)
+  let tmp_folder="folder_tmp"
+  if !isdirectory(tmp_folder)
+    let git =<< trim eval END
+    git clone {a:repo} {tmp_folder}
+    # mv -i {tmp_folder}/{{.,}}* . 2>/dev/null
+    # mv -i {tmp_folder}/* {tmp_folder}/.[!.]* . 2>/dev/null
+    shopt -s dotglob nullglob
+    mv -i {tmp_folder}/* .
+    rm -r {tmp_folder}
+END
+    let output=system(join(git, "\n"))
+    echo output
+  endif
+endfunction
+command! -range -nargs=* GithubIntegrateProject <line1>,<line2>:call GithubIntegrateProject(<f-args>)
 
 if !exists('g:github_user') | let g:github_user='your_username' | endif
 if !exists('g:github_email') | let g:github_email='your_email' | endif
@@ -2301,7 +2385,7 @@ endfunction
 
 function! Files(path)
   " echo a:path
-  exec "Files" a:path
+  exec ":Files" a:path
   " call Redraw()
 endfunction
 
@@ -4748,8 +4832,6 @@ function! DebugReplacements()
   echo expand("<sflnum>")
   echo expand("<client>")
 endfunction
-finish
-
 
 endif
 
