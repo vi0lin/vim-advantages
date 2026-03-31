@@ -3,13 +3,13 @@ if !exists("g:vim_advantages_got_sourced")
 
 set hidden
 
-if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
+" if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
   " set ttimeoutlen=50
   " set ttimeoutlen=0
   " Enable modifyOtherKeys (Vim 8.2+ / 9+)
   " let &t_TI = "\<Esc>[>4;2m"
   " let &t_TE = "\<Esc>[>4;m"
-endif
+" endif
 
 function Re()
   if exists('g:vim_advantages_got_sourced')
@@ -3935,7 +3935,6 @@ function! VimLeave()
 endfunction
 
 function! FocusLost()
-  echo "test"
 endfunction
 
 function! TermLeave()
@@ -3948,7 +3947,7 @@ function! VimEnter()
   "   set nowrap
   " endif
   call InitLineState()
-  call system("bash", g:bashset_restore)
+  " call system("bash", g:bashset_restore)
   call Statusline()
   " call SetProject(getcwd())
   " call Layout_Vim()
@@ -4312,7 +4311,6 @@ command! -bar -range -nargs=0 Update call Update()
 
 " Happens On Vim Enter
 function! AutoInstallPlug()
-  echo Has_Plug_Vim() Sourced_Plug_Vim()
   if Has_Plug_Vim() && !Sourced_Plug_Vim()
     let x=execute('scriptnames')->split("\\n")->map({_,v -> v->substitute('^\s*\d\+:\s*','','')})
     let f=filter(copy(x), "v:val=~'plug.vim'")
@@ -4674,6 +4672,8 @@ function! DebugReplacements()
   echo expand("<sflnum>")
   echo expand("<client>")
 endfunction
+finish
+
 
 endif
 
