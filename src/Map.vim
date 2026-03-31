@@ -399,18 +399,18 @@ NewMap nnoremap <leader>dd :call Rewindworkdir()<cr>
 "" nnoremap <C-A-->            :FindInFileFZFSystem<CR>
 "" " nnoremap <C-S-p>            :FindInFileFZFRepo<CR>
 
-NewMap map <leader><C-p>                                         :call Files(Folder_Up(1))<cr>
-NewMap map <leader><leader><C-p>                                 :call Files(Folder_Up(2))<cr>
-NewMap map <leader><leader><leader><C-p>                         :call Files(Folder_Up(3))<cr>
-NewMap map <leader><leader><leader><leader><C-p>                 :call Files(Folder_Up(4))<cr>
-NewMap map <leader><leader><leader><leader><leader><C-p>         :call Files(Folder_Up(5))<cr>
-NewMap map <leader><leader><leader><leader><leader><leader><C-p> :call Files(Folder_Up(6))<cr>
-NewMap map <leader><C-g>                                         :call AgIn(Folder_Up(1))<cr>
-NewMap map <leader><leader><C-g>                                 :call AgIn(Folder_Up(2))<cr>
-NewMap map <leader><leader><leader><C-g>                         :call AgIn(Folder_Up(3))<cr>
-NewMap map <leader><leader><leader><leader><C-g>                 :call AgIn(Folder_Up(4))<cr>
-NewMap map <leader><leader><leader><leader><leader><C-g>         :call AgIn(Folder_Up(5))<cr>
-NewMap map <leader><leader><leader><leader><leader><leader><C-g> :call AgIn(Folder_Up(6))<cr>
+NewMap map <leader>p                                         :call Files(Folder_Up(1))<cr>
+NewMap map <leader><leader>p                                 :call Files(Folder_Up(2))<cr>
+NewMap map <leader><leader><leader>p                         :call Files(Folder_Up(3))<cr>
+NewMap map <leader><leader><leader><leader>p                 :call Files(Folder_Up(4))<cr>
+NewMap map <leader><leader><leader><leader><leader>p         :call Files(Folder_Up(5))<cr>
+NewMap map <leader><leader><leader><leader><leader><leader>p :call Files(Folder_Up(6))<cr>
+NewMap map <leader>g                                         :call AgIn(Folder_Up(1))<cr>
+NewMap map <leader><leader>g                                 :call AgIn(Folder_Up(2))<cr>
+NewMap map <leader><leader><leader>g                         :call AgIn(Folder_Up(3))<cr>
+NewMap map <leader><leader><leader><leader>g                 :call AgIn(Folder_Up(4))<cr>
+NewMap map <leader><leader><leader><leader><leader>g         :call AgIn(Folder_Up(5))<cr>
+NewMap map <leader><leader><leader><leader><leader><leader>g :call AgIn(Folder_Up(6))<cr>
 
 NewMap noremap <C-p>              :call Files(Folder_Project())<CR>
 NewMap noremap <C-S-p>            :call Files(Folder_Repo())<CR>

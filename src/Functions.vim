@@ -1053,6 +1053,11 @@ function! GitAddRepo()
   " || git add -A
 endfunction
 
+command! -range -nargs=0 GitRemoveCached <line1>,<line2>:call GitRemovemCached()
+function GitRemoveCached()
+  !git rm -r --cached .
+endfunction
+
 command! -range -nargs=? GitCommit <line1>,<line2>:call GitCommit(<args>)
 function! GitCommit(message='')
   call GitMessage(a:message)
