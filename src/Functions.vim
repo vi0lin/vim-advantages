@@ -1115,6 +1115,7 @@ endfor
   " \   -d '{"name": "To Do"}'
   " \   https://api.github.com/projects/PROJECT_ID/columns
   " TODO: Automatic Clone
+  " TODO: Set Origin Of Current Folder
   " TODO: Automatic Push Current Directory
 endfunction
 command! -range -nargs=* GithubCreateProject <line1>,<line2>:call GithubCreateProject(<f-args>)
