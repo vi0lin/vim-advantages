@@ -879,7 +879,7 @@ endfunction
 command! -range -nargs=? Pull <line1>,<line2>:call Pull(<q-args>)
 function! Pull(commitmessage='')
   StashPush
-  !git pull origin main
+  !git pull origin main --no-rebase
   StashPop
 endfunction
 
@@ -1015,6 +1015,7 @@ endfunction
 if !exists('g:github_user') | let g:github_user='your_username' | endif
 if !exists('g:github_email') | let g:github_email='your_email' | endif
 if !exists('g:github_pat') | let g:github_pat='{pat_TOKEN}' | endif
+if !exists('g:github_ghp') | let g:github_ghp='{ghp_TOKEN}' | endif
 command! -range -nargs=0 GithubPush <line1>,<line2>:call GithubPush()
 function! GithubPush()
   let $github_user=g:github_user
@@ -1043,6 +1044,81 @@ function! GithubPush()
   \ github_unfeed;
   \ git config '--global' '--unset-all' core.autocrlf;
 endfunction
+
+function! GithubCreateProject(...)
+  let $name=a:000[0]
+  let $desc=join(a:000[1:], " ")
+  let $github_ghp=g:github_ghp
+  let command =<< eval trim EOF
+  curl -s -H "Authorization: Bearer {$github_ghp}"
+   -H "Accept: application/vnd.github+json"
+   -H "X-GitHub-Api-Version: 2022-11-28"
+   https://api.github.com/user
+   | grep node_id | cut -d'"' -f4
+EOF
+  " extract node_id
+  " echo command
+  let node_id = trim(system(join(command,' ')))
+  " echo node_id
+  let vars = {
+  \  "github_ghp": $github_ghp,
+  \   "node_id": node_id,
+  \   "name": $name,
+  \   "desc": $desc
+  \ }
+  "   let command =<< trim EOF
+  "   curl -X POST
+  "     -H "Authorization: Bearer {$github_ghp}"
+  "     -H "Content-Type: application/json"
+  "     -d '{ "query": "mutation {
+  "     createProjectV2(input: {ownerId: \"{$node_id}\", title: \"{$name}\"})
+  "     { projectV2 { id number title url } }
+  "     }"}'
+  "     https://api.github.com/graphql
+  " EOF
+  let command =<< trim EOF
+curl -X POST \
+  -H "Authorization: Bearer {$github_ghp}"
+  -H "Accept: application/vnd.github+json" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  -d '{
+    "name": "{$name}",
+    "description": "{$desc}",
+    "private": false,
+    "auto_init": true,
+    "license_template": "mit"
+  }' \
+  https://api.github.com/user/repos
+EOF
+let create_command=join(command, ' ')
+for [key, val] in items(vars)
+  let create_command = substitute(create_command, '{$'..key..'}', val, 'g')
+endfor
+  " echo create_command
+  let output = system(create_command)
+  echo output
+  " Deprecated REST API
+  " !curl -X POST
+  " \  -H "Authorization: Bearer $github_ghp"
+  " \  -H "Accept: application/vnd.github+json"
+  " \  -H "X-GitHub-Api-Version: 2022-11-28"
+  " \  -H "Content-Type: application/json"
+  " \  -d '{
+  " \    "name": "$name",
+  " \    "body": "$desc"
+  " \  }'
+  " \  https://api.github.com/user/projects
+  " !curl -X POST
+  " \   -H "Authorization: Bearer $github_ghp"
+  " \   -H "Accept: application/vnd.github+json"
+  " \   -H "X-GitHub-Api-Version: 2022-11-28"
+  " \   -d '{"name": "To Do"}'
+  " \   https://api.github.com/projects/PROJECT_ID/columns
+  " TODO: Automatic Clone
+  " TODO: Set Origin Of Current Folder
+  " TODO: Automatic Push Current Directory
+endfunction
+command! -range -nargs=* GithubCreateProject <line1>,<line2>:call GithubCreateProject(<f-args>)
 
 function! QuickYank(args='', flags='') range
   let vs=VS()
