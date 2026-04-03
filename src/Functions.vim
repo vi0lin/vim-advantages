@@ -1504,8 +1504,9 @@ function! PathCompletion()
     return "\<C-c>"
   endfunction
 endfunction
-call PathCompletion()
-
+" call PathCompletion()
+" PathCompletion Built In
+set wildmenu
 
 set noswapfile
 set verbose=0 " 0-9?
@@ -4934,8 +4935,6 @@ nnoremap <expr> <leader>F KeyHandler(getchar())
 " ---- grep settings -------------------------------------------------
 " set grepprg=grep\ -nH\ --\ -r\ -w\ $*
 " set grepprg=grep -nrw -- $*
-
-" set wildmenu
 
 function! OpenFileUnderCursor()
   hide e <cfile>
