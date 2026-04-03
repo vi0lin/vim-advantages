@@ -22,6 +22,33 @@ function __vowels()
   echo c . " vowels found"
 endfunction
 
+" function ClipboardToUploader()
+" Comments in vpn_roadwarrior_configuration
+" Buffer At The Bottom Management (longpath)
+" <leader><leader> shows path, where you located for g or p
+" Push <C-g>/g <C-p>/p
+" Kommentare Als Vimscript ausführen / In Dateien ausfindig machen
+" Projektweise Und Fallback .vim-advantages mit Definierten Commands und
+" Befehlssätzen
+" Verschiedene Dateiformate haben verschiedene Kommentare
+" Auto Intending Korrigieren
+" Bubble Up Bubble Down Korrektur
+" Ctrl A soll einen Block oder eine Funktion markieren
+"   Ctrl-S jk wird die Markierung weiter nach oben oder unten erweitern
+" Einfach Befehle Verändern / Popup List / Hinzufügen
+" Liste Aller Buffer in FZF öffnen / Auswählen
+" Tabweise Bufferliste Toggle Trough und Popup FZF
+" <leader>s '<,'>s@@@g
+" <leader><leader>s '<,'>s@{PASTE_FROM_REGISTER_"}@{Cursor Here}@g
+" Fix C-c in Mobile, does not leave the visual selection
+" Fix autoreload vimfiles, on save
+" Quick git init --bare {somewhereelse} && Integration
+"
+"  !curl https://192.168.1.69:9000/upload
+    \ -data getreg('"')
+" endfunction
+
+
 " if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
   " set ttimeoutlen=50
   " set ttimeoutlen=0
