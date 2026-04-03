@@ -48,7 +48,6 @@ endfunction
     \ -data getreg('"')
 " endfunction
 
-
 " if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
   " set ttimeoutlen=50
   " set ttimeoutlen=0
