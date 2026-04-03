@@ -95,10 +95,10 @@ function __push_txt(...) range
   endwhile
   echo data
 endfunction
-command! -range -bar -nargs=* RECP :call __push_txt(<f-args>)
-NewMap map <leader>aa :RECP --reg *<cr>
-NewMap map <leader>an :RECP --reg "<cr>
-NewMap map <leader>ab :RECP<cr>
+" command! -range -bar -nargs=* RECP :call __push_txt(<f-args>)
+" NewMap map <leader>aa :RECP --reg *<cr>
+" NewMap map <leader>an :RECP --reg "<cr>
+" NewMap map <leader>ab :RECP<cr>
 
 function Re()
   if exists('g:vim_advantages_got_sourced')
