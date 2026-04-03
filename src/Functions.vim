@@ -3,6 +3,25 @@ if !exists("g:vim_advantages_got_sourced")
 
 set hidden
 
+function __words()
+  let c = 0
+  redir => output
+    " silent %s/[aeiou]//gn
+    silent %s/\w//gn
+  redir END
+  let c = str2nr(matchstr(output, '\d\+'))
+  echo c . " words found"
+endfunction
+
+function __vowels()
+  let c = 0
+  redir => output
+    silent %s/[aeiou]//gn
+  redir END
+  let c = str2nr(matchstr(output, '\d\+'))
+  echo c . " vowels found"
+endfunction
+
 " if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
   " set ttimeoutlen=50
   " set ttimeoutlen=0
@@ -10,6 +29,50 @@ set hidden
   " let &t_TI = "\<Esc>[>4;2m"
   " let &t_TE = "\<Esc>[>4;m"
 " endif
+
+function __put_txt(lines)
+endfunction
+
+" put=execute('registers')
+" p or P   inserts inline or characterwise (interlace, or overwrites parts of existing text)
+" 0p 0P    prefixing it with a register should force linewise behaviour (THAT DOES NOT WORK IN MY CASE)
+" :put     inserts below / treats blockwise register
+" :put!    inserts above
+"	if get(Part1, 'name') == get(Part2, 'name')
+
+function __push_txt(...) range
+  let i = 0
+  let data=VS()
+  while i < len(a:000)
+    let arg = a:000[i]
+    if arg ==# '-c' || arg ==# '--clipboard'
+      " echo "clipboard enabled"
+    elseif arg ==# '-r' || arg ==# '--register' || arg ==# '--reg'
+      " echo "register enabled"
+      if i+1<len(a:000)
+        let r=a:000[i+1]
+        echo r
+        if r !~ '\v^-'
+          " echo "parameter found after "..arg .. " " .. r
+        " if r ==# '["0123456789acdefghijklmnopqrsuvwxy-*+.:%#/=]'
+          let data=getreg('r')
+        else
+          let data=getreg('"')
+        endif
+      endif
+    elseif arg ==# '-v' || arg ==# '--visual'
+      let data=VS()
+    elseif arg ==# '-n' || arg ==# '--norm' || arg ==# '--normal'
+      let data=VS()
+    endif
+    let i += 1
+  endwhile
+  echo data
+endfunction
+command! -range -bar -nargs=* RECP :call __push_txt(<f-args>)
+NewMap map <leader>aa :RECP --reg *<cr>
+NewMap map <leader>an :RECP --reg "<cr>
+NewMap map <leader>ab :RECP<cr>
 
 function Re()
   if exists('g:vim_advantages_got_sourced')
@@ -1412,6 +1475,7 @@ syntax on
 syntax enable
 set nocompatible
 set incsearch
+" consider if this makes sense
 set ignorecase
 set smartcase
 set showcmd
@@ -2966,7 +3030,7 @@ function! Open(direction, type="buffer", mode="copy", file="")
   if !terminal
     call CD(projectpath)
   endif
-  if insert && terminal
+  if !insert && terminal
     startinsert
   endif
 endfunction

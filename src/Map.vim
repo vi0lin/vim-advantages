@@ -106,8 +106,8 @@ NewMap map <C-S-F8> :w!<cr>:call RedoCommandToTermWithSigTerm("l")<cr>
 NewMap vnoremap <F11> :<C-u>call Move('h')<cr>
 NewMap nnoremap <F11> :call Move('h')<cr>
 NewMap inoremap <F11> <C-o>:call Move('h')<cr>
-NewMap cnoremap <F11> :call Move('h''c')<cr>
-NewMap tnoremap <F11> <C-\><C-n>:call Move('h''t')<cr>
+NewMap cnoremap <F11> :call Move('h')<cr>
+NewMap tnoremap <F11> <C-\><C-n>:call Move('h')<cr>
 
 NewMap vnoremap <S-F11> :<C-u>call Move('l')<cr>
 NewMap nnoremap <S-F11> :call Move('l')<cr>
@@ -622,7 +622,7 @@ endfunction
 NewMap map <C-x> :call Assign()<cr>
 NewMap map <leader><C-x> :call Deassign()<cr>
 
-NewMap map ,p :call PutKey()<cr>
+" NewMap map ,p :call PutKey()<cr>
 
 " exec 'map <80>k2 :echo "TEST"<cr>'
 
