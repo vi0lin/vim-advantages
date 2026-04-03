@@ -441,6 +441,52 @@ NewMap noremap <A-S-C-g>          :call AgIn('/'))<CR>
 NewMap nnoremap <leader>o              :OpenFileCommandLineSameDir<CR>
 NewMap nnoremap <leader>.              :OpenFileCommandLineCWD<CR>
 NewMap nnoremap <leader><leader>.      :OpenFileCommandLineSameDir<CR>
+NewMap nnoremap <leader>.              :call CommandLineFiles(Folder_Up(0))<CR>
+NewMap nnoremap <leader><leader>.              :call CommandLineFiles(Folder_Up(1))<CR>
+NewMap nnoremap <leader><leader><leader>.              :call CommandLineFiles(Folder_Up(2))<CR>
+NewMap nnoremap <leader><leader><leader><leader>.              :call CommandLineFiles(Folder_Up(3))<CR>
+NewMap nnoremap <leader><leader><leader><leader><leader>.              :call CommandLineFiles(Folder_Up(4))<CR>
+
+NewMap cnoremap <C-,> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3], '/')]<CR>
+NewMap cnoremap <M-,> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3], '/')]<CR>
+NewMap cnoremap <S-,> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3], '/')]<CR>
+NewMap cnoremap <C-BS> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3], '/')]<CR>
+NewMap cnoremap <M-BS> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3], '/')]<CR>
+NewMap cnoremap <S-BS> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3], '/')]<CR>
+
+" cnoremap <C-BS> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-2], '/')]<CR>
+
+" function! DeleteBackToSlash()
+"     let line = getcmdline()
+"     let pos  = getcmdpos() - 2   " -1 for 0-based, -1 more because we want before cursor
+"     if pos < 0
+"         return ''
+"     endif
+"     let idx = strridx(line[:pos], '/')
+"     if idx == -1
+"         return ''                " no / found, delete everything before cursor
+"     endif
+"     return line[:idx]
+" endfunction
+" cnoremap <C-BS> <C-\>eDeleteBackToSlash()<CR>
+
+" cnoremap <C-Del> <C-\>estrpart(getcmdline(), 0, getcmdpos()-1) . strpart(getcmdline(), stridx(getcmdline()[getcmdpos()-1:], '/') + getcmdpos())<CR>
+
+" function! DeleteForwardToSlash()
+"     let line = getcmdline()
+"     let pos  = getcmdpos() - 1
+"     let idx  = stridx(line[pos:], '/')
+"     if idx == -1
+"         return line[:pos-1]          " no / ahead → delete to end
+"     endif
+"     return line[:pos-1] . line[pos+idx:]
+" endfunction
+" cnoremap <C-Del> <C-\>eDeleteForwardToSlash()<CR>
+
+" cnoremap <C-BS> <C-\>e substitute(getcmdline()[:getcmdpos()-2], '/[^/]*$', '/', '')<CR>
+
+" cnoremap <C-Del> <C-\>e substitute(getcmdline(), '\(.\{' . (getcmdpos()-1) . '}\)[^/]*\(.*\)', '\1\2', '')<CR>
+
 NewMap nnoremap <Tab>                  :OpenFileCommandLineCWD<CR>
 NewMap nnoremap <S-Tab>                :OpenFileCommandLineCWD<CR>
 NewMap nnoremap <C-i> <C-i>

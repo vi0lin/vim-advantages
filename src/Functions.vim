@@ -2419,6 +2419,13 @@ function! MakeDirCurrentCWD()
   call cursor(y, x)
 endfunction
 
+function! MakeDirCurrent(path)
+  let [n, y, x, n, n]=getcurpos()
+  call CD(a:path)
+  call SetPointer(a:path)
+  call cursor(y, x)
+endfunction
+
 " function MakeDirCurrentProject()
 "   let [n, y, x, n, n]=getcurpos()
 "   " let CWD()=expand("%:p:h")
@@ -2499,6 +2506,14 @@ function! Files(path)
   " echo a:path
   exec ":Files" a:path
   " call Redraw()
+endfunction
+
+function! CommandLineFiles(path)
+  " echo a:path
+  " exec ":Files" a:path
+  " call Redraw()
+  call JumpFile(a:path..'/')
+  call MakeDirCurrent(a:path..'/')
 endfunction
 
 function! Redraw()
