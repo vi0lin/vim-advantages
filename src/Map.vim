@@ -464,7 +464,8 @@ NewMap cnoremap <S-BS> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3],
 "     endif
 "     let idx = strridx(line[:pos], '/')
 "     if idx == -1
-"         return ''                " no / found, delete everything before cursor
+"         " no / found, delete everything before cursor
+"         return ''                
 "     endif
 "     return line[:idx]
 " endfunction
@@ -477,7 +478,8 @@ NewMap cnoremap <S-BS> <C-\>egetcmdline()[:strridx(getcmdline()[:getcmdpos()-3],
 "     let pos  = getcmdpos() - 1
 "     let idx  = stridx(line[pos:], '/')
 "     if idx == -1
-"         return line[:pos-1]          " no / ahead → delete to end
+"         " no / ahead → delete to end
+"         return line[:pos-1]          
 "     endif
 "     return line[:pos-1] . line[pos+idx:]
 " endfunction
