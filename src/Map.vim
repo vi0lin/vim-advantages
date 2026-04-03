@@ -773,4 +773,7 @@ NewMap nnoremap <F8> :<C-u>call SendCommandToTerm("l")<cr>
 
 NewMap nnoremap <F5> :<C-u>call RedoCommandToTerm("l")<cr>
 
+NewMap map <leader>aa :RECP --reg *<cr>
+NewMap map <leader>an :RECP --reg "<cr>
+NewMap map <leader>ab :RECP<cr>
 endif

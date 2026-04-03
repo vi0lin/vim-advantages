@@ -185,4 +185,5 @@ NewCommand command! -nargs=1 Grep exec 'silent grep! -nR -- "<args>" .' | copen 
 NewCommand command! -nargs=0 PyCopen exec 'silent make' | copen | redraw!
 NewCommand command! -nargs=0 Run exec w:runprg.' \| copen \| redraw!'
 
+command! -range -bar -nargs=* RECP :call __push_txt(<f-args>)
 endif
