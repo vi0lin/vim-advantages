@@ -23,6 +23,24 @@ function __vowels()
 endfunction
 
 " function ClipboardToUploader()
+" FZF wieder zum laufen bringen.
+" unterste zeile - c++ for example whole file word count | whole file double line count
+" Kommentare aus VS() substituieren
+" Try Enabling Statusline Only In One Buffer
+" Force NewLines On Paste A Blockwised Yank Rectangle
+" Uploader Chunkwise In Vim
+" Put Registers
+" Quick Command Assignments And Execution And Commands In Popup
+" <leader><leader> show popup quickly without interferring <leader><leader> timeout
+" put=execute('registers')
+" vim is almost bash / textbased / i want to go away / to c
+" LayoutBash is slow
+" Make LayoutBash Only One File And Have Tabs To Tab Trough
+" Fix Auto Intending
+" Fix () {} auto closing [] curls "" '' `` ``` """ '''
+" quicker file navigation
+" <Tab> <S-Tab> Traverse Tab Buffers - LayoutBash Open File, but Easy Tab Traverse Instead
+" Fix <A-h> Fix <A-l> in Terminal
 " Comments in vpn_roadwarrior_configuration
 " Buffer At The Bottom Management (longpath)
 " <leader><leader> shows path, where you located for g or p
@@ -43,9 +61,6 @@ endfunction
 " Fix C-c in Mobile, does not leave the visual selection
 " Fix autoreload vimfiles, on save
 " Quick git init --bare {somewhereelse} && Integration
-"
-"  !curl https://192.168.1.69:9000/upload
-    \ -data getreg('"')
 " endfunction
 
 " if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'
