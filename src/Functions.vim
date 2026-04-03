@@ -1174,10 +1174,12 @@ function! GitStatus()
 endfunction
 
 function GithubIntegrateProject(repo)
+  " check if current folder has .git files
   let tmp_folder="folder_tmp"
   if !isdirectory(tmp_folder)
     let git =<< trim eval END
     git clone {a:repo} {tmp_folder}
+    # check if there are any files that gets overwritten
     # mv -i {tmp_folder}/{{.,}}* . 2>/dev/null
     # mv -i {tmp_folder}/* {tmp_folder}/.[!.]* . 2>/dev/null
     shopt -s dotglob nullglob
