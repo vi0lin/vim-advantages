@@ -1454,6 +1454,7 @@ set tabpagemax=50
 " inoremap <S-Tab> <C-d>
 " set whichwrap+=<,>,[,]
 
+" TODO avoid overlapping
 function! PathCompletion()
   " Avoid These In A Function Call?
   " ---> Compact WILDMENU --: set wildmode=longest:list,full
@@ -1477,7 +1478,7 @@ function! PathCompletion()
     return "/\<C-x>\<C-f>"
   endfunction
   " lacks integrity
-  function LastPath()
+  function! LastPath()
     let last_path=""
     let line=getline('.')
     let last_slash=stridx(line,'/')
@@ -1488,7 +1489,7 @@ function! PathCompletion()
     endif
     return last_path
   endfunction
-  function IsLastPath()
+  function! IsLastPath()
     return 1
   endfunction
   inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : IsLastPath() ? "\<C-x>\<C-f>" : "\<Tab>"
@@ -1503,6 +1504,8 @@ function! PathCompletion()
     return "\<C-c>"
   endfunction
 endfunction
+call PathCompletion()
+
 
 set noswapfile
 set verbose=0 " 0-9?
