@@ -1,6 +1,10 @@
 " Avoid cdo prompt for overwiting files
 if !exists("g:vim_advantages_got_sourced")
 
+function Vim_Advantages_Path()
+  return split(&runtimepath, ",")[1]
+endfunction
+
 set hidden
 
 function __words()
@@ -41,6 +45,7 @@ endfunction
 " quicker file navigation
 " <Tab> <S-Tab> Traverse Tab Buffers - LayoutBash Open File, but Easy Tab Traverse Instead
 " Fix <A-h> Fix <A-l> in Terminal
+" function ClipboardToUploader()
 " Comments in vpn_roadwarrior_configuration
 " Buffer At The Bottom Management (longpath)
 " <leader><leader> shows path, where you located for g or p
@@ -61,6 +66,9 @@ endfunction
 " Fix C-c in Mobile, does not leave the visual selection
 " Fix autoreload vimfiles, on save
 " Quick git init --bare {somewhereelse} && Integration
+"
+"  !curl https://192.168.1.69:9000/upload
+    \ -data getreg('"')
 " endfunction
 
 " if &term =~ 'xterm' || &term =~ 'kitty' || &term =~ 'alacritty'

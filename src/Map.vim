@@ -360,8 +360,6 @@ NewMap nnoremap <space>f :InsertFilename<CR>
 
 " map <leader>c :call CTags()<cr>
 
-
-
 NewMap map <leader><Space> :call ToggleZoom()<cr>
 
 NewMap map <silent> <S-F1> :SearchCword<cr>
@@ -414,6 +412,8 @@ NewMap map <leader><leader><leader><leader>g                 :call RgDir(Folder_
 NewMap map <leader><leader><leader><leader><leader>g         :call RgDir(Folder_Up(4))<cr>
 NewMap map <leader><leader><leader><leader><leader><leader>g :call RgDir(Folder_Up(5))<cr>
 
+NewMap map <leader>vcd :call CD(Vim_Advantages_Path())<cr>
+
 NewMap noremap <C-p>              :call Files(Folder_Project())<CR>
 NewMap noremap <C-S-p>            :call Files(Folder_Repo())<CR>
 NewMap noremap <A-p>              :call Files(Folder_Repo())<CR>
@@ -431,7 +431,6 @@ NewMap noremap <A-C-g>            :call AgIn(Folder_Repo(1))<CR>
 NewMap noremap <A-S-C-g>          :call AgIn('/'))<CR>
 " noremap <A-S-C-g>            :call AgIn(Folder_System())<CR>
 "  nnoremap <C-S-p>          :OpenFileFZFRepo<CR>
-
 
 " map <F3> :call Files(expand($main_repo))<CR>
 " map <S-F3>  :exec "cd "..GetProject().." | Ag"<CR>
