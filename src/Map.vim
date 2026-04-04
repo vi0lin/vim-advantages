@@ -372,7 +372,8 @@ NewMap map <leader><F1> :EXECTOGGLE<cr>
 NewMap map <leader><leader><F1> :INTERPRETERTOGGLE<cr>
 
 " map <leader>v :call VIM(VS())<cr>
-" map <leader>b :call BASH(VS())<cr>
+NewMap map <leader>b :call BASH(VS())<cr>
+NewMap map <leader>b :call Bash(VS())<cr>
 " map <leader>p :call PYTHON(VS())<cr>
 " map <leader>r :call RUST(VS())<cr>
 
@@ -405,12 +406,13 @@ NewMap map <leader><leader><leader>p                         :call Files(Folder_
 NewMap map <leader><leader><leader><leader>p                 :call Files(Folder_Up(4))<cr>
 NewMap map <leader><leader><leader><leader><leader>p         :call Files(Folder_Up(5))<cr>
 NewMap map <leader><leader><leader><leader><leader><leader>p :call Files(Folder_Up(6))<cr>
-NewMap map <leader>g                                         :call AgIn(Folder_Up(1))<cr>
-NewMap map <leader><leader>g                                 :call AgIn(Folder_Up(2))<cr>
-NewMap map <leader><leader><leader>g                         :call AgIn(Folder_Up(3))<cr>
-NewMap map <leader><leader><leader><leader>g                 :call AgIn(Folder_Up(4))<cr>
-NewMap map <leader><leader><leader><leader><leader>g         :call AgIn(Folder_Up(5))<cr>
-NewMap map <leader><leader><leader><leader><leader><leader>g :call AgIn(Folder_Up(6))<cr>
+
+NewMap map <leader>g                                         :call RgDir(Folder_Up(0))<cr>
+NewMap map <leader><leader>g                                 :call RgDir(Folder_Up(1))<cr>
+NewMap map <leader><leader><leader>g                         :call RgDir(Folder_Up(2))<cr>
+NewMap map <leader><leader><leader><leader>g                 :call RgDir(Folder_Up(3))<cr>
+NewMap map <leader><leader><leader><leader><leader>g         :call RgDir(Folder_Up(4))<cr>
+NewMap map <leader><leader><leader><leader><leader><leader>g :call RgDir(Folder_Up(5))<cr>
 
 NewMap noremap <C-p>              :call Files(Folder_Project())<CR>
 NewMap noremap <C-S-p>            :call Files(Folder_Repo())<CR>
@@ -568,8 +570,10 @@ NewMap cmap <A-[> ü
 NewMap cmap <A-{> Ü
 NewMap cmap <A--> ß
 NewMap nmap <leader>F :echo VS()<cr>
-NewMap nmap <leader>g :call AppendToEndNormal()<CR>
-NewMap nmap <leader>G :AppendAll<CR>
+
+NewMap nmap <leader>e :call AppendToEndNormal()<CR>
+NewMap nmap <leader>E :AppendAll<CR>
+
 NewMap nnoremap YY :call AppendToClipboard()<CR>
 NewMap vnoremap Y :<C-u>let @+ = @+ . join(getline("'<", "'>"), "\n") . "\n"<CR>
 " noremap <expr> <leader><leader>s ShowMode()

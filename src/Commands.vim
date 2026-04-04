@@ -85,6 +85,7 @@ NewCommand command -range -nargs=0 LayoutVim <line1>,<line2>call LayoutVim()
 NewCommand command -range -nargs=0 LayoutBash <line1>,<line2>call Layout_Bash()
 
 NewCommand command -range -nargs=0 BASH <line1>,<line2>call BASH()
+NewCommand command -range -nargs=0 Bash <line1>,<line2>call Bash()
 NewCommand command -range -nargs=1 VIM <line1>,<line2>call VIM(<q-args>)
 NewCommand command -range -nargs=0 VIMCOMMENT <line1>,<line2>call VIMCOMMENT()
 NewCommand command -range -nargs=0 PYTHON <line1>,<line2>call PYTHON()

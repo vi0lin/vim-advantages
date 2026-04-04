@@ -342,7 +342,12 @@ function! Folder_System()
   return g:system_folders
 endfunction
 
-" command! -nargs=+ AgDir call fzf#vim#ag(<q-args>, {'dir': expand('%:p:h')})
+function RgDir(args)
+  call fzf#vim#grep('rg --column --line-number --color=always --smart-case --files '.shellescape(split(a:args)[0]))
+endfunction
+command! -bang -nargs=* -complete=dir RgDir :call RgDir(<q-args>)
+nnoremap <leader>rg :RgDir<space>
+
 function! AgIn(path, ...)
   let query = join(a:000, ' ')
   call fzf#vim#ag(query, {'dir': a:path})
@@ -4403,6 +4408,14 @@ endfunction
 function! Sys(...)
   let x = system(join(a:000))
   put=x
+endfunction
+
+function! Bash(args)
+  let vs=a:args
+  let c = join(vs, '\n')
+  " let m = systemlist(g:bashrc_source.";".c)
+  let m = system(g:bashrc_source.";".c)
+  put=m
 endfunction
 
 function! Vim(args)
