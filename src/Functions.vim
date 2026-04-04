@@ -9,6 +9,7 @@ set hidden
 
 function FindGitReposSystem()
   !find / -name .git -type d 2>/dev/null
+  " Populate A FZF Function, Choosing A Repo
 endfunction
 
 function __words()
