@@ -7,6 +7,10 @@ endfunction
 
 set hidden
 
+function FindGitReposSystem()
+  !find / -name .git -type d 2>/dev/null
+endfunction
+
 function __words()
   let c = 0
   redir => output
